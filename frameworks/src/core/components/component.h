@@ -184,17 +184,17 @@ public:
     virtual void LayoutChildren() {}
     static void BuildViewTree(Component *currComponent, Component *parent, ConstrainedParameter &parentParameter);
 
-    const Component *GetParent() const
+    Component *GetParent() const
     {
         return parent_;
     }
 
-    const Component *GetChildHead() const
+    Component *GetChildHead() const
     {
         return childHead_;
     }
 
-    const Component *GetNextSibling() const
+    Component *GetNextSibling() const
     {
         return nextSibling_;
     }
