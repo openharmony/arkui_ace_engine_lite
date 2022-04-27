@@ -134,6 +134,7 @@ void JSAbility::Show()
     RootView::GetInstance()->AddUITask();
     HILOG_INFO(HILOG_MODULE_ACE, "LIFECYCLE: JS Ability will be shown");
     ACE_EVENT_PRINT(MT_ACE_FWK_ACTIVING, 0);
+    FatalHandler::GetInstance().SetExitingFlag(false);
     JSAbilityImpl *jsAbilityImpl = CastAbilityImpl(jsAbilityImpl_);
     jsAbilityImpl->Show();
     AsyncTaskManager::GetInstance().SetFront(true);
