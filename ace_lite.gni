@@ -32,6 +32,7 @@ ace_lite_include_dirs = [
   "$GRAPHIC_LITE_PATH/interfaces/kits/layout",
   "$GRAPHIC_LITE_PATH/interfaces/kits/themes",
   "$GRAPHIC_LITE_PATH/interfaces/innerkits/common",
+  "//foundation/communication/ipc/interfaces/innerkits/c/ipc/include",
   "//utils/native/lite/include",
   "${aafwk_lite_path}/interfaces/kits/ability_lite",
   "${aafwk_lite_path}/interfaces/kits/want_lite",
@@ -92,6 +93,7 @@ ace_lite_include_dirs_simulator = [
   "$GRAPHIC_LITE_PATH/interfaces/kits/ui/layout",
   "$GRAPHIC_LITE_PATH/interfaces/kits/ui/themes",
   "$GRAPHIC_LITE_PATH/interfaces/innerkits/ui/common",
+  "//foundation/communication/ipc/interfaces/innerkits/c/ipc/include",
   "//base/hiviewdfx/hilog_lite/interfaces/native/kits",
   "${aafwk_lite_path}/frameworks/abilitymgr_lite/include",
 ]
