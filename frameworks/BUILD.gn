@@ -63,7 +63,7 @@ lite_library("ace_lite") {
     "$MODULE_MANAGER_PATH:ace_module_manager_lite",
     "$NATIVE_ENGINE_PATH:ace_native_engine_lite",
     "//base/global/i18n_lite/frameworks/i18n:global_i18n",
-    "//base/global/resmgr_lite/frameworks/resmgr_lite:global_resmgr",
+    "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr",
     "//foundation/graphic/ui:lite_ui",
     "//utils/native/lite/timer_task:ace_kit_timer",
   ]
@@ -88,8 +88,21 @@ lite_library("ace_lite") {
       "//third_party/jerryscript/jerry-port/default:jerry-port-default_shared",
     ]
   }
-
-  defines = []
+  defines = [
+    "GRAPHIC_ENABLE_LINECAP_FLAG=1",
+    "GRAPHIC_ENABLE_LINEJOIN_FLAG=1",
+    "GRAPHIC_ENABLE_ELLIPSE_FLAG=1",
+    "GRAPHIC_ENABLE_BEZIER_ARC_FLAG=1",
+    "GRAPHIC_ENABLE_ARC_FLAG=1",
+    "GRAPHIC_ENABLE_ROUNDEDRECT_FLAG=1",
+    "GRAPHIC_ENABLE_DASH_GENERATE_FLAG=1",
+    "GRAPHIC_ENABLE_BLUR_EFFECT_FLAG=1",
+    "GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG=1",
+    "GRAPHIC_ENABLE_GRADIENT_FILL_FLAG=1",
+    "GRAPHIC_ENABLE_PATTERN_FILL_FLAG=1",
+    "GRAPHIC_ENABLE_DRAW_IMAGE_FLAG=1",
+    "GRAPHIC_ENABLE_DRAW_TEXT_FLAG=1",
+  ]
 
   if (ohos_build_type == "debug") {
     defines += [ "JS_PROFILER=1" ]

@@ -243,7 +243,7 @@ INCLUDEPATH += \
             $${ROOT_PATH}/third_party/giflib \
             $${ROOT_PATH}/utils/native/lite/timer_task/include/ \
             $${ROOT_PATH}/third_party/freetype/include \
-            $${ROOT_PATH}/base/global/resmgr_lite/interfaces/innerkits/include \
+            $${ROOT_PATH}/base/global/resource_management_lite/interfaces/inner_api/include \
             $${ROOT_PATH}/base/global/i18n_lite/interfaces/kits/i18n/include \
             $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui \
             $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/config \

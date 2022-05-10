@@ -51,7 +51,7 @@ ohos_static_library("ace_lite") {
     "-D_INC_MEMORY_S",
   ]
   deps = [
-    "//base/global/resmgr_lite/frameworks/resmgr_lite:global_resmgr_simulator",
+    "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr_simulator",
     "//foundation/graphic/ui/huawei_proprietary/tools/ide:graphic_lite",
     "//third_party/bounds_checking_function:libsec_static",
     "//third_party/jerryscript:libjerryscript",

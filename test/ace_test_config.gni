@@ -81,6 +81,7 @@ ace_test_deps = [
   "//base/powermgr/battery_lite/frameworks/js:ace_battery_kits",
   "//foundation/arkui/ace_engine_lite/frameworks:ace_lite",
   "//foundation/arkui/ace_engine_lite/frameworks/targets",
+  "//foundation/distributeddatamgr/appdatamgr/frameworks/native/kv_store/src:utils_kv_store",
   "//foundation/distributedschedule/samgr_lite/communication/broadcast",
   "//foundation/distributedschedule/samgr_lite/samgr:samgr",
   "//foundation/distributedschedule/samgr_lite/samgr_client:client",
@@ -89,14 +90,13 @@ ace_test_deps = [
   "//foundation/graphic/utils:lite_graphic_utils",
   "//foundation/graphic/wms:lite_wms",
   "//utils/native/lite/js/builtin:ace_utils_kits",
-  "//utils/native/lite/kv_store/src:utils_kv_store",
 ]
 
 # all other extra deps when compiling the whole ace source code with test case together
 extra_deps = [
   "${appexecfwk_lite_path}/interfaces/kits/bundle_lite/js/builtin:capability_api",
   "//base/global/i18n_lite/frameworks/i18n:global_i18n",
-  "//base/global/resmgr_lite/frameworks/resmgr_lite:global_resmgr",
+  "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr",
   "//base/security/huks/frameworks/crypto_lite/js/builtin:ace_kit_cipher",
   "//build/lite/config/component/cJSON:cjson_shared",
   "//foundation/aafwk/aafwk_lite/frameworks/ability_lite:ability",

@@ -31,7 +31,7 @@
          "syspara_lite",
          "surface",
          "i18n_lite",
-         "resmgr_lite",
+         "resource_management_lite",
          "hilog",
          "permission",
          "ipc_lite",
