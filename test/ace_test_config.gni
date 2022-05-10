@@ -82,6 +82,7 @@ ace_test_deps = [
   "//foundation/arkui/ace_engine_lite/frameworks:ace_lite",
   "//foundation/arkui/ace_engine_lite/frameworks/targets",
   "//foundation/communication/ipc_lite:liteipc_adapter",
+  "//foundation/distributeddatamgr/appdatamgr/frameworks/native/kv_store/src:utils_kv_store",
   "//foundation/distributedschedule/samgr_lite/communication/broadcast",
   "//foundation/distributedschedule/samgr_lite/samgr:samgr",
   "//foundation/distributedschedule/samgr_lite/samgr_client:client",
@@ -90,7 +91,6 @@ ace_test_deps = [
   "//foundation/graphic/utils:lite_graphic_utils",
   "//foundation/graphic/wms:lite_wms",
   "//utils/native/lite/js/builtin:ace_utils_kits",
-  "//utils/native/lite/kv_store/src:utils_kv_store",
 ]
 
 # all other extra deps when compiling the whole ace source code with test case together
