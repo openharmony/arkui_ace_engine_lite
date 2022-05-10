@@ -81,7 +81,6 @@ ace_test_deps = [
   "//base/powermgr/battery_lite/frameworks/js:ace_battery_kits",
   "//foundation/arkui/ace_engine_lite/frameworks:ace_lite",
   "//foundation/arkui/ace_engine_lite/frameworks/targets",
-  "//foundation/communication/ipc_lite:liteipc_adapter",
   "//foundation/distributeddatamgr/appdatamgr/frameworks/native/kv_store/src:utils_kv_store",
   "//foundation/distributedschedule/samgr_lite/communication/broadcast",
   "//foundation/distributedschedule/samgr_lite/samgr:samgr",
