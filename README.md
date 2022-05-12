@@ -65,5 +65,5 @@ For details, go to the  **readme**  repository:
 
 ## Repositories Involved<a name="section11683135113011"></a>
 
-ace\_engine\_lite
+[arkui\_ace\_engine\_lite](https://gitee.com/openharmony/arkui_ace_engine_lite)
 
