@@ -190,6 +190,10 @@ void TextComponent::OnViewAttached()
     if (textValue_ != nullptr && fontFamily_ != nullptr) {
         uiLabel_.SetFont(fontFamily_, fontSize_);
         uiLabel_.SetText(textValue_);
+#ifdef FEATURE_EXTRA_TEXT_X_SUPPORT
+        UITextLanguageDirect direct = TextX::GetTextDirect(textValue_, uiLabel_.GetDirect());
+        uiLabel_.SetDirect(direct);
+#endif
         UpdateTextAlignToLabel(uiLabel_);
     }
 }
@@ -205,6 +209,10 @@ void TextComponent::PostUpdate(uint16_t attrKeyId)
         case K_VALUE:
             if (textValue_ != nullptr) {
                 uiLabel_.SetText(textValue_);
+#ifdef FEATURE_EXTRA_TEXT_X_SUPPORT
+                UITextLanguageDirect direct = TextX::GetTextDirect(textValue_, uiLabel_.GetDirect());
+                uiLabel_.SetDirect(direct);
+#endif
                 UpdateTextAlignToLabel(uiLabel_);
             }
             break;
