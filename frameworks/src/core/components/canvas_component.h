@@ -122,7 +122,7 @@ private:
                                          const jerry_value_t contex,
                                          const jerry_value_t args[],
                                          const jerry_length_t argsNum);
-
+#if GRAPHIC_ENABLE_LINECAP_FLAG
     static jerry_value_t LineCapSetter(const jerry_value_t func,
                                        const jerry_value_t contex,
                                        const jerry_value_t args[],
@@ -132,7 +132,8 @@ private:
                                        const jerry_value_t context,
                                        const jerry_value_t args[],
                                        const jerry_length_t argsNum);
-
+#endif
+#if GRAPHIC_ENABLE_LINEJOIN_FLAG
     static jerry_value_t LineJoinSetter(const jerry_value_t func,
                                         const jerry_value_t contex,
                                         const jerry_value_t args[],
@@ -152,7 +153,8 @@ private:
                                           const jerry_value_t contex,
                                           const jerry_value_t args[],
                                           const jerry_length_t argsNum);
-
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
     static jerry_value_t LineDashOffsetSetter(const jerry_value_t func,
                                               const jerry_value_t contex,
                                               const jerry_value_t args[],
@@ -162,7 +164,7 @@ private:
                                               const jerry_value_t contex,
                                               const jerry_value_t args[],
                                               const jerry_length_t argsNum);
-										
+#endif
     static jerry_value_t GlobalAlphaSetter(const jerry_value_t func,
                                            const jerry_value_t dom,
                                            const jerry_value_t args[],
@@ -178,6 +180,7 @@ private:
                                                         const jerry_value_t args[],
                                                         const jerry_length_t argsNum);
 
+#if GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG
     static jerry_value_t ShadowOffsetXSetter(const jerry_value_t func,
                                              const jerry_value_t dom,
                                              const jerry_value_t args[],
@@ -214,6 +217,7 @@ private:
                                           const jerry_value_t dom,
                                           const jerry_value_t args[],
                                           const jerry_length_t argsNum);
+#endif
 
     static jerry_value_t GlobalCompositeOperationGetter(const jerry_value_t func,
                                                         const jerry_value_t dom,
@@ -279,11 +283,13 @@ private:
                               const jerry_value_t dom,
                               const jerry_value_t args[],
                               const jerry_length_t argsNum);
-
+#if GRAPHIC_ENABLE_DRAW_IMAGE_FLAG
     static jerry_value_t DrawImage(const jerry_value_t func,
                                    const jerry_value_t context,
                                    const jerry_value_t args[],
                                    const jerry_length_t argsNum);
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
     static jerry_value_t SetLineDash(const jerry_value_t func,
                                      const jerry_value_t context,
                                      const jerry_value_t args[],
@@ -292,12 +298,13 @@ private:
                                      const jerry_value_t context,
                                      const jerry_value_t args[],
                                      const jerry_length_t argsNum);
-								 
+#endif
+#if GRAPHIC_ENABLE_DRAW_TEXT_FLAG
     static jerry_value_t StrokeText(const jerry_value_t func,
                                     const jerry_value_t context,
                                     const jerry_value_t args[],
                                     const jerry_length_t argsNum);
-
+#endif
     static jerry_value_t Rotate(const jerry_value_t func,
                                 const jerry_value_t dom,
                                 const jerry_value_t args[],
@@ -327,7 +334,7 @@ private:
                                       const jerry_value_t dom,
                                       const jerry_value_t args[],
                                       const jerry_length_t argsNum);
-
+#if GRAPHIC_ENABLE_GRADIENT_FILL_FLAG
     static jerry_value_t CreateLInearGradient(const jerry_value_t func,
                                               const jerry_value_t dom,
                                               const jerry_value_t args[],
@@ -342,12 +349,13 @@ private:
                                       const jerry_value_t dom,
                                       const jerry_value_t args[],
                                       const jerry_length_t argsNum);
-
+#endif
+#if GRAPHIC_ENABLE_PATTERN_FILL_FLAG
     static jerry_value_t CreatePattern(const jerry_value_t func,
                                        const jerry_value_t context,
                                        const jerry_value_t args[],
                                        const jerry_length_t argsNum);
-
+#endif
     static jerry_value_t Save(const jerry_value_t func,
                               const jerry_value_t dom,
                               const jerry_value_t args[],
@@ -396,11 +404,16 @@ private:
     static const char * const DEFAULT_FILLSTYLE;
     static const char * const DEFAULT_STROKESTYLE;
     static const char * const DEFAULT_TEXTALIGN;
+#if GRAPHIC_ENABLE_LINECAP_FLAG
     static const char * const DEFAULT_LINECAP;
+#endif
+#if GRAPHIC_ENABLE_LINEJOIN_FLAG
     static const char * const DEFAULT_LINEJOIN;
     static const int16_t DEFAULT_MITERLIMIT;
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
     static const int16_t DEFAULT_LINEDASHOFFSET;
-
+#endif
     static const AttrMap attrMap_[];
     static const MethodMap methodMap_[];
     static const char * const ATTR_FILLSTYLE;
@@ -408,18 +421,24 @@ private:
     static const char * const ATTR_LINEWIDTH;
     static const char * const ATTR_FONT;
     static const char * const ATTR_TEXTALIGN;
-
+#if GRAPHIC_ENABLE_LINECAP_FLAG
     static const char * const ATTR_LINECAP;
+#endif
+#if GRAPHIC_ENABLE_LINEJOIN_FLAG
     static const char * const ATTR_LINEJOIN;
     static const char * const ATTR_MITERLIMIT;
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
     static const char * const ATTR_LINEDASHOFFSET;
+#endif
     static const char * const ATTR_GLOBALALPHA;
     static const char * const ATTR_GLOBALCOMPOSITEOPERATION;
-
+#if GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG
     static const char * const ATTR_SHADOWOFFSETX;
     static const char * const ATTR_SHADOWOFFSETY;
     static const char * const ATTR_SHADOWBLUR;
     static const char * const ATTR_SHADOWCOLOR;
+#endif
     static const char * const FUNC_GETCONTEXT;
     static const char * const FUNC_FILLRECT;
     static const char * const FUNC_STROKERECT;
@@ -433,10 +452,16 @@ private:
     static const char * const FUNC_CLOSEPATH;
     static const char * const FUNC_STROKE;
     static const char * const FUNC_FILL;
+#if GRAPHIC_ENABLE_DRAW_IMAGE_FLAG
     static const char * const FUNC_DRAWIMAGE;
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
     static const char * const FUNC_SETLINEDASH;
     static const char * const FUNC_GETLINEDASH;
+#endif
+#if GRAPHIC_ENABLE_DRAW_TEXT_FLAG
     static const char * const FUNC_STROKETEXT;
+#endif
     static const char * const FUNC_ROTATE;
     static const char * const FUNC_SCALE;
     static const char * const FUNC_MEASURETEXT;
@@ -446,10 +471,14 @@ private:
     static const char * const FUNC_SAVE;
     static const char * const FUNC_RESTORE;
     static const char * const FUNC_DRAWCIRCLE;
+#if GRAPHIC_ENABLE_GRADIENT_FILL_FLAG
     static const char * const FUNC_CREATELINEARGRADIENT;
     static const char * const FUNC_CREATERADIALGRADIENT;
     static const char * const FUNC_ADDCOLORSTOP;
+#endif
+#if GRAPHIC_ENABLE_PATTERN_FILL_FLAG
     static const char * const FUNC_CREATEPATTERN;
+#endif
 };
 } // namespace ACELite
 } // namespace OHOS
