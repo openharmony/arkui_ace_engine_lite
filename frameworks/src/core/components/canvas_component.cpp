@@ -33,30 +33,43 @@ const char * const CanvasComponent::DEFAULT_STROKESTYLE = "#000000";
 // default text align=left
 const char * const CanvasComponent::DEFAULT_TEXTALIGN = "left";
 // default line lineCap
+#if GRAPHIC_ENABLE_LINECAP_FLAG
 const char * const CanvasComponent::DEFAULT_LINECAP = "butt";
+#endif
 // default line lineJoin
+#if GRAPHIC_ENABLE_LINEJOIN_FLAG
 const char * const CanvasComponent::DEFAULT_LINEJOIN = "miter";
 // default line lineJoin
 const int16_t CanvasComponent::DEFAULT_MITERLIMIT = 10;
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
 // default lineDashOffset
 const int16_t CanvasComponent::DEFAULT_LINEDASHOFFSET = 0;
-
+#endif
 // API-attribute
 const char * const CanvasComponent::ATTR_FILLSTYLE = "fillStyle";
 const char * const CanvasComponent::ATTR_STROKESTYLE = "strokeStyle";
 const char * const CanvasComponent::ATTR_LINEWIDTH = "lineWidth";
 const char * const CanvasComponent::ATTR_FONT = "font";
 const char * const CanvasComponent::ATTR_TEXTALIGN = "textAlign";
+#if GRAPHIC_ENABLE_LINECAP_FLAG
 const char * const CanvasComponent::ATTR_LINECAP = "lineCap";
+#endif
+#if GRAPHIC_ENABLE_LINEJOIN_FLAG
 const char * const CanvasComponent::ATTR_LINEJOIN = "lineJoin";
 const char * const CanvasComponent::ATTR_MITERLIMIT = "miterLimit";
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
 const char * const CanvasComponent::ATTR_LINEDASHOFFSET = "lineDashOffset";
+#endif
 const char * const CanvasComponent::ATTR_GLOBALALPHA = "globalAlpha";
 const char * const CanvasComponent::ATTR_GLOBALCOMPOSITEOPERATION = "globalCompositeOperation";
+#if GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG
 const char * const CanvasComponent::ATTR_SHADOWOFFSETX = "shadowOffsetX";
 const char * const CanvasComponent::ATTR_SHADOWOFFSETY = "shadowOffsetY";
 const char * const CanvasComponent::ATTR_SHADOWCOLOR = "shadowColor";
 const char * const CanvasComponent::ATTR_SHADOWBLUR = "shadowBlur";
+#endif
 // API-method
 const char * const CanvasComponent::FUNC_GETCONTEXT = "getContext";
 const char * const CanvasComponent::FUNC_FILLRECT = "fillRect";
@@ -70,15 +83,25 @@ const char * const CanvasComponent::FUNC_CLEANRECT = "cleanRect";
 const char * const CanvasComponent::FUNC_ARC = "arc";
 const char * const CanvasComponent::FUNC_CLOSEPATH = "closePath";
 const char * const CanvasComponent::FUNC_STROKE = "stroke";
+#if GRAPHIC_ENABLE_GRADIENT_FILL_FLAG
 const char * const CanvasComponent::FUNC_CREATELINEARGRADIENT = "createLinearGradient";
 const char * const CanvasComponent::FUNC_CREATERADIALGRADIENT = "createRadialGradient";
 const char * const CanvasComponent::FUNC_ADDCOLORSTOP = "addColorStop";
+#endif
+#if GRAPHIC_ENABLE_PATTERN_FILL_FLAG
 const char * const CanvasComponent::FUNC_CREATEPATTERN = "createPattern";
+#endif
 const char * const CanvasComponent::FUNC_FILL = "fill";
+#if GRAPHIC_ENABLE_DRAW_IMAGE_FLAG
 const char * const CanvasComponent::FUNC_DRAWIMAGE = "drawImage";
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
 const char * const CanvasComponent::FUNC_SETLINEDASH = "setLineDash";
 const char * const CanvasComponent::FUNC_GETLINEDASH = "getLineDash";
+#endif
+#if GRAPHIC_ENABLE_DRAW_TEXT_FLAG
 const char * const CanvasComponent::FUNC_STROKETEXT = "strokeText";
+#endif
 const char * const CanvasComponent::FUNC_ROTATE = "rotate";
 const char * const CanvasComponent::FUNC_SCALE = "scale";
 const char * const CanvasComponent::FUNC_MEASURETEXT = "measureText";
@@ -95,14 +118,22 @@ const AttrMap CanvasComponent::attrMap_[] = {
     {ATTR_LINEWIDTH, LineWidthSetter, LineWidthGetter},
     {ATTR_FONT, FontSetter, FontGetter},
     {ATTR_TEXTALIGN, TextAlignSetter, TextAlignGetter},
+#if GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG
     {ATTR_SHADOWOFFSETX, ShadowOffsetXSetter, ShadowOffsetXGetter},
     {ATTR_SHADOWOFFSETY, ShadowOffsetYSetter, ShadowOffsetYGetter},
     {ATTR_SHADOWCOLOR, ShadowColorSetter, ShadowColorGetter},
     {ATTR_SHADOWBLUR, ShadowBlurSetter, ShadowBlurGetter},
+#endif
+#if GRAPHIC_ENABLE_LINECAP_FLAG
     {ATTR_LINECAP, LineCapSetter, LineCapGetter},
+#endif
+#if GRAPHIC_ENABLE_LINEJOIN_FLAG
     {ATTR_LINEJOIN, LineJoinSetter, LineJoinGetter},
     {ATTR_MITERLIMIT, MiterLimitSetter, MiterLimitGetter},
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
     {ATTR_LINEDASHOFFSET, LineDashOffsetSetter, LineDashOffsetGetter},
+#endif
     {ATTR_GLOBALALPHA, GlobalAlphaSetter, GlobalAlphaGetter},
     {ATTR_GLOBALCOMPOSITEOPERATION, GlobalCompositeOperationSetter, GlobalCompositeOperationGetter}
 };
@@ -121,15 +152,25 @@ const MethodMap CanvasComponent::methodMap_[] = {
     {FUNC_ARC, Arc},
     {FUNC_CLOSEPATH, ClosePath},
     {FUNC_STROKE, Stroke},
+#if GRAPHIC_ENABLE_GRADIENT_FILL_FLAG
     {FUNC_CREATELINEARGRADIENT, CreateLInearGradient},
     {FUNC_CREATERADIALGRADIENT, CreateRadialGradient},
     {FUNC_ADDCOLORSTOP, AddColorStop},
+#endif
+#if GRAPHIC_ENABLE_PATTERN_FILL_FLAG
     {FUNC_CREATEPATTERN, CreatePattern},
+#endif
     {FUNC_FILL, Fill},
+#if GRAPHIC_ENABLE_DRAW_IMAGE_FLAG
     {FUNC_DRAWIMAGE, DrawImage},
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
     {FUNC_SETLINEDASH, SetLineDash},
     {FUNC_GETLINEDASH, GetLineDash},
+#endif
+#if GRAPHIC_ENABLE_DRAW_TEXT_FLAG
     {FUNC_STROKETEXT, StrokeText},
+#endif
     {FUNC_ROTATE, Rotate},
     {FUNC_SCALE, Scale},
     {FUNC_MEASURETEXT, MeasureText},
@@ -615,6 +656,7 @@ jerry_value_t CanvasComponent::TextAlignGetter(const jerry_value_t func,
     return jerry_create_error(JERRY_ERROR_TYPE, reinterpret_cast<const jerry_char_t *>("textAlign value error"));
 }
 
+#if GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG
 jerry_value_t CanvasComponent::ShadowOffsetXSetter(const jerry_value_t func,
                                                    const jerry_value_t context,
                                                    const jerry_value_t *args,
@@ -794,6 +836,9 @@ jerry_value_t CanvasComponent::ShadowColorGetter(const jerry_value_t func,
     }
     return jerry_create_error(JERRY_ERROR_TYPE, reinterpret_cast<const jerry_char_t *>("shadowColor value error"));
 }
+#endif
+
+#if GRAPHIC_ENABLE_LINECAP_FLAG
 jerry_value_t CanvasComponent::LineCapSetter(const jerry_value_t func,
                                              const jerry_value_t contex,
                                              const jerry_value_t args[],
@@ -849,7 +894,9 @@ jerry_value_t CanvasComponent::LineCapGetter(const jerry_value_t func,
     }
     return jerry_create_error(JERRY_ERROR_TYPE, reinterpret_cast<const jerry_char_t *>("lineCap value error"));
 }
+#endif
 
+#if GRAPHIC_ENABLE_LINEJOIN_FLAG
 jerry_value_t CanvasComponent::LineJoinSetter(const jerry_value_t func,
                                               const jerry_value_t contex,
                                               const jerry_value_t args[],
@@ -944,7 +991,9 @@ jerry_value_t CanvasComponent::MiterLimitGetter(const jerry_value_t func,
     }
     return jerry_create_number(component->miterLimitValue_);
 }
+#endif
 
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
 jerry_value_t CanvasComponent::LineDashOffsetSetter(const jerry_value_t func,
                                                     const jerry_value_t contex,
                                                     const jerry_value_t args[],
@@ -983,6 +1032,7 @@ jerry_value_t CanvasComponent::LineDashOffsetGetter(const jerry_value_t func,
     }
     return jerry_create_number(component->lineDashOffsetValue_);
 }
+#endif
 
 jerry_value_t CanvasComponent::GlobalAlphaSetter(const jerry_value_t func,
                                                  const jerry_value_t context,
@@ -1215,7 +1265,7 @@ jerry_value_t CanvasComponent::FillText(const jerry_value_t func,
     return UNDEFINED;
 }
 
-
+#if GRAPHIC_ENABLE_DRAW_TEXT_FLAG
 jerry_value_t CanvasComponent::StrokeText(const jerry_value_t func,
                                           const jerry_value_t context,
                                           const jerry_value_t args[],
@@ -1265,6 +1315,7 @@ jerry_value_t CanvasComponent::StrokeText(const jerry_value_t func,
     component->canvas_.StrokeText(textValue, startPoint, component->fontStyle_, component->paint_);
     return UNDEFINED;
 }
+#endif
 
 jerry_value_t CanvasComponent::Rotate(const jerry_value_t func,
                                       const jerry_value_t dom,
@@ -1615,7 +1666,6 @@ jerry_value_t CanvasComponent::Rect(const jerry_value_t func,
     return UNDEFINED;
 }
 
-
 jerry_value_t CanvasComponent::CleanRect(const jerry_value_t func,
                                          const jerry_value_t context,
                                          const jerry_value_t args[],
@@ -1742,6 +1792,7 @@ jerry_value_t CanvasComponent::Stroke(const jerry_value_t func,
     return UNDEFINED;
 }
 
+#if GRAPHIC_ENABLE_GRADIENT_FILL_FLAG
 jerry_value_t CanvasComponent::CreateLInearGradient(const jerry_value_t func,
                                                     const jerry_value_t context,
                                                     const jerry_value_t args[],
@@ -1834,7 +1885,9 @@ jerry_value_t CanvasComponent::AddColorStop(const jerry_value_t func,
     component->paint_.addColorStop(stop, colorStop);
     return UNDEFINED;
 }
+#endif
 
+#if GRAPHIC_ENABLE_PATTERN_FILL_FLAG
 jerry_value_t CanvasComponent::CreatePattern(const jerry_value_t func,
                                              const jerry_value_t context,
                                              const jerry_value_t args[],
@@ -1887,6 +1940,7 @@ jerry_value_t CanvasComponent::CreatePattern(const jerry_value_t func,
     }
     return UNDEFINED;
 }
+#endif
 
 jerry_value_t CanvasComponent::Fill(const jerry_value_t func,
                                     const jerry_value_t dom,
@@ -1971,6 +2025,7 @@ char* CanvasComponent::GetImageObjectParam(const jerry_value_t args[], int16_t &
     return srcVal;
 }
 
+#if GRAPHIC_ENABLE_DRAW_IMAGE_FLAG
 jerry_value_t CanvasComponent::DrawImage(const jerry_value_t func, const jerry_value_t context,
                                          const jerry_value_t args[], const jerry_length_t argsNum)
 {
@@ -2015,7 +2070,9 @@ jerry_value_t CanvasComponent::DrawImage(const jerry_value_t func, const jerry_v
     ACE_FREE(imageName);
     return UNDEFINED;
 }
+#endif
 
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
 jerry_value_t CanvasComponent::SetLineDash(const jerry_value_t func,
                                            const jerry_value_t context,
                                            const jerry_value_t args[],
@@ -2094,6 +2151,7 @@ jerry_value_t CanvasComponent::GetLineDash(const jerry_value_t func,
     }
     return component->dashArray_;
 }
+#endif
 
 void CanvasComponent::GetSubFont(const char *font, const uint8_t index, char *&subFont) const
 {
