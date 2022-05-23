@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_ACELITE_FRAMEWORK_MIN_JS_H
+#define OHOS_ACELITE_FRAMEWORK_MIN_JS_H
+
 // AUTO GENERATED, PLEASE DO NOT EDIT DIRECTLY
 
 #ifndef ACELITE_FRAMEWORK_RAW_BUFFER
@@ -57,3 +60,4 @@ const char * const g_frameworkJSBuffer =
     "et(i):'function'==typeof i&&(e[n]=i.bind(e))}))}return c.prototype.$watch=function(t,e,n){"
     "return new i(this,t,e,n)},c}));";
 #endif
+#endif // OHOS_ACELITE_FRAMEWORK_MIN_JS_H
