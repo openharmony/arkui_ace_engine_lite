@@ -13,8 +13,9 @@
  * limitations under the License.
  */
 
-#include "acelite_config.h"
 #include "chart_tdd_test.h"
+
+#include "acelite_config.h"
 #include "component_factory.h"
 #include "js_app_environment.h"
 #include "root_view.h"
