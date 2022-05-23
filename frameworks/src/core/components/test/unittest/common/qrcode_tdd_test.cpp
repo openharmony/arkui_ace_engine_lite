@@ -13,10 +13,11 @@
  * limitations under the License.
  */
 
+#include "qrcode_tdd_test.h"
+
 #include "acelite_config.h"
 #include "component_factory.h"
 #include "js_app_environment.h"
-#include "qrcode_tdd_test.h"
 #include "root_view.h"
 #include "ui_qrcode.h"
 

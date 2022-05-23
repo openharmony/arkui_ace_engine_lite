@@ -16,9 +16,9 @@
 #ifndef OHOS_ACELITE_JS_H
 #define OHOS_ACELITE_JS_H
 
+#include <stdlib.h>
 #include "jerryscript.h"
 #include "memory_heap.h"
-#include <stdlib.h>
 
 namespace OHOS {
 namespace ACELite {
