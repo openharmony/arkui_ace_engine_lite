@@ -199,7 +199,9 @@ CanvasComponent::CanvasComponent(jerry_value_t options, jerry_value_t children, 
       lineWidthValue_(1),
       lineCapValue_(nullptr),
       lineJoinValue_(nullptr),
+#if GRAPHIC_ENABLE_LINEJOIN_FLAG
       miterLimitValue_(DEFAULT_MITERLIMIT),
+#endif
       lineDashOffsetValue_(0),
       colorStopValue_(nullptr),
       patternPathValue_(nullptr),

@@ -386,21 +386,29 @@ private:
     char *strokeStyleValue_;
     char *fontValue_;
     char *textAlignValue_;
+#if GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG
     int16_t shadowOffsetXValue_;
     int16_t shadowOffsetYValue_;
     int16_t shadowBlurValue_;
     char *shadowColorValue_;
+#endif
     int16_t lineWidthValue_;
 
     char *lineCapValue_;
     char *lineJoinValue_;
+#if GRAPHIC_ENABLE_LINEJOIN_FLAG
     float miterLimitValue_;
+#endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
     float lineDashOffsetValue_;
-
+#endif
+#if GRAPHIC_ENABLE_GRADIENT_FILL_FLAG
     char *colorStopValue_;
+#endif
+#if GRAPHIC_ENABLE_PATTERN_FILL_FLAG
     char *patternPathValue_;
     char *patternRepeatTypeValue_;
-
+#endif
     static const char * const DEFAULT_FILLSTYLE;
     static const char * const DEFAULT_STROKESTYLE;
     static const char * const DEFAULT_TEXTALIGN;
