@@ -192,20 +192,28 @@ CanvasComponent::CanvasComponent(jerry_value_t options, jerry_value_t children, 
       strokeStyleValue_(nullptr),
       fontValue_(nullptr),
       textAlignValue_(nullptr),
+#if GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG
       shadowOffsetXValue_(0),
       shadowOffsetYValue_(0),
       shadowBlurValue_(0),
       shadowColorValue_(nullptr),
-      lineWidthValue_(1),
-      lineCapValue_(nullptr),
-      lineJoinValue_(nullptr),
+#endif
 #if GRAPHIC_ENABLE_LINEJOIN_FLAG
       miterLimitValue_(DEFAULT_MITERLIMIT),
 #endif
+#if GRAPHIC_ENABLE_DASH_GENERATE_FLAG
       lineDashOffsetValue_(0),
+#endif
+#if GRAPHIC_ENABLE_GRADIENT_FILL_FLAG
       colorStopValue_(nullptr),
+#endif
+#if GRAPHIC_ENABLE_PATTERN_FILL_FLAG
       patternPathValue_(nullptr),
-      patternRepeatTypeValue_(nullptr)
+      patternRepeatTypeValue_(nullptr),
+#endif
+      lineWidthValue_(1),
+      lineCapValue_(nullptr),
+      lineJoinValue_(nullptr)
 {
     SetComponentName(K_CANVAS);
     // set default paint pattern
