@@ -26,8 +26,6 @@ ace_test_includes = [
   "${aafwk_lite_path}/interfaces/kits/ability_lite",
   "${aafwk_lite_path}/interfaces/kits/want_lite",
   "${aafwk_lite_path}/interfaces/innerkits/abilitymgr_lite",
-  "${appexecfwk_lite_path}/interfaces/kits/bundle_lite",
-  "${appexecfwk_lite_path}/utils/bundle_lite",
   "$graphic_ui_root/frameworks",
   "$graphic_ui_root/interfaces/kits/animator",
   "$graphic_ui_root/interfaces/kits/components",
@@ -77,7 +75,6 @@ ace_test_deps = [
   "$MODULE_MANAGER_PATH:ace_module_manager_lite",
   "$NATIVE_ENGINE_PATH:ace_native_engine_lite",
   "${aafwk_lite_path}/frameworks/ability_lite:aafwk_abilitykit_lite",
-  "${appexecfwk_lite_path}/frameworks/bundle_lite:bundle",
   "//base/powermgr/battery_lite/frameworks/js:ace_battery_kits",
   "//foundation/arkui/ace_engine_lite/frameworks:ace_lite",
   "//foundation/arkui/ace_engine_lite/frameworks/targets",
@@ -94,7 +91,6 @@ ace_test_deps = [
 
 # all other extra deps when compiling the whole ace source code with test case together
 extra_deps = [
-  "${appexecfwk_lite_path}/interfaces/kits/bundle_lite/js/builtin:capability_api",
   "//base/global/i18n_lite/frameworks/i18n:global_i18n",
   "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr",
   "//base/security/huks/frameworks/crypto_lite/js/builtin:ace_kit_cipher",
