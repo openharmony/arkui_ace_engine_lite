@@ -77,7 +77,7 @@
     配置方法：点击界面下方JS Bundle目录选择按钮，选择JS Bundle所在目录，然后点击Start按钮即可启动。
 
     备注：JS Bundle可通过下载DevEco Studio创建应用后编译生成（编译生成的JS Bundle路径：项目所在目录\entry\build\intermediates\res\debug\lite\assets\js\default），部分应用示例源码可从目录ace_engine_lite\frameworks\examples      
-    获取。JS应用开发可参考文档  https://device.harmonyos.com/cn/docs/develop/demo/oem_camera_fa_des-0000001050065839。 
+    获取。JS应用开发可参考文档  https://docs.openharmony.cn/pages/v3.1/zh-cn/device-dev/guide/device-camera-visual-overview.md。
 
 6. **备注**
 
