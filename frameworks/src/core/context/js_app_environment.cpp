@@ -38,12 +38,6 @@
 #include "presets/version_module.h"
 #include "product_adapter.h"
 #include "system_info.h"
-#if (JS_ENGINE_STATIC_MULTI_CONTEXTS_ENABLED == 1)
-
-extern "C" {
-#include "generate-bytecode.h"
-}
-#endif
 
 namespace OHOS {
 namespace ACELite {
