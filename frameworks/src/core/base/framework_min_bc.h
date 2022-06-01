@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_ACELITE_FRAMEWORK_MIN_BC_H
+#define OHOS_ACELITE_FRAMEWORK_MIN_BC_H
+
 // AUTO GENERATED, PLEASE DO NOT EDIT DIRECTLY
 
 #include <stdint.h>
@@ -238,3 +241,4 @@ const uint8_t g_frameworkBCBuffer[] =
     0x6e, 0x66, 0x69, 0x67, 0x75, 0x72, 0x61, 0x62, 0x6c, 0x65
 };
 #endif
+#endif // OHOS_ACELITE_FRAMEWORK_MIN_BC_H
