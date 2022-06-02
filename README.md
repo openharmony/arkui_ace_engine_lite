@@ -33,16 +33,16 @@ The JS UI framework consists of the JavaScript data binding framework, JavaScrip
 
 ## Directory Structure<a name="section1464106163817"></a>
 
-The source code of the framework is stored in  **/foundation/ace/ace\_engine\_lite**. The directory structure is as follows:
+The source code of the framework is stored in  **/foundation/arkui/arkui\_ace\_engine\_lite**. The directory structure is as follows:
 
 ```
-/foundation/arkui/ace_engine_lite
+/foundation/arkui/arkui_ace_engine_lite
 ├── frameworks         # Framework code
 │   ├── common         # Common kits
 │   ├── examples       # Sample code
 │   ├── include        # Header files
-│   ├── module_manager # JS module manager
-│   ├── native_engine  # JS engine adapter
+│   ├── module_manager # JS module manager
+│   ├── native_engine  # JS engine adapter
 │   ├── packages       # JavaScript implementation
 │   ├── src            # Source code
 │   ├── targets        # Configuration files of target devices
@@ -65,5 +65,5 @@ For details, go to the  **readme**  repository:
 
 ## Repositories Involved<a name="section11683135113011"></a>
 
-ace\_engine\_lite
+arkui\_ace\_engine\_lite
 
