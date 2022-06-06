@@ -29,7 +29,7 @@ namespace ACELite {
  * NOTE: the user must not be duplicated in this list
  */
 const CacheUnit CacheManager::DEFAULT_CONFIG_TABLE[] = {
-    {USER_LOCALICATION, 16}, // localication key-value cache, lowest 16KB
+    {USER_LOCALIZATION, 16}, // localization key-value cache, lowest 16KB
 };
 
 CacheManager::CacheManager() : cacheState_(STATE_NORMAL)

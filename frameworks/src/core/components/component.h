@@ -303,13 +303,13 @@ protected:
     /**
      * @brief Child class should call this to set common attribute to a given native view.
      *
-     * @return true if any common attribute key matchs successfully, false if no match at all
+     * @return true if any common attribute key matches successfully, false if no match at all
      */
     bool SetCommonAttribute(UIView& view, const uint16_t attrKeyId, const jerry_value_t attrValue);
     /**
      * @brief Child class should call this to set own special attribute setting/update actions
      *
-     * @return true if any common attribute key matchs successfully, false if no match at all
+     * @return true if any common attribute key matches successfully, false if no match at all
      */
     virtual bool SetPrivateAttribute(uint16_t attrKeyId, jerry_value_t attrValue)
     {
@@ -331,7 +331,7 @@ protected:
     /**
      * @brief Child class should call this to set common event listener to a given native view.
      *
-     * @return true if any common event type matchs successfully, false if no match at all
+     * @return true if any common event type matches successfully, false if no match at all
      */
     bool RegisterCommonEventListener(UIView& view,
                                      const uint16_t eventTypeId,
@@ -340,7 +340,7 @@ protected:
     /**
      * @brief Child class should call this to set own special event setting/update actions.
      *
-     * @return true if any common event type matchs successfully, false if no match at all
+     * @return true if any common event type matches successfully, false if no match at all
      */
     virtual bool RegisterPrivateEventListener(uint16_t eventTypeId, jerry_value_t funcValue, bool isStopPropagation)
     {
@@ -350,13 +350,13 @@ protected:
     /**
      * @brief Used to set all common styles for all kinds of component.
      *
-     * @return true if any common attribute key matchs successfully, false if no match at all
+     * @return true if any common attribute key matches successfully, false if no match at all
      */
     bool ApplyCommonStyle(UIView& view, const AppStyleItem *style);
     /**
      * @brief Child class should call this to set own special attribute setting/update actions
      *
-     * @return true if any common attribute key matchs successfully, false if no match at all
+     * @return true if any common attribute key matches successfully, false if no match at all
      */
     virtual bool ApplyPrivateStyle(const AppStyleItem *style)
     {

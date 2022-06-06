@@ -70,7 +70,7 @@ const static char *DEFAULT_DEVICE_TYPE_NAME = "smartVision";
 // smartVision as default
 static const char *g_deviceType = DEFAULT_DEVICE_TYPE_NAME;
 
-// indicating if the ace application is on forground
+// indicating if the ace application is on foreground
 static bool g_isRenderTickAcceptable = false;
 
 void ProductAdapter::InitAceTags(uint8_t *aceTags, uint8_t tagCount)
@@ -169,7 +169,7 @@ TEDispatchingResult ProductAdapter::DispatchTEMessage()
     if (JsAsyncWork::DispatchToLoop(TE_EVENT, nullptr)) {
         return TEDispatchingResult::ACCEPTED;
     }
-    // if the ACE application is on forground and the dispatching failed, should retry sending to ACE again
+    // if the ACE application is on foreground and the dispatching failed, should retry sending to ACE again
     return TEDispatchingResult::ACCEPT_FAILED;
 #else
     return TEDispatchingResult::REFUSED;

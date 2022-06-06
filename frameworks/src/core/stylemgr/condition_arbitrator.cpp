@@ -31,10 +31,10 @@ namespace ACELite {
 #define ABS_VALUE(x) ((x) > 0 ? (x) : (-(x)))
 
 /**
- * @brief parse the whole condition string into single condition items, and check if it matchs the current device
+ * @brief parse the whole condition string into single condition items, and check if it matches the current device
  *        environment, and gives the final result of the entire media query expression.
  * @param conditions the input media query condition string
- * @return the result representing if the media query matchs the current environment, true for positive result
+ * @return the result representing if the media query matches the current environment, true for positive result
  *
  * NOTE: only supports the pattern such as "screen and (device-type: liteWearable) and (width: 454)"
  */
@@ -253,7 +253,7 @@ bool ConditionArbitrator::CompareAspectRatio(ConditionName conditionId, float ta
     float currentAspectRatio = SystemInfo::GetInstance().GetAspectRatio();
     bool isEqual = IsFloatValueEqual(targetRatioValue, currentAspectRatio, CONDITION_FLOAT_VALUE_EPRECISION);
     if (isEqual) {
-        // the equal case matchs for all ASPECT_RATIO media feature types
+        // the equal case matches for all ASPECT_RATIO media feature types
         return true;
     }
     switch (conditionId) {

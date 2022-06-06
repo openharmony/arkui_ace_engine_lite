@@ -49,7 +49,7 @@
 #endif
 
 /**
- * js system capabillity switch
+ * js system capability switch
  */
 #ifndef FEATURE_ACELITE_SYSTEM_CAPABILITY
 #define FEATURE_ACELITE_SYSTEM_CAPABILITY 1
