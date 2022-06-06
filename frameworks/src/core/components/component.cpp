@@ -199,6 +199,7 @@ void Component::Release()
 {
     // detach self from fatal handler monitoring
     FatalHandler::GetInstance().DetachComponentNode(this);
+    RemoveAllChildren();
 #if (FEATURE_LAZY_LOADING_MODULE == 1)
     // detach from lazy pending list
     JsAppContext *context = JsAppContext::GetInstance();
