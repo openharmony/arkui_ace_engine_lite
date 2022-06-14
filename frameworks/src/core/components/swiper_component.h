@@ -59,6 +59,7 @@ private:
     UISwipeView swiperView_;
     bool hasChildren_;
     int16_t index_;
+    uint16_t childrenNum_;
     ChangeListener *changeListener_;
 };
 } // namespace ACELite

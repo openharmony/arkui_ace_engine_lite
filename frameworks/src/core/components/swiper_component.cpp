@@ -25,6 +25,7 @@ SwiperComponent::SwiperComponent(jerry_value_t options, jerry_value_t children, 
     : Component(options, children, styleManager),
       hasChildren_(false),
       index_(0),
+      childrenNum_(0),
       changeListener_(nullptr)
 {
     SetComponentName(K_SWIPER);
@@ -102,7 +103,11 @@ void SwiperComponent::AttachView(const Component *child)
         return;
     }
     swiperView_.Add(child->GetComponentRootView());
-    SetPageIndex();
+    childrenNum_++;
+    if (childrenNum_ == jerry_get_array_length(GetChildren())) {
+        SetPageIndex();
+        childrenNum_ = 0;
+    }
 }
 
 void SwiperComponent::OnVisibilityChanged(bool isVisible)
