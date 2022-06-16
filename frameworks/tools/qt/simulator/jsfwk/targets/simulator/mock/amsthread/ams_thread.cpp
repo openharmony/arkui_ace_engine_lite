@@ -204,7 +204,7 @@ int AMSThread::TerminateAbilityInner(uint64_t token)
             MoveAppToTargetState(*next, AbilityMsgId::ACTIVE);
         }
     }
-    MoveAppToTargetState(*appRecord, AbilityMsgId::DESTORY);
+    MoveAppToTargetState(*appRecord, AbilityMsgId::DESTROY);
     delete appRecord;
     appRecord = nullptr;
     return 0;

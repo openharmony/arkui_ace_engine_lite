@@ -74,7 +74,7 @@ enum AbilityMsgId {
     ACTIVE,
     NEW_DATA,
     BACKGROUND,
-    DESTORY,
+    DESTROY,
     BACKPRESSED,
     ASYNCWORK,
     TE_EVENT,
