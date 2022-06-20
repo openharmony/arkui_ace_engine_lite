@@ -25,7 +25,7 @@
           "jerryscript"
       ],
       "components": [
-         "appexecfwk_lite",
+         "bundle_framework_lite",
          "huks",
          "ui",
          "syspara_lite",
