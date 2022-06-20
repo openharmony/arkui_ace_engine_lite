@@ -14,12 +14,12 @@
  */
 #ifndef OHOS_ACELITE_JS_PROFILER_H
 #define OHOS_ACELITE_JS_PROFILER_H
+#include <cstdint>
+#include <stddef.h>
 #include "acelite_config.h"
 #include "js_config.h"
 #include "memory_heap.h"
 #include "non_copyable.h"
-#include <cstdint>
-#include <stddef.h>
 
 /*
  * Wrapper macro, use directly in code after including this header file.

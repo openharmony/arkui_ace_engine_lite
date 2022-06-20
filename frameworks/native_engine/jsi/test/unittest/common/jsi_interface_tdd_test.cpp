@@ -23,7 +23,7 @@ namespace OHOS {
 namespace ACELite {
 static int8_t g_descValue = 0;
 
-JsiInterfaceTddTest::JsiInterfaceTddTest(){}
+JsiInterfaceTddTest::JsiInterfaceTddTest() {}
 
 void JsiInterfaceTddTest::SetUp()
 {

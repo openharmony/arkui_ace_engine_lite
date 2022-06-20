@@ -138,7 +138,7 @@ bool Component::Render()
     STOP_TRACING();
 
     // The event bubbling mechanism is supported from API version 5, and events are bubbled by default.
-    // However, it should be compatible with the migrated old application (API version 4) 
+    // However, it should be compatible with the migrated old application (API version 4)
     // so that it does not bubble by default.
     const int32_t supportEventBubbleApiVersion = 5;
     if (JsAppContext::GetInstance()->GetTargetApi() < supportEventBubbleApiVersion) {
