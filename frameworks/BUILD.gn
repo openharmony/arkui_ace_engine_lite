@@ -76,7 +76,7 @@ lite_library("ace_lite") {
     ]
   } else {
     public_deps += [
-      "//base/startup/init_lite/interfaces/innerkits/syscap:syscap",
+      "//base/startup/init/interfaces/innerkits/syscap:syscap",
       "//build/lite/config/component/cJSON:cjson_shared",
       "//foundation/graphic/surface:lite_surface",
       "//foundation/multimedia/camera_lite/frameworks:camera_lite",
