@@ -22,7 +22,7 @@
 namespace OHOS {
 namespace ACELite {
 using namespace std;
-void ReplaceHiLogPrivaceKeyWords(string &original, const string &toBeReplaced, const string &targetStr)
+void ReplaceHiLogPrivacyKeyWords(string &original, const string &toBeReplaced, const string &targetStr)
 {
     string::size_type toBeReplacedLen = toBeReplaced.length();
     do {
@@ -41,7 +41,7 @@ void PrintInfo(const char *format, va_list args)
     string originalStr(format);
     string toBeReplacedStr("{public}");
     string emptyStr("");
-    ReplaceHiLogPrivaceKeyWords(originalStr, toBeReplacedStr, emptyStr);
+    ReplaceHiLogPrivacyKeyWords(originalStr, toBeReplacedStr, emptyStr);
     vprintf(originalStr.c_str(), args);
     printf("\n");
 }

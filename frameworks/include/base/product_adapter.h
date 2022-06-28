@@ -62,7 +62,7 @@ typedef void (*TerminateAbilityHandler)(uint32_t token, bool forceStop);
 
 /**
  * As all the UI event handling is driven by the render tick, and to make sure the the event handling is
- * in JS task, the HAL layer will transfer the TE event into the loop of JS task, when JS application go forground.
+ * in JS task, the HAL layer will transfer the TE event into the loop of JS task, when JS application go foreground.
  */
 typedef void (*RenderTEHandler)();
 typedef void (*VoidFuncHook)();
@@ -81,9 +81,9 @@ struct TEHandlingHooks {
 };
 
 enum TEDispatchingResult : uint8_t {
-    REFUSED = 0, // not on forground, will refuse TE, vsync should send it to other
-    ACCEPTED, // on forground, and TE event is received successfully
-    ACCEPT_FAILED, // on forground, but TE event can not be received, vsync should be retried to send to ACE again
+    REFUSED = 0, // not on foreground, will refuse TE, vsync should send it to other
+    ACCEPTED, // on foreground, and TE event is received successfully
+    ACCEPT_FAILED, // on foreground, but TE event can not be received, vsync should be retried to send to ACE again
 };
 
 /**

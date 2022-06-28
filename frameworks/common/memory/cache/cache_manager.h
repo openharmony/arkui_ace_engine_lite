@@ -30,7 +30,7 @@ namespace ACELite {
 struct CacheMemInfo {
     // the cache memory start address, including the magic number at beginning
     uintptr_t cacheStartAddr;
-    // count in bytes, and the max capability is 4M, including the maginc number at the beginning and ending
+    // count in bytes, and the max capability is 4M, including the magic number at the beginning and ending
     size_t cacheLength;
 };
 
@@ -50,7 +50,7 @@ class CacheManager final {
 public:
     static CacheManager &GetInstance();
     void SetupCacheMemInfo(uintptr_t startAddr, size_t length);
-    // return the start addrss of the assigned buffer the unit can use, which doesn't includ the starting magic number
+    // return the start addrss of the assigned buffer the unit can use, which doesn't include the starting magic number
     uintptr_t GetCacheBufAddress(CacheUser user) const;
     // return the total buffer length the unit can use, which doesn't include the starting and ending magic numbers
     size_t GetCacheBufLength(CacheUser user) const;

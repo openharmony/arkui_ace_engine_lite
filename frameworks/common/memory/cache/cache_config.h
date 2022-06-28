@@ -44,7 +44,7 @@ constexpr uint32_t CACHE_UNIT_MAX_BYTES = CACHE_UNIT_MAX_KBS * 1024;
  * Define the purpose of the specific cache memory range.
  */
 enum CacheUser : uint8_t {
-    USER_LOCALICATION,
+    USER_LOCALIZATION,
     USER_PAGE_FILE,
     USER_MAX_COUNT
 };

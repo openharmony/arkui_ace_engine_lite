@@ -242,7 +242,7 @@ void JSAbility::LazyLoadHandleRenderTick(void *data)
 void JSAbility::HandleRenderTick()
 {
     if (!isActived_) {
-        // skip the TE tick if we are not forground
+        // skip the TE tick if we are not foreground
         ProductAdapter::NotifyRenderEnd();
         errorTickCount_++;
         if ((errorTickCount_ % ERR_TICK_COUNT_TRACE_CTRL) == 1) {
