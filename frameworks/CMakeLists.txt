@@ -30,7 +30,7 @@ set(JSFWK_SOURCE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/src/core")
 set(UIKIT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../foundation/graphic/ui")
 set(THIRTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../third_party")
 set(JSFWK_SIMULATOR_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/developer_tools_lite/graphic_tool/simulator")
-set(AAFWK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../aafwk/aafwk_lite")
+set(AAFWK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../ability/ability_lite")
 set(UTILS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../utils/native/lite")
 
 # add definitions

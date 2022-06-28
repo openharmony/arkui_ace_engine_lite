@@ -20,7 +20,7 @@
 namespace OHOS {
 namespace ACELite {
 const CacheUnit CacheManagerTddTest::TEST_CONFIG_TABLE[] = {
-    {USER_LOCALICATION, 16}, // localication key-value cache, lowest 16KB
+    {USER_LOCALIZATION, 16}, // localization key-value cache, lowest 16KB
 };
 
 void CacheManagerTddTest::SetUp()
@@ -51,14 +51,14 @@ HWTEST_F(CacheManagerTddTest, CacheDistribute001, TestSize.Level1)
     /**
      * @tc.steps: step3. verify the result
      */
-    uintptr_t localicationPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALICATION);
-    size_t localicationBufSize = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALICATION);
+    uintptr_t localizationPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALIZATION);
+    size_t localizationBufSize = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALIZATION);
     const uintptr_t targetPos = startAddr + MAGIC_NUMBER_LENGTH;
     const size_t unit = 1024;
-    const uint8_t localicationMin = 16;
-    const size_t targetLength = localicationMin * unit;
-    EXPECT_EQ(localicationPos, targetPos);
-    EXPECT_EQ(localicationBufSize, targetLength);
+    const uint8_t localizationMin = 16;
+    const size_t targetLength = localizationMin * unit;
+    EXPECT_EQ(localizationPos, targetPos);
+    EXPECT_EQ(localizationBufSize, targetLength);
     ace_free(buffer);
     buffer = nullptr;
 }
@@ -78,10 +78,10 @@ HWTEST_F(CacheManagerTddTest, CacheDistribute002, TestSize.Level1)
         return;
     }
     const uint8_t pageFileBufLength = 6;
-    const uint8_t localicationBufLength = 8;
+    const uint8_t localizationBufLength = 8;
     const CacheUnit customerCacheUnitTable[] = {
         {USER_PAGE_FILE, pageFileBufLength},
-        {USER_LOCALICATION, localicationBufLength},
+        {USER_LOCALIZATION, localizationBufLength},
     };
     /**
      * @tc.steps: step2. trigger the cache setup
@@ -93,13 +93,13 @@ HWTEST_F(CacheManagerTddTest, CacheDistribute002, TestSize.Level1)
     /**
      * @tc.steps: step3. verify the result
      */
-    uintptr_t bufferPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALICATION);
-    size_t bufSize = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALICATION);
+    uintptr_t bufferPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALIZATION);
+    size_t bufSize = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALIZATION);
     const size_t unit = 1024;
     const uint8_t magicNumberCount = MAGIC_NUMBER_COUNT;
     uintptr_t targetPos =
         startAddr + (pageFileBufLength * unit) + (magicNumberCount * MAGIC_NUMBER_LENGTH) + MAGIC_NUMBER_LENGTH;
-    const size_t targetLength = localicationBufLength * unit;
+    const size_t targetLength = localizationBufLength * unit;
     EXPECT_EQ(bufferPos, targetPos);
     EXPECT_EQ(bufSize, targetLength);
     ace_free(buffer);
@@ -129,8 +129,8 @@ HWTEST_F(CacheManagerTddTest, CacheDistribute003, TestSize.Level1)
     /**
      * @tc.steps: step3. verify the result
      */
-    uintptr_t localPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALICATION);
-    size_t localBufSize = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALICATION);
+    uintptr_t localPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALIZATION);
+    size_t localBufSize = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALIZATION);
     EXPECT_EQ(localPos, 0);
     EXPECT_EQ(localBufSize, 0);
     ace_free(buffer);
@@ -160,8 +160,8 @@ HWTEST_F(CacheManagerTddTest, CacheDistribute004, TestSize.Level1)
     /**
      * @tc.steps: step3. verify the result
      */
-    uintptr_t bufStartPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALICATION);
-    size_t bufLength = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALICATION);
+    uintptr_t bufStartPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALIZATION);
+    size_t bufLength = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALIZATION);
     uint32_t headMagicNumber = *reinterpret_cast<uint32_t *>(bufStartPos - MAGIC_NUMBER_LENGTH);
     EXPECT_EQ(headMagicNumber, CACHE_MEM_MAGIC_NUMBER);
     uint32_t tailMagicNumber = *reinterpret_cast<uint32_t *>(bufStartPos + bufLength);
@@ -190,7 +190,7 @@ HWTEST_F(CacheManagerTddTest, CacheDistribute005, TestSize.Level0)
      */
     uintptr_t startAddr = reinterpret_cast<uintptr_t>(buffer);
     CacheManager::GetInstance().SetupCacheMemInfo(startAddr, totalSize);
-    size_t bufLength = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALICATION);
+    size_t bufLength = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALIZATION);
     if (bufLength < MAGIC_NUMBER_LENGTH) {
         ace_free(buffer);
         buffer = nullptr;
@@ -202,7 +202,7 @@ HWTEST_F(CacheManagerTddTest, CacheDistribute005, TestSize.Level0)
     buffer[0] = 0x11;
     size_t tailPos = bufLength - MAGIC_NUMBER_LENGTH;
     buffer[tailPos] = 0x22;
-    EXPECT_TRUE(CacheManager::GetInstance().IsCacheOverflow(CacheUser::USER_LOCALICATION));
+    EXPECT_TRUE(CacheManager::GetInstance().IsCacheOverflow(CacheUser::USER_LOCALIZATION));
     EXPECT_FALSE(CacheManager::GetInstance().IsWholeCacheHealthy());
     ace_free(buffer);
     buffer = nullptr;
@@ -232,8 +232,8 @@ HWTEST_F(CacheManagerTddTest, CacheDistribute006, TestSize.Level1)
     /**
      * @tc.steps: step3. check the result, the distributing will fail
      */
-    uintptr_t bufStartPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALICATION);
-    size_t bufLength = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALICATION);
+    uintptr_t bufStartPos = CacheManager::GetInstance().GetCacheBufAddress(CacheUser::USER_LOCALIZATION);
+    size_t bufLength = CacheManager::GetInstance().GetCacheBufLength(CacheUser::USER_LOCALIZATION);
     EXPECT_EQ(bufStartPos, 0);
     EXPECT_EQ(bufLength, 0);
     ace_free(buffer);

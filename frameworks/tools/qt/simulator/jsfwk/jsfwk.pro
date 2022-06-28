@@ -197,9 +197,9 @@ INCLUDEPATH += \
             $${ROOT_PATH}/foundation/graphic/ui/interfaces/innerkits/ui/common \
             $${ROOT_PATH}/foundation/communication/ipc_lite/interfaces/kits \
             $${ROOT_PATH}/base/hiviewdfx/hilog_lite/interfaces/native/kits \
-            $${ROOT_PATH}/foundation/aafwk/aafwk_lite/interfaces/kits/ability_lite \
-            $${ROOT_PATH}/foundation/aafwk/aafwk_lite/interfaces/kits/want_lite \
-            $${ROOT_PATH}/foundation/aafwk/aafwk_lite/interfaces/innerkits/abilitymgr_lite \
+            $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/kits/ability_lite \
+            $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/kits/want_lite \
+            $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/innerkits/abilitymgr_lite \
             $${ROOT_PATH}/foundation/communication/ipc_lite/liteipc/include \
             $${ROOT_PATH}/third_party/bounds_checking_function/include \
             $${ROOT_PATH}/foundation/arkui/ace_engine_lite/interfaces/inner_api/builtin/async \
@@ -258,7 +258,7 @@ INCLUDEPATH += \
             $${ROOT_PATH}/foundation/graphic/ui/interfaces/innerkits/ui/common \
             $${ROOT_PATH}/foundation/communication/ipc_lite/interfaces/kits \
             $${ROOT_PATH}/base/hiviewdfx/hilog_lite/interfaces/native/kits \
-            $${ROOT_PATH}/foundation/aafwk/aafwk_lite/frameworks/abilitymgr_lite/include \
+            $${ROOT_PATH}/foundation/ability/ability_lite/frameworks/abilitymgr_lite/include \
             $${ROOT_PATH}/foundation/communication/ipc_lite/liteipc/include \
 
 LIBS += $$DESTDIR/jerryScript.dll

@@ -64,5 +64,5 @@ API介绍请参考[《OpenHarmony Device开发API参考》](https://device.harmo
 
 ## 相关仓<a name="section11683135113011"></a>
 
-arkui\_ace\_engine\_lite
+[arkui\_ace\_engine\_lite](https://gitee.com/openharmony/arkui_ace_engine_lite)
 

@@ -118,7 +118,7 @@ void JSThread::HandleEventLoop()
                 actived_ = false;
                 break;
             }
-            case AbilityMsgId::DESTORY: {
+            case AbilityMsgId::DESTROY: {
                 VsyncDispatchManager::GetInstance().UnregisterVsyncReceiver(this);
                 // cleanup the message queue id to present any new async message
                 JsAsyncWork::SetAppQueueHandler(nullptr);
