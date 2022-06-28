@@ -112,7 +112,7 @@
 /**
  * syscap module
  */
-#define FEATURE_SYSCAP_MODULE 1
+#define FEATURE_SYSCAP_MODULE 0
 
 #define FEATURE_CUSTOM_ENTRY_PAGE 1
 
