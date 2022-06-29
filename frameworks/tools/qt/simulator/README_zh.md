@@ -45,7 +45,7 @@
    // 初始化 repo
    repo init -u https://gitee.com/openharmony/manifest.git -b master --no-repo-verify
    // sync 所有相关仓
-   repo sync graphic_surface graphic_ui graphic_utils graphic_wms third_party_bounds_checking_function third_party_cJSON third_party_zlib third_party_freetype third_party_harfbuzz third_party_icu third_party_libjpeg third_party_libpng third_party_qrcodegen third_party_zlib utils_native_lite aafwk_aafwk_lite third_party_jerryscript arkui_ace_engine_lite global_resmgr_lite
+   repo sync graphic_surface graphic_ui graphic_utils graphic_wms third_party_bounds_checking_function third_party_cJSON third_party_zlib third_party_freetype third_party_harfbuzz third_party_icu third_party_libjpeg third_party_libpng third_party_qrcodegen third_party_zlib utils_native_lite ability_ability_lite third_party_jerryscript arkui_ace_engine_lite global_resource_management_lite
    ```
 
 2. **打开QT Creator**

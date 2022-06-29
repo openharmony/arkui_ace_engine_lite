@@ -19,9 +19,9 @@ ACELITE_FRAMEWORK_PATH = ../../../..
 UIDESTDIR = $${ROOT_PATH}/foundation/graphic/ui/tools/qt/simulator
 
 INCLUDEPATH += \
-    $${ACELITE_PATH}/interfaces/innerkits/builtin/async \
-    $${ACELITE_PATH}/interfaces/innerkits/builtin/base \
-    $${ACELITE_PATH}/interfaces/innerkits/builtin/jsi \
+    $${ACELITE_PATH}/interfaces/inner_api/builtin/async \
+    $${ACELITE_PATH}/interfaces/inner_api/builtin/base \
+    $${ACELITE_PATH}/interfaces/inner_api/builtin/jsi \
     $${ACELITE_FRAMEWORK_PATH}/include/base \
     $${FOUNDATION_PATH}/graphic/utils/interfaces/innerkits \
     $${FOUNDATION_PATH}/graphic/utils/interfaces/kits \

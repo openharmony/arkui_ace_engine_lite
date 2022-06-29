@@ -107,7 +107,7 @@ int TimerThread::StartTimerTaskInner(bool isPeriodic,
     info->userCallback = userCallback;
     info->userData = userData;
     *timerHandle = info;
-    info->timerHandle = reinterpret_cast<timerHandle_t *>info;
+    info->timerHandle = reinterpret_cast<timerHandle_t *>(info);
     QAutoLockGuard lockGuard(mutexlock_);
     timerList_.append(info);
     return 0;
