@@ -16,7 +16,7 @@
  # How to contribute to the runtime-core of JS framework
  ## 1. Modify code
  ## 2. run the build-core.sh file
- > cd ace_engine_lite/frameworks/packages/runtime-core/
+ > cd arkui_ace_engine_lite/frameworks/packages/runtime-core/
  > ./build_core.sh
 
  ## 3. add following two C header files to git and upload them to your PR
