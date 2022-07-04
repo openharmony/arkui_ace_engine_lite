@@ -123,6 +123,8 @@ JSIValue DfxModule::DumpDomTree(const JSIValue thisVal, const JSIValue *args, ui
 #if (FEATURE_ACELITE_LITE_DFX_MODULE == 1)
 #ifdef __LITEOS_A__
     const char * const savingPath = GetDataPath();
+#elif defined(__linux__)
+    const char * const savingPath = "/storage/nfs";
 #else
     const char * const savingPath = "user/log";
 #endif

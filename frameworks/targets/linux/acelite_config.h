@@ -113,6 +113,10 @@
 
 #define FEATURE_LOCALIZATION_MODULE 1
 
+#ifndef FEATURE_COMPONENT_QRCODE
+#define FEATURE_COMPONENT_QRCODE 1
+#endif
+
 #ifdef FEATURE_COMPONENT_CAMERA
 #error "must keep the global configuration unique"
 #else
