@@ -34,7 +34,6 @@
          "resource_management_lite",
          "hilog",
          "permission",
-         "ipc_lite",
          "kal_timer",
          "kv_store",
          "timer_task",
