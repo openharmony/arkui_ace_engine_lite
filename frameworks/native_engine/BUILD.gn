@@ -43,9 +43,6 @@ lite_library("ace_native_engine") {
 
   deps = [ "$ace_target_root" ]
 
-  cflags = [ "-Wall" ]
-  cflags_cc = cflags
-
   sources = [
     "$native_engine_root/async/js_async_work.cpp",
     "$native_engine_root/async/message_queue_utils.cpp",

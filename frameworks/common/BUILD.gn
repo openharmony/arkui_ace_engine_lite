@@ -39,9 +39,6 @@ lite_library("ace_common") {
     "//third_party/bounds_checking_function/include",
   ]
 
-  cflags = [ "-Wall" ]
-  cflags_cc = cflags
-
   sources = [
     "$ace_common_root/log/ace_log.cpp",
     "$ace_common_root/memory/ace_mem_base.cpp",
