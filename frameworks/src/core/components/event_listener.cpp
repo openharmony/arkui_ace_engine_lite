@@ -139,5 +139,20 @@ bool ViewOnTouchListener::OnDragEnd(UIView& view, const DragEvent &event)
     HILOG_DEBUG(HILOG_MODULE_ACE, "Swipe received");
     return isStopPropagation_;
 }
+
+void ValueChangeListener::OnChange(UIView &view, const char *value)
+{
+    if (IS_UNDEFINED(fn_)) {
+        return;
+    }
+
+    jerry_value_t textValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>(value));
+    jerry_value_t args[1] = {textValue};
+    if (jerry_value_is_function(fn_)) {
+        CallJSFunctionAutoRelease(fn_, UNDEFINED, args, 1);
+    }
+    ReleaseJerryValue(textValue, VA_ARG_END_FLAG);
+    return;
+}
 } // namespace ACELite
 } // namespace OHOS

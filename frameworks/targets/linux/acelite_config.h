@@ -123,6 +123,12 @@
 #define FEATURE_COMPONENT_CAMERA 1
 #endif
 
+#ifdef FEATURE_COMPONENT_EDITTEXT
+#error "must keep the global configuration unique"
+#else
+#define FEATURE_COMPONENT_EDITTEXT 1
+#endif
+
 #ifdef FEATURE_COMPONENT_VIDEO
 #error "must keep the global configuration unique"
 #else

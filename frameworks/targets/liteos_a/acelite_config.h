@@ -148,6 +148,13 @@
 #define FEATURE_COMPONENT_CAMERA 1
 #endif
 
+/**
+ * enable edittext component Feature
+ */
+#ifndef FEATURE_COMPONENT_EDITTEXT
+#define FEATURE_COMPONENT_EDITTEXT 1
+#endif
+
 #ifndef FEATURE_COMPONENT_QRCODE
 #define FEATURE_COMPONENT_QRCODE 1
 #endif

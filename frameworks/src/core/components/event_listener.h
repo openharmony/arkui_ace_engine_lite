@@ -28,6 +28,7 @@
 #include "ui_scroll_view.h"
 #include "ui_slider.h"
 #include "ui_toggle_button.h"
+#include "ui_edit_text.h"
 
 namespace OHOS {
 namespace ACELite {
@@ -82,6 +83,26 @@ private:
     bool state_;
     bool isChanging_; // the flag to avoid change event cycle execute
 };
+
+
+class ValueChangeListener final : public OHOS::UIEditText::OnChangeListener {
+public:
+    ACE_DISALLOW_COPY_AND_MOVE(ValueChangeListener);
+    explicit ValueChangeListener(jerry_value_t fn)
+    {
+        fn_ = jerry_acquire_value(fn);
+    }
+
+    ~ValueChangeListener()
+    {
+        jerry_release_value(fn_);
+    }
+
+    void OnChange(UIView& view, const char* value) override;
+private:
+    jerry_value_t fn_;
+};
+
 
 class ViewOnClickListener final : public UIView::OnClickListener {
 public:

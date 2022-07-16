@@ -151,7 +151,7 @@ HWTEST_F(InputTddTest, ComponentInputStyleTest03, TestSize.Level1)
      * @tc.steps:step2.set the color value 16711680
      * @tc.expected:step2.the font color of UILabelButton is red
      */
-    const int32_t redValue = 16711680;
+    const uint32_t redValue = 16711680;
     JerrySetNumberProperty(styleObj_, "color", redValue);
     Component *component = GetRenderedComponent(K_INPUT);
     EXPECT_FALSE(component == nullptr);
@@ -176,7 +176,7 @@ HWTEST_F(InputTddTest, ComponentInputStyleTest03, TestSize.Level1)
      * @tc.steps:step3.set the color value 21474836481
      * @tc.expected:step3.the font color of UILabelButton is red
      */
-    const int32_t max = 2147483647;
+    const uint32_t max = UINT_MAX;
     UpdateNumAttributeOrStyleValue(component, "color", max, false);
     tempColor.full = button->GetLabelStyle(STYLE_TEXT_COLOR);
     EXPECT_TRUE(CompareColor(tempColor, max));
@@ -185,7 +185,7 @@ HWTEST_F(InputTddTest, ComponentInputStyleTest03, TestSize.Level1)
      * @tc.steps:step4.set the color property -21474836482
      * @tc.expected:step4.the font color of UILabelButton is red
      */
-    const int32_t min = INT_MIN;
+    const uint32_t min = 0;
     UpdateNumAttributeOrStyleValue(component, "color", min, false);
     tempColor.full = button->GetLabelStyle(STYLE_TEXT_COLOR);
     EXPECT_TRUE(CompareColor(tempColor, min));
@@ -952,6 +952,322 @@ HWTEST_F(InputTddTest, ComponentRadioStyleTest04, TestSize.Level1)
     TDD_CASE_END();
 }
 
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+/**
+ * @tc.name: ComponentEdittextStyleTest01
+ * @tc.desc: test the color style in edittext
+ */
+HWTEST_F(InputTddTest, ComponentEdittextStyleTest01, TestSize.Level1)
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps:step1:set the attribute type text
+     */
+    JerrySetStringProperty(attrsObj_, "type", "text");
+
+    /**
+     * @tc.steps:step2.set the color value 16711680
+     * @tc.expected:step2.the font color of edittext is red
+     */
+    const uint32_t redValue = 16711680;
+    JerrySetNumberProperty(styleObj_, "color", redValue);
+    Component *component = GetRenderedComponent(K_INPUT);
+    EXPECT_FALSE(component == nullptr);
+    if (component == nullptr) {
+        TDD_CASE_END();
+        return;
+    }
+    UIEditText *edittext = reinterpret_cast<UIEditText *>(component->GetComponentRootView());
+    EXPECT_FALSE(edittext == nullptr);
+    if (edittext == nullptr) {
+        component->Release();
+        delete component;
+        component = nullptr;
+        TDD_CASE_END();
+        return;
+    }
+    ColorType tempColor;
+    tempColor = edittext->GetTextColor();
+    EXPECT_TRUE(CompareColor(tempColor, redValue));
+
+    /**
+     * @tc.steps:step3.set the color value 21474836481
+     * @tc.expected:step3.the font color of edittext is max
+     */
+    const uint32_t max = UINT_MAX;
+    UpdateNumAttributeOrStyleValue(component, "color", max, false);
+    tempColor = edittext->GetTextColor();
+    EXPECT_TRUE(CompareColor(tempColor, max));
+
+    /**
+     * @tc.steps:step4.set the color property -21474836482
+     * @tc.expected:step4.the font color of edittext is min
+     */
+    const int32_t min = 0;
+    UpdateNumAttributeOrStyleValue(component, "color", min, false);
+    tempColor = edittext->GetTextColor();
+    EXPECT_TRUE(CompareColor(tempColor, min));
+    component->Release();
+    delete component;
+    component = nullptr;
+    TDD_CASE_END();
+}
+
+/**
+ * @tc.name: ComponentEdittextStyleTest02
+ * @tc.desc: test the font-size style in edittext
+ */
+HWTEST_F(InputTddTest, ComponentEdittextStyleTest02, TestSize.Level1)
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps:step1:set the attribute type text
+     */
+    JerrySetStringProperty(attrsObj_, "type", "text");
+
+    /**
+     * @tc.steps:step2.set the font-size value 38
+     * @tc.expected:step2.the font-size of edittext is 38
+     */
+    const uint8_t fontSize = 38;
+    JerrySetNumberProperty(styleObj_, "fontSize", fontSize);
+    Component *component = GetRenderedComponent(K_INPUT);
+    EXPECT_FALSE(component == nullptr);
+    if (component == nullptr) {
+        TDD_CASE_END();
+        return;
+    }
+    UIEditText *edittext = reinterpret_cast<UIEditText *>(component->GetComponentRootView());
+    EXPECT_FALSE(edittext == nullptr);
+    if (edittext == nullptr) {
+        component->Release();
+        delete component;
+        component = nullptr;
+        TDD_CASE_END();
+        return;
+    }
+    uint8_t tempFontSize = reinterpret_cast<InputEditTextComponent *>(component)->GetFontSize();
+    EXPECT_EQ(tempFontSize, fontSize);
+
+    /**
+     * @tc.steps:step3.set the font-size value 255
+     * @tc.expected:step3.the font-size of edittext is max
+     */
+    const uint8_t max = 255;
+    UpdateNumAttributeOrStyleValue(component, "fontSize", max, false);
+    tempFontSize = reinterpret_cast<InputEditTextComponent *>(component)->GetFontSize();
+    EXPECT_EQ(tempFontSize, max);
+
+    /**
+     * @tc.steps:step4.set the font-size value 0
+     * @tc.expected:step4.the font-size of edittext is min
+     */
+    const uint8_t min = 0;
+    UpdateNumAttributeOrStyleValue(component, "fontSize", min, false);
+    tempFontSize = reinterpret_cast<InputEditTextComponent *>(component)->GetFontSize();
+    EXPECT_EQ(tempFontSize, min);
+    component->Release();
+    delete component;
+    component = nullptr;
+    TDD_CASE_END();
+}
+
+/**
+ * @tc.name: ComponentEdittextStyleTest03
+ * @tc.desc: test the placeholder-color style in edittext
+ */
+HWTEST_F(InputTddTest, ComponentEdittextStyleTest03, TestSize.Level1)
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps:step1:set the attribute type text
+     */
+    JerrySetStringProperty(attrsObj_, "type", "text");
+
+    /**
+     * @tc.steps:step2.set the placeholder-color value 16711680
+     * @tc.expected:step2.the font placeholder-color of edittext is red
+     */
+    const uint32_t redValue = 16711680;
+    JerrySetNumberProperty(styleObj_, "placeholder-color", redValue);
+    Component *component = GetRenderedComponent(K_INPUT);
+    EXPECT_FALSE(component == nullptr);
+    if (component == nullptr) {
+        TDD_CASE_END();
+        return;
+    }
+    UIEditText *edittext = reinterpret_cast<UIEditText *>(component->GetComponentRootView());
+    EXPECT_FALSE(edittext == nullptr);
+    if (edittext == nullptr) {
+        component->Release();
+        delete component;
+        component = nullptr;
+        TDD_CASE_END();
+        return;
+    }
+    ColorType tempColor;
+    tempColor = edittext->GetPlaceholderColor();
+    EXPECT_TRUE(CompareColor(tempColor, redValue));
+
+    /**
+     * @tc.steps:step3.set the placeholder-color value 21474836481
+     * @tc.expected:step3.the placeholder-color of edittext is max
+     */
+    const uint32_t max = UINT_MAX;
+    UpdateNumAttributeOrStyleValue(component, "placeholder-color", max, false);
+    tempColor = edittext->GetPlaceholderColor();
+    EXPECT_TRUE(CompareColor(tempColor, max));
+
+    /**
+     * @tc.steps:step4.set the placeholder-color property -21474836482
+     * @tc.expected:step4.the placeholder-color of edittext is min
+     */
+    const uint32_t min = 0;
+    UpdateNumAttributeOrStyleValue(component, "placeholder-color", min, false);
+    tempColor = edittext->GetPlaceholderColor();
+    EXPECT_TRUE(CompareColor(tempColor, min));
+    component->Release();
+    delete component;
+    component = nullptr;
+    TDD_CASE_END();
+}
+
+/**
+ * @tc.name: ComponentEdittextAttributeTest04
+ * @tc.desc: test the attribute type in edittext
+ */
+HWTEST_F(InputTddTest, ComponentEdittextAttributeTest04, TestSize.Level1)
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps:step1.set the type text and get the native element
+     */
+    JerrySetStringProperty(attrsObj_, "type", "text");
+    Component *component = GetRenderedComponent(K_INPUT);
+    EXPECT_FALSE(component == nullptr);
+    if (component == nullptr) {
+        TDD_CASE_END();
+        return;
+    }
+    UIEditText *edittext = reinterpret_cast<UIEditText *>(component->GetComponentRootView());
+    EXPECT_FALSE(edittext == nullptr);
+    if (edittext == nullptr) {
+        component->Release();
+        delete component;
+        component = nullptr;
+        TDD_CASE_END();
+        return;
+    }
+    EXPECT_EQ(edittext->GetInputType(), InputType::TEXT_TYPE);
+
+    /**
+     * @tc.steps:step2.set the type attribute "password"
+     * @tc.expected:step2.the type attribute is password
+     */
+    UpdateCharAttributeOrStyleValue(component, "type", "password", false);
+    EXPECT_EQ(edittext->GetInputType(), InputType::PASSWORD_TYPE);
+
+    /**
+     * @tc.steps:step3.set the type attribute "aaaa"
+     * @tc.expected:step3.the type attribute is text
+     */
+    UpdateCharAttributeOrStyleValue(component, "type", "aaaa", false);
+    EXPECT_EQ(edittext->GetInputType(), InputType::TEXT_TYPE);
+    component->Release();
+    delete component;
+    component = nullptr;
+    TDD_CASE_END();
+}
+
+/**
+ * @tc.name: ComponentEdittextAttributeTest05
+ * @tc.desc: test the attribute type in edittext
+ */
+HWTEST_F(InputTddTest, ComponentEdittextAttributeTest05, TestSize.Level1)
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps:step1.set the attribute and get the native element
+     */
+    JerrySetStringProperty(attrsObj_, "type", "text");
+    JerrySetStringProperty(attrsObj_, "value", "content");
+    JerrySetStringProperty(attrsObj_, "placeholder", "input here");
+    Component *component = GetRenderedComponent(K_INPUT);
+    EXPECT_FALSE(component == nullptr);
+    if (component == nullptr) {
+        TDD_CASE_END();
+        return;
+    }
+    UIEditText *edittext = reinterpret_cast<UIEditText *>(component->GetComponentRootView());
+    EXPECT_FALSE(edittext == nullptr);
+    if (edittext == nullptr) {
+        component->Release();
+        delete component;
+        component = nullptr;
+        TDD_CASE_END();
+        return;
+    }
+    EXPECT_EQ(edittext->GetText(), "content");
+    EXPECT_EQ(edittext->GetPlaceholder(), "input here");
+
+    component->Release();
+    delete component;
+    component = nullptr;
+    TDD_CASE_END();
+}
+
+/**
+ * @tc.name: ComponentEdittextAttributeTest06
+ * @tc.desc: test the attribute type in edittext
+ */
+HWTEST_F(InputTddTest, ComponentEdittextAttributeTest06, TestSize.Level1)
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps:step1.set the maxlenth 120 and get the native element
+     */
+    JerrySetStringProperty(attrsObj_, "type", "text");
+    const uint16_t maxlenth = 120;
+    JerrySetNumberProperty(attrsObj_, "maxlenth", maxlenth);
+    Component *component = GetRenderedComponent(K_INPUT);
+    EXPECT_FALSE(component == nullptr);
+    if (component == nullptr) {
+        TDD_CASE_END();
+        return;
+    }
+    UIEditText *edittext = reinterpret_cast<UIEditText *>(component->GetComponentRootView());
+    EXPECT_FALSE(edittext == nullptr);
+    if (edittext == nullptr) {
+        component->Release();
+        delete component;
+        component = nullptr;
+        TDD_CASE_END();
+        return;
+    }
+    EXPECT_EQ(edittext->GetMaxLength(), maxlenth);
+
+    /**
+     * @tc.steps:step2.set the maxlenth attribute max
+     * @tc.expected:step2.the maxlenth attribute is max
+     */
+    const uint16_t max = 65535;
+    UpdateNumAttributeOrStyleValue(component, "maxlenth", max, false);
+    EXPECT_EQ(edittext->GetMaxLength(), max);
+
+    /**
+     * @tc.steps:step3.set the maxlenth attribute min
+     * @tc.expected:step3.the maxlenth attribute is min
+     */
+    const uint16_t min = 0;
+    UpdateNumAttributeOrStyleValue(component, "maxlenth", max, false);
+    EXPECT_EQ(edittext->GetMaxLength(), min);
+    component->Release();
+    delete component;
+    component = nullptr;
+    TDD_CASE_END();
+}
+#endif // FEATURE_COMPONENT_EDITTEXT
+
 #ifndef TDD_ASSERTIONS
 void InputTddTest::RunTests()
 {
@@ -972,6 +1288,14 @@ void InputTddTest::RunTests()
     ComponentRadioAttributeTest01();
     ComponentRadioStyleTest03();
     ComponentRadioStyleTest04();
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+    ComponentEdittextStyleTest01();
+    ComponentEdittextStyleTest02();
+    ComponentEdittextStyleTest03();
+    ComponentEdittextAttributeTest04();
+    ComponentEdittextAttributeTest05();
+    ComponentEdittextAttributeTest06();
+#endif // FEATURE_COMPONENT_EDITTEXT
 }
 #endif
 }

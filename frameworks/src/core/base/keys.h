@@ -111,6 +111,9 @@ enum {
     KEYWORD(EASE_IN_OUT, ease-in-out) // animation time function value
     KEYWORD(EASE_OUT, ease-out) // animation time function value
     KEYWORD(ELLIPSIS, ellipsis) // text overflow type
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+    KEYWORD(EDITTEXTTYPE, editTextType) // text overflow type
+#endif // FEATURE_COMPONENT_EDITTEXT
 #if (FEATURE_COMPONENT_DATE_PICKER == 1)
     KEYWORD(END, end) // date picker-view attr
 #endif // FEATURE_COMPONENT_DATE_PICKER
@@ -171,6 +174,9 @@ enum {
     KEYWORD(MARGIN_TOP, marginTop) // common style margin top
     KEYWORD(MARQUEE, marquee) // marquee tag name
     KEYWORD(MAX, max) // common attributes
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+    KEYWORD(MAX_LENGTH, maxlength) // maxlength of input
+#endif // FEATURE_COMPONENT_EDITTEXT
     KEYWORD(MIN, min) // common attributes, analog-clock minute
     KEYWORD(MINI, mini) // text font size type
 #if (FEATURE_DATE_FORMAT == 1)
@@ -194,6 +200,9 @@ enum {
     KEYWORD(PADDING_LEFT, paddingLeft)
     KEYWORD(PADDING_RIGHT, paddingRight)
     KEYWORD(PADDING_TOP, paddingTop)
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+    KEYWORD(PASSWORD, password) // type of input component
+#endif // FEATURE_COMPONENT_EDITTEXT
     KEYWORD(PERCENT, percent)
     KEYWORD(PICKER_VIEW, picker-view) // tag name
     KEYWORD(REF, ref) // common attribute
@@ -204,6 +213,10 @@ enum {
     KEYWORD(PIVOT_X, pivotX) // clock-hand pivot-x
     KEYWORD(PIVOT_Y, pivotY) // clock-hand pivot-y
 #endif // FEATURE_COMPONENT_ANALOG_CLOCK
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+    KEYWORD(PLACEHOLDER, placeholder) // placeholder of edittext
+    KEYWORD(PLACEHOLDER_COLOR, placeholderColor) // placeholder-color of edittext
+#endif // FEATURE_COMPONENT_EDITTEXT
     KEYWORD(PROGRESS, progress) // progress tag name
 #if (FEATURE_COMPONENT_QRCODE == 1)
     KEYWORD(QRCODE, qrcode) // qrcode tag name
@@ -289,9 +302,9 @@ enum {
     KEYWORD(TRANSLATE_X, translateX) // animation transform x
     KEYWORD(TRANSLATE_Y, translateY) // animation transform y
     KEYWORD(TRUE, true) // common attributes
-#if (FEATURE_COMPONENT_ANALOG_CLOCK == 1)
+#if ((FEATURE_COMPONENT_ANALOG_CLOCK == 1) || (FEATURE_COMPONENT_EDITTEXT == 1))
     KEYWORD(TYPE, type) // clock-hand type
-#endif // FEATURE_COMPONENT_ANALOG_CLOCK
+#endif // (FEATURE_COMPONENT_ANALOG_CLOCK == 1) || (FEATURE_COMPONENT_EDITTEXT == 1)
     KEYWORD(VALUE, value) // common attributes
     KEYWORD(VERTICAL, vertical) // swiper attr vertical
 #if (FEATURE_COMPONENT_VIDEO == 1)
