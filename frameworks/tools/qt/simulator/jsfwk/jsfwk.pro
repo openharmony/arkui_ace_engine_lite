@@ -198,7 +198,7 @@ INCLUDEPATH += \
             $${ROOT_PATH}/base/hiviewdfx/hilog_lite/interfaces/native/kits \
             $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/kits/ability_lite \
             $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/kits/want_lite \
-            $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/innerkits/abilitymgr_lite \
+            $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/inner_api/abilitymgr_lite \
             $${ROOT_PATH}/third_party/bounds_checking_function/include \
             $${ROOT_PATH}/foundation/arkui/ace_engine_lite/interfaces/inner_api/builtin/async \
             $${ROOT_PATH}/foundation/arkui/ace_engine_lite/interfaces/inner_api/builtin/base \

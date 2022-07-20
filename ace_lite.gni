@@ -37,7 +37,7 @@ ace_lite_include_dirs = [
   "${aafwk_lite_path}/interfaces/kits/ability_lite",
   "${aafwk_lite_path}/interfaces/kits/want_lite",
   "${aafwk_lite_path}/frameworks/abilitymgr_lite/include",
-  "${aafwk_lite_path}/interfaces/innerkits/abilitymgr_lite",
+  "${aafwk_lite_path}/interfaces/inner_api/abilitymgr_lite",
   "${appexecfwk_lite_path}/interfaces/kits/bundle_lite",
   "${appexecfwk_lite_path}/utils/bundle_lite",
 ]

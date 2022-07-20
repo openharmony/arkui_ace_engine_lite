@@ -25,7 +25,7 @@ test_output_root = "$root_out_dir/test/unittest/jsfwk"
 ace_test_includes = [
   "${aafwk_lite_path}/interfaces/kits/ability_lite",
   "${aafwk_lite_path}/interfaces/kits/want_lite",
-  "${aafwk_lite_path}/interfaces/innerkits/abilitymgr_lite",
+  "${aafwk_lite_path}/interfaces/inner_api/abilitymgr_lite",
   "$graphic_ui_root/frameworks",
   "$graphic_ui_root/interfaces/kits/animator",
   "$graphic_ui_root/interfaces/kits/components",
