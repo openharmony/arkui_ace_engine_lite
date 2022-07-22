@@ -42,7 +42,7 @@ jerry_value_t ConsoleModule::LogDebug(const jerry_value_t func,
 #if IS_DISABLED(CONSOLE_LOG_OUTPUT)
     return UNDEFINED;
 #else
-    return LogNative(LOG_LEVEL_DEBUG, func, context, args, length);
+    return LogNative(LOG_LEVEL_DEBUG, args, length);
 #endif // DISABLED(CONSOLE_LOG_OUTPUT)
 }
 
@@ -54,7 +54,7 @@ jerry_value_t ConsoleModule::LogInfo(const jerry_value_t func,
 #if IS_DISABLED(CONSOLE_LOG_OUTPUT)
     return UNDEFINED;
 #else
-    return LogNative(LOG_LEVEL_INFO, func, context, args, length);
+    return LogNative(LOG_LEVEL_INFO, args, length);
 #endif // DISABLED(CONSOLE_LOG_OUTPUT)
 }
 
@@ -66,7 +66,7 @@ jerry_value_t ConsoleModule::LogWarn(const jerry_value_t func,
 #if IS_DISABLED(CONSOLE_LOG_OUTPUT)
     return UNDEFINED;
 #else
-    return LogNative(LOG_LEVEL_WARN, func, context, args, length);
+    return LogNative(LOG_LEVEL_WARN, args, length);
 #endif // DISABLED(CONSOLE_LOG_OUTPUT)
 }
 
@@ -78,7 +78,7 @@ jerry_value_t ConsoleModule::Log(const jerry_value_t func,
 #if IS_DISABLED(CONSOLE_LOG_OUTPUT)
     return UNDEFINED;
 #else
-    return LogNative(LOG_LEVEL_NONE, func, context, args, length);
+    return LogNative(LOG_LEVEL_NONE, args, length);
 #endif // DISABLED(CONSOLE_LOG_OUTPUT)
 }
 
@@ -90,7 +90,7 @@ jerry_value_t ConsoleModule::LogError(const jerry_value_t func,
 #if IS_DISABLED(CONSOLE_LOG_OUTPUT)
     return UNDEFINED;
 #else
-    return LogNative(LOG_LEVEL_ERR, func, context, args, length);
+    return LogNative(LOG_LEVEL_ERR, args, length);
 #endif // DISABLED(CONSOLE_LOG_OUTPUT)
 }
 } // namespace ACELite
