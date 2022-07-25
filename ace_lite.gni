@@ -79,7 +79,7 @@ ace_lite_include_dirs += [
   "//third_party/freetype/include",
   "//base/global/resource_management_lite/interfaces/inner_api/include",
   "//base/global/i18n_lite/interfaces/kits/i18n/include",
-  "//base/startup/init_lite/interfaces/innerkits/include",
+  "//base/startup/init/interfaces/innerkits/include",
 ]
 
 ace_lite_include_dirs_simulator = [
