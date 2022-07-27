@@ -73,6 +73,7 @@ ace_lite_include_dirs += [
   "//third_party/jerryscript/jerry-core/include",
   "//third_party/jerryscript/jerry-ext/include/jerryscript-ext",
   "///third_party/jerryscript/jerry-port/default/include",
+  "//third_party/jerryscript/jerry-core/api",
   "//third_party/cJSON",
   "//third_party/giflib",
   "//utils/native/lite/timer_task/include/",
@@ -80,6 +81,7 @@ ace_lite_include_dirs += [
   "//base/global/resource_management_lite/interfaces/inner_api/include",
   "//base/global/i18n_lite/interfaces/kits/i18n/include",
   "//base/startup/init/interfaces/innerkits/include",
+  "//base/startup/init/interfaces/innerkits/syscap",
 ]
 
 ace_lite_include_dirs_simulator = [
