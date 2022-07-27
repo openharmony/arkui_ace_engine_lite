@@ -520,17 +520,17 @@ static JsiErrorType GetJsiErrorType(jerry_error_t jerryType)
 {
     JsiErrorType jsiType;
     switch (jerryType) {
-        case JERRY_ERROR_COMMON:
-            jsiType = JsiErrorType::JSI_ERROR_COMMON;
-            break;
-        case JERRY_ERROR_EVAL:
-            jsiType = JsiErrorType::JSI_ERROR_EVAL;
-            break;
         case JERRY_ERROR_RANGE:
             jsiType = JsiErrorType::JSI_ERROR_RANGE;
             break;
+        case JERRY_ERROR_URI:
+            jsiType = JsiErrorType::JSI_ERROR_URI;
+            break;
         case JERRY_ERROR_REFERENCE:
             jsiType = JsiErrorType::JSI_ERROR_REFERENCE;
+            break;
+        case JERRY_ERROR_EVAL:
+            jsiType = JsiErrorType::JSI_ERROR_EVAL;
             break;
         case JERRY_ERROR_SYNTAX:
             jsiType = JsiErrorType::JSI_ERROR_SYNTAX;
@@ -538,8 +538,8 @@ static JsiErrorType GetJsiErrorType(jerry_error_t jerryType)
         case JERRY_ERROR_TYPE:
             jsiType = JsiErrorType::JSI_ERROR_TYPE;
             break;
-        case JERRY_ERROR_URI:
-            jsiType = JsiErrorType::JSI_ERROR_URI;
+        case JERRY_ERROR_COMMON:
+            jsiType = JsiErrorType::JSI_ERROR_COMMON;
             break;
         default:
             jsiType = JsiErrorType::JSI_ERROR_INVALID;
