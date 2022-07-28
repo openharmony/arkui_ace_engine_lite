@@ -28,8 +28,15 @@ lite_component("jsfwk") {
 config("ace_lite_config") {
   include_dirs = ace_lite_include_dirs
   defines += [ "FEATURE_COMPONENT_TEXT_SPANNABLE=1" ]
-
-  cflags_cc = [ "-std=c++14" ]
+  if (board_toolchain_type == "iccarm") {
+    cflags = [
+      "--diag_suppress",
+      "Pe111,Pa137,Pe177,Pe226,Pe366,Pe367",
+    ]
+    cflags_cc = cflags
+  } else {
+    cflags_cc = [ "-std=c++14" ]
+  }
   ldflags = [ "-lstdc++" ]
 
   if (ohos_kernel_type == "liteos_m") {
