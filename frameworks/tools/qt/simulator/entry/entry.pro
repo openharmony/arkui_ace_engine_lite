@@ -43,7 +43,7 @@ INCLUDEPATH += \
     $${ACELITE_FRAMEWORK_PATH}/tools/qt/simulator/jsfwk/targets/simulator/mock/vsyncthread \
     $${ACELITE_FRAMEWORK_PATH}/tools/qt/simulator/jsfwk/targets/simulator/mock/amsthread \
     $${ACELITE_FRAMEWORK_PATH}/tools/qt/simulator/jsfwk/targets/simulator/mock/timerthread \
-    $${FOUNDATION_PATH}/../utils/native/lite/timer_task/include/
+    $${FOUNDATION_PATH}/../commonlibrary/utils_lite/timer_task/include/ \
 
 HEADERS += \
     $${FOUNDATION_PATH}/graphic/ui/interfaces/innerkits/font/ui_font_vector.h \
