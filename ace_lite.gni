@@ -82,6 +82,7 @@ ace_lite_include_dirs += [
   "//base/global/i18n_lite/interfaces/kits/i18n/include",
   "//base/startup/init/interfaces/innerkits/include",
   "//base/startup/init/interfaces/innerkits/syscap",
+  "//base/hiviewdfx/hilog_lite/interfaces/native/kits",
 ]
 
 ace_lite_include_dirs_simulator = [

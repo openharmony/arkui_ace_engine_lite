@@ -1124,6 +1124,7 @@ uint16_t GetVerticalResolution()
 #if ((defined __LITEOS__) || (defined __linux__) || (SCREENSIZE_SPECIFIED == 1))
     return Screen::GetInstance().GetHeight();
 #else
+    constexpr uint16_t resConst = 454;
     uint16_t horizontalResolution = resConst;
     uint16_t verticalResolution = resConst;
     ProductAdapter::GetScreenSize(horizontalResolution, verticalResolution);

@@ -27,7 +27,7 @@ lite_component("jsfwk") {
 
 config("ace_lite_config") {
   include_dirs = ace_lite_include_dirs
-  defines += [ "FEATURE_COMPONENT_TEXT_SPANNABLE=1" ]
+  defines += [ "FEATURE_COMPONENT_TEXT_SPANNABLE=0" ]
   if (board_toolchain_type == "iccarm") {
     cflags = [
       "--diag_suppress",
