@@ -72,14 +72,10 @@ void FlushOutput();
  * @brief The real implementation for all console log function, same implementation with the jerry's default IO.
  *
  * @param logLevel the log level, please refer to LogNative definations
- * @param func function object
- * @param context the context of function execution
  * @param args the list of arguments
  * @param length the length of arguments list
  */
 jerry_value_t LogNative(const LogLevel logLevel,
-                        const jerry_value_t func,
-                        const jerry_value_t context,
                         const jerry_value_t *args,
                         const jerry_length_t length);
 

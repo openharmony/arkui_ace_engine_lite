@@ -37,68 +37,43 @@ const int16_t LOG_BUFFER_SIZE = CONSOLE_LOG_LINE_MAX_LENGTH;
 const int16_t LOG_BUFFER_SIZE = 256; // use 256 as default if it's not config
 #endif // CONSOLE_LOG_LINE_MAX_LENGTH
 jerry_value_t LogNative(const LogLevel logLevel,
-                        const jerry_value_t func,
-                        const jerry_value_t context,
                         const jerry_value_t *args,
                         const jerry_length_t argc)
 {
-    (void)func;    /* unused */
-    (void)context; /* unused */
-
     // print out log level if needed
     LogOutLevel(logLevel);
 
-    const char * const nullStr = "\\u0000";
     jerry_value_t retVal = jerry_create_undefined();
-
     for (jerry_length_t argIndex = 0; argIndex < argc; argIndex++) {
-        jerry_value_t strVal;
-
-        if (jerry_value_is_symbol(args[argIndex])) {
-            strVal = jerry_get_symbol_descriptive_string(args[argIndex]);
-        } else {
-            strVal = jerry_value_to_string(args[argIndex]);
-        }
-
+        jerry_value_t strVal = jerry_value_to_string(args[argIndex]);
         if (jerry_value_is_error(strVal)) {
-            /* There is no need to free the undefined value. */
             retVal = strVal;
             break;
         }
 
-        jerry_length_t length = jerry_get_utf8_string_length(strVal);
         jerry_length_t substrPos = 0;
+        jerry_length_t length = jerry_get_utf8_string_length(strVal);
         const uint16_t bufLength = LOG_BUFFER_SIZE;
         jerry_char_t substrBuf[bufLength] = {0};
 
         do {
             jerry_size_t substrSize =
-                jerry_substring_to_utf8_char_buffer(strVal, substrPos, length, substrBuf, bufLength - 1);
+                jerry_substring_to_char_buffer(strVal, substrPos, length, substrBuf, bufLength - 1);
 
             jerry_char_t *bufEndPos = substrBuf + substrSize;
 
-            /* Update start position by the number of utf-8 characters. */
             for (jerry_char_t *bufPos = substrBuf; bufPos < bufEndPos; bufPos++) {
-                /* Skip intermediate utf-8 octets. */
                 if ((*bufPos & 0xc0) != 0x80) {
                     substrPos++;
                 }
-            }
-
-            for (jerry_char_t *bufPos = substrBuf; bufPos < bufEndPos; bufPos++) {
                 char chr = static_cast<char>(*bufPos);
 
                 if (chr != '\0') {
                     LogChar(chr, logLevel);
                     continue;
                 }
-
-                for (jerry_size_t null_index = 0; nullStr[null_index] != '\0'; null_index++) {
-                    LogChar(nullStr[null_index], logLevel);
-                }
             }
-        } while (substrPos < length);
-
+        } while (length > substrPos);
         jerry_release_value(strVal);
     }
     // output end
