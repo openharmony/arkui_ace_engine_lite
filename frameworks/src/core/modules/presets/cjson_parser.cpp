@@ -18,10 +18,14 @@
 #include "ace_log.h"
 #include "global.h"
 #include "js_fwk_common.h"
+#if defined(TARGET_SIMULATOR)
 #if (defined(_WIN32) || defined(_WIN64))
 #include <io.h>
 #else
 #include "gfx_utils/file.h"
+#include <dirent.h>
+#include <sys/types.h>
+#endif
 #endif
 #include "securec.h"
 #include "string_util.h"
@@ -322,6 +326,103 @@ CJSONParser::LanguageState CJSONParser::ChangeLanguage()
     return LanguageState::LANGUAGE_CHANGED;
 }
 
+#ifdef TARGET_SIMULATOR
+#if (defined(_WIN32) || (defined(_WIN64)))
+int CJSONParser::GetWinFiles(ListNode *&fileList)
+{
+    if (language_ == nullptr) {
+        return 0;
+    }
+    int fileCount = 0;
+    _finddata_t file;
+    intptr_t opendir;
+    const char * const match = "*.*";
+    char* fileDir = RelocateResourceFilePath(filePath_, match);
+    if (fileDir == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "get localization path failed");
+        return 0;
+    }
+    if ((opendir = _findfirst(fileDir, &file)) == -1) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "file not defined");
+        ACE_FREE(fileDir);
+        return 0;
+    }
+    while ((_findnext(opendir, &file) == 0) && (fileCount < UINT8_MAX)) {
+        if (strncmp(file.name, "..", strlen(language_)) == 0) {
+            continue;
+        }
+        char *value = SubStr(file.name, 0, strlen(file.name));
+        bool check = true;
+        check = AddNode(fileList, value);
+        if (!check) {
+            ACE_FREE(value);
+        } else {
+            fileCount++;
+        }
+    }
+    _findclose(opendir);
+    ACE_FREE(fileDir);
+    return fileCount;
+}
+#else
+int CJSONParser::GetFiles(ListNode *&fileList)
+{
+    DIR* dp = nullptr;
+    if ((dp = opendir(filePath_)) == nullptr) {
+        return 0;
+    }
+    struct dirent* dptr = nullptr;
+    int fileCount = 0;
+    while ((dptr = readdir(dp)) != nullptr) {
+        if (strcmp(dptr->d_name, ".") == 0 || strcmp(dptr->d_name, "..") == 0) {
+            continue;
+        }
+        char *value = SubStr(dptr->d_name, 0, strlen(dptr->d_name));
+        bool check = true;
+        check = AddNode(fileList, value);
+        if (!check) {
+            ACE_FREE(value);
+        } else {
+            fileCount++;
+        }
+    }
+    closedir(dp);
+    ACE_FREE(dptr);
+    return fileCount;
+}
+#endif // (defined(_WIN32) || (defined(_WIN64))
+#endif // TARGET_SIMULATOR
+
+bool CJSONParser::IsFileExistFullMatch(const char *fileName)
+{
+#if defined(TARGET_SIMULATOR)
+    if (fileName == nullptr) {
+        return  false;
+    }
+    ListNode *fileList = nullptr;
+#if (defined(_WIN32) || (defined(_WIN64)))
+    int count = GetWinFiles(fileList);
+#else
+    int count = GetFiles(fileList);
+#endif
+    if (count == 0) {
+        ClearNode(fileList);
+        return false;
+    }
+    bool canBeFullMatched = false;
+    for (uint8_t i = 0; i <= count; i++) {
+        if (!strcmp(fileName, GetNode(fileList, i))) {
+            canBeFullMatched = true;
+            break;
+        }
+    }
+    ClearNode(fileList);
+    return canBeFullMatched;
+#else
+    return true;
+#endif
+}
+
 bool CJSONParser::ChangeLanguageFileName()
 {
     if ((language_ == nullptr) || (countries_ == nullptr)) {
@@ -349,6 +450,23 @@ bool CJSONParser::ChangeLanguageFileName()
         languageFile = nullptr;
         return false;
     }
+#if defined(TARGET_SIMULATOR)
+    const int32_t i18nChangeLanguageApiVersion = 7;
+    bool isBelowAPI7 = (JsAppContext::GetInstance()->GetTargetApi() < i18nChangeLanguageApiVersion);
+    ACE_FREE(languageFile_);
+    if (isBelowAPI7) {
+        languageFile_ = languageFile;
+        return true;
+    }
+    bool canBeFullMatched = IsFileExistFullMatch(languageFile);
+    if (canBeFullMatched) {
+        languageFile_ = languageFile;
+        return true;
+    }
+    // reset to en-US.json as default
+    ACE_FREE(languageFile);
+    languageFile_ = StringUtil::Copy("en-US.json");
+#else
     if ((languageFile_ != nullptr) && (!strcmp(languageFile, languageFile_))) {
         ace_free(languageFile);
         languageFile = nullptr;
@@ -356,6 +474,7 @@ bool CJSONParser::ChangeLanguageFileName()
         ACE_FREE(languageFile_);
         languageFile_ = languageFile;
     }
+#endif
     return true;
 }
 
@@ -534,7 +653,7 @@ jerry_value_t CJSONParser::GetValueFromFile(const char *key,
     do {
         // get the current splited key
         char *message = CJSONParser::GetNode(keys, keyCount - curKeyIndex);
-        curJsonItem = cJSON_GetObjectItem(curJsonItem, message);
+        curJsonItem = cJSON_GetObjectItemCaseSensitive(curJsonItem, message);
         curKeyIndex++;
     } while (!(curKeyIndex == keyCount || (curJsonItem == nullptr)));
     ClearNode(keys);
