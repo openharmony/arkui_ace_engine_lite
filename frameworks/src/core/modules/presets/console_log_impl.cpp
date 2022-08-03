@@ -26,6 +26,9 @@
 #define LOG_TAG "JS-3RD-APP"
 #include "hilog/log.h"
 #endif // FEATURE_ACELITE_HI_LOG_PRINTF
+#if (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1))
+#include "handler.h"
+#endif
 #include <stdio.h>
 #include <string.h>
 
@@ -42,7 +45,9 @@ jerry_value_t LogNative(const LogLevel logLevel,
 {
     // print out log level if needed
     LogOutLevel(logLevel);
-
+#if (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1))
+    return jerryx_handler_print(jerry_create_undefined(), jerry_create_undefined(), args, argc);
+#else
     jerry_value_t retVal = jerry_create_undefined();
     for (jerry_length_t argIndex = 0; argIndex < argc; argIndex++) {
         jerry_value_t strVal = jerry_value_to_string(args[argIndex]);
@@ -80,6 +85,7 @@ jerry_value_t LogNative(const LogLevel logLevel,
     LogChar('\n', logLevel, true);
     FlushOutput();
     return retVal;
+#endif
 }
 
 void LogOutLevel(const LogLevel logLevel)
