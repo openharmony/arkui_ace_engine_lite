@@ -219,12 +219,14 @@ private:
 
     Node *GetValueFromCache(const char *key);
     bool ChangeLanguageFileName();
+
 #ifdef TARGET_SIMULATOR
 #if (defined(_WIN32) || (defined(_WIN64)))
     int GetWinFiles(ListNode *&fileList);
 #else
     int GetFiles(ListNode *&fileList);
 #endif
+    bool CheckLanguageFileName(char *languageFile);
 #endif
     bool IsFileExistFullMatch(const char *fileName);
 
