@@ -391,6 +391,22 @@ int CJSONParser::GetFiles(ListNode *&fileList)
     return fileCount;
 }
 #endif // (defined(_WIN32) || (defined(_WIN64))
+bool CJSONParser::CheckLanguageFileName(char *languageFile)
+{
+    const int32_t i18nChangeLanguageApiVersion = 6;
+    bool isBelowAPI7 = (JsAppContext::GetInstance()->GetTargetApi() < i18nChangeLanguageApiVersion);
+    ACE_FREE(languageFile_);
+    if (isBelowAPI7) {
+        languageFile_ = languageFile;
+        return true;
+    }
+    bool canBeFullMatched = IsFileExistFullMatch(languageFile);
+    if (canBeFullMatched) {
+        languageFile_ = languageFile;
+        return true;
+    }
+    return false;
+}
 #endif // TARGET_SIMULATOR
 
 bool CJSONParser::IsFileExistFullMatch(const char *fileName)
@@ -451,16 +467,7 @@ bool CJSONParser::ChangeLanguageFileName()
         return false;
     }
 #if defined(TARGET_SIMULATOR)
-    const int32_t i18nChangeLanguageApiVersion = 7;
-    bool isBelowAPI7 = (JsAppContext::GetInstance()->GetTargetApi() < i18nChangeLanguageApiVersion);
-    ACE_FREE(languageFile_);
-    if (isBelowAPI7) {
-        languageFile_ = languageFile;
-        return true;
-    }
-    bool canBeFullMatched = IsFileExistFullMatch(languageFile);
-    if (canBeFullMatched) {
-        languageFile_ = languageFile;
+    if (CheckLanguageFileName(languageFile)) {
         return true;
     }
     // reset to en-US.json as default
