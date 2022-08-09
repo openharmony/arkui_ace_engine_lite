@@ -139,6 +139,10 @@
 #define FEATURE_COMPONENT_CANVAS 1
 #endif
 
+#ifndef FEATURE_COMPONENT_EDITTEXT
+#define FEATURE_COMPONENT_EDITTEXT 1
+#endif
+
 #if (FEATURE_COMPONENT_QRCODE == 1)
 #error "must keep the global configuration unique"
 #else

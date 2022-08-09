@@ -94,6 +94,7 @@ SOURCES += \
         $${ACELITE_CORE_PATH}/components/image_component.cpp \
         $${ACELITE_CORE_PATH}/components/input_button_component.cpp \
         $${ACELITE_CORE_PATH}/components/input_checkbox_component.cpp \
+        $${ACELITE_CORE_PATH}/components/input_edittext_component.cpp \
         $${ACELITE_CORE_PATH}/components/input_radio_component.cpp \
         $${ACELITE_CORE_PATH}/components/list_adapter.cpp \
         $${ACELITE_CORE_PATH}/components/list_component.cpp \

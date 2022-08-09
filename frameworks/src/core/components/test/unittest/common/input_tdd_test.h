@@ -45,6 +45,14 @@ public:
     void ComponentRadioAttributeTest01();
     void ComponentRadioStyleTest03();
     void ComponentRadioStyleTest04();
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+    void ComponentEdittextStyleTest01();
+    void ComponentEdittextStyleTest02();
+    void ComponentEdittextStyleTest03();
+    void ComponentEdittextAttributeTest04();
+    void ComponentEdittextAttributeTest05();
+    void ComponentEdittextAttributeTest06();
+#endif // FEATURE_COMPONENT_EDITTEXT
     bool CompareColor(ColorType color, uint32_t colorIntValue) const;
     void AddBoolProperty(jerry_value_t object, const char *name, bool value) const;
 #ifndef TDD_ASSERTIONS

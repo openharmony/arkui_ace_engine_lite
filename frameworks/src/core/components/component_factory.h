@@ -37,6 +37,9 @@
 #include "image_component.h"
 #include "input_button_component.h"
 #include "input_checkbox_component.h"
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+#include "input_edittext_component.h"
+#endif // FEATURE_COMPONENT_EDITTEXT
 #include "input_radio_component.h"
 #include "js_fwk_common.h"
 #include "key_parser.h"
@@ -155,7 +158,13 @@ public:
                     component = new InputCheckboxComponent(options, children, styleManager);
                 } else if (id == K_RADIO) {
                     component = new InputRadioComponent(options, children, styleManager);
-                } else {
+                }
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+                else if (id == K_TEXT || id == K_PASSWORD) {
+                    component = new InputEditTextComponent(options, children, styleManager);
+                }
+#endif // FEATURE_COMPONENT_EDITTEXT
+                else {
                     // default type is input button
                     component = new InputButtonComponent(options, children, styleManager);
                 }

@@ -47,6 +47,13 @@
 #endif
 
 /**
+ * enable edittext component Feature
+ */
+#ifndef FEATURE_COMPONENT_EDITTEXT
+#define FEATURE_COMPONENT_EDITTEXT 1
+#endif
+
+/**
  * enable QRcode component
  */
 #ifndef FEATURE_COMPONENT_QRCODE

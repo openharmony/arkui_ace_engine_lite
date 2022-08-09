@@ -134,6 +134,7 @@ ace_lite_sources = [
   "$ACE_LITE_PATH/src/core/components/image_component.cpp",
   "$ACE_LITE_PATH/src/core/components/input_button_component.cpp",
   "$ACE_LITE_PATH/src/core/components/input_checkbox_component.cpp",
+  "$ACE_LITE_PATH/src/core/components/input_edittext_component.cpp",
   "$ACE_LITE_PATH/src/core/components/input_radio_component.cpp",
   "$ACE_LITE_PATH/src/core/components/list_adapter.cpp",
   "$ACE_LITE_PATH/src/core/components/list_component.cpp",

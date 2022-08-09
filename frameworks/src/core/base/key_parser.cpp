@@ -465,6 +465,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "ax")) {
                 return K_MAX;
             }
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+            if (!strcmp(s, "axlength")) {
+                return K_MAX_LENGTH;
+            }
+#endif // FEATURE_COMPONENT_EDITTEXT
             if (!strcmp(s, "in")) {
                 return K_MIN;
             }
@@ -533,6 +538,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "addingTop")) {
                 return K_PADDING_TOP;
             }
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+            if (!strcmp(s, "assword")) {
+                return K_PASSWORD;
+            }
+#endif // FEATURE_COMPONENT_EDITTEXT
 #if (FEATURE_COMPONENT_VIDEO == 1)
             if (!strcmp(s, "ause")) {
                 return K_PAUSE;
@@ -552,6 +562,14 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
                 return K_PIVOT_Y;
             }
 #endif // FEATURE_COMPONENT_ANALOG_CLOCK
+#if (FEATURE_COMPONENT_EDITTEXT == 1)
+            if (!strcmp(s, "laceholder")) {
+                return K_PLACEHOLDER;
+            }
+            if (!strcmp(s, "laceholderColor")) {
+                return K_PLACEHOLDER_COLOR;
+            }
+#endif // FEATURE_COMPONENT_EDITTEXT
 #if (FEATURE_COMPONENT_VIDEO == 1)
             if (!strcmp(s, "repared")) {
                 return K_PREPARED;
@@ -782,11 +800,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "extOverflow")) {
                 return K_TEXT_OVERFLOW;
             }
-#if (FEATURE_COMPONENT_ANALOG_CLOCK == 1)
+#if ((FEATURE_COMPONENT_ANALOG_CLOCK == 1) || (FEATURE_COMPONENT_EDITTEXT == 1))
             if (!strcmp(s, "ype")) {
                 return K_TYPE;
             }
-#endif // FEATURE_COMPONENT_ANALOG_CLOCK
+#endif // (FEATURE_COMPONENT_ANALOG_CLOCK == 1) || (FEATURE_COMPONENT_EDITTEXT == 1)
             break;
         case 'u':
 #if (FEATURE_NUMBER_FORMAT == 1)
