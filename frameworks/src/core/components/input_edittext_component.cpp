@@ -87,6 +87,7 @@ bool InputEditTextComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value
         default:
             return false;
     }
+    return false;
 }
 
 bool InputEditTextComponent::RegisterPrivateEventListener(uint16_t eventTypeId,
