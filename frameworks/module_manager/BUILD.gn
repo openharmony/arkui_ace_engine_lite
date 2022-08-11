@@ -25,6 +25,13 @@ lite_component("ace_module_manager_lite") {
 lite_library("ace_module_manager") {
   if (ohos_kernel_type == "liteos_m") {
     target_type = "static_library"
+    if (board_toolchain_type == "iccarm") {
+      cflags = [
+        "--diag_suppress",
+        "Pa137,Pe226",
+      ]
+      cflags_cc = cflags
+    }
   } else {
     target_type = "shared_library"
     cflags = [ "-Wall" ]
@@ -49,7 +56,6 @@ lite_library("ace_module_manager") {
   public_deps = [
     "$ace_frameworks_root/common:ace_common_lite",
     "$ace_frameworks_root/native_engine:ace_native_engine_lite",
-    "//foundation/multimedia/media_lite/interfaces/kits/player_lite/js/builtin:audio_lite_api",
     "//utils/native/lite/js/builtin:ace_utils_kits",
   ]
 
@@ -65,6 +71,7 @@ lite_library("ace_module_manager") {
       "//base/powermgr/battery_lite/frameworks/js:ace_battery_kits",
       "//base/security/huks/frameworks/crypto_lite/js/builtin:ace_kit_cipher",
       "//foundation/communication/netstack/frameworks/js/builtin:http_lite_shared",
+      "//foundation/multimedia/media_lite/interfaces/kits/player_lite/js/builtin:audio_lite_api",
       "//third_party/bounds_checking_function:libsec_shared",
       "//third_party/jerryscript/jerry-core:jerry-core_shared",
     ]
