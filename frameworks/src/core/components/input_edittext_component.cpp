@@ -184,7 +184,7 @@ bool InputEditTextComponent::SetPlaceholderColor(const AppStyleItem &style)
     OHOS::ColorType color32;
     uint8_t alpha = OPA_OPAQUE;
     if (GetStyleColorValue(&style, color, alpha)) {
-        color32.full = color;
+        color32.full = (alpha << 24) | color; // 24:alpha bit offset in color32
         edittext_.SetPlaceholderColor(color32);
         return true;
     }
