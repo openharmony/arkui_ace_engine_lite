@@ -103,7 +103,7 @@
  * support mc ace log module trace
  */
 #ifndef FEATURE_ACELITE_MC_LOG_PRINTF
-#define FEATURE_ACELITE_MC_LOG_PRINTF 1
+#define FEATURE_ACELITE_MC_LOG_PRINTF 0
 #endif
 
 /**

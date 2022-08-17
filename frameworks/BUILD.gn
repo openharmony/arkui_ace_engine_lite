@@ -31,7 +31,7 @@ config("ace_lite_config") {
   if (board_toolchain_type == "iccarm") {
     cflags = [
       "--diag_suppress",
-      "Pe111,Pa137,Pe177,Pe226,Pe366,Pe367",
+      "Pa093,Pe111,Pe161,Pa137,Pe177,Pe226,Pe366,Pe367",
     ]
     cflags_cc = cflags
   } else {

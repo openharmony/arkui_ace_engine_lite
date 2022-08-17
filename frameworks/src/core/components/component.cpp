@@ -1042,7 +1042,7 @@ int32_t Component::GetAnimatorValue(char *animatorValue, const int8_t index, boo
     }
 
     int32_t convertedValue =
-        isOpacity ? (strtod(value, nullptr) * ALPHA_MAX) : static_cast<int32_t>(strtol(value, nullptr, DEC));
+        isOpacity ? (strtod(value, nullptr) * ALPHA_MAX) : (strtol(value, nullptr, DEC));
     if (TransitionImpl::IsEndWith(value, "rad")) {
         uint8_t degConversionRate = 57;
         convertedValue = convertedValue * degConversionRate;
