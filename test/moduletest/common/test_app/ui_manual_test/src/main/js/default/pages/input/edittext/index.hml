@@ -1,0 +1,37 @@
+<!--
+Copyright (c) 2022 Huawei Device Co., Ltd.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<div class="container">
+     <input id="input1" class="input" type="text" placeholder="{{placeholder}}" maxlength="{{maxlen}}"  value="{{inputvalue}}"
+            style="font-size: {{fontsize}}; color: {{inputcolor}}; placeholder-color: {{phcolor}};" on:change="onvaluechange">
+     </input>
+     <div class="div-button">
+          <input id="button1" class="button" type="button" value="change type" on:click="clickChangeType">
+          </input>
+          <input id="button2" class="button" type="button" value="change value" on:click="clickChangeValue">
+          </input>
+          <input id="button3" class="button" type="button" value="change placeholder" on:click="clickChangePlaceholder">
+          </input>
+          <input id="button4" class="button" type="button" value="change maxlength" on:click="clickChangeMaxlength">
+          </input>
+          <input id="button5" class="button" type="button" value="change color" on:click="clickChangeColor">
+          </input>
+          <input id="button6" class="button" type="button" value="change font-size" on:click="clickChangeFontSize">
+          </input>
+          <input id="button7" class="button" type="button" value="change placeholder-color" on:click="clickChangePHColor">
+          </input>
+     </div>
+</div>
+
