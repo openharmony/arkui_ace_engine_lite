@@ -956,6 +956,8 @@ HWTEST_F(InputTddTest, ComponentRadioStyleTest04, TestSize.Level1)
 /**
  * @tc.name: ComponentEdittextStyleTest01
  * @tc.desc: test the color style in edittext
+ * @tc.type: FUNC
+ * @tc.require: IssueI5AD47
  */
 HWTEST_F(InputTddTest, ComponentEdittextStyleTest01, TestSize.Level1)
 {
@@ -1016,6 +1018,8 @@ HWTEST_F(InputTddTest, ComponentEdittextStyleTest01, TestSize.Level1)
 /**
  * @tc.name: ComponentEdittextStyleTest02
  * @tc.desc: test the font-size style in edittext
+ * @tc.type: FUNC
+ * @tc.require: IssueI5AD47
  */
 HWTEST_F(InputTddTest, ComponentEdittextStyleTest02, TestSize.Level1)
 {
@@ -1075,6 +1079,8 @@ HWTEST_F(InputTddTest, ComponentEdittextStyleTest02, TestSize.Level1)
 /**
  * @tc.name: ComponentEdittextStyleTest03
  * @tc.desc: test the placeholder-color style in edittext
+ * @tc.type: FUNC
+ * @tc.require: IssueI5AD47
  */
 HWTEST_F(InputTddTest, ComponentEdittextStyleTest03, TestSize.Level1)
 {
@@ -1135,6 +1141,8 @@ HWTEST_F(InputTddTest, ComponentEdittextStyleTest03, TestSize.Level1)
 /**
  * @tc.name: ComponentEdittextAttributeTest04
  * @tc.desc: test the attribute type in edittext
+ * @tc.type: FUNC
+ * @tc.require: IssueI5AD47
  */
 HWTEST_F(InputTddTest, ComponentEdittextAttributeTest04, TestSize.Level1)
 {
@@ -1182,6 +1190,8 @@ HWTEST_F(InputTddTest, ComponentEdittextAttributeTest04, TestSize.Level1)
 /**
  * @tc.name: ComponentEdittextAttributeTest05
  * @tc.desc: test the attribute type in edittext
+ * @tc.type: FUNC
+ * @tc.require: IssueI5AD47
  */
 HWTEST_F(InputTddTest, ComponentEdittextAttributeTest05, TestSize.Level1)
 {
@@ -1219,6 +1229,8 @@ HWTEST_F(InputTddTest, ComponentEdittextAttributeTest05, TestSize.Level1)
 /**
  * @tc.name: ComponentEdittextAttributeTest06
  * @tc.desc: test the attribute type in edittext
+ * @tc.type: FUNC
+ * @tc.require: IssueI5AD47
  */
 HWTEST_F(InputTddTest, ComponentEdittextAttributeTest06, TestSize.Level1)
 {
