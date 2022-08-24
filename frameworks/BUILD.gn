@@ -76,6 +76,8 @@ lite_library("ace_lite") {
   ]
 
   if (ohos_kernel_type == "liteos_m") {
+    deps += [ ":gen_syscap_module_native_mini" ]
+    sources += [ "$target_out_dir/syscap_module_native_mini.cpp" ]
     public_deps += [
       "//build/lite/config/component/cJSON:cjson_static",
       "//third_party/bounds_checking_function:libsec_static",
@@ -125,4 +127,20 @@ lite_library("ace_lite") {
     defines += [ "ABILITY_WINDOW_SUPPORT" ]
     defines += [ "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER" ]
   }
+}
+
+# generate syscap_module_native_mini.cpp
+action("gen_syscap_module_native_mini") {
+  ace_tools_root = "//foundation/arkui/ace_engine_lite/frameworks/tools"
+  script = "${ace_tools_root}/syscap/syscap_native_api_src_gen.py"
+
+  args = [
+    "--syscap-file",
+    rebase_path("${preloader_output_dir}/system/etc/SystemCapability.json"),
+    "--output-file",
+    rebase_path("${target_out_dir}/syscap_module_native_mini.cpp"),
+  ]
+
+  inputs = [ "${preloader_output_dir}/system/etc/SystemCapability.json" ]
+  outputs = [ "${target_out_dir}/syscap_module_native_mini.cpp" ]
 }
