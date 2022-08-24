@@ -98,7 +98,6 @@ void ViewOnTouchListener::SetStopPropagation(bool isStopPropogation)
 bool ViewOnTouchListener::OnDragStart(UIView& view, const DragEvent &event)
 {
     if (JSUndefined::Is(bindTouchStartFunc_)) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "OnDragStart received, but no JS function to call");
         return isStopPropagation_;
     }
 
@@ -112,7 +111,6 @@ bool ViewOnTouchListener::OnDragStart(UIView& view, const DragEvent &event)
 bool ViewOnTouchListener::OnDrag(UIView& view, const DragEvent& event)
 {
     if (JSUndefined::Is(bindTouchMoveFunc_)) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "OnDrag received, but no JS function to call");
         return isStopPropagation_;
     }
 
