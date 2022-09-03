@@ -452,27 +452,27 @@ void ConditionArbitrator::TransformExpression(const LinkQueue *queue, LinkQueue 
     }
 }
 
-bool ConditionArbitrator::Parse(const char *condation) const
+bool ConditionArbitrator::Parse(const char *condition) const
 {
-    if (strcmp(condation, "screen") == 0 || strcmp(condation, "true") == 0) {
+    if (strcmp(condition, "screen") == 0 || strcmp(condition, "true") == 0) {
         return true;
-    } else if (strcmp(condation, "false") == 0) {
+    } else if (strcmp(condition, "false") == 0) {
         return false;
-    } else if (strlen(condation) > MAX_LENGTH_PER_CONDITION) {
+    } else if (strlen(condition) > MAX_LENGTH_PER_CONDITION) {
         return false;
     }
 
-    char condationWithBrackets[MAX_LENGTH_PER_CONDITION_ADD_BRACKETS] = {0};
-    if (strcat_s(condationWithBrackets, MAX_LENGTH_PER_CONDITION_ADD_BRACKETS, "(") != 0) {
+    char conditionWithBrackets[MAX_LENGTH_PER_CONDITION_ADD_BRACKETS] = {0};
+    if (strcat_s(conditionWithBrackets, MAX_LENGTH_PER_CONDITION_ADD_BRACKETS, "(") != 0) {
         return false;
     }
-    if (strcat_s(condationWithBrackets, MAX_LENGTH_PER_CONDITION_ADD_BRACKETS, condation) != 0) {
+    if (strcat_s(conditionWithBrackets, MAX_LENGTH_PER_CONDITION_ADD_BRACKETS, condition) != 0) {
         return false;
     }
-    if (strcat_s(condationWithBrackets, MAX_LENGTH_PER_CONDITION_ADD_BRACKETS, ")") != 0) {
+    if (strcat_s(conditionWithBrackets, MAX_LENGTH_PER_CONDITION_ADD_BRACKETS, ")") != 0) {
         return false;
     }
-    return JudgeCondition(condationWithBrackets);
+    return JudgeCondition(conditionWithBrackets);
 }
 
 bool ConditionArbitrator::Calculate(LinkQueue *expressionQueue) const
@@ -491,15 +491,15 @@ bool ConditionArbitrator::Calculate(LinkQueue *expressionQueue) const
         if (!IsOperator(value)) {
             stack.Push(value);
         } else {
-            const char *condation1 = nullptr;
-            const char *condation2 = nullptr;
-            stack.Pop(&condation1);
-            stack.Pop(&condation2);
-            if (condation1 == nullptr || condation2 == nullptr) {
+            const char *condition1 = nullptr;
+            const char *condition2 = nullptr;
+            stack.Pop(&condition1);
+            stack.Pop(&condition2);
+            if (condition1 == nullptr || condition2 == nullptr) {
                 return false;
             }
-            char *trimStr1 = StringUtil::Trim((char*)condation1);
-            char *trimStr2 = StringUtil::Trim((char*)condation2);
+            char *trimStr1 = StringUtil::Trim((char*)condition1);
+            char *trimStr2 = StringUtil::Trim((char*)condition2);
             if (trimStr1 == nullptr || trimStr2 == nullptr) {
                 return false;
             }

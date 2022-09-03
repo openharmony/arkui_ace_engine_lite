@@ -71,7 +71,7 @@ private:
     bool DecomPositionConditions(const char *conditions, LinkQueue* queue) const;
     void TransformExpression(const LinkQueue *queue, LinkQueue *expressionQueue) const;
     bool Calculate(LinkQueue *expressionQueue) const;
-    bool Parse(const char *condation) const;
+    bool Parse(const char *condition) const;
     bool IsValid(const char *conditions) const;
     void FreeMallocData(const LinkQueue *queue) const;
     static constexpr float CONDITION_FLOAT_VALUE_EPRECISION = 1E-5;
