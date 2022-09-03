@@ -47,6 +47,17 @@ public:
     void RoundScreenTest012();
     void CombineConditionTest013();
     void CombineConditionTest014();
+    void CombineConditionTest015();
+    void CombineConditionTest016();
+    void CombineConditionTest017();
+    void CombineConditionTest018();
+    void CombineConditionTest019();
+    void CombineConditionTest020();
+    void CombineConditionTest021();
+    void CombineConditionTest022();
+    void CombineConditionTest023();
+    void CombineConditionTest024();
+    void ErrorConditionTest025();
 
 #ifndef TDD_ASSERTIONS
     void RunTests();

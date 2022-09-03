@@ -159,6 +159,8 @@ SOURCES += \
         $${ACELITE_CORE_PATH}/stylemgr/app_style_manager.cpp \
         $${ACELITE_CORE_PATH}/stylemgr/app_style_sheet.cpp \
         $${ACELITE_CORE_PATH}/stylemgr/condition_arbitrator.cpp \
+        $${ACELITE_CORE_PATH}/stylemgr/link_queue.cpp" \
+        $${ACELITE_CORE_PATH}/stylemgr/link_stack.cpp" \
         $${ACELITE_CORE_PATH}/wrapper/js.cpp \
         $${ACELITE_FRAMEWORK_PATH}/targets/platform_adapter.cpp \
         targets/simulator/utils/js_heap_stats_dumper.cpp \

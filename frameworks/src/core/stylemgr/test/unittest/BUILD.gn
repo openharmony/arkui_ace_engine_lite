@@ -42,9 +42,27 @@ unittest("js_frameworks_test_stylemgr_media_query") {
   deps = ace_test_deps
 }
 
+unittest("js_frameworks_test_link_queue") {
+  output_extension = "bin"
+  output_dir = test_output_root
+  configs = [ "$ace_lite_root/test:test_common_config" ]
+  sources = [ "common/link_queue_test.cpp" ]
+  deps = ace_test_deps
+}
+
+unittest("js_frameworks_test_link_stack") {
+  output_extension = "bin"
+  output_dir = test_output_root
+  configs = [ "$ace_lite_root/test:test_common_config" ]
+  sources = [ "common/link_stack_test.cpp" ]
+  deps = ace_test_deps
+}
+
 group("stylemgr_unittest") {
   deps = [
     ":js_frameworks_test_condition_arbitrator",
+    ":js_frameworks_test_link_queue",
+    ":js_frameworks_test_link_stack",
     ":js_frameworks_test_stylemgr",
     ":js_frameworks_test_stylemgr_media_query",
   ]
