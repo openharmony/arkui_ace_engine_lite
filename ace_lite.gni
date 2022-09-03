@@ -197,6 +197,8 @@ ace_lite_sources = [
   "$ACE_LITE_PATH/src/core/stylemgr/app_style_manager.cpp",
   "$ACE_LITE_PATH/src/core/stylemgr/app_style_sheet.cpp",
   "$ACE_LITE_PATH/src/core/stylemgr/condition_arbitrator.cpp",
+  "$ACE_LITE_PATH/src/core/stylemgr/link_queue.cpp",
+  "$ACE_LITE_PATH/src/core/stylemgr/link_stack.cpp",
   "$ACE_LITE_PATH/src/core/wrapper/js.cpp",
   "$ACE_LITE_PATH/targets/platform_adapter.cpp",
 ]

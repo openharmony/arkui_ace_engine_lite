@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (c) 2021-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +18,8 @@
 
 #include "memory_heap.h"
 #include "non_copyable.h"
+#include "link_stack.h"
+#include "link_queue.h"
 
 namespace OHOS {
 namespace ACELite {
@@ -63,6 +65,15 @@ private:
     bool CompareAspectRatio(ConditionName conditionId, float targetRatioValue) const;
     ConditionName GetConditionName(const char *conditionName) const;
     bool IsFloatValueEqual(float left, float right, float precision) const;
+    bool IsOperator(const char *str) const;
+    const char *FindFirstPos(const char *conditions, uint8_t *size) const;
+    const char *FindNoSpacePos(const char *conditions) const;
+    bool DecomPositionConditions(const char *conditions, LinkQueue* queue) const;
+    void TransformExpression(const LinkQueue *queue, LinkQueue *expressionQueue) const;
+    bool Calculate(LinkQueue *expressionQueue) const;
+    bool Parse(const char *condation) const;
+    bool IsValid(const char *conditions) const;
+    void FreeMallocData(const LinkQueue *queue) const;
     static constexpr float CONDITION_FLOAT_VALUE_EPRECISION = 1E-5;
 };
 } // namespace ACELite

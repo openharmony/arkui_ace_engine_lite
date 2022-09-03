@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (c) 2021-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,6 +25,15 @@
 
 namespace OHOS {
 namespace ACELite {
+constexpr uint32_t LIMIT_CONDITION_LEN = 512;
+constexpr int32_t OPERATOR_BRACKETS = 1;
+constexpr int32_t OPERATOR_OR = 2;
+constexpr int32_t OPERATOR_AND = 3;
+constexpr uint32_t SPACE_CHAR_LIMIT_SCOPE = 5;
+constexpr int32_t SLICE_FROM_CURRENT_POS = 0;
+constexpr uint8_t MAX_LENGTH_PER_CONDITION = 32;
+constexpr uint8_t MAX_LENGTH_PER_CONDITION_ADD_BRACKETS = 35;
+
 /**
  * @brief Absolute value of x.
  */
@@ -36,41 +45,26 @@ namespace ACELite {
  * @param conditions the input media query condition string
  * @return the result representing if the media query matches the current environment, true for positive result
  *
- * NOTE: only supports the pattern such as "screen and (device-type: liteWearable) and (width: 454)"
  */
 bool ConditionArbitrator::Decide(const char *conditions) const
 {
-    if (conditions == nullptr || strlen(conditions) == 0) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "the input condition str is invalid");
+    bool result = IsValid(conditions);
+    if (!result) {
         return false;
     }
-
-    const char *lastCondition = conditions;
-    const char *remainCondition = lastCondition;
-    char *singleCondition = nullptr;
-    const uint8_t addedLen = 3;
-    bool result = true;
-    while (result && remainCondition) {
-        lastCondition = remainCondition;
-        remainCondition = strstr(remainCondition, "and");
-        singleCondition = StringUtil::Slice(
-            lastCondition, 0, strlen(lastCondition) - ((remainCondition == nullptr) ? 0 : strlen(remainCondition)));
-        if (remainCondition != nullptr) {
-            remainCondition = remainCondition + addedLen;
-        }
-        char *condition = StringUtil::Trim(singleCondition);
-        if (condition == nullptr) {
-            if (singleCondition != nullptr) {
-                ace_free(singleCondition);
-                singleCondition = nullptr;
-            }
-            continue;
-        }
-        result = JudgeCondition(condition);
-        ace_free(singleCondition);
-        singleCondition = nullptr;
+    if (strstr(conditions, "and") == nullptr && strstr(conditions, "or") == nullptr) {
+        return JudgeCondition(conditions);
     }
-    ACE_FREE(singleCondition);
+    LinkQueue queue;
+    LinkQueue expressionQueue;
+    result = DecomPositionConditions(conditions, &queue);
+    if (!result || queue.IsEmpty()) {
+        FreeMallocData(&queue);
+        return false;
+    }
+    TransformExpression(&queue, &expressionQueue);
+    result = Calculate(&expressionQueue);
+    FreeMallocData(&queue);
     return result;
 }
 
@@ -104,12 +98,12 @@ bool ConditionArbitrator::JudgeCondition(const char *condition) const
     ConditionName conditionId = GetConditionName(StringUtil::Trim(conditionNameStr));
     char *trimedTargetValue = StringUtil::Trim(targetValue);
     if (conditionId == ConditionName::UNKOWN || trimedTargetValue == nullptr) {
-        ace_free(targetCondition);
+        ACE_FREE(targetCondition);
         targetCondition = nullptr;
         return false;
     }
     bool result = JudgeConditionAction(conditionId, trimedTargetValue);
-    ace_free(targetCondition);
+    ACE_FREE(targetCondition);
     targetCondition = nullptr;
     return result;
 }
@@ -305,6 +299,242 @@ ConditionName ConditionArbitrator::GetConditionName(const char *conditionName) c
         HILOG_ERROR(HILOG_MODULE_ACE, "the condition name is not supported [%{public}s]", conditionName);
     }
     return targetName;
+}
+
+bool ConditionArbitrator::IsValid(const char *conditions) const
+{
+    if (conditions == nullptr || strlen(conditions) >= LIMIT_CONDITION_LEN) {
+        return false;
+    }
+
+    LinkStack stack;
+    while (*conditions != '\0') {
+        if (*conditions == '(') {
+            stack.Push("(");
+        } else if (*conditions == ')') {
+            if (stack.IsEmpty() || strcmp("(", stack.Peak()) != 0) {
+                return false;
+            }
+            stack.Pop(nullptr);
+        }
+        conditions++;
+    }
+    return stack.IsEmpty() ? true : false;
+}
+
+const char *ConditionArbitrator::FindFirstPos(const char *conditions, uint8_t *size) const
+{
+    if (conditions == nullptr || size == nullptr) {
+        return nullptr;
+    }
+
+    const char *recordPos = conditions;
+    while (*recordPos != '\0') {
+        if (*recordPos == '(' || *recordPos == ')' || IsOperator(recordPos)) {
+            return recordPos;
+        }
+        recordPos++;
+        (*size)++;
+    }
+    return nullptr;
+}
+
+const char *ConditionArbitrator::FindNoSpacePos(const char *conditions) const
+{
+    if (conditions == nullptr) {
+        return nullptr;
+    }
+
+    while (*conditions != '\0' && ((*conditions) == ' ' ||
+        static_cast<uint32_t>(*conditions) - '\t' < SPACE_CHAR_LIMIT_SCOPE)) {
+        conditions++;
+    }
+    return conditions;
+}
+
+bool ConditionArbitrator::DecomPositionConditions(const char *conditions, LinkQueue* queue) const
+{
+    conditions = FindNoSpacePos(conditions);
+    if (conditions == nullptr || strlen(conditions) == 0 || queue == nullptr || !queue->IsEmpty()) {
+        return false;
+    }
+    const char *recordPos = nullptr;
+    char *buff = nullptr;
+    uint8_t len = 0;
+    bool result = false;
+    while ((recordPos = FindFirstPos(conditions, &len)) != nullptr) {
+        if (len == 0) {
+            switch (*recordPos) {
+                case '(' :
+                case ')' :
+                    buff = StringUtil::Slice(recordPos, SLICE_FROM_CURRENT_POS, OPERATOR_BRACKETS);
+                    recordPos++;
+                    break;
+                case 'a' :
+                    buff = StringUtil::Slice(recordPos, SLICE_FROM_CURRENT_POS, OPERATOR_AND);
+                    recordPos = recordPos + OPERATOR_AND;
+                    break;
+                case 'o' :
+                    buff = StringUtil::Slice(recordPos, SLICE_FROM_CURRENT_POS, OPERATOR_OR);
+                    recordPos = recordPos + OPERATOR_OR;
+                    break;
+                default :
+                    break;
+            }
+            recordPos = FindNoSpacePos(recordPos);
+        } else {
+            buff = StringUtil::Slice(conditions, SLICE_FROM_CURRENT_POS, len * sizeof(char));
+        }
+
+        if (buff != nullptr) {
+            result = queue->Enqueue(buff);
+            if (!result) {
+                return false;
+            }
+        }
+        conditions = recordPos;
+        len = 0;
+    }
+    if (*conditions != '\0' && strlen(conditions) > 0) {
+        buff = StringUtil::Slice(conditions, SLICE_FROM_CURRENT_POS);
+        if (buff != nullptr) {
+            result = queue->Enqueue(buff);
+        }
+    }
+    return result;
+}
+
+bool ConditionArbitrator::IsOperator(const char *str) const
+{
+    if (str != nullptr) {
+        if (!strncmp("and", str, OPERATOR_AND) || !strncmp("or", str, OPERATOR_OR)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void ConditionArbitrator::TransformExpression(const LinkQueue *queue, LinkQueue *expressionQueue) const
+{
+    if (queue == nullptr || expressionQueue == nullptr) {
+        return;
+    }
+    if (queue->IsEmpty()) {
+        return;
+    }
+    const char *getvalue = nullptr;
+    LinkStack stack;
+    QueueNode *tmp = queue->GetNext();
+    while (tmp) {
+        if (strcmp(tmp->GetNodeData(), "(") == 0) {
+            stack.Push(tmp->GetNodeData());
+        } else if (strcmp(tmp->GetNodeData(), ")") == 0) {
+            while (!stack.IsEmpty() && strcmp(stack.Peak(), "(") != 0) {
+                stack.Pop(&getvalue);
+                expressionQueue->Enqueue(getvalue);
+            }
+            stack.Pop(nullptr);
+        } else if (IsOperator(tmp->GetNodeData())) {
+            if (!stack.IsEmpty() && strcmp("(", stack.Peak()) != 0) {
+                stack.Pop(&getvalue);
+                expressionQueue->Enqueue(getvalue);
+            }
+            stack.Push(tmp->GetNodeData());
+        } else {
+            expressionQueue->Enqueue(tmp->GetNodeData());
+        }
+        tmp = tmp->GetNodeNext();
+    }
+
+    while (!stack.IsEmpty()) {
+        stack.Pop(&getvalue);
+        expressionQueue->Enqueue(getvalue);
+    }
+}
+
+bool ConditionArbitrator::Parse(const char *condation) const
+{
+    if (strcmp(condation, "screen") == 0 || strcmp(condation, "true") == 0) {
+        return true;
+    } else if (strcmp(condation, "false") == 0) {
+        return false;
+    } else if (strlen(condation) > MAX_LENGTH_PER_CONDITION) {
+        return false;
+    }
+
+    char condationWithBrackets[MAX_LENGTH_PER_CONDITION_ADD_BRACKETS] = {0};
+    if (strcat_s(condationWithBrackets, MAX_LENGTH_PER_CONDITION_ADD_BRACKETS, "(") != 0) {
+        return false;
+    }
+    if (strcat_s(condationWithBrackets, MAX_LENGTH_PER_CONDITION_ADD_BRACKETS, condation) != 0) {
+        return false;
+    }
+    if (strcat_s(condationWithBrackets, MAX_LENGTH_PER_CONDITION_ADD_BRACKETS, ")") != 0) {
+        return false;
+    }
+    return JudgeCondition(condationWithBrackets);
+}
+
+bool ConditionArbitrator::Calculate(LinkQueue *expressionQueue) const
+{
+    if (expressionQueue == nullptr || expressionQueue->IsEmpty()) {
+        return false;
+    }
+
+    bool result = false;
+    LinkStack stack;
+    const char *value = nullptr;
+    const char resultTrue[] = "true";
+    const char resultFalse[] = "false";
+    while (!expressionQueue->IsEmpty()) {
+        expressionQueue->Dequeue(&value);
+        if (!IsOperator(value)) {
+            stack.Push(value);
+        } else {
+            const char *condation1 = nullptr;
+            const char *condation2 = nullptr;
+            stack.Pop(&condation1);
+            stack.Pop(&condation2);
+            if (condation1 == nullptr || condation2 == nullptr) {
+                return false;
+            }
+            char *trimStr1 = StringUtil::Trim((char*)condation1);
+            char *trimStr2 = StringUtil::Trim((char*)condation2);
+            if (trimStr1 == nullptr || trimStr2 == nullptr) {
+                return false;
+            }
+            switch (*value) {
+                case 'a':
+                    result = Parse(trimStr1) && Parse(trimStr2);
+                    break;
+                case 'o':
+                    result = Parse(trimStr1) || Parse(trimStr2);
+                    break;
+                default:
+                    break;
+            }
+            result ? stack.Push(resultTrue) : stack.Push(resultFalse);
+        }
+    }
+    if (stack.StackSize() != 1) {
+        return false;
+    }
+    stack.Pop(&value);
+    return strcmp(value, "true") == 0 ? true : false;
+}
+
+void ConditionArbitrator::FreeMallocData(const LinkQueue *queue) const
+{
+    if (queue == nullptr) {
+        return;
+    }
+    QueueNode *tmp = queue->GetNext();
+    while (tmp) {
+        char *nodeValue = const_cast<char *>(tmp->GetNodeData());
+        ACE_FREE(nodeValue);
+        tmp->SetNodeData(nullptr);
+        tmp = tmp->GetNodeNext();
+    }
 }
 } // namespace ACELite
 } // namespace OHOS
