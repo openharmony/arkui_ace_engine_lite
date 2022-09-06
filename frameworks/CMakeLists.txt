@@ -31,7 +31,7 @@ set(UIKIT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../foundation/graphic/ui")
 set(THIRTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../third_party")
 set(JSFWK_SIMULATOR_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/developer_tools_lite/graphic_tool/simulator")
 set(AAFWK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../ability/ability_lite")
-set(UTILS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../utils/native/lite")
+set(UTILS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../commonlibrary/utils_lite")
 
 # add definitions
 # temporarily set, when ui and graphic unifid, this can be removed

@@ -41,7 +41,7 @@ ace_test_includes = [
   "//third_party/jerryscript/jerry-ext/include/jerryscript-ext",
   "//third_party/jerryscript/jerry-port/default/include",
   "//third_party/cJSON",
-  "//utils/native/lite/include",
+  "//commonlibrary/utils_lite/include",
   "$ace_lite_builtin_root/async",
   "$ace_lite_builtin_root/base",
   "$ace_lite_builtin_root/jsi",
@@ -86,7 +86,7 @@ ace_test_deps = [
   "//foundation/systemabilitymgr/samgr_lite/communication/broadcast",
   "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   "//foundation/systemabilitymgr/samgr_lite/samgr_client:client",
-  "//utils/native/lite/js/builtin:ace_utils_kits",
+  "//commonlibrary/utils_lite/js/builtin:ace_utils_kits",
 ]
 
 # all other extra deps when compiling the whole ace source code with test case together
@@ -105,7 +105,7 @@ extra_deps = [
   "//third_party/jerryscript/jerry-ext:jerry-ext_shared",
   "//third_party/jerryscript/jerry-libm:jerry-libm_shared",
   "//third_party/jerryscript/jerry-port/default:jerry-port-default_shared",
-  "//utils/native/lite/timer_task:ace_kit_timer",
+  "//commonlibrary/utils_lite/timer_task:ace_kit_timer",
 ]
 
 all_external_deps = ace_test_deps + extra_deps

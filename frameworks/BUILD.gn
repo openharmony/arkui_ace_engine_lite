@@ -28,7 +28,7 @@ lite_component("jsfwk") {
 config("ace_lite_config") {
   include_dirs = ace_lite_include_dirs
   defines += [ "FEATURE_COMPONENT_TEXT_SPANNABLE=0" ]
-  if (board_toolchain_type == "iccarm") {
+  if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
     cflags = [
       "--diag_suppress",
       "Pa093,Pe111,Pe161,Pa137,Pe177,Pe226,Pe366,Pe367",
@@ -72,7 +72,7 @@ lite_library("ace_lite") {
     "//base/global/i18n_lite/frameworks/i18n:global_i18n",
     "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr",
     "//foundation/graphic/ui:lite_ui",
-    "//utils/native/lite/timer_task:ace_kit_timer",
+    "//commonlibrary/utils_lite/timer_task:ace_kit_timer",
   ]
 
   if (ohos_kernel_type == "liteos_m") {
