@@ -507,6 +507,15 @@ public:
     static bool ValueToBoolean(JSIValue value);
 
     /**
+     * @brief Get the string value of the given any JSIValue.
+     *
+     * @param [in] jsi value: source value
+     * @return the string value created
+     * value returned should be released with ReleaseString(char *&str) when it won't be used any more
+     */
+    static char *JSIValueToString(JSIValue value);
+
+    /**
      * @brief Check if the specified value is an array object.
      *
      * @param [in] value: array value

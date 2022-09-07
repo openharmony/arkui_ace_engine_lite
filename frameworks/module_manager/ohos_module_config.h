@@ -80,6 +80,10 @@ extern void InitCapabilityModule(JSIValue exports);
 extern void InitDeviceManagerModule(JSIValue exports);
 #endif
 
+#if (FEATURE_MODULE_OHOS_HILOG == 1)
+extern void InitHilogModule(JSIValue exports);
+#endif
+
 // Config information for built-in JS modules of OHOS platform
 const Module OHOS_MODULES[] = {
 #if (ENABLE_MODULE_REQUIRE_TEST == 1)
@@ -131,6 +135,9 @@ const Module OHOS_MODULES[] = {
 #endif
 #if (ENABLE_MODULE_DM_LITE == 1)
     {"devicemanager", InitDeviceManagerModule},
+#endif
+#if (FEATURE_MODULE_OHOS_HILOG == 1)
+    {"hilog", InitHilogModule},
 #endif
 };
 } // namespace ACELite

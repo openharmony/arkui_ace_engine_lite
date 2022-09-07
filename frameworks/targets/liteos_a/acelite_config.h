@@ -201,4 +201,11 @@
 #define FEATURE_SUPPORT_HTTP 1
 #endif
 
+/**
+ * switch for hilog module
+ */
+#ifndef FEATURE_MODULE_OHOS_HILOG
+#define FEATURE_MODULE_OHOS_HILOG 1
+#endif
+
 #endif // OHOS_ACELITE_CONFIG_H
