@@ -858,6 +858,234 @@ void JsiInterfaceTddTest::JSIInterfaceTest023()
     TDD_CASE_END();
 }
 
+void JsiInterfaceTddTest::JSIInterfaceTest024()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. call JSI CreateString
+     */
+    JSIValue str = JSI::CreateString("test");
+
+    /**
+     * @tc.steps: step2. call JSI ValueIsString with String object
+     */
+    bool res1 = JSI::ValueIsString(str);
+    JSIValue undefined = JSI::CreateUndefined();
+
+    /**
+     * @tc.steps: step3. call JSI ValueIsString with Undefined object
+     */
+    bool res2 = JSI::ValueIsString(undefined);
+
+    /**
+     * @tc.steps: step4. call JSI JSIValueToString
+     */
+    char *strValue = JSI::JSIValueToString(str);
+    /**
+     * @tc.expected: step2-step4. res1 = true, res2 = false and strValue = "test"
+     */
+    if ((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "test")) {
+        printf("JSIInterfaceTest024 pass\n");
+    } else {
+        printf("JSIInterfaceTest024 fail\n");
+    }
+    EXPECT_TRUE((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "test"));
+    JSI::ReleaseValueList(str, undefined);
+    JSI::ReleaseString(strValue);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest025()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. call JSI CreateString
+     */
+    double initNum = 123;
+    JSIValue num = JSI::CreateNumber(initNum);
+
+    /**
+     * @tc.steps: step2. call JSI ValueIsNumber with Number object
+     */
+    bool res1 = JSI::ValueIsNumber(num);
+    JSIValue undefined = JSI::CreateUndefined();
+
+    /**
+     * @tc.steps: step3. call JSI ValueIsNumber with Undefined object
+     */
+    bool res2 = JSI::ValueIsNumber(undefined);
+
+    /**
+     * @tc.steps: step4. call JSI JSIValueToString
+     */
+    char *strValue = JSI::JSIValueToString(num);
+    /**
+     * @tc.expected: step2-step4. res1 = true, res2 = false and strValue = "test"
+     */
+    if ((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "123")) {
+        printf("JSIInterfaceTest025 pass\n");
+    } else {
+        printf("JSIInterfaceTest025 fail\n");
+    }
+    EXPECT_TRUE((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "123"));
+    JSI::ReleaseValueList(num, undefined);
+    JSI::ReleaseString(strValue);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest026()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. call JSI CreateBoolean
+     */
+    JSIValue jsBool = JSI::CreateBoolean(true);
+
+    /**
+     * @tc.steps: step2. call JSI ValueIsBoolean with Boolean object
+     */
+    bool res1 = JSI::ValueIsBoolean(jsBool);
+    JSIValue undefined = JSI::CreateUndefined();
+
+    /**
+     * @tc.steps: step3. call JSI ValueIsBoolean with Undefined object
+     */
+    bool res2 = JSI::ValueIsBoolean(undefined);
+
+    /**
+     * @tc.steps: step4. call JSI JSIValueToString
+     */
+    char *strValue = JSI::JSIValueToString(jsBool);
+    /**
+     * @tc.expected: step2-step4. res1 = true, res2 = false and strValue = "test"
+     */
+    if ((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "true")) {
+        printf("JSIInterfaceTest026 pass\n");
+    } else {
+        printf("JSIInterfaceTest026 fail\n");
+    }
+    EXPECT_TRUE((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "true"));
+    JSI::ReleaseValueList(jsBool, undefined);
+    JSI::ReleaseString(strValue);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest027()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. call JSI CreateObject
+     */
+    JSIValue object = JSI::CreateObject();
+    /**
+     * @tc.expected: step2. ValueIsObject return true
+     */
+    bool res1 = JSI::ValueIsObject(object);
+    JSIValue undefined = JSI::CreateUndefined();
+
+    /**
+     * @tc.steps: step3. call JSI ValueIsObject with Undefined object
+     */
+    bool res2 = JSI::ValueIsObject(undefined);
+
+    /**
+     * @tc.steps: step4. call JSI JSIValueToString
+     */
+    char *strValue = JSI::JSIValueToString(object);
+    /**
+     * @tc.expected: step2-step4. res1 = true, res2 = false and strValue = "test"
+     */
+    if ((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "[object Object]")) {
+        printf("JSIInterfaceTest027 pass\n");
+    } else {
+        printf("JSIInterfaceTest027 fail\n");
+    }
+    EXPECT_TRUE((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "[object Object]"));
+    JSI::ReleaseValueList(object, undefined);
+    JSI::ReleaseString(strValue);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest028()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. call JSI CreateArray
+     */
+    uint32_t initLength = 10;
+    JSIValue array = JSI::CreateArray(initLength);
+
+    /**
+     * @tc.steps: step2. call JSI ValueIsArray with Array object
+     */
+    bool res1 = JSI::ValueIsArray(array);
+    JSIValue undefined = JSI::CreateUndefined();
+
+    /**
+     * @tc.steps: step3. call JSI ValueIsArray with Undefined object
+     */
+    bool res2 = JSI::ValueIsArray(undefined);
+
+    /**
+     * @tc.steps: step4. call JSI GetArrayLength
+     */
+    uint32_t length = JSI::GetArrayLength(array);
+
+    /**
+     * @tc.steps: step5. call JSI JSIValueToString
+     */
+    char *strValue = JSI::JSIValueToString(array);
+    /**
+     * @tc.expected: step2-step5. res1 = true, res2 = false and strValue = "test"
+     */
+    if ((strValue != nullptr) && res1 && !res2 && (length == initLength) && !strcmp(strValue, ",,,,,,,,,")) {
+        printf("JSIInterfaceTest028 pass\n");
+    } else {
+        printf("JSIInterfaceTest028 fail\n");
+    }
+    EXPECT_TRUE((strValue != nullptr) && res1 && !res2 && (length == initLength) && !strcmp(strValue, ",,,,,,,,,"));
+    JSI::ReleaseValueList(array, undefined);
+    JSI::ReleaseString(strValue);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest029()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. call JSI CreateFunction
+     */
+    JSIValue func = JSI::CreateFunction(Function);
+
+    /**
+     * @tc.steps: step2. call JSI ValueIsFunction with Function object
+     */
+    bool res1 = JSI::ValueIsFunction(func);
+    JSIValue undefined = JSI::CreateUndefined();
+
+    /**
+     * @tc.steps: step3. call JSI ValueIsFunction with Undefined object
+     */
+    bool res2 = JSI::ValueIsFunction(undefined);
+
+    /**
+     * @tc.steps: step4. call JSI JSIValueToString
+     */
+    char *strValue = JSI::JSIValueToString(func);
+    /**
+     * @tc.expected: step2-step4. res1 = true, res2 = false and strValue = "test"
+     */
+    if ((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "function(){/* ecmascript */}")) {
+        printf("JSIInterfaceTest029 pass\n");
+    } else {
+        printf("JSIInterfaceTest029 fail\n");
+    }
+    EXPECT_TRUE((strValue != nullptr) && res1 && !res2 && !strcmp(strValue, "function(){/* ecmascript */}"));
+    JSI::ReleaseValueList(func, undefined);
+    JSI::ReleaseString(strValue);
+    TDD_CASE_END();
+}
+
 void JsiInterfaceTddTest::RunTests()
 {
     JSIInterfaceTest001();
@@ -887,6 +1115,12 @@ void JsiInterfaceTddTest::RunTests()
     JSIInterfaceTest021();
     JSIInterfaceTest022();
     JSIInterfaceTest023();
+    JSIInterfaceTest024();
+    JSIInterfaceTest025();
+    JSIInterfaceTest026();
+    JSIInterfaceTest027();
+    JSIInterfaceTest028();
+    JSIInterfaceTest029();
 }
 
 #ifdef TDD_ASSERTIONS
@@ -1099,6 +1333,66 @@ HWTEST_F(JsiInterfaceTddTest, test022, TestSize.Level0)
 HWTEST_F(JsiInterfaceTddTest, test023, TestSize.Level0)
 {
     JsiInterfaceTddTest::JSIInterfaceTest023();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest024
+ * @tc.desc: Verify JSI interfaces related to JS String to String.
+ * @tc.require: I5NCYY
+ */
+HWTEST_F(JsiInterfaceTddTest, test024, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest024();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest025
+ * @tc.desc: Verify JSI interfaces related to JS Number to String.
+ * @tc.require: I5NCYY
+ */
+HWTEST_F(JsiInterfaceTddTest, test025, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest025();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest026
+ * @tc.desc: Verify JSI interfaces related to JS bool to String.
+ * @tc.require: I5NCYY
+ */
+HWTEST_F(JsiInterfaceTddTest, test026, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest026();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest027
+ * @tc.desc: Verify JSI interfaces related to JS Object to String.
+ * @tc.require: I5NCYY
+ */
+HWTEST_F(JsiInterfaceTddTest, test027, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest027();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest028
+ * @tc.desc: Verify JSI interfaces related to JS array to String.
+ * @tc.require: I5NCYY
+ */
+HWTEST_F(JsiInterfaceTddTest, test028, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest028();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest029
+ * @tc.desc: Verify JSI interfaces related to JS func to String.
+ * @tc.require: I5NCYY
+ */
+HWTEST_F(JsiInterfaceTddTest, test029, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest029();
 }
 #endif
 } // namespace ACELite

@@ -143,6 +143,8 @@
 #define FEATURE_MODULE_DIALOG 1
 #endif
 
+#define FEATURE_MODULE_OHOS_HILOG 1
+
 #define DEFAULT_PROFILER_MSG_PATH "/user/data/"
 
 #define PROFILER_ENABLE_FLAG_FILE "/user/data/profiler_enable"

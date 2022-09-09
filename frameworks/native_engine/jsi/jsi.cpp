@@ -743,6 +743,19 @@ bool JSI::ValueToBoolean(JSIValue value)
 #endif
 }
 
+char *JSI::JSIValueToString(JSIValue value)
+{
+#if (ENABLE_JERRY == 1)
+    jerry_value_t target = jerry_value_to_string(AS_JERRY_VALUE(value));
+    char *result = ValueToString(AS_JSI_VALUE(target));
+    jerry_release_value(target);
+    return result;
+#else
+    HILOG_ERROR(HILOG_MODULE_ACE, "JSI:JSIValueToString has not been implemented in this js engine!");
+    return nullptr;
+#endif
+}
+
 uint32_t JSI::GetArrayLength(JSIValue value)
 {
 #if (ENABLE_JERRY == 1)
