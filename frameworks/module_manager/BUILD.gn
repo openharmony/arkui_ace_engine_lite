@@ -25,7 +25,7 @@ lite_component("ace_module_manager_lite") {
 lite_library("ace_module_manager") {
   if (ohos_kernel_type == "liteos_m") {
     target_type = "static_library"
-    if (board_toolchain_type == "iccarm") {
+    if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
       cflags = [
         "--diag_suppress",
         "Pa137,Pe226",

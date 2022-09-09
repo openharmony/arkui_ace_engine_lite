@@ -38,7 +38,7 @@ lite_library("ace_common") {
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits",
     "//third_party/bounds_checking_function/include",
   ]
-  if (board_toolchain_type == "iccarm") {
+  if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
     cflags = [
       "--diag_suppress",
       "Pa137,Pe226",
