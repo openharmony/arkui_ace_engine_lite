@@ -56,7 +56,7 @@ lite_library("ace_module_manager") {
   public_deps = [
     "$ace_frameworks_root/common:ace_common_lite",
     "$ace_frameworks_root/native_engine:ace_native_engine_lite",
-    "//utils/native/lite/js/builtin:ace_utils_kits",
+    "//commonlibrary/utils_lite/js/builtin:ace_utils_kits",
   ]
 
   if (ohos_kernel_type == "liteos_m") {

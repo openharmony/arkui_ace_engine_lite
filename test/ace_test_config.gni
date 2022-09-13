@@ -41,7 +41,7 @@ ace_test_includes = [
   "//third_party/jerryscript/jerry-ext/include/jerryscript-ext",
   "//third_party/jerryscript/jerry-port/default/include",
   "//third_party/cJSON",
-  "//utils/native/lite/include",
+  "//commonlibrary/utils_lite/include",
   "$ace_lite_builtin_root/async",
   "$ace_lite_builtin_root/base",
   "$ace_lite_builtin_root/jsi",
@@ -76,6 +76,7 @@ ace_test_deps = [
   "$NATIVE_ENGINE_PATH:ace_native_engine_lite",
   "${aafwk_lite_path}/frameworks/ability_lite:aafwk_abilitykit_lite",
   "//base/powermgr/battery_lite/frameworks/js:ace_battery_kits",
+  "//commonlibrary/utils_lite/js/builtin:ace_utils_kits",
   "//foundation/arkui/ace_engine_lite/frameworks:ace_lite",
   "//foundation/arkui/ace_engine_lite/frameworks/targets",
   "//foundation/distributeddatamgr/kv_store/interfaces/inner_api/kv_store:utils_kv_store",
@@ -86,7 +87,6 @@ ace_test_deps = [
   "//foundation/systemabilitymgr/samgr_lite/communication/broadcast",
   "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   "//foundation/systemabilitymgr/samgr_lite/samgr_client:client",
-  "//utils/native/lite/js/builtin:ace_utils_kits",
 ]
 
 # all other extra deps when compiling the whole ace source code with test case together
@@ -95,6 +95,7 @@ extra_deps = [
   "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr",
   "//base/security/huks/frameworks/crypto_lite/js/builtin:ace_kit_cipher",
   "//build/lite/config/component/cJSON:cjson_shared",
+  "//commonlibrary/utils_lite/timer_task:ace_kit_timer",
   "//foundation/ability/ability_lite/frameworks/ability_lite:ability",
   "//foundation/multimedia/camera_lite/frameworks:camera_lite",
   "//foundation/multimedia/media_lite/frameworks/player_lite:player_lite",
@@ -105,7 +106,6 @@ extra_deps = [
   "//third_party/jerryscript/jerry-ext:jerry-ext_shared",
   "//third_party/jerryscript/jerry-libm:jerry-libm_shared",
   "//third_party/jerryscript/jerry-port/default:jerry-port-default_shared",
-  "//utils/native/lite/timer_task:ace_kit_timer",
 ]
 
 all_external_deps = ace_test_deps + extra_deps
