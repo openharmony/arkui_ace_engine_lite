@@ -56,17 +56,12 @@ static void DumpNativeMemoryUsage()
 #endif // OHOS_ACELITE_PRODUCT_WATCH
 }
 
-#if (OHOS_ACELITE_PRODUCT_WATCH == 1)
-extern "C" void RestoreSystemWrapper(const char *crashMessage);
-#endif
 JSAbility::~JSAbility()
 {
     // check the status
     if (jsAbilityImpl_ != nullptr) {
-#if (OHOS_ACELITE_PRODUCT_WATCH == 1)
         // the JSAbility instance can only be destroied after transfering the app to DESTROY state
-        RestoreSystemWrapper("AMS is deleting app task but without normal lifecycle transition!");
-#endif
+        ProductAdapter::RestoreSystemWrapper("AMS is deleting app task but without normal lifecycle transition!");
     }
 }
 

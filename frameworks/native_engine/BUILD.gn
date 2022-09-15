@@ -46,6 +46,7 @@ lite_library("ace_native_engine") {
     "$ace_interface_root/jsi",
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits",
     "//third_party/jerryscript/jerry-core/include",
+    "//foundation/arkui/ace_engine_lite/frameworks/include/base",
   ]
 
   deps = [ "$ace_target_root" ]
