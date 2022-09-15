@@ -16,12 +16,15 @@
 #include "message_queue_utils.h"
 #include "ace_log.h"
 #include "acelite_config.h"
+#include "product_adapter.h"
 #if (OHOS_ACELITE_PRODUCT_WATCH == 1)
 #include "cmsis_os2.h"
 #endif
 
 namespace OHOS {
 namespace ACELite {
+static constexpr uint32_t MAX_MESSAGE_FAIL_TIMES = 100;
+static uint32_t g_messagePutFailTimes = 0;
 QueueHandler MessageQueueUtils::CreateMessageQueue(uint32_t capacity, uint32_t msgSize)
 {
     if (capacity == 0 || msgSize == 0) {
@@ -69,9 +72,15 @@ int8_t MessageQueueUtils::PutMessage(QueueHandler handler, const void* msgPtr, u
     osMessageQueueId_t queueId = static_cast<osMessageQueueId_t>(handler);
     if (osMessageQueuePut(queueId, msgPtr, 0, timeOut) != osOK) {
         uint32_t msgCount = osMessageQueueGetCount(queueId);
+        g_messagePutFailTimes++;
+        if (g_messagePutFailTimes > MAX_MESSAGE_FAIL_TIMES) {
+            ProductAdapter::RestoreSystemWrapper("message queue is full and put failed too many times!");
+        }
+
         HILOG_ERROR(HILOG_MODULE_ACE, "MessageQueueUtils:PutMessage failed! msg count[%{public}u]", msgCount);
         return MSGQ_FAIL;
     }
+    g_messagePutFailTimes = 0;
     return MSGQ_OK;
 #endif
 }

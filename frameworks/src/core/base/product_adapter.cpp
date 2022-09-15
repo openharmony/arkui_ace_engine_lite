@@ -54,6 +54,7 @@ static TEHandlingHooks g_teHandlingHooks = {nullptr, nullptr};
 static TerminateAbilityHandler g_termiantingHandler = nullptr;
 static SetScreenOnVisibleHandler g_setScreenOnHandler = nullptr;
 static ExtraPresetModulesHook g_extraPresetModulesHooks = {nullptr, nullptr};
+static RestoreSystemHandler g_restoreSystemHandler = nullptr;
 // default font styles
 static char *g_defaultFontFamilyName = nullptr;
 static uint8_t g_defaultFontSize = 30;
@@ -156,6 +157,10 @@ void ProductAdapter::RegTEHandlers(const TEHandlingHooks &teHandlingHooks)
     g_teHandlingHooks.renderEndHandler = teHandlingHooks.renderEndHandler;
 }
 
+void ProductAdapter::RegRestoreSystemHandler(RestoreSystemHandler handler)
+{
+    g_restoreSystemHandler = handler;
+}
 // NOTE: This TE function will be called in VSYNC interrupt, and
 // as no any task can be switched to during an interrupt, so it's safe to
 // read the global value directly here.
@@ -293,6 +298,13 @@ void ProductAdapter::InitDeviceInfo(const char *deviceType)
 const char *ProductAdapter::GetDeviceType()
 {
     return g_deviceType;
+}
+
+void ProductAdapter::RestoreSystemWrapper(const char *crashMessage)
+{
+    if (g_restoreSystemHandler != nullptr) {
+        g_restoreSystemHandler(crashMessage);
+    }
 }
 } // namespace ACELite
 } // namespace OHOS
