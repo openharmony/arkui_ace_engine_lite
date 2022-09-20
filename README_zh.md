@@ -3,12 +3,12 @@
 -   [简介](#section11660541593)
 -   [目录](#section1464106163817)
 -   [接口](#section1096322014288)
--   [使用](#section1529834174016)
+-   [使用](#section11683166113011)
 -   [相关仓](#section11683135113011)
 
 ## 简介<a name="section11660541593"></a>
 
-**JS-UI框架子系统**，是OpenHarmony为开发者提供的一套开发OpenHarmony应用的JS-UI框架。其组成如下所示：
+轻量系统**JS-UI框架子系统**，是OpenHarmony为开发者提供的一套开发OpenHarmony应用的JS-UI框架，部署在轻量系统上，为应用提供UI开发能力。其组成如下所示：
 
 **图 1**  JS-UI框架子系统<a name="fig11520531310"></a>
 ![](figures/JS-UI框架子系统.png "JS-UI框架子系统")
@@ -54,15 +54,23 @@ JS-UI框架子系统源代码在/foundation/arkui/arkui\_ace\_engine\_lite下，
 
 ## 接口<a name="section1096322014288"></a>
 
-API介绍请参考[《OpenHarmony Device开发API参考》](https://device.harmonyos.com/cn/docs/develop/apiref/js-framework-file-0000000000611396)
+API介绍请参考[《OpenHarmony Device开发API参考》](https://device.harmonyos.com/cn/docs/develop/apiref/js-framework-file-0000000000611396)，其中涵盖应用开发的一些基本信息，包括应用的构成以及所支持的JS-UI组件和接口说明。
 
-## 使用<a name="section1529834174016"></a>
 
-详见：
 
-[https://gitee.com/openharmony/docs/blob/master/zh-cn/readme/JS-UI框架子系统.md](https://gitee.com/openharmony/docs/blob/master/zh-cn/readme/JS-UI框架子系统.md)
+## 使用<a name="section11683166113011"></a>
+
+- 为轻量系统开发三方应用
+
+  可参考[《轻量系统设备视觉应用开发》](https://docs.openharmony.cn/pages/v3.1/zh-cn/device-dev/guide/device-camera-visual-overview.md/)指南了解应用的开发细节。
+
+- 调试轻量JS-UI开发框架
+
+  为了方便地调试框架本身，提供了PC上的模拟调测工程，基于QT搭建，请参考[《框架调试模拟器使用说明》](https://gitee.com/openharmony/arkui_ace_engine_lite/blob/master/frameworks/tools/qt/simulator/README_zh.md)。
+
+
 
 ## 相关仓<a name="section11683135113011"></a>
 
-[arkui\_ace\_engine\_lite](https://gitee.com/openharmony/arkui_ace_engine_lite)
+**arkui_ace_engine_lite**
 
