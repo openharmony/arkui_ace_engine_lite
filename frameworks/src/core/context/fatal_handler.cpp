@@ -283,11 +283,6 @@ bool FatalHandler::IsJSRuntimeFatal() const
     return result;
 }
 
-bool FatalHandler::IsJSHeapOverflow() const
-{
-    return (fatalErrorCode_ == ERR_OUT_OF_MEMORY);
-}
-
 /**
  * As the exception can interrupt the tree rationship building, so we can't recycle the Components as normal,
  * because we even not get the root Component object when exception happen. So we record all Components when

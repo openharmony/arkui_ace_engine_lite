@@ -182,7 +182,7 @@ public:
      */
     virtual void OnViewAttached() {}
     virtual void LayoutChildren() {}
-    static void BuildViewTree(Component *currComponent, Component *parent, ConstrainedParameter &parentParameter);
+    static void BuildViewTree(Component *currComponent, Component *parent, const ConstrainedParameter &parentParameter);
 
     Component *GetParent() const
     {

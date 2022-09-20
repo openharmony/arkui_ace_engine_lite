@@ -22,10 +22,7 @@ namespace OHOS {
 namespace ACELite {
 #ifdef JS_EXTRA_EVENT_SUPPORT
 KeyBoardEventListener::KeyBoardEventListener(jerry_value_t fn, const uint16_t id)
-{
-    fn_ = jerry_acquire_value(fn);
-    id_ = id;
-}
+    : fn_ (jerry_acquire_value(fn)), id_ (id) {}
 
 KeyBoardEventListener::~KeyBoardEventListener()
 {

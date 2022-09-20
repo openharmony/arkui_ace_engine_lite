@@ -67,8 +67,6 @@ struct Watcher : public MemoryHeap {
     }
 #endif // ACE_DELETE
 
-void ThrowError();
-
 #if IS_ENABLED(JS_PROFILER)
 #ifndef LOG_PROFILER_TRACE
 #define LOG_PROFILER(format, ...) printf(format "\n", ##__VA_ARGS__)
@@ -270,7 +268,6 @@ jerry_value_t ListForWatcherCallbackFunc(const jerry_value_t func,
 #ifdef JS_EXTRA_EVENT_SUPPORT
 jerry_value_t *ConvertBaseEventInfo(const Event &event, const uint16_t id);
 bool CallBaseEvent(const jerry_value_t func, const Event &event, const uint16_t id);
-jerry_value_t *ConvertDragEventInfo(const DragEvent &event, const uint16_t id);
 jerry_value_t *ConvertKeyEventInfo(const KeyEvent &event);
 void ClearEventListener(const jerry_value_t args[], uint8_t argc);
 #endif

@@ -46,9 +46,9 @@ struct RelativeSizeSpan {
 };
 
 struct StringStyleSpan {
-    TextStyle style;
     int16_t start;
     int16_t end;
+    TextStyle style;
     StringStyleSpan() : start(-1), end(-1), style(TextStyle::TEXT_STYLE_NORMAL) {}
 };
 #endif // FEATURE_COMPONENT_TEXT_SPANNABLE

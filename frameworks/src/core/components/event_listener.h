@@ -36,11 +36,7 @@ class StateChangeListener final : public UICheckBox::OnChangeListener {
 public:
     ACE_DISALLOW_COPY_AND_MOVE(StateChangeListener);
     explicit StateChangeListener(jerry_value_t fn)
-    {
-        fn_ = jerry_acquire_value(fn);
-        isChanging_ = false;
-        state_ = false;
-    }
+        : fn_(jerry_acquire_value(fn)), isChanging_(false), state_(false) {}
 
     bool OnChange(UICheckBox::UICheckBoxState state) override
     {
@@ -89,9 +85,7 @@ class ValueChangeListener final : public OHOS::UIEditText::OnChangeListener {
 public:
     ACE_DISALLOW_COPY_AND_MOVE(ValueChangeListener);
     explicit ValueChangeListener(jerry_value_t fn)
-    {
-        fn_ = jerry_acquire_value(fn);
-    }
+        : fn_(jerry_acquire_value(fn)) {}
 
     ~ValueChangeListener()
     {

@@ -20,24 +20,6 @@
 namespace OHOS {
 namespace ACELite {
 /**
- * @brief ParseDoubleValue convert one string to number(int32_t) value
- * @param percentStr the under processing string
- * @param strLength the given string length
- * @param outValue the converted result
- * @return the process result, false for converting failed, true for success, caller
- * should check the returned value before using outValue.
- */
-bool NumberParser::ParseDoubleValue(const char *str, uint16_t strLength, double &outValue)
-{
-    if (!IsValidString(str, strLength)) {
-        return false;
-    }
-
-    outValue = strtod(str, nullptr);
-    return true;
-}
-
-/**
  * @brief ParsePercentValue convert percent string to number value
  * @param percentStr the under processing percent string, for example "10%"
  * @param strLength the given percent string length
