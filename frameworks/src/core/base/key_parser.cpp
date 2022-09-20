@@ -877,13 +877,5 @@ const char *KeyParser::GetKeyById(uint16_t id)
     return "UNKNOWN";
 #endif // ENABLE_KEY
 }
-
-uint8_t KeyParser::GetKeyLengthById(uint16_t id)
-{
-    if (!IsKeyValid(id)) {
-        return 0;
-    }
-    return G_KEYWORD_INFO[id].LENGTH;
-}
 } // namespace ACELite
 } // namespace OHOS

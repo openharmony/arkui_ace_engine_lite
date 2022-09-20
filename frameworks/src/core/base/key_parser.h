@@ -48,7 +48,7 @@ public:
      *
      * @return The key id enum value
      */
-    static uint16_t ParseKeyId(const char *keystr, const size_t len);
+    static uint16_t ParseKeyId(const char *s, const size_t len);
 
     /**
      * @fn bool IsKeyValid(uint16_t id)
@@ -72,17 +72,6 @@ public:
      * @return The key string
      */
     static const char *GetKeyById(uint16_t id);
-
-    /**
-     * @fn uint8_t GetKeyLengthById(uint16_t id);
-     *
-     * @brief Get the key string length,
-     *
-     * @param[in] The key id for index
-     *
-     * @return The key string length, less than UINT8_MAX
-     */
-    static uint8_t GetKeyLengthById(uint16_t id);
 
 private:
     KeyParser() {}

@@ -37,7 +37,6 @@ public:
     void HandleFatalInternal();
     void CleanUpFatalResource();
     bool IsJSRuntimeFatal() const;
-    bool IsJSHeapOverflow() const;
     bool IsFatalErrorHitted() const;
     bool IsFatalErrorHandling() const;
     bool IsFatalErrorHandleDone() const;

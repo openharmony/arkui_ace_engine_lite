@@ -340,12 +340,12 @@ bool Component::SetCommonAttribute(UIView &view, const uint16_t attrKeyId, const
     return true;
 }
 
-void Component::ApplyStyles(const jerry_value_t options, Component &curr) const
+void Component::ApplyStyles(const jerry_value_t options, Component &currentComponent) const
 {
     if (jerry_value_is_undefined(options)) {
         return;
     }
-    styleManager_->ApplyComponentStyles(options, curr);
+    styleManager_->ApplyComponentStyles(options, currentComponent);
 }
 
 void Component::GetDimensionFromStyle(Dimension &dimension, const AppStyleItem &styleItem) const
@@ -1779,7 +1779,7 @@ bool Component::IsAttached() const
     return (nativeView->GetParent() != nullptr);
 }
 
-void Component::BuildViewTree(Component *currComponent, Component *parent, ConstrainedParameter &parentParameter)
+void Component::BuildViewTree(Component *currComponent, Component *parent, const ConstrainedParameter &parentParameter)
 {
     if (currComponent == nullptr) {
         return;
