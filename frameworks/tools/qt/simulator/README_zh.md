@@ -41,11 +41,11 @@
 1. **源码下载**
    建议在Linux下使用 repo 批量下载所涉及到的代码仓到windows盘符下，下载后在windows下打开工程。
 
-   ```
+   ```bash
    // 初始化 repo
    repo init -u https://gitee.com/openharmony/manifest.git -b master --no-repo-verify
    // sync 所有相关仓
-   repo sync graphic_surface graphic_ui graphic_utils graphic_wms third_party_bounds_checking_function third_party_cJSON third_party_zlib third_party_freetype third_party_harfbuzz third_party_icu third_party_libjpeg third_party_libpng third_party_qrcodegen third_party_zlib commonlibrary_utils_lite ability_ability_lite third_party_jerryscript third_party_giflib arkui_ace_engine_lite global_resource_management_lite
+   repo sync graphic_surface graphic_ui graphic_utils graphic_wms third_party_bounds_checking_function third_party_cJSON third_party_zlib third_party_freetype third_party_harfbuzz third_party_icu third_party_libjpeg-turbo third_party_libpng third_party_qrcodegen third_party_zlib commonlibrary_utils_lite ability_ability_lite third_party_jerryscript third_party_giflib arkui_ace_engine_lite global_resource_management_lite
    ```
 
 2. **打开QT Creator**

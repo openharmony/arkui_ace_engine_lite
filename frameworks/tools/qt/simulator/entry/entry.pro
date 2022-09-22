@@ -44,6 +44,8 @@ INCLUDEPATH += \
     $${ACELITE_FRAMEWORK_PATH}/tools/qt/simulator/jsfwk/targets/simulator/mock/amsthread \
     $${ACELITE_FRAMEWORK_PATH}/tools/qt/simulator/jsfwk/targets/simulator/mock/timerthread \
     $${FOUNDATION_PATH}/../commonlibrary/utils_lite/timer_task/include/ \
+    $${FOUNDATION_PATH}/../third_party/bounds_checking_function/include \
+    $${FOUNDATION_PATH}/../third_party/bounds_checking_function/src \
 
 HEADERS += \
     $${FOUNDATION_PATH}/graphic/ui/interfaces/innerkits/font/ui_font_vector.h \
@@ -82,7 +84,7 @@ UILIBS = $$FOUNDATION_PATH/graphic/ui/tools/qt/simulator/libs
 UI_LIBS = $$replace(UILIBS, /, \\)
 QMAKE_POST_LINK += copy $$UI_LIBS\\freetype.dll $$COPY_DEST\\..\\libs\\freetype.dll &
 QMAKE_POST_LINK += copy $$UI_LIBS\\icu.dll $$COPY_DEST\\..\\libs\\icu.dll &
-QMAKE_POST_LINK += copy $$UI_LIBS\\libjpeg.dll $$COPY_DEST\\..\\libs\\libjpeg.dll &
+QMAKE_POST_LINK += copy $$UI_LIBS\\libjpeg-turbo.dll $$COPY_DEST\\..\\libs\\libjpeg-turbo.dll &
 QMAKE_POST_LINK += copy $$UI_LIBS\\libpng.dll $$COPY_DEST\\..\\libs\\libpng.dll &
 QMAKE_POST_LINK += copy $$UI_LIBS\\libui.dll $$COPY_DEST\\..\\libs\\libui.dll &
 QMAKE_POST_LINK += copy $$UI_LIBS\\giflib.dll $$COPY_DEST\\..\\libs\\giflib.dll &
