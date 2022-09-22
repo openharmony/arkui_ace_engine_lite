@@ -162,6 +162,9 @@ void SwiperComponent::SetPageIndex()
 
 void SwiperComponent::ChangeListener::OnSwipe(UISwipeView &view)
 {
+    if (!AsyncTaskManager::GetInstance().IsFront()) {
+        return;
+    }
     if (jerry_value_is_undefined(fn_)) {
         return;
     }
