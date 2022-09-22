@@ -3,12 +3,12 @@
 -   [Introduction](#section11660541593)
 -   [Directory Structure](#section1464106163817)
 -   [Available APIs](#section1096322014288)
--   [Usage](#section1529834174016)
+-   [Usage](#section1096366014288)
 -   [Repositories Involved](#section11683135113011)
 
 ## Introduction<a name="section11660541593"></a>
 
-The JS UI framework is a set of JS-UI frameworks provided for you to develop OpenHarmony applications. The following figure shows the framework architecture.
+The JS UI framework is a set of JS-UI frameworks provided for you to develop OpenHarmony applications on mini system. The following figure shows the framework architecture.
 
 **Figure  1**  Framework architecture<a name="fig11520531310"></a>
 
@@ -57,13 +57,21 @@ The source code of the framework is stored in  **/foundation/arkui/arkui\_ace\_e
 
 For details about the APIs, see the  [JS Application Development](https://device.harmonyos.com/en/docs/apiref/js-framework-file-0000000000616658).
 
-## Usage<a name="section1529834174016"></a>
 
-For details, go to the  **readme**  repository:
 
-[https://gitee.com/openharmony/docs/blob/master/en/readme/js-ui-framework.md](https://gitee.com/openharmony/docs/blob/master/en/readme/js-ui-framework.md)
+## Usages<a name="section1096366014288"></a>
+
+- Application Development
+
+  Please refer to [Visual Application Development](https://docs.openharmony.cn/pages/v3.1/zh-cn/device-dev/guide/device-camera-visual-overview.md/) for more application development details.
+
+- Framework Development
+
+  For development action on the JS UI framework itself,  please refer to [The Framework Debugging Tool](https://gitee.com/openharmony/arkui_ace_engine_lite/blob/master/frameworks/tools/qt/simulator/README_zh.md), this tool provides one small PC simulator debugging environment, which can be used for framework code development.
+
+
 
 ## Repositories Involved<a name="section11683135113011"></a>
 
-[arkui\_ace\_engine\_lite](https://gitee.com/openharmony/arkui_ace_engine_lite)
+**arkui_ace_engine_lite**
 
