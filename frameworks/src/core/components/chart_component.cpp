@@ -218,7 +218,6 @@ UIChartDataSerial::PointStyle *ChartComponent::UpdatePointStyle(UIChartDataSeria
     }
     pointStyle->fillColor = GetRGBColor(fillColor);
     pointStyle->strokeColor = GetRGBColor(strokeColor);
-    pointStyle->strokeWidth = 1;
     pointStyle->radius = radius;
     pointStyle->strokeWidth = strokeWidth;
     return pointStyle;

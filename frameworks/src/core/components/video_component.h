@@ -329,7 +329,6 @@ protected:
     static List<Component *> componentNodes_;
 
 private:
-    VideoView *GetVideoView() const;
     bool SetPanelView();
     void SetMuted(jerry_value_t attrValue);
     void SetVideoSource(jerry_value_t attrValue);
