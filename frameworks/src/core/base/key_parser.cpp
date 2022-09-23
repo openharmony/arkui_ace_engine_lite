@@ -26,24 +26,15 @@ namespace ACELite {
 #endif // KEYWORD
 
 // Replace the struct keys.h "KEYWORD" sector for init
-#if (ENABLE_KEY == 1)
+#ifdef ENABLE_KEY
 #define KEYWORD(enumkey, keystr) {#keystr, K_##enumkey, static_cast<uint8_t>(strlen(#enumkey))},
-#else // ENABLE_KEY
-#define KEYWORD(enumkey, keystr) {K_##enumkey, static_cast<uint8_t>(strlen(#enumkey))},
-#endif // ENABLE_KEY
 
 static const struct {
-#if (ENABLE_KEY == 1)
     const char * const key;
-#endif
     const uint16_t ID;
     const uint8_t LENGTH;
 } G_KEYWORD_INFO[KEYWORDS_MAX] = {
-#if (ENABLE_KEY == 1)
     {"UNKNOWN", K_UNKNOWN, static_cast<uint8_t>(strlen("UNKNOWN"))},
-#else  // ENABLE_KEY
-    {K_UNKNOWN, static_cast<uint8_t>(strlen("UNKNOWN"))},
-#endif // ENABLE_KEY
 
 #ifdef OHOS_ACELITE_KEYS_H
 // include the keys.h again to redefine the "KEYWORD"
@@ -52,6 +43,7 @@ static const struct {
 #endif // OHOS_ACELITE_KEYS_H
 };
 #undef KEYWORD
+#endif
 
 uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
 {
