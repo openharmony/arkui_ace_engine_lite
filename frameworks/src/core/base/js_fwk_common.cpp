@@ -354,20 +354,6 @@ jerry_value_t *ConvertBaseEventInfo(const Event &event, const uint16_t id)
     return args;
 }
 
-jerry_value_t *ConvertDragEventInfo(const DragEvent &event, const uint16_t id)
-{
-    jerry_value_t *args = ConvertBaseEventInfo(event, id);
-    jerry_value_t touches = jerry_create_array(1);
-    jerry_value_t point = jerry_create_object();
-    JerrySetNumberProperty(point, "globalX", event.GetCurrentPos().x);
-    JerrySetNumberProperty(point, "globalY", event.GetCurrentPos().y);
-    jerry_release_value(jerry_set_property_by_index(touches, 0, point));
-    jerry_release_value(point);
-    JerrySetNamedProperty(args[0], "touches", touches);
-    jerry_release_value(touches);
-    return args;
-}
-
 jerry_value_t *ConvertKeyEventInfo(const KeyEvent &event)
 {
     const uint8_t argsNum = 1;
@@ -812,16 +798,6 @@ char *CreatePathStrFromUrl(const char * const url)
     }
     filePath[pathLength] = '\0';
     return filePath;
-}
-
-static uint32_t g_jsfwkErrorCount = 0;
-void ThrowError()
-{
-    // just for debug mode, never used on release mode
-    g_jsfwkErrorCount++;
-    if (g_jsfwkErrorCount >= INT32_MAX) {
-        g_jsfwkErrorCount = 0;
-    }
 }
 
 void ReleaseJerryValue(jerry_value_t value, ...)

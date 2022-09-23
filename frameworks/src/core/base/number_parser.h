@@ -31,16 +31,6 @@ public:
     ~NumberParser() = delete;
 
     /**
-     * @brief ParseDoubleValue convert one string to number(double) value
-     * @param percentStr the under processing string
-     * @param strLength the given string length
-     * @param outValue the converted result
-     * @return the process result, false for converting failed, true for success, caller
-     * should check the returned value before using outValue.
-     */
-    static bool ParseDoubleValue(const char *str, uint16_t strLength, double &outValue);
-
-    /**
      * @brief ParsePercentValue convert percent string to number value
      * @param percentStr the under processing percent string, for example "10%"
      * @param strLength the given percent string length

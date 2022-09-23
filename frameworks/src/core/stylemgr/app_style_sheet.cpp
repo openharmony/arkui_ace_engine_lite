@@ -121,9 +121,8 @@ void AppStyleSheet::InitNormalSelectors(const jerry_value_t styleSheetObj, bool 
     // init all id selectors
     const char * const attrIdSelectors = "idSelectors";
     jerry_value_t propName = jerry_create_string(reinterpret_cast<jerry_char_t *>(const_cast<char *>(attrIdSelectors)));
-    jerry_value_t propValue = UNDEFINED;
     if (HasOwnProperty(styleSheetObj, propName)) {
-        propValue = jerry_get_property(styleSheetObj, propName);
+        jerry_value_t propValue = jerry_get_property(styleSheetObj, propName);
         InitSelectors(&idSelectors_, propValue, false, overwrite);
         jerry_release_value(propValue);
     }
@@ -133,7 +132,7 @@ void AppStyleSheet::InitNormalSelectors(const jerry_value_t styleSheetObj, bool 
     const char * const attrClassSelectors = "classSelectors";
     propName = jerry_create_string(reinterpret_cast<jerry_char_t *>(const_cast<char *>(attrClassSelectors)));
     if (HasOwnProperty(styleSheetObj, propName)) {
-        propValue = jerry_get_property(styleSheetObj, propName);
+        jerry_value_t propValue = jerry_get_property(styleSheetObj, propName);
         InitSelectors(&classSelectors_, propValue, false, overwrite);
         jerry_release_value(propValue);
     }
@@ -143,7 +142,7 @@ void AppStyleSheet::InitNormalSelectors(const jerry_value_t styleSheetObj, bool 
     const char * const keyFrames = "@keyframes";
     propName = jerry_create_string(reinterpret_cast<jerry_char_t *>(const_cast<char *>(keyFrames)));
     if (HasOwnProperty(styleSheetObj, propName)) {
-        propValue = jerry_get_property(styleSheetObj, propName);
+        jerry_value_t propValue = jerry_get_property(styleSheetObj, propName);
         InitSelectors(&keyFrameSelectors_, propValue, true, overwrite);
         jerry_release_value(propValue);
     }

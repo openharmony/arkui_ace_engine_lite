@@ -42,20 +42,3 @@ int32_t GLOBAL_GetRegion(char *region, uint8_t len)
     // region must be the element 1
     return (strncpy_s(region, len, "CN", MAX_REGION_LENGTH - 1) != EOK) ? -1 : 0;
 }
-
-
-int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
-{
-    (void)(id);
-    (void)(path);
-    (void)(value);
-    return 0;
-}
-
-int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
-{
-    (void)(name);
-    (void)(path);
-    (void)(value);
-    return 0;
-}

@@ -43,7 +43,7 @@ public:
     int StartTimerTaskInner(bool isPeriodic,
                             const unsigned int delay,
                             void *userCallback,
-                            void *userContext,
+                            void *userData,
                             timerHandle_t *timerHandle);
     int StopTimerTaskInner(const timerHandle_t timerHandle);
 

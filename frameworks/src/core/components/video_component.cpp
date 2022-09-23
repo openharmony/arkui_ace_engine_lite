@@ -219,11 +219,6 @@ UIView *VideoComponent::GetComponentRootView() const
     return videoView_;
 }
 
-VideoView *VideoComponent::GetVideoView() const
-{
-    return videoView_;
-}
-
 bool VideoComponent::RegisterVideoEventListener()
 {
     PanelView* videoPanelView = const_cast<PanelView *>(videoView_->GetPanelView());
