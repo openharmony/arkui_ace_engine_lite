@@ -58,7 +58,6 @@ void MarqueeTddTest::ComponentMarqueeStyleSetTest006()
     value = jerry_create_string(reinterpret_cast<const jerry_char_t *>(colorValue));
     jerry_set_property(styleObj_, key, value);
     component = GetRenderedComponent(componentNameId_);
-    marqueeView = component->GetComponentRootView();
     jerry_release_value(key);
     jerry_release_value(value);
     delete component;
@@ -105,7 +104,6 @@ void MarqueeTddTest::ComponentMarqueeStyleSetTest007()
     value = jerry_create_string(reinterpret_cast<const jerry_char_t *>(colorVal));
     jerry_set_property(styleObj_, key, value);
     component = GetRenderedComponent(componentNameId_);
-    marqueeView = component->GetComponentRootView();
     jerry_release_value(key);
     jerry_release_value(value);
     delete component;
@@ -152,7 +150,6 @@ void MarqueeTddTest::ComponentMarqueeStyleSetTest008()
     value = jerry_create_string(reinterpret_cast<const jerry_char_t *>(colorVal));
     jerry_set_property(styleObj_, key, value);
     component = GetRenderedComponent(componentNameId_);
-    marqueeView = component->GetComponentRootView();
     jerry_release_value(key);
     jerry_release_value(value);
     delete component;
@@ -199,7 +196,6 @@ void MarqueeTddTest::ComponentMarqueeStyleSetTest009()
     value = jerry_create_string(reinterpret_cast<const jerry_char_t *>(strVal));
     jerry_set_property(styleObj_, key, value);
     component = GetRenderedComponent(componentNameId_);
-    marqueeView = component->GetComponentRootView();
     jerry_release_value(key);
     jerry_release_value(value);
     delete component;
@@ -246,7 +242,6 @@ void MarqueeTddTest::ComponentMarqueeStyleSetTest010()
     value = jerry_create_string(reinterpret_cast<const jerry_char_t *>(strVal));
     jerry_set_property(styleObj_, key, value);
     component = GetRenderedComponent(componentNameId_);
-    marqueeView = component->GetComponentRootView();
     jerry_release_value(key);
     jerry_release_value(value);
     delete component;

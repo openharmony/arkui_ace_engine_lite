@@ -130,11 +130,12 @@ void PickerViewTddTest::ComponentPickerviewAttributeSetTest001()
     SetCharAttribute("type", "unknown");
 
     Component* pickerComponent = reinterpret_cast<PickerViewComponent *>(GetRenderedComponent(g_componentNameId));
+    EXPECT_TRUE(pickerComponent != nullptr);
     if (!pickerComponent) {
         printf("ComponentPickerviewAttributeSetTest001 fail\n");
         return;
     }
-    EXPECT_TRUE(pickerComponent != nullptr);
+
     UIPicker* textPicker = reinterpret_cast<UIPicker *>(pickerComponent->GetComponentRootView());
     UITimePicker* timePicker = reinterpret_cast<UITimePicker *>(pickerComponent->GetComponentRootView());
 #if (FEATURE_COMPONENT_DATE_PICKER == 1)
@@ -192,13 +193,14 @@ void PickerViewTddTest::ComponentPickerviewAttributeSetTest002()
      * @tc.expected: step4. render native textPicker object
      */
     Component* pickerComponent = reinterpret_cast<PickerViewComponent *>(GetRenderedComponent(g_componentNameId));
+    EXPECT_TRUE(pickerComponent != nullptr);
     if (!pickerComponent) {
         printf("ComponentPickerviewAttributeSetTest002 fail\n");
         return;
     }
-    EXPECT_TRUE(pickerComponent != nullptr);
-    UIPicker* textPicker = reinterpret_cast<UIPicker *>(pickerComponent->GetComponentRootView());
 
+    UIPicker* textPicker = reinterpret_cast<UIPicker *>(pickerComponent->GetComponentRootView());
+    EXPECT_TRUE(textPicker != nullptr);
     /**
      * @tc.expected: step4. native textPicker object is not nullptr
      */
@@ -208,7 +210,6 @@ void PickerViewTddTest::ComponentPickerviewAttributeSetTest002()
         pickerComponent = nullptr;
         return;
     }
-    EXPECT_TRUE(textPicker != nullptr);
 
     /**
      * @tc.expected: step4. GetSelected return 1
@@ -263,13 +264,14 @@ void PickerViewTddTest::ComponentPickerviewAttributeSetTest003()
      * @tc.expected: step4. render native textPicker object
      */
     Component* pickerComponent = reinterpret_cast<PickerViewComponent *>(GetRenderedComponent(g_componentNameId));
+    EXPECT_TRUE(pickerComponent != nullptr);
     if (!pickerComponent) {
         printf("ComponentPickerviewAttributeSetTest003 fail\n");
         return;
     }
-    EXPECT_TRUE(pickerComponent != nullptr);
-    UIPicker* textPicker = reinterpret_cast<UIPicker *>(pickerComponent->GetComponentRootView());
 
+    UIPicker* textPicker = reinterpret_cast<UIPicker *>(pickerComponent->GetComponentRootView());
+    EXPECT_TRUE(textPicker != nullptr);
     /**
      * @tc.expected: step4. native textPicker object is not nullptr
      */
@@ -279,7 +281,6 @@ void PickerViewTddTest::ComponentPickerviewAttributeSetTest003()
         pickerComponent = nullptr;
         return;
     }
-    EXPECT_TRUE(textPicker != nullptr);
 
     /**
      * @tc.expected: step4. GetSelected return 0
@@ -317,14 +318,14 @@ void PickerViewTddTest::ComponentPickerviewAttributeSetTest004()
      * @tc.steps: step3. render native textPicker object
      */
     Component* pickerComponent = reinterpret_cast<PickerViewComponent *>(GetRenderedComponent(g_componentNameId));
+    EXPECT_TRUE(pickerComponent != nullptr);
     if (!pickerComponent) {
         printf("ComponentPickerviewAttributeSetTest004 fail\n");
         return;
     }
-    EXPECT_TRUE(pickerComponent != nullptr);
 
     UIPicker* textPicker = reinterpret_cast<UIPicker *>(pickerComponent->GetComponentRootView());
-
+    EXPECT_TRUE(textPicker != nullptr);
     /**
      * @tc.expected: step3. native textPicker object is not nullptr
      */
@@ -334,7 +335,6 @@ void PickerViewTddTest::ComponentPickerviewAttributeSetTest004()
         pickerComponent = nullptr;
         return;
     }
-    EXPECT_TRUE(textPicker != nullptr);
 
     /**
      * @tc.expected: step3. GetSelected return 0
@@ -372,13 +372,14 @@ void PickerViewTddTest::ComponentPickerviewAttributeSetTest005()
      * @tc.steps: step3. render native textPicker object
      */
     Component* pickerComponent = reinterpret_cast<PickerViewComponent *>(GetRenderedComponent(g_componentNameId));
+    EXPECT_TRUE(pickerComponent != nullptr);
     if (!pickerComponent) {
         printf("ComponentPickerviewAttributeSetTest005 fail\n");
         return;
     }
-    EXPECT_TRUE(pickerComponent != nullptr);
-    UIPicker* textPicker = reinterpret_cast<UIPicker *>(pickerComponent->GetComponentRootView());
 
+    UIPicker* textPicker = reinterpret_cast<UIPicker *>(pickerComponent->GetComponentRootView());
+    EXPECT_TRUE(textPicker != nullptr);
     /**
      * @tc.expected: step3. native textPicker object is not nullptr
      */
@@ -388,7 +389,6 @@ void PickerViewTddTest::ComponentPickerviewAttributeSetTest005()
         pickerComponent = nullptr;
         return;
     }
-    EXPECT_TRUE(textPicker != nullptr);
 
     /**
      * @tc.expected: step3. GetSelected return 0
