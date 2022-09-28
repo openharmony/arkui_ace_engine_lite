@@ -154,7 +154,6 @@ void DivTddTest::ComponentDivStyleSetTest010()
     int32_t widthLarge = 1000000;
     JerrySetNumberProperty(styleObj_, styleName, widthLarge);
     Component *component = GetRenderedComponent(componentNameId_);
-    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -164,7 +163,6 @@ void DivTddTest::ComponentDivStyleSetTest010()
     uint8_t widthNormal = 10;
     JerrySetNumberProperty(styleObj_, styleName, widthNormal);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -174,7 +172,7 @@ void DivTddTest::ComponentDivStyleSetTest010()
     uint8_t widthIn = 5;
     JerrySetNumberProperty(styleObj_, styleName, widthIn);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
+    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     printf("%d\n", divView->GetWidth());
     if (divView->GetWidth() == widthIn) {
         printf("ComponentDivStyleSetTest010 pass\n");
@@ -242,7 +240,6 @@ void DivTddTest::ComponentDivStyleSetTest012()
     int32_t heightBoundary = 3276888;
     JerrySetNumberProperty(styleObj_, styleName, heightBoundary);
     Component *component = GetRenderedComponent(componentNameId_);
-    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -251,7 +248,6 @@ void DivTddTest::ComponentDivStyleSetTest012()
      */
     JerrySetStringProperty(styleObj_, styleName, "10");
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -261,7 +257,7 @@ void DivTddTest::ComponentDivStyleSetTest012()
     uint8_t heightNormal = 5;
     JerrySetNumberProperty(styleObj_, styleName, heightNormal);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
+    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     printf("%d\n", divView->GetHeight());
     if (divView->GetHeight() == heightNormal) {
         printf("ComponentDivStyleSetTest012 pass\n");
@@ -339,7 +335,6 @@ void DivTddTest::ComponentDivStyleSetTest014()
     int32_t marginBoundary = 3276888;
     JerrySetNumberProperty(styleObj_, styleName, marginBoundary);
     Component *component = GetRenderedComponent(componentNameId_);
-    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
     /* *
@@ -347,7 +342,6 @@ void DivTddTest::ComponentDivStyleSetTest014()
      */
     JerrySetStringProperty(styleObj_, styleName, "10");
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
     /* *
@@ -356,7 +350,7 @@ void DivTddTest::ComponentDivStyleSetTest014()
     uint8_t marginNormal = 5;
     JerrySetNumberProperty(styleObj_, styleName, marginNormal);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
+    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     printf("%d\n", divView->GetHeight());
     if (divView->GetStyle(STYLE_MARGIN_LEFT) == marginNormal && divView->GetStyle(STYLE_MARGIN_TOP) == marginNormal &&
         divView->GetStyle(STYLE_MARGIN_RIGHT) == marginNormal &&
@@ -429,7 +423,6 @@ void DivTddTest::ComponentDivStyleSetTest016()
     int32_t borderWidthBoundary = 3276888;
     JerrySetNumberProperty(styleObj_, styleName, borderWidthBoundary);
     Component *component = GetRenderedComponent(componentNameId_);
-    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -438,7 +431,6 @@ void DivTddTest::ComponentDivStyleSetTest016()
      */
     JerrySetStringProperty(styleObj_, styleName, "10");
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
     /* *
@@ -447,7 +439,7 @@ void DivTddTest::ComponentDivStyleSetTest016()
     uint8_t borderWidthNormal = 5;
     JerrySetNumberProperty(styleObj_, styleName, borderWidthNormal);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
+    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     printf("%d\n", divView->GetHeight());
     if (divView->GetStyle(STYLE_BORDER_WIDTH) == borderWidthNormal) {
         printf("ComponentDivStyleSetTest016 pass\n");
@@ -515,7 +507,6 @@ void DivTddTest::ComponentDivStyleSetTest018()
     uint32_t borderRadiusBoundary = 3276888;
     JerrySetNumberProperty(styleObj_, styleName, borderRadiusBoundary);
     Component *component = GetRenderedComponent(componentNameId_);
-    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -524,7 +515,6 @@ void DivTddTest::ComponentDivStyleSetTest018()
      */
     JerrySetStringProperty(styleObj_, styleName, "10");
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
     /* *
@@ -533,7 +523,7 @@ void DivTddTest::ComponentDivStyleSetTest018()
     uint8_t borderRadiusNormal = 5;
     JerrySetNumberProperty(styleObj_, styleName, borderRadiusNormal);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
+    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     printf("%d\n", divView->GetHeight());
     if (divView->GetStyle(STYLE_BORDER_RADIUS) == borderRadiusNormal) {
         printf("ComponentDivStyleSetTest018 pass\n");
@@ -601,7 +591,6 @@ void DivTddTest::ComponentDivStyleSetTest020()
     int32_t leftBoundary = 3276888;
     JerrySetNumberProperty(styleObj_, styleName, leftBoundary);
     Component *component = GetRenderedComponent(componentNameId_);
-    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -610,7 +599,6 @@ void DivTddTest::ComponentDivStyleSetTest020()
      */
     JerrySetStringProperty(styleObj_, styleName, "10");
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
     /* *
@@ -619,7 +607,7 @@ void DivTddTest::ComponentDivStyleSetTest020()
     uint8_t leftNormal = 5;
     JerrySetNumberProperty(styleObj_, styleName, leftNormal);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
+    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     printf("%d\n", divView->GetHeight());
     if (divView->GetX() == leftNormal) {
         printf("ComponentDivStyleSetTest020 pass\n");
@@ -687,7 +675,6 @@ void DivTddTest::ComponentDivStyleSetTest022()
     int32_t topBoundary = 3276888;
     JerrySetNumberProperty(styleObj_, styleName, topBoundary);
     Component *component = GetRenderedComponent(componentNameId_);
-    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -696,7 +683,6 @@ void DivTddTest::ComponentDivStyleSetTest022()
      */
     JerrySetStringProperty(styleObj_, styleName, "10");
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
     /* *
@@ -705,7 +691,7 @@ void DivTddTest::ComponentDivStyleSetTest022()
     uint8_t topNormal = 5;
     JerrySetNumberProperty(styleObj_, styleName, topNormal);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
+    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     printf("%d\n", divView->GetHeight());
     if (divView->GetY() == topNormal) {
         printf("ComponentDivStyleSetTest022 pass\n");
@@ -785,7 +771,6 @@ void DivTddTest::ComponentDivStyleSetTest024()
     int64_t borderColorBoundary = 21474836481;
     JerrySetNumberProperty(styleObj_, styleName, borderColorBoundary);
     Component *component = GetRenderedComponent(componentNameId_);
-    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -794,7 +779,6 @@ void DivTddTest::ComponentDivStyleSetTest024()
      */
     JerrySetStringProperty(styleObj_, styleName, "10");
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
     /* *
@@ -803,7 +787,7 @@ void DivTddTest::ComponentDivStyleSetTest024()
     int32_t borderColorNormal = 2735506;
     JerrySetNumberProperty(styleObj_, styleName, borderColorNormal);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
+    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     ColorType tempColor;
     tempColor.full = divView->GetStyle(STYLE_BORDER_COLOR);
     printf("%d\n", divView->GetHeight());
@@ -885,7 +869,6 @@ void DivTddTest::ComponentDivStyleSetTest026()
     int64_t bgColorBoundary = 21474836481;
     JerrySetNumberProperty(styleObj_, styleName, bgColorBoundary);
     Component *component = GetRenderedComponent(componentNameId_);
-    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -894,7 +877,6 @@ void DivTddTest::ComponentDivStyleSetTest026()
      */
     JerrySetStringProperty(styleObj_, styleName, "10");
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     delete (component);
     component = nullptr;
 
@@ -904,7 +886,7 @@ void DivTddTest::ComponentDivStyleSetTest026()
     int32_t bgColorNormal = 2735506;
     JerrySetNumberProperty(styleObj_, styleName, bgColorNormal);
     component = GetRenderedComponent(componentNameId_);
-    divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
+    UIViewGroup *divView = reinterpret_cast<UIViewGroup *>(component->GetComponentRootView());
     ColorType tempColor;
     tempColor.full = divView->GetStyle(STYLE_BACKGROUND_COLOR);
     printf("%d\n", divView->GetHeight());
