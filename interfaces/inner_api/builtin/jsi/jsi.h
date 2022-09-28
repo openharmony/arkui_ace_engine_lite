@@ -748,6 +748,28 @@ public:
      */
     static void SuccessCallback(const JSIValue thisVal, const JSIValue args, const JSIValue *argv, uint8_t argc);
 
+    /**
+     * @brief Create javascript error object with error code and error message.
+     * This interface can be used to create one uniform error object, which can be throw to JS API caller,
+     * The error object's structure is shown as following,
+     *    {
+     *       code: 100001, // the error code
+     *       message: "error details" // the error message
+     *       data: {} // more error info, this is optional
+     *    }
+     *
+     * @param [in] errCode: the error code which can indicate
+     * @param [in] errorMsg: value of 'message' property of constructed error object
+     * @param [in] extraErrData: value of 'data' property of constructed error object, which is optional,
+     *             if it's given by caller, it must be one object, and it should be released by caller itself
+     * @return value of the constructed error object
+     *
+     * value returned should be released by caller with ReleaseValue when it won't be used any more
+     */
+    static JSIValue CreateErrorWithCode(uint32_t errCode,
+                                        const char * const errMsg,
+                                        const JSIValue extraErrData = 0);
+
 private:
     // private constructor for singleton instance
     JSI() {}

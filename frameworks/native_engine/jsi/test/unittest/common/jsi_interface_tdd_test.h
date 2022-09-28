@@ -79,6 +79,15 @@ public:
     void JSIInterfaceTest027();
     void JSIInterfaceTest028();
     void JSIInterfaceTest029();
+    void JSIInterfaceTest030();
+    void JSIInterfaceTest031();
+    void JSIInterfaceTest032();
+    void JSIInterfaceTest033();
+    void JSIInterfaceTest034();
+    void JSIInterfaceTest035();
+    void JSIInterfaceTest036();
+    void JSIInterfaceTest037();
+    void JSIInterfaceTest038();
     void RunTests();
 };
 } // namespace ACELite
