@@ -364,28 +364,28 @@ void StyleMgrTddTest::ACELiteStyleManagerInlineStyle003()
      * @tc.steps: step4. check the result
      */
     AppStyleSheet* styleSheet = const_cast<AppStyleSheet *>(g_testStyleMgr->GetStyleSheet());
+    EXPECT_FALSE(styleSheet == nullptr);
     if (styleSheet == nullptr) {
         jerry_release_value(styleSheetObj);
         TDD_CASE_END();
         return;
     }
-    EXPECT_FALSE(styleSheet == nullptr);
 
     AppStyle* sampleSelector = styleSheet->GetStyleFromIDSelectors(sample);
+    EXPECT_FALSE(sampleSelector == nullptr);
     if (sampleSelector == nullptr) {
         jerry_release_value(styleSheetObj);
         TDD_CASE_END();
         return;
     }
-    EXPECT_FALSE(sampleSelector == nullptr);
 
     AppStyleItem* sampleSelectorItem = const_cast<AppStyleItem *>(sampleSelector->GetFirst());
+    EXPECT_FALSE(sampleSelectorItem == nullptr);
     if (sampleSelectorItem == nullptr) {
         jerry_release_value(styleSheetObj);
         TDD_CASE_END();
         return;
     }
-    EXPECT_FALSE(sampleSelectorItem == nullptr);
 
     EXPECT_EQ(sampleSelectorItem->GetNumValue(), heightValue);
 
@@ -426,28 +426,28 @@ void StyleMgrTddTest::ACELiteStyleManagerInlineStyle004()
      * @tc.steps: step4. check the result
      */
     AppStyleSheet* styleSheet = const_cast<AppStyleSheet *>(g_testStyleMgr->GetStyleSheet());
+    EXPECT_FALSE(styleSheet == nullptr);
     if (styleSheet == nullptr) {
         jerry_release_value(styleSheetObj);
         TDD_CASE_END();
         return;
     }
-    EXPECT_FALSE(styleSheet == nullptr);
 
     AppStyle* sampleSelector = styleSheet->GetStyleFromClassSelectors(sample);
+    EXPECT_FALSE(sampleSelector == nullptr);
     if (sampleSelector == nullptr) {
         jerry_release_value(styleSheetObj);
         TDD_CASE_END();
         return;
     }
-    EXPECT_FALSE(sampleSelector == nullptr);
 
     AppStyleItem* sampleSelectorItem = const_cast<AppStyleItem *>(sampleSelector->GetFirst());
+    EXPECT_FALSE(sampleSelectorItem == nullptr);
     if (sampleSelectorItem == nullptr) {
         jerry_release_value(styleSheetObj);
         TDD_CASE_END();
         return;
     }
-    EXPECT_FALSE(sampleSelectorItem == nullptr);
 
     EXPECT_EQ(sampleSelectorItem->GetNumValue(), widthValue);
 
@@ -489,12 +489,12 @@ void StyleMgrTddTest::ACELiteStyleManagerInlineStyle005()
      * @tc.steps: step4. check the result
      */
     AppStyleSheet* styleSheet = const_cast<AppStyleSheet *>(g_testStyleMgr->GetStyleSheet());
+    EXPECT_FALSE(styleSheet == nullptr);
     if (styleSheet == nullptr) {
         jerry_release_value(styleSheetObj);
         TDD_CASE_END();
         return;
     }
-    EXPECT_FALSE(styleSheet == nullptr);
 
     /**
      * @tc.steps: step5. release the style sheet JS object
