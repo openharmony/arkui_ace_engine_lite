@@ -17,8 +17,9 @@ SUBDIRS += \
     $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/third_party/giflib \
     $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/third_party/qrcodegen \
     $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/libui \
+    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/test \
+    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/autotest/auto_test.pro \
     cjson \
     jerryScript \
     jsfwk \
     entry/entry.pro
-
