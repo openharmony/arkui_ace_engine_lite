@@ -1171,5 +1171,33 @@ void JSI::SuccessCallback(const JSIValue thisVal, const JSIValue args, const JSI
     CallFunction(complete, thisVal, nullptr, 0);
     ReleaseValueList(success, complete);
 }
+
+JSIValue JSI::CreateErrorWithCode(uint32_t errCode,
+                                  const char * const errMsg,
+                                  const JSIValue extraErrData)
+{
+    if (errMsg == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "JSI:CreateErrorWithCode parameters invalid!");
+        return CreateUndefined();
+    }
+    const size_t maxErrMsgLength = 256;
+    if (strlen(errMsg) > maxErrMsgLength) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "JSI:CreateErrorWithCode error message too long!");
+        return CreateUndefined();
+    }
+#if (ENABLE_JERRY == 1)
+    JSIValue errObj = CreateObject();
+    SetNumberProperty(errObj, "code", errCode);
+    SetStringProperty(errObj, "message", errMsg);
+    if (extraErrData != 0 && ValueIsObject(extraErrData)) {
+        SetNamedProperty(errObj, "data", extraErrData);
+    }
+    jerry_value_t errRef = jerry_create_error_from_value(AS_JERRY_VALUE(errObj), true);
+    return AS_JSI_VALUE(errRef);
+#else
+    HILOG_ERROR(HILOG_MODULE_ACE, "JSI:CreateErrorWithCode has not been implemented in this js engine!");
+    return CreateUndefined();
+#endif
+}
 } // namespace ACELite
 } // namespace OHOS

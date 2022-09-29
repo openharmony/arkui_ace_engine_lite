@@ -64,6 +64,11 @@ constexpr uint8_t ARGC_THREE = 3;
 constexpr int8_t JSI_ERR_OK = 0;
 constexpr int8_t JSI_ERR_FAIL = -1;
 
+// uniform error code for error throwing
+constexpr uint32_t JSI_ERR_CODE_PERMISSION_DENIED = 201;
+constexpr uint32_t JSI_ERR_CODE_PARAM_CHECK_FAILED = 401;
+constexpr uint32_t JSI_ERR_CODE_NOT_SUPPORTED = 801;
+
 /**
  * @enum    TypedArrayType
  *

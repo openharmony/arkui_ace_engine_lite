@@ -14,13 +14,18 @@
  */
 
 #include "jsi_interface_tdd_test.h"
+#include "acelite_config.h"
+#include "jerryscript-core.h"
+#include "js_debugger_config.h"
+#include "jsi_types.h"
 #include <cstdio>
 #include <cstring>
-#include "acelite_config.h"
-#include "js_debugger_config.h"
 
 namespace OHOS {
 namespace ACELite {
+#define TO_JERRY_VALUE(a) ((jerry_value_t)(uintptr_t)(a))
+#define TO_JSI_VALUE(a) ((JSIValue)(uintptr_t)(a))
+
 static int8_t g_descValue = 0;
 
 JsiInterfaceTddTest::JsiInterfaceTddTest() {}
@@ -39,12 +44,17 @@ void JsiInterfaceTddTest::TearDown()
 
 JSIValue JsiInterfaceTddTest::Function(const JSIValue thisVal, const JSIValue args[], uint8_t argsNum)
 {
+    (void)thisVal;
+    (void)args;
+    (void)argsNum;
     printf("Function called\n");
     return JSI::CreateUndefined();
 }
 
 JSIValue JsiInterfaceTddTest::Setter(const JSIValue thisVal, const JSIValue args[], uint8_t argsNum)
 {
+    (void)thisVal;
+    (void)argsNum;
     double newValue = JSI::ValueToNumber(args[0]);
     g_descValue = (int8_t)newValue;
 
@@ -54,6 +64,9 @@ JSIValue JsiInterfaceTddTest::Setter(const JSIValue thisVal, const JSIValue args
 
 JSIValue JsiInterfaceTddTest::Getter(const JSIValue thisVal, const JSIValue args[], uint8_t argsNum)
 {
+    (void)thisVal;
+    (void)args;
+    (void)argsNum;
     g_descValue++;
     printf("Getter called, returning: %d\n", g_descValue);
     return JSI::CreateNumber(g_descValue);
@@ -1086,6 +1099,250 @@ void JsiInterfaceTddTest::JSIInterfaceTest029()
     TDD_CASE_END();
 }
 
+void JsiInterfaceTddTest::JSIInterfaceTest030()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. try to create one error with null msg
+     */
+    JSIValue errRef = JSI::CreateErrorWithCode(JSI_ERR_CODE_PERMISSION_DENIED, nullptr);
+    /**
+     * @tc.expected: step1. errRef = undefined
+     */
+    JSIValue undefinedValue = JSI::CreateUndefined();
+    if (errRef == undefinedValue) {
+        printf("JSIInterfaceTest030 pass\n");
+    } else {
+        printf("JSIInterfaceTest030 fail\n");
+    }
+    EXPECT_TRUE(errRef == undefinedValue);
+    JSI::ReleaseValue(errRef);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest031()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. try to create one error with valid msg
+     */
+    JSIValue errRef = JSI::CreateErrorWithCode(0, "this is error message");
+    /**
+     * @tc.expected: step1. errRef is valid
+     */
+    if (JSI::ValueIsError(errRef)) {
+        printf("JSIInterfaceTest031 pass\n");
+    } else {
+        printf("JSIInterfaceTest031 fail\n");
+    }
+    EXPECT_TRUE(JSI::ValueIsError(errRef));
+    JSI::ReleaseValue(errRef);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest032()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. try to create one error with very long msg which is over 256
+     */
+    const char *veryLongMessage =
+        "this is one very long test message which is used to check if the length can be verified by the function, this "
+        "is one very long test message which is used to check if the length can be verified by the function, this is "
+        "one very long test message which is used to check if the length can be verified by the function.";
+    JSIValue errRef = JSI::CreateErrorWithCode(JSI_ERR_CODE_NOT_SUPPORTED, veryLongMessage);
+    /**
+     * @tc.expected: step1. errRef = undefined
+     */
+    JSIValue undefValue = JSI::CreateUndefined();
+    if (errRef == undefValue) {
+        printf("JSIInterfaceTest032 pass\n");
+    } else {
+        printf("JSIInterfaceTest032 fail\n");
+    }
+    EXPECT_TRUE(errRef == undefValue);
+    JSI::ReleaseValue(errRef);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest033()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. try to create one error with empty string
+     */
+    JSIValue errResult = JSI::CreateErrorWithCode(JSI_ERR_CODE_PARAM_CHECK_FAILED, "");
+    /**
+     * @tc.expected: step1. errRef is valid
+     */
+    if (JSI::ValueIsError(errResult)) {
+        printf("JSIInterfaceTest033 pass\n");
+    } else {
+        printf("JSIInterfaceTest033 fail\n");
+    }
+    EXPECT_TRUE(JSI::ValueIsError(errResult));
+    JSI::ReleaseValue(errResult);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest034()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. try to create one error with extra data
+     */
+    JSIValue extraData = JSI::CreateObject();
+    JSIValue errRef = JSI::CreateErrorWithCode(JSI_ERR_CODE_NOT_SUPPORTED, "error info", extraData);
+    /**
+     * @tc.expected: step1. errRef is valid
+     */
+    bool result = JSI::ValueIsError(errRef);
+    if (result) {
+        printf("JSIInterfaceTest034 pass\n");
+    } else {
+        printf("JSIInterfaceTest034 fail\n");
+    }
+    EXPECT_TRUE(result);
+    JSI::ReleaseValue(extraData);
+    JSI::ReleaseValue(errRef);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest035()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. try to create one error with extra data
+     */
+    JSIValue extraData = JSI::CreateObject();
+    JSI::SetStringProperty(extraData, "info", "message");
+    const char *errMsg = "method is not support";
+    JSIValue errRef = JSI::CreateErrorWithCode(JSI_ERR_CODE_NOT_SUPPORTED, errMsg, extraData);
+    /**
+     * @tc.expected: step1. errRef is valid
+     */
+    JSIValue resultExtracted = TO_JSI_VALUE(jerry_get_value_from_error(TO_JERRY_VALUE(errRef), false));
+    bool result = JSI::ValueIsObject(resultExtracted);
+    if (result) {
+        result = (JSI::GetNumberProperty(resultExtracted, "code") == JSI_ERR_CODE_NOT_SUPPORTED);
+    }
+    if (result) {
+        printf("JSIInterfaceTest035 pass\n");
+    } else {
+        printf("JSIInterfaceTest035 fail\n");
+    }
+    EXPECT_TRUE(result);
+    JSI::ReleaseValue(resultExtracted);
+    JSI::ReleaseValue(extraData);
+    JSI::ReleaseValue(errRef);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest036()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. try to create one error with extra data
+     */
+    JSIValue extraData = JSI::CreateObject();
+    JSI::SetStringProperty(extraData, "test", "info");
+    const char *errMsgContent = "check failed";
+    JSIValue errRef = JSI::CreateErrorWithCode(JSI_ERR_CODE_PARAM_CHECK_FAILED, errMsgContent, extraData);
+
+    /**
+     * @tc.expected: step1. errRef is valid
+     */
+    JSIValue extractedValue = TO_JSI_VALUE(jerry_get_value_from_error(TO_JERRY_VALUE(errRef), false));
+    bool msgCheckResult = JSI::ValueIsObject(extractedValue);
+    if (msgCheckResult) {
+        char *messageStr = JSI::GetStringProperty(extractedValue, "message");
+        msgCheckResult = (messageStr != nullptr && strcmp(messageStr, errMsgContent) == 0);
+    }
+    if (msgCheckResult) {
+        printf("JSIInterfaceTest036 pass\n");
+    } else {
+        printf("JSIInterfaceTest036 fail\n");
+    }
+    EXPECT_TRUE(msgCheckResult);
+    // clean up
+    JSI::ReleaseValue(extractedValue);
+    JSI::ReleaseValue(extraData);
+    JSI::ReleaseValue(errRef);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest037()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. try to create one error with extra data
+     */
+    JSIValue extraDataObject = JSI::CreateObject();
+    const char *propertyKey = "dataKey";
+    JSI::SetStringProperty(extraDataObject, propertyKey, "result");
+    const char *notSupportedMsg = "not supported";
+    JSIValue errRefToBeCheck = JSI::CreateErrorWithCode(JSI_ERR_CODE_NOT_SUPPORTED, notSupportedMsg, extraDataObject);
+
+    /**
+     * @tc.expected: step1. errRef is valid, check data property
+     */
+    JSIValue extractV = TO_JSI_VALUE(jerry_get_value_from_error(TO_JERRY_VALUE(errRefToBeCheck), false));
+    bool dataCheckResult = JSI::ValueIsObject(extractV);
+    if (dataCheckResult) {
+        JSIValue dataPropertyValue = JSI::GetNamedProperty(extractV, "data");
+        dataCheckResult = JSI::ValueIsObject(dataPropertyValue);
+        char *dataValue = JSI::GetStringProperty(dataPropertyValue, propertyKey);
+        if (dataValue != nullptr && strcmp(dataValue, propertyKey) == 0) {
+            dataCheckResult = true;
+        }
+        JSI::ReleaseValue(dataPropertyValue);
+    }
+    if (dataCheckResult) {
+        printf("JSIInterfaceTest037 pass\n");
+    } else {
+        printf("JSIInterfaceTest037 fail\n");
+    }
+    EXPECT_TRUE(dataCheckResult);
+    // clean up
+    JSI::ReleaseValue(extractV);
+    JSI::ReleaseValue(extraDataObject);
+    JSI::ReleaseValue(errRefToBeCheck);
+    TDD_CASE_END();
+}
+
+void JsiInterfaceTddTest::JSIInterfaceTest038()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. try to create one error with invalid extra data
+     */
+    JSIValue functionValue = JSI::CreateFunction(Function); // not obj type
+    const char *errorInfo = "not supported";
+    JSIValue errResult = JSI::CreateErrorWithCode(JSI_ERR_CODE_NOT_SUPPORTED, errorInfo, functionValue);
+
+    /**
+     * @tc.expected: step1. errRef is valid, check data property
+     */
+    JSIValue extractedVal = TO_JSI_VALUE(jerry_get_value_from_error(TO_JERRY_VALUE(errResult), false));
+    bool dataCheckRes = JSI::ValueIsObject(extractedVal);
+    if (dataCheckRes) {
+        JSIValue dataPropertyValue = JSI::GetNamedProperty(extractedVal, "data");
+        dataCheckRes = JSI::ValueIsUndefined(dataPropertyValue);
+        JSI::ReleaseValue(dataPropertyValue);
+    }
+    if (!dataCheckRes) {
+        printf("JSIInterfaceTest038 pass\n");
+    } else {
+        printf("JSIInterfaceTest038 fail\n");
+    }
+    EXPECT_FALSE(dataCheckRes);
+    // clean up
+    JSI::ReleaseValue(extractedVal);
+    JSI::ReleaseValue(functionValue);
+    JSI::ReleaseValue(errResult);
+    TDD_CASE_END();
+}
+
 void JsiInterfaceTddTest::RunTests()
 {
     JSIInterfaceTest001();
@@ -1121,6 +1378,15 @@ void JsiInterfaceTddTest::RunTests()
     JSIInterfaceTest027();
     JSIInterfaceTest028();
     JSIInterfaceTest029();
+    JSIInterfaceTest030();
+    JSIInterfaceTest031();
+    JSIInterfaceTest032();
+    JSIInterfaceTest033();
+    JSIInterfaceTest034();
+    JSIInterfaceTest035();
+    JSIInterfaceTest036();
+    JSIInterfaceTest037();
+    JSIInterfaceTest038();
 }
 
 #ifdef TDD_ASSERTIONS
@@ -1393,6 +1659,96 @@ HWTEST_F(JsiInterfaceTddTest, test028, TestSize.Level0)
 HWTEST_F(JsiInterfaceTddTest, test029, TestSize.Level0)
 {
     JsiInterfaceTddTest::JSIInterfaceTest029();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest030
+ * @tc.desc: Verify JSI create error function.
+ * @tc.require: I5TIPU
+ */
+HWTEST_F(JsiInterfaceTddTest, test030, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest030();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest031
+ * @tc.desc: Verify JSI create error function.
+ * @tc.require: I5TIPU
+ */
+HWTEST_F(JsiInterfaceTddTest, test031, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest031();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest032
+ * @tc.desc: Verify JSI create error function.
+ * @tc.require: I5TIPU
+ */
+HWTEST_F(JsiInterfaceTddTest, test032, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest032();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest033
+ * @tc.desc: Verify JSI create error function.
+ * @tc.require: I5TIPU
+ */
+HWTEST_F(JsiInterfaceTddTest, test033, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest033();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest034
+ * @tc.desc: Verify JSI create error function.
+ * @tc.require: I5TIPU
+ */
+HWTEST_F(JsiInterfaceTddTest, test034, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest034();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest035
+ * @tc.desc: Verify JSI create error function.
+ * @tc.require: I5TIPU
+ */
+HWTEST_F(JsiInterfaceTddTest, test035, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest035();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest036
+ * @tc.desc: Verify JSI create error function.
+ * @tc.require: I5TIPU
+ */
+HWTEST_F(JsiInterfaceTddTest, test036, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest036();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest037
+ * @tc.desc: Verify JSI create error function.
+ * @tc.require: I5TIPU
+ */
+HWTEST_F(JsiInterfaceTddTest, test037, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest037();
+}
+
+/**
+ * @tc.name: JSIInterfaceTest038
+ * @tc.desc: Verify JSI create error function.
+ * @tc.require: I5TIPU
+ */
+HWTEST_F(JsiInterfaceTddTest, test038, TestSize.Level0)
+{
+    JsiInterfaceTddTest::JSIInterfaceTest038();
 }
 #endif
 } // namespace ACELite
