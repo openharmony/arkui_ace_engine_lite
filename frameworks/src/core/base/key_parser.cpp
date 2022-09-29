@@ -31,10 +31,8 @@ namespace ACELite {
 
 static const struct {
     const char * const key;
-    const uint16_t ID;
-    const uint8_t LENGTH;
 } G_KEYWORD_INFO[KEYWORDS_MAX] = {
-    {"UNKNOWN", K_UNKNOWN, static_cast<uint8_t>(strlen("UNKNOWN"))},
+    {"UNKNOWN"},
 
 #ifdef OHOS_ACELITE_KEYS_H
 // include the keys.h again to redefine the "KEYWORD"
