@@ -13,26 +13,48 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class="container" style="flex-direction:column; align-items:center">
-    <div style="margin-top:40px;width:320px;height:80px;" class="divFrame">
-        <text style="width:60px;height:80px;text-overflow:ellipsis">arc</text>
-    </div>
-    <div style="height:220px;" class="divFrame">
-        <stack style="width:454px;height:220px;">
-            <progress
-                id="process"
+<div id="containerDiv"
+     class="container"
+     style="flex-direction: column; align-items: center">
+  <div id="frameDiv0"
+       style="margin-top: 40px; width: 320px; height: 80px;"
+       class="divFrame">
+    <text id="frameText"
+          style="width: 60px; height: 80px; text-overflow: ellipsis">
+      arc
+    </text>
+  </div>
+  <div id="frameDiv1"
+       style="height: 220px;"
+       class="divFrame">
+    <stack id="stack"
+           style="width: 454px; height: 220px;">
+      <progress id="progress"
                 type="arc"
                 percent="{{progress}}"
                 onlongpress="longPressTest"
-                style="width:220px;height:220px;center-x: 110px;center-y: 110px;radius: 110px; start-angle: 90deg;
-                total-angle: -90deg;color: #dc143c;stroke-width: 5px;left: 116px;background-color:#007ACC"/>
-            <text style="left:200px;top:90px;width:100px;height:50px;" onclick="updateProgress"
-                >{{text}}</text
-            >
-        </stack>
-    </div>
-    <div class="divFrame">
-        <input type="button" value="上页" style="width:90px;height:40px;" onclick="changePrev"/>
-        <input type="button" value="首页" style="width:90px;height:40px;" onclick="backMain"/>
-    </div>
+                style="width: 220px; height: 220px; center-x: 110px; center-y: 110px; radius: 110px;
+                       start-angle: 90deg;
+                       total-angle: -90deg; color: #dc143c; stroke-width: 5px; left: 116px;
+                       background-color: #007ACC" />
+      <text id="progressText"
+            style="left: 200px; top: 90px; width: 100px; height: 50px;"
+            onclick="updateProgress">
+        {{text}}
+      </text>
+    </stack>
+  </div>
+  <div id="frameDiv2"
+       class="divFrame">
+    <input id="buttonPrev"
+           type="button"
+           value="上页"
+           style="width: 90px; height: 40px;"
+           onclick="changePrev" />
+    <input id="buttonBack"
+           type="button"
+           value="首页"
+           style="width: 90px; height: 40px;"
+           onclick="backMain" />
+  </div>
 </div>

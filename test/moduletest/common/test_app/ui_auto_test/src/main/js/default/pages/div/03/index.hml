@@ -13,32 +13,79 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-    <div class="container" style="flex-direction:column; align-items:center">
-        <div style="margin-top:40px;width:320px;height:80px;" class="divFrame">
-            <text style="width:320px;height:80px;text-overflow:ellipsis">Component_Div_StyleSet_Test_003</text>
+<div id="containerDiv"
+     class="container"
+     style="flex-direction: column; align-items: center">
+  <div id="frameDiv0"
+       style="margin-top: 40px; width: 320px; height: 80px;"
+       class="divFrame">
+    <text id="frameText"
+          style="width: 320px; height: 80px; text-overflow: ellipsis">
+      Component_Div_StyleSet_Test_003
+    </text>
+  </div>
+  <div id="frameDiv1"
+       style="height: 220px;"
+       class="divFrame">
+    <stack id="stack"
+           style="width: 454px; height: 220px">
+      <div id="blockDiv0"
+           style="left: 225px; align-items: flex-start;"
+           class="divBlock">
+        <div id="innerBlockDiv01"
+             class="innerDivBlock">
         </div>
-        <div style="height:220px;" class="divFrame">
-             <stack style="width:454px;height:220px">
-                <div style="left:225px; align-items:flex-start;" class="divBlock" >
-                    <div class="innerDivBlock"></div>
-                    <div class="innerDivBlock"></div>
-                    <div class="innerDivBlock"></div>
-                </div>
-                <div style="left:65px; top:110px; align-items:flex-end;" class="divBlock" >
-                    <div class="innerDivBlock"></div>
-                    <div class="innerDivBlock"></div>
-                    <div class="innerDivBlock"></div>
-                </div>
-                <div style="left:225px; top:110px; align-items:center;" class="divBlock" >
-                    <div class="innerDivBlock"></div>
-                    <div class="innerDivBlock"></div>
-                    <div class="innerDivBlock"></div>
-                </div>
-            </stack>
+        <div id="innerBlockDiv02"
+             class="innerDivBlock">
         </div>
-        <div class="divFrame">
-            <input type="button" value="上页" style="width:90px;height:40px;" onclick="changePrev"/>
-            <input type="button" value="首页" style="width:90px;height:40px;" onclick="backMain"/>
-            <input type="button" value="下页" style="width:90px;height:40px;" onclick="changeNext"/>
+        <div id="innerBlockDiv03"
+             class="innerDivBlock">
         </div>
-    </div>
+      </div>
+      <div id="blockDiv1"
+           style="left: 65px; top: 110px; align-items: flex-end;"
+           class="divBlock">
+        <div id="innerBlockDiv11"
+             class="innerDivBlock">
+        </div>
+        <div id="innerBlockDiv12"
+             class="innerDivBlock">
+        </div>
+        <div id="innerBlockDiv13"
+             class="innerDivBlock">
+        </div>
+      </div>
+      <div id="blockDiv2"
+           style="left: 225px; top: 110px; align-items: center;"
+           class="divBlock">
+        <div id="innerBlockDiv21"
+             class="innerDivBlock">
+        </div>
+        <div id="innerBlockDiv22"
+             class="innerDivBlock">
+        </div>
+        <div id="innerBlockDiv23"
+             class="innerDivBlock">
+        </div>
+      </div>
+    </stack>
+  </div>
+  <div id="frameDiv2"
+       class="divFrame">
+    <input id="buttonPrev"
+           type="button"
+           value="上页"
+           style="width: 90px; height: 40px;"
+           onclick="changePrev" />
+    <input id="buttonBack"
+           type="button"
+           value="首页"
+           style="width: 90px; height: 40px;"
+           onclick="backMain" />
+    <input id="buttonNext"
+           type="button"
+           value="下页"
+           style="width: 90px; height: 40px;"
+           onclick="changeNext" />
+  </div>
+</div>
