@@ -46,6 +46,8 @@ INCLUDEPATH += \
     $${FOUNDATION_PATH}/../commonlibrary/utils_lite/timer_task/include/ \
     $${FOUNDATION_PATH}/../third_party/bounds_checking_function/include \
     $${FOUNDATION_PATH}/../third_party/bounds_checking_function/src \
+    $${FOUNDATION_PATH}/graphic/ui/test/autotest/include \
+    $${FOUNDATION_PATH}/graphic/ui/test/autotest/src
 
 HEADERS += \
     $${FOUNDATION_PATH}/graphic/ui/interfaces/innerkits/font/ui_font_vector.h \
@@ -78,6 +80,8 @@ SOURCES += \
 LIBS += $$DESTDIR/jsfwk.dll
 LIBS += $$DESTDIR/jerryScript.dll
 LIBS += $$UIDESTDIR/libs/libui.dll
+LIBS += $$UIDESTDIR/libs/test.dll
+LIBS += $$UIDESTDIR/libs/auto_test.dll
 
 COPY_DEST = $$replace(OUT_PWD, /, \\)
 UILIBS = $$FOUNDATION_PATH/graphic/ui/tools/qt/simulator/libs
@@ -89,4 +93,6 @@ QMAKE_POST_LINK += copy $$UI_LIBS\\libpng.dll $$COPY_DEST\\..\\libs\\libpng.dll 
 QMAKE_POST_LINK += copy $$UI_LIBS\\libui.dll $$COPY_DEST\\..\\libs\\libui.dll &
 QMAKE_POST_LINK += copy $$UI_LIBS\\giflib.dll $$COPY_DEST\\..\\libs\\giflib.dll &
 QMAKE_POST_LINK += copy $$UI_LIBS\\qrcodegen.dll $$COPY_DEST\\..\\libs\\qrcodegen.dll &
-QMAKE_POST_LINK += copy $$UI_LIBS\\zlib.dll $$COPY_DEST\\..\\libs\\zlib.dll
+QMAKE_POST_LINK += copy $$UI_LIBS\\zlib.dll $$COPY_DEST\\..\\libs\\zlib.dll &
+QMAKE_POST_LINK += copy $$UI_LIBS\\test.dll $$COPY_DEST\\..\\libs\\test.dll &
+QMAKE_POST_LINK += copy $$UI_LIBS\\auto_test.dll $$COPY_DEST\\..\\libs\\auto_test.dll
