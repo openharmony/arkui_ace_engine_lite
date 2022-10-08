@@ -13,10 +13,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class = "container">
-    <input type = "radio" class = "radio" style = "width: {{width}};height: {{height}};" onclick = "changeArea"/>
-    <div class = "page">
-        <input type = "button" class = "button" style = "margin-left: 50px;" value = "上一页" onclick = "goPrevious"/>
-        <input type = "button" class = "button" style = "margin-left: 20px;" value = "首页" onclick = "goHome"/>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <input id="radio"
+         type="radio"
+         class="radio"
+         style="width: {{width}}; height: {{height}};"
+         onclick="changeArea" />
+  <div id="pageDiv"
+       class="page">
+    <input id="buttonPrev"
+           type="button"
+           class="button"
+           style="margin-left: 50px;"
+           value="上一页"
+           onclick="goPrevious" />
+    <input id="buttonHome"
+           type="button"
+           class="button"
+           style="margin-left: 20px;"
+           value="首页"
+           onclick="goHome" />
+  </div>
 </div>

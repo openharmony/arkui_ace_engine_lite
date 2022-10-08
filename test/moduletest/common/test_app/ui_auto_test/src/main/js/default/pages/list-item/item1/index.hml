@@ -13,26 +13,43 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="left:0px;top:0px;width:454px;height:454px;">
-  <text style="left:70px;top:20px;width:170px;height:40px;">list-item1</text>
-  <input type="button" style="left:240px;top:20px;width:90px;height:40px;" value="首页" onclick="backMain"/>
-  <list
-      id="list1"
-      style="left:70px;top:73px;width:270px;height:70px;flex-direction: column;border-width:2px;border-color:#008000;flex-direction: column"
-      onclick="listClick"
-      onscrollend="scrollEnd"
-    >
-    <list-item style="width:180px;height:40px;">
-      <text style="color: #ffa500;width:180px;height:40px;">
+<stack id="stack"
+       style="left: 0px; top: 0px; width: 454px; height: 454px;">
+  <text id="text"
+        style="left: 70px; top: 20px; width: 170px; height: 40px;">
+    list-item1
+  </text>
+  <input id="buttonBack"
+         type="button"
+         style="left: 240px; top: 20px; width: 90px; height: 40px;"
+         value="首页"
+         onclick="backMain" />
+  <list id="list1"
+        style="left: 70px; top: 73px; width: 270px; height: 70px; flex-direction: column; border-width: 2px;
+          border-color: #008000; flex-direction: column"
+        onclick="listClick"
+        onscrollend="scrollEnd">
+    <list-item id="listItem0"
+               style="width: 180px; height: 40px;">
+      <text id="listItemText0"
+            style="color: #ffa500; width: 180px; height: 40px;">
         mytext0
       </text>
     </list-item>
-    <list-item style="width:180px;height:40px;">
-      <text style="color: #ffa500;width:180px;height:40px;">
+    <list-item id="listItem1"
+               style="width: 180px; height: 40px;">
+      <text id="listItemText1"
+            style="color: #ffa500; width: 180px; height: 40px;">
         mytext1
       </text>
     </list-item>
   </list>
-  <image src="common/preRow.png" style="left:20px;top:227px;width:30px;height:45px;" onclick="prePage"/>
-  <image src="common/nextRow.png" style="left:390px;top:227px;width:30px;height:45px;" onclick="nextPage"/>
+  <image id="preImage"
+         src="common/preRow.png"
+         style="left: 20px; top: 227px; width: 30px; height: 45px;"
+         onclick="prePage" />
+  <image id="nextImage"
+         src="common/nextRow.png"
+         style="left: 390px; top: 227px; width: 30px; height: 45px;"
+         onclick="nextPage" />
 </stack>

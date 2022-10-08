@@ -13,26 +13,31 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="width:454px;height:454px">
-  <text style="left:170px;top:30px;width:300px;height:40px">resource005</text>
-  <image src="/common/test.png" style="left:100px;top:80px;width:116px;height:116px;" />
-  <image src="{{imgSrc}}" style="left:100px;top:200px;width:116px;height:116px;" />
-  <input
-    type="button"
-    value="上页"
-    style="width:90px;height:40px;left:80px;top:340px;"
-    onclick="changePrev"
-  />
-  <input
-    type="button"
-    value="首页"
-    style="width:90px;height:40px;left:180px;top:340px;"
-    onclick="backMain"
-  />
-  <input
-    type="button"
-    value="下页"
-    style="width:90px;height:40px;left:280px;top:340px;"
-    onclick="changeNext"
-  />
+<stack id="stack"
+       style="width: 454px; height: 454px">
+  <text id="text"
+        style="left: 170px; top: 30px; width: 300px; height: 40px">
+    resource005
+  </text>
+  <image id="image0"
+         src="/common/test.png"
+         style="left: 100px; top: 80px; width: 116px; height: 116px;" />
+  <image id="image1"
+         src="{{imgSrc}}"
+         style="left: 100px; top: 200px; width: 116px; height: 116px;" />
+  <input id="buttonPre"
+         type="button"
+         value="上页"
+         style="width: 90px; height: 40px; left: 80px; top: 340px;"
+         onclick="changePrev" />
+  <input id="buttonBack"
+         type="button"
+         value="首页"
+         style="width: 90px; height: 40px; left: 180px; top: 340px;"
+         onclick="backMain" />
+  <input id="buttonNext"
+         type="button"
+         value="下页"
+         style="width: 90px; height: 40px; left: 280px; top: 340px;"
+         onclick="changeNext" />
 </stack>

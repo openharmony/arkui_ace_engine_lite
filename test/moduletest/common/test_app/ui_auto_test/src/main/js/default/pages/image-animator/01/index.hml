@@ -12,51 +12,110 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<div class="container">
-  <div class="animator-box">
-    <image-animator class="animator" ref="animator1" images="{{frames}}" duration="1s" iteration="1" />
-    <text class="animator-title">
+
+<div id="containerDiv"
+     class="container">
+  <div id="animatorDiv1"
+       class="animator-box">
+    <image-animator id="animator1"
+                    class="animator"
+                    ref="animator1"
+                    images="{{frames}}"
+                    duration="1s"
+                    iteration="1" />
+    <text id="animatorText1"
+          class="animator-title">
       null
     </text>
   </div>
-  <div class="animator-box">
-    <image-animator class="animator" ref="animator2" images="{{frames}}" duration="1s" iteration="1"
-        fillmode="none" />
-    <text class="animator-title">
+  <div id="animatorDiv2"
+       class="animator-box">
+    <image-animator id="animator2"
+                    class="animator"
+                    ref="animator2"
+                    images="{{frames}}"
+                    duration="1s"
+                    iteration="1"
+                    fillmode="none" />
+    <text id="animatorText2"
+          class="animator-title">
       none
     </text>
   </div>
-  <div class="animator-box">
-    <image-animator class="animator" ref="animator3" images="{{frames}}" duration="1s" iteration="1"
-        fillmode="forwards"/>
-    <text class="animator-title">
+  <div id="animatorDiv3"
+       class="animator-box">
+    <image-animator id="animator3"
+                    class="animator"
+                    ref="animator3"
+                    images="{{frames}}"
+                    duration="1s"
+                    iteration="1"
+                    fillmode="forwards" />
+    <text id="animatorText3"
+          class="animator-title">
       forwards
     </text>
   </div>
-  <div class="animator-box">
-    <image-animator class="animator" ref="animator5" images="{{frames}}" duration="1s" iteration="1"
-        reverse="true" />
-    <text class="animator-title">
+  <div id="animatorDiv5"
+       class="animator-box">
+    <image-animator id="animator5"
+                    class="animator"
+                    ref="animator5"
+                    images="{{frames}}"
+                    duration="1s"
+                    iteration="1"
+                    reverse="true" />
+    <text id="animatorText5"
+          class="animator-title">
       null
     </text>
   </div>
-  <div class="animator-box">
-    <image-animator class="animator" ref="animator6" images="{{frames}}" duration="1s" iteration="1" reverse="true"
-        fillmode="none" />
-    <text class="animator-title">
+  <div id="animatorDiv6"
+       class="animator-box">
+    <image-animator id="animator6"
+                    class="animator"
+                    ref="animator6"
+                    images="{{frames}}"
+                    duration="1s"
+                    iteration="1"
+                    reverse="true"
+                    fillmode="none" />
+    <text id="animatorText6"
+          class="animator-title">
       none
     </text>
   </div>
-  <div class="animator-box">
-    <image-animator class="animator" ref="animator7" images="{{frames}}" duration="1s" iteration="1" reverse="true"
-        fillmode="forwards"/>
-    <text class="animator-title">
+  <div id="animatorDiv7"
+       class="animator-box">
+    <image-animator id="animator7"
+                    class="animator"
+                    ref="animator7"
+                    images="{{frames}}"
+                    duration="1s"
+                    iteration="1"
+                    reverse="true"
+                    fillmode="forwards" />
+    <text id="animatorText7"
+          class="animator-title">
       forwards
     </text>
   </div>
-  <div class="btn-box">
-    <input class="btn" type="button" value="start" @click="handleStart" />
-    <input class="btn" type="button" value="stop" @click="handleStop" />
-    <input class="btn btn--big" type="button" value="home" @click="handleGoHome" />
+  <div id="btnDiv"
+       class="btn-box">
+    <input id="buttonStart"
+           class="btn"
+           type="button"
+           value="start"
+           @click="handleStart" />
+    <input id="buttonStop"
+           class="btn"
+           type="button"
+           value="stop"
+           @click="handleStop" />
+    <input id="buttonHome"
+           class="btn btn--big"
+           type="button"
+           value="home"
+           @click="handleGoHome" />
   </div>
 </div>

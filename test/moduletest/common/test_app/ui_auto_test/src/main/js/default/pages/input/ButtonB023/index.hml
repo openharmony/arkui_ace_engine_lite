@@ -13,15 +13,49 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class = "container">
-    <input type = "button" value = "{{value}}" class = "button" style ="fontSize:{{fontSize}};fontFamily:{{fontFamily}};color:{{color}}"/>
-    <input type="button" value = "value" onclick="changeValue" class = "button"/>
-    <input type = "button" value = "fontSize" onclick = "changeFontSize" class = "button"/>
-    <input type = "button" value = "fontFamily" onclick = "changeFontFamily" class = "button"/>
-    <input type = "button" value = "color" onclick = "changeColor" class = "button"/>
-    <div class = "bottom">
-        <input type = "button" value = "上一页" class = "pagePrevious" onclick="goPrevious"/>
-        <input type = "button" value = "首页" class = "page" onclick="goHome"/>
-        <input type = "button" value = "下一页" class = "page" onclick = "goNext"/>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <input id="button"
+         type="button"
+         value="{{value}}"
+         class="button"
+         style="fontSize: {{fontSize}}; fontFamily: {{fontFamily}}; color: {{color}}" />
+  <input id="buttonValue"
+         type="button"
+         value="value"
+         onclick="changeValue"
+         class="button" />
+  <input id="buttonFontSize"
+         type="button"
+         value="fontSize"
+         onclick="changeFontSize"
+         class="button" />
+  <input id="buttonFontFamil"
+         type="button"
+         value="fontFamily"
+         onclick="changeFontFamily"
+         class="button" />
+  <input id="buttonColor"
+         type="button"
+         value="color"
+         onclick="changeColor"
+         class="button" />
+  <div id="bottomDiv"
+       class="bottom">
+    <input id="buttonPre"
+           type="button"
+           value="上一页"
+           class="pagePrevious"
+           onclick="goPrevious" />
+    <input id="buttonHome"
+           type="button"
+           value="首页"
+           class="page"
+           onclick="goHome" />
+    <input id="buttonNext"
+           type="button"
+           value="下一页"
+           class="page"
+           onclick="goNext" />
+  </div>
 </div>

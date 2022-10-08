@@ -13,37 +13,48 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack class="container">
-  <text class="title">
+<stack id="containerDiv"
+       class="container">
+  <text id="text"
+        class="title">
     Hello {{title}}
   </text>
-  <input
-    class="input"
-    type="button"
-    name="input1"
-    value="button"
-    checked="true"
-    @click="clickbutton"
-    onlongpress="buttonpress">
+  <input id="button"
+         class="input"
+         type="button"
+         name="input1"
+         value="button"
+         checked="true"
+         @click="clickbutton"
+         onlongpress="buttonpress">
   </input>
-  <input
-    class="input1"
-    type="checkbox"
-    checked="false"
-    value="check"
-    name="input2"
-    onchange="changecheckbox">
+  <input id="checkbox"
+         class="input1"
+         type="checkbox"
+         checked="false"
+         value="check"
+         name="input2"
+         onchange="changecheckbox">
   </input>
-  <input
-    class="input2"
-    type="radio"
-    checked="false"
-    value="radio"
-    name="input3"
-    @change="changeradio">
+  <input id="radio"
+         class="input2"
+         type="radio"
+         checked="false"
+         value="radio"
+         name="input3"
+         @change="changeradio">
   </input>
-  <div class = "bottom">
-    <input type = "button" class = "previous" onclick="goPrevious" value = "上一页"/>
-    <input type = "button" class = "home" onclick = "goHome" value = "首页"/>
+  <div id="bottomDiv"
+       class="bottom">
+    <input id="buttonPre"
+           type="button"
+           class="previous"
+           onclick="goPrevious"
+           value="上一页" />
+    <input id="buttonHome"
+           type="button"
+           class="home"
+           onclick="goHome"
+           value="首页" />
   </div>
 </stack>

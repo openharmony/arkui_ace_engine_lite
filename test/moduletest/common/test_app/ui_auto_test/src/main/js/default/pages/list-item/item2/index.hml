@@ -13,41 +13,71 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="left:0px;top:0px;width:454px;height:454px;">
-  <text style="left:70px;top:20px;width:170px;height:40px;">list-item2</text>
-  <input type="button" style="left:240px;top:20px;width:90px;height:40px;" value="首页" onclick="backMain"/>
-  <list
-      id="list1"
-      style="left:70px;top:73px;width:270px;height:100px;flex-direction: column;border-width:2px;border-color:#008000"
-      onclick="listClick"
-      onscrollend="scrollEnd"
-    >
-    <list-item style="width:270px;height:60px;">
-      <stack style="width:270px;height:60px;">
-        <input type="button" style="left:50px;width:150px;height:60px;" value="button1"/>
+<stack id="stack"
+       style="left: 0px; top: 0px; width: 454px; height: 454px;">
+  <text id="text"
+        style="left: 70px; top: 20px; width: 170px; height: 40px;">
+    list-item2
+  </text>
+  <input id="buttonBack"
+         type="button"
+         style="left: 240px; top: 20px; width: 90px; height: 40px;"
+         value="首页"
+         onclick="backMain" />
+  <list id="list1"
+        style="left: 70px; top: 73px; width: 270px; height: 100px; flex-direction: column; border-width: 2px;
+               border-color: #008000"
+        onclick="listClick"
+        onscrollend="scrollEnd">
+    <list-item id="listItem0"
+               style="width: 270px; height: 60px;">
+      <stack id="listItemStack0"
+             style="width: 270px; height: 60px;">
+        <input id="button1"
+               type="button"
+               style="left: 50px; width: 150px; height: 60px;"
+               value="button1" />
       </stack>
     </list-item>
-    <list-item style="width:270px;height:20px;">
-      <stack style="width:270px;height:4px;background-color:#8b8b7a;left:0px;top:0px;">
+    <list-item id="listItem1"
+               style="width: 270px; height: 20px;">
+      <stack id="listItemStack1"
+             style="width: 270px; height: 4px; background-color: #8b8b7a; left: 0px; top: 0px;">
       </stack>
     </list-item>
-    <list-item style="width:270px;height:50px;">
-      <stack style="width:270px;height:50px;">
-        <text style="color:#ffa500;width:454px;height:50px;left:80px;top:0px;">
+    <list-item id="listItem2"
+               style="width: 270px; height: 50px;">
+      <stack id="listItemStack2"
+             style="width: 270px; height: 50px;">
+        <text id="listItemText"
+              style="color: #ffa500; width: 454px; height: 50px; left: 80px; top: 0px;">
           text1
         </text>
       </stack>
     </list-item>
-    <list-item style="width:270px;height:20px;">
-      <stack style="width:270px;height:4px;background-color:#8b8b7a;left:0px;top:0px;">
+    <list-item id="listItem3"
+               style="width: 270px; height: 20px;">
+      <stack id="listItemStack3"
+             style="width: 270px; height: 4px; background-color: #8b8b7a; left: 0px; top: 0px;">
       </stack>
     </list-item>
-    <list-item style="width:270px;height:60px;">
-      <stack style="width:270px;height:60px;">
-        <input type="button" style="left:50px;width:150px;height:60px;" value="button2"/>
+    <list-item id="listItem4"
+               style="width: 270px; height: 60px;">
+      <stack id="listItemStack4"
+             style="width: 270px; height: 60px;">
+        <input id="button2"
+               type="button"
+               style="left: 50px; width: 150px; height: 60px;"
+               value="button2" />
       </stack>
     </list-item>
   </list>
-  <image src="common/preRow.png" style="left:20px;top:227px;width:30px;height:45px;" onclick="prePage"/>
-  <image src="common/nextRow.png" style="left:390px;top:227px;width:30px;height:45px;" onclick="nextPage"/>
+  <image id="preImage"
+         src="common/preRow.png"
+         style="left: 20px; top: 227px; width: 30px; height: 45px;"
+         onclick="prePage" />
+  <image id="nextImage"
+         src="common/nextRow.png"
+         style="left: 390px; top: 227px; width: 30px; height: 45px;"
+         onclick="nextPage" />
 </stack>

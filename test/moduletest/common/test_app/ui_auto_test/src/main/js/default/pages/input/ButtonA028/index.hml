@@ -13,14 +13,45 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class = "container">
-    <input type = "button" for = "{{data}}" class = "button" value = "{{$item}}" />
-    <input type = "button" onclick = "changeIf" class = "button" value="changeIf" />
-    <input type = "button" onclick = "changeStatus" class = "button" value = "changeStatus"/>
-    <input type = "button" onclick = "changeFor" class = "button" value = "changeFor" if = "{{ifStatus}}" show = "{{showStatus}}"/>
-    <div class = "bottom">
-        <input type = "button" class = "previous" onclick = "goPrevious" value = "上一页"/>
-        <input type = "button" class = "page" onclick = "goHome" value ="首页"/>
-        <input type = "button" class = "page" onclick = "goNext" value = "下一页"/>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <input type="button"
+         for="{{data}}"
+         class="button"
+         value="{{$item}}" />
+  <input id="buttonIf"
+         type="button"
+         onclick="changeIf"
+         class="button"
+         value="changeIf" />
+  <input id="buttonStatus"
+         type="button"
+         onclick="changeStatus"
+         class="button"
+         value="changeStatus" />
+  <input id="buttonFor"
+         type="button"
+         onclick="changeFor"
+         class="button"
+         value="changeFor"
+         if="{{ifStatus}}"
+         show="{{showStatus}}" />
+  <div id="bottomDiv"
+       class="bottom">
+    <input id="buttonPre"
+           type="button"
+           class="previous"
+           onclick="goPrevious"
+           value="上一页" />
+    <input id="buttonHome"
+           type="button"
+           class="page"
+           onclick="goHome"
+           value="首页" />
+    <input id="buttonNext"
+           type="button"
+           class="page"
+           onclick="goNext"
+           value="下一页" />
+  </div>
 </div>

@@ -13,52 +13,62 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="left:0px;top:0px;width:454px;height:454px;">
-  <text style="left:114px;top:20px;width:300px;height:40px;">list2</text>
-  <input type="button" style="left:227px;top:20px;width:90px;height:40px;" value="首页" onclick="backMain"/>
-  <list
-      id="list1"
-      style="left:113px;top:73px;width:250px;height:240px;border-width:1px; border-color:#ff0000;flex-direction: column"
-      onclick="listClick"
-      onscrollend="scrollEnd"
-    >
-    <list-item style="width:250px;height:120px;" for="{{listData}}">
-      <image src="{{$item}}" style="width:67px;height:67px;" />
-      <text style="color: #ffa500;width:130px;height:50px;">
+<stack id="stack"
+       style="left: 0px; top: 0px; width: 454px; height: 454px;">
+  <text id="text"
+        style="left: 114px; top: 20px; width: 300px; height: 40px;">
+    list2
+  </text>
+  <input id="buttonBack"
+         type="button"
+         style="left: 227px; top: 20px; width: 90px; height: 40px;"
+         value="首页"
+         onclick="backMain" />
+  <list id="list1"
+        style="left: 113px; top: 73px; width: 250px; height: 240px; border-width: 1px; border-color: #ff0000;
+               flex-direction: column"
+        onclick="listClick"
+        onscrollend="scrollEnd">
+    <list-item style="width: 250px; height: 120px;"
+               for="{{listData}}">
+      <image src="{{$item}}"
+             style="width: 67px; height: 67px;" />
+      <text style="color: #ffa500; width: 130px; height: 50px;">
         item--{{$idx}}
       </text>
     </list-item>
   </list>
-  <input
-    type="button"
-    style="left:113px;top:320px;width:80px;height:30px;"
-    value="splice"
-    onclick="clickSplice"
-  />
-  <input
-    type="button"
-    style="left:203px;top:320px;width:80px;height:30px;"
-    value="push"
-    onclick="clickPush"
-  />
-  <input
-    type="button"
-    style="left:293px;top:320px;width:80px;height:30px;"
-    value="pop"
-    onclick="clickPop"
-  />
-  <input
-    type="button"
-    style="left:113px;top:360px;width:80px;height:30px;"
-    value="shift"
-    onclick="clickShift"
-  />
-  <input
-    type="button"
-    style="left:203px;top:360px;width:80px;height:30px;"
-    value="unshift"
-    onclick="clickUnShift"
-  />
-  <image src="common/preRow.png" style="left:20px;top:227px;width:30px;height:45px;" onclick="prePage"/>
-  <image src="common/nextRow.png" style="left:390px;top:227px;width:30px;height:45px;" onclick="nextPage"/>
+  <input id="buttonSplice"
+         type="button"
+         style="left: 113px; top: 320px; width: 80px; height: 30px;"
+         value="splice"
+         onclick="clickSplice" />
+  <input id="buttonPush"
+         type="button"
+         style="left: 203px; top: 320px; width: 80px; height: 30px;"
+         value="push"
+         onclick="clickPush" />
+  <input id="buttonPop"
+         type="button"
+         style="left: 293px; top: 320px; width: 80px; height: 30px;"
+         value="pop"
+         onclick="clickPop" />
+  <input id="buttonShift"
+         type="button"
+         style="left: 113px; top: 360px; width: 80px; height: 30px;"
+         value="shift"
+         onclick="clickShift" />
+  <input id="buttonUnShift"
+         type="button"
+         style="left: 203px; top: 360px; width: 80px; height: 30px;"
+         value="unshift"
+         onclick="clickUnShift" />
+  <image id="preImage"
+         src="common/preRow.png"
+         style="left: 20px; top: 227px; width: 30px; height: 45px;"
+         onclick="prePage" />
+  <image id="nextImage"
+         src="common/nextRow.png"
+         style="left: 390px; top: 227px; width: 30px; height: 45px;"
+         onclick="nextPage" />
 </stack>

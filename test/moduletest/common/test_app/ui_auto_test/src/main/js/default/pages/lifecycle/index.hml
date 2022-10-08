@@ -13,15 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class="container">
-  <text class="title">
+<div id="containerDiv"
+     class="container">
+  <text id="list"
+        class="title">
     Lifecycle
   </text>
-  <text class="title" for="{{lifecycles}}">{{$item}}</text>
-  <input
-    type="button"
-    value="首页"
-    style="width:90px;height:40px;left:180px;top:340px;"
-    onclick="backMain"
-  />
+  <text class="title"
+        for="{{lifecycles}}">
+    {{$item}}
+  </text>
+  <input id="buttonBack"
+         type="button"
+         value="首页"
+         style="width: 90px; height: 40px; left: 180px; top: 340px;"
+         onclick="backMain" />
 </div>
