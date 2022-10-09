@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (c) 2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,13 +17,13 @@ import { routePage } from "../../../common/js/general";
 export default {
   data: {},
   button1() {
-    router.replace("");
+    router.replaceUrl();
   },
   button2() {
-    router.replace({ uri: 1 });
+    router.replaceUrl({ uri: 1 });
   },
   button3() {
-    router.replace({ path: "123" });
+    router.replaceUrl({ uri: "pages/page2/" });
   },
-  ...routePage("pages/router/03/index", "pages/router/05/index")
+  ...routePage("pages/router/04/index", "")
 };

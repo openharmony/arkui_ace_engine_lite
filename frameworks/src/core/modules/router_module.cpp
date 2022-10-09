@@ -18,20 +18,22 @@
 #include "js_app_context.h"
 #include "js_profiler.h"
 #include "jsi/internal/jsi_internal.h"
+#include "jsi.h"
+#include "jsi_types.h"
 
 namespace OHOS {
 namespace ACELite {
 void InitRouterModule(JSIValue exports)
 {
     JSI::SetModuleAPI(exports, "replace", RouterModule::Replace);
+    JSI::SetModuleAPI(exports, "replaceUrl", RouterModule::Replace);
 }
 
 JSIValue RouterModule::Replace(const JSIValue thisVal, const JSIValue* args, uint8_t argsNum)
 {
     if (argsNum != 1 || args == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "Replace args invalid, args num(%{public}d).", argsNum);
-        return AS_JSI_VALUE(jerry_create_error(JERRY_ERROR_TYPE,
-            reinterpret_cast<const jerry_char_t *>("params should only be one object.")));
+        return JSI::CreateErrorWithCode(JSI_ERR_CODE_PARAM_CHECK_FAILED, "params should only be one object.");
     }
     jerry_value_t object = AS_JERRY_VALUE(args[0]);
     // router.replace({uri: 'About', params: {id:'1'}}
