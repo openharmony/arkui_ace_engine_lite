@@ -28,6 +28,8 @@
 #include "module_manager.h"
 #include "root_view.h"
 #include "securec.h"
+#include "jsi_types.h"
+#include "jsi/internal/jsi_internal.h"
 
 namespace OHOS {
 namespace ACELite {
@@ -184,8 +186,8 @@ bool StateMachine::BindUri(jerry_value_t &jsRes)
     if (!jerry_value_is_string(uriValue)) {
         jerry_release_value(uriValue);
         HILOG_ERROR(HILOG_MODULE_ACE, "statemachine init failed as uri is invalid.");
-        jsRes = jerry_create_error(JERRY_ERROR_TYPE,
-                                   reinterpret_cast<const jerry_char_t *>("uri value type should be string."));
+        jsRes =  AS_JERRY_VALUE(JSI::CreateErrorWithCode(JSI_ERR_CODE_PARAM_CHECK_FAILED,
+                                                         "uri value type should be string."));
         return false;
     }
     uri_ = MallocStringOf(uriValue);
@@ -218,8 +220,7 @@ bool StateMachine::BindUri(jerry_value_t &jsRes)
         ace_free(uri_);
         uri_ = nullptr;
         HILOG_ERROR(HILOG_MODULE_ACE, "statemachine init failed as js file isn't existed.");
-        jsRes = jerry_create_error(JERRY_ERROR_URI,
-                                   reinterpret_cast<const jerry_char_t *>("route target doesn't existed."));
+        jsRes = AS_JERRY_VALUE(JSI::CreateErrorWithCode(ERR_CODE_URL_NOTEXIST, "route target doesn't existed."));
         return false;
     }
     return true;

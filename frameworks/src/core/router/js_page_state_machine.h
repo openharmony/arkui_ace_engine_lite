@@ -50,6 +50,9 @@ constexpr char PAGE_LIFECYCLE_CALLBACK_ON_SHOW[] = "onShow";
 constexpr char PAGE_LIFECYCLE_CALLBACK_ON_HIDE[] = "onHide";
 constexpr char PAGE_LIFECYCLE_CALLBACK_ON_DESTROY[] = "onDestroy";
 
+// uniform error code for error throwing
+constexpr uint32_t ERR_CODE_URL_NOTEXIST = 200002;
+
 #if JS_PAGE_SPECIFIC
 extern JSPageSpecific jsPageSpecific;
 #endif
