@@ -13,47 +13,96 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="left:0px;top:0px;width:454px;height:454px;">
-  <list style="left:0px;top:0px;width:454px;height:454px;flex-direction:column">
-    <list-item style="width:454px;height:60px;">
+<stack id="stack"
+       style="left: 0px; top: 0px; width: 454px; height: 454px;">
+  <list id="list"
+        style="left: 0px; top: 0px; width: 454px; height: 454px; flex-direction: column">
+    <list-item id="listItem0"
+               style="width: 454px; height: 60px;">
     </list-item>
-    <list-item style="width:454px;height:80px;">
-      <input type = "button" style="margin-left:130px;width:200px;height:60px;" onclick = "goHome" value = "返回首页"/>
+    <list-item id="listItem1"
+               style="width: 454px; height: 80px;">
+      <input id="buttonHome"
+             type="button"
+             style="margin-left: 130px; width: 200px; height: 60px;"
+             onclick="goHome"
+             value="返回首页" />
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem2"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item class="titleContainerStyle">
-        <text class="titleTextStyle"> API </text>
+    <list-item id="listItem3"
+               class="titleContainerStyle">
+      <text id="text"
+            class="titleTextStyle">
+        API
+      </text>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem4"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item class="buttonContainerStyle">
-        <input type="button" class="buttonStyle" value="属性接口1" onclick="changePage1"/>
+    <list-item id="listItem5"
+               class="buttonContainerStyle">
+      <input id="button1"
+             type="button"
+             class="buttonStyle"
+             value="属性接口1"
+             onclick="changePage1" />
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem6"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item class="buttonContainerStyle">
-        <input type="button" class="buttonStyle" value="属性接口2" onclick="changePage2"/>
+    <list-item id="listItem7"
+               class="buttonContainerStyle">
+      <input id="button2"
+             type="button"
+             class="buttonStyle"
+             value="属性接口2"
+             onclick="changePage2" />
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem8"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item class="buttonContainerStyle">
-        <input type="button" class="buttonStyle" value="绘图接口1" onclick="changePage3"/>
+    <list-item id="listItem9"
+               class="buttonContainerStyle">
+      <input id="button3"
+             type="button"
+             class="buttonStyle"
+             value="绘图接口1"
+             onclick="changePage3" />
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem10"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item class="buttonContainerStyle">
-        <input type="button" class="buttonStyle" value="绘图接口2" onclick="changePage4"/>
+    <list-item id="listItem11"
+               class="buttonContainerStyle">
+      <input id="button4"
+             type="button"
+             class="buttonStyle"
+             value="绘图接口2"
+             onclick="changePage4" />
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem12"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item class="buttonContainerStyle">
-        <input type="button" class="buttonStyle" value="性能测试" onclick="changePage5"/>
+    <list-item id="listItem13"
+               class="buttonContainerStyle">
+      <input id="button5"
+             type="button"
+             class="buttonStyle"
+             value="性能测试"
+             onclick="changePage5" />
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem14"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item class="buttonContainerStyle">
-        <input type="button" class="buttonStyle" value="SR场景用例" onclick="changePage6"/>
+    <list-item id="listItem15"
+               class="buttonContainerStyle">
+      <input id="button6"
+             type="button"
+             class="buttonStyle"
+             value="SR场景用例"
+             onclick="changePage6" />
     </list-item>
   </list>
 </stack>
