@@ -13,125 +13,244 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="left:0px;top:0px;width:454px;height:454px;">
-  <list style="left:0px;top:0px;width:454px;height:454px;flex-direction:column">
-    <list-item style="width:454px;height:60px;">
+<stack id="stack"
+       style="left: 0px; top: 0px; width: 454px; height: 454px;">
+  <list id="list"
+        style="left: 0px; top: 0px; width: 454px; height: 454px; flex-direction: column">
+    <list-item id="listItem0"
+               style="width: 454px; height: 60px;">
     </list-item>
-    <list-item style="width:454px;height:80px;">
-        <input type="button" style="margin-left:85px;width:130px;height:60px;" value="返回首页" onclick="backMain">
-        </input>
-        <input type="button" style="margin-left:20px;width:130px;height:60px;" value="返回上级" onclick="changePrev">
-        </input>
+    <list-item id="listItem1"
+               style="width: 454px; height: 80px;">
+      <input id="buttonBack"
+             type="button"
+             style="margin-left: 85px; width: 130px; height: 60px;"
+             value="返回首页"
+             onclick="backMain">
+      </input>
+      <input id="buttonPrev"
+             type="button"
+             style="margin-left: 20px; width: 130px; height: 60px;"
+             value="返回上级"
+             onclick="changePrev">
+      </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem2"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item class="titleContainerStyle">
-        <text class="titleTextStyle">
+    <list-item id="listItem3"
+               class="titleContainerStyle">
+      <text id="text"
+            class="titleTextStyle">
         canvas绘图接口
-        </text>
+      </text>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem4"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas1" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem5"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas1"
+              ref="canvas1"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test001" onclick="arc001Func">
+      <input id="button1"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test001"
+             onclick="arc001Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem6"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas2" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem7"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas2"
+              ref="canvas2"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test002" onclick="arc002Func">
+      <input id="button2"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test002"
+             onclick="arc002Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem8"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas3" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem9"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas3"
+              ref="canvas3"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test003" onclick="arc003Func">
+      <input id="button3"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test003"
+             onclick="arc003Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem10"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas4" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem11"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas4"
+              ref="canvas4"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test004" onclick="arc004Func">
+      <input id="button4"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test004"
+             onclick="arc004Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem12"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas5" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem13"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas5"
+              ref="canvas5"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test005" onclick="arc005Func">
+      <input id="button5"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test005"
+             onclick="arc005Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem14"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas6" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem15"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas6"
+              ref="canvas6"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test006" onclick="arc006Func">
+      <input id="button6"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test006"
+             onclick="arc006Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem16"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas7" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem17"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas7"
+              ref="canvas7"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test007" onclick="arc007Func">
+      <input id="button7"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test007"
+             onclick="arc007Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem18"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas8" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem19"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas8"
+              ref="canvas8"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test008" onclick="arc008Func">
+      <input id="button8"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test008"
+             onclick="arc008Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem20"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas9" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem21"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas9"
+              ref="canvas9"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test009" onclick="arc009Func">
+      <input id="button9"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test009"
+             onclick="arc009Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem22"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas10" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem23"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas10"
+              ref="canvas10"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test010" onclick="arc010Func">
+      <input id="button10"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test010"
+             onclick="arc010Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem24"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas11" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem25"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas11"
+              ref="canvas11"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test011" onclick="arc011Func">
+      <input id="button11"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test011"
+             onclick="arc011Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem26"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas12" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem27"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas12"
+              ref="canvas12"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test012" onclick="arc012Func">
+      <input id="button12"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test012"
+             onclick="arc012Func">
       </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem28"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:170px;">
-      <canvas ref="canvas13" style="margin-left:45px;width:200px;height:150px;background-color:#ffff00">
+    <list-item id="listItem29"
+               style="width: 454px; height: 170px;">
+      <canvas id="canvas13"
+              ref="canvas13"
+              style="margin-left: 45px; width: 200px; height: 150px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="arc_Test013" onclick="arc013Func">
+      <input id="button13"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="arc_Test013"
+             onclick="arc013Func">
       </input>
     </list-item>
   </list>

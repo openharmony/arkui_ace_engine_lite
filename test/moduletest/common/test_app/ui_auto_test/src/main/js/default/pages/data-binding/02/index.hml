@@ -16,7 +16,7 @@ limitations under the License.
 <stack id="stack"
        style="width: 454px; height: 454px;">
   <text id="text"
-        style="width: 390px; height: 50px; top: 120px; left: 32px; text-align: {{ align }};">
+        style="width: 390px; height: 50px; top: 120px; left: 32px; text-align: {{align}};">
     样式绑定：{{align}}
   </text>
   <input id="buttonLeft"

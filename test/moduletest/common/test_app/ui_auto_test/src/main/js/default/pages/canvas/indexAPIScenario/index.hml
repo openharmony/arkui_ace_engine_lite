@@ -13,29 +13,52 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="left:0px;top:0px;width:454px;height:454px;">
-  <list style="left:0px;top:0px;width:454px;height:454px;flex-direction:column">
-    <list-item style="width:454px;height:60px;">
+<stack id="stack"
+       style="left: 0px; top: 0px; width: 454px; height: 454px;">
+  <list id="list"
+        style="left: 0px; top: 0px; width: 454px; height: 454px; flex-direction: column">
+    <list-item id="listItem0"
+               style="width: 454px; height: 60px;">
     </list-item>
-    <list-item style="width:454px;height:80px;">
-        <input type="button" style="margin-left:85px;width:130px;height:60px;" value="返回首页" onclick=backMain>
-        </input>
-        <input type="button" style="margin-left:20px;width:130px;height:60px;" value="返回上级" onclick=changePrev>
-        </input>
+    <list-item id="listItem1"
+               style="width: 454px; height: 80px;">
+      <input id="buttonBack"
+             type="button"
+             style="margin-left: 85px; width: 130px; height: 60px;"
+             value="返回首页"
+             onclick=backMain>
+      </input>
+      <input id="buttonPrev"
+             type="button"
+             style="margin-left: 20px; width: 130px; height: 60px;"
+             value="返回上级"
+             onclick=changePrev>
+      </input>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem2"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item class="titleContainerStyle">
-        <text class="titleTextStyle">
+    <list-item id="listItem3"
+               class="titleContainerStyle">
+      <text id="text"
+            class="titleTextStyle">
         canvas绘图接口SR场景测试
-        </text>
+      </text>
     </list-item>
-    <list-item class="separatorContainerStyle">
+    <list-item id="listItem4"
+               class="separatorContainerStyle">
     </list-item>
-    <list-item style="width:454px;height:1200px;">
-      <canvas ref="canvas1" style="margin-left:45px;width:200px;height:1200px;background-color:#ffff00">
+    <list-item id="listItem5"
+               style="width: 454px; height: 1200px;">
+      <canvas id="canvas1"
+              ref="canvas1"
+              style="margin-left: 45px; width: 200px; height: 1200px; background-color: #ffff00">
       </canvas>
-      <input type="button" style="margin-left:10px;width:180px;height:100px;" value="scenario_Test001" onclick=scenario001Func>
+      <input id="button1"
+             type="button"
+             style="margin-left: 10px; width: 180px; height: 100px;"
+             value="scenario_Test001"
+             onclick=scenario001Func>
       </input>
     </list-item>
   </list>
