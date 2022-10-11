@@ -13,16 +13,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="width:454px;height:454px;">
-    <switch
-        style="width:64px;height:64px;left:100px;top:100px;border-color:#00FF00;border-width:10px;border-radius:20px;padding:10px;"
-    />
-    <text
-        style="width:200px;height:40px;left:100px;top:240px;font-size:30px;"
-    >
-      style002
-    </text>
-    <input type="button" value="上页" style="width:90px;height:40px;left:80px;top:340px;" onclick="changePrev"/>
-    <input type="button" value="首页" style="width:90px;height:40px;left:180px;top:340px;" onclick="backMain"/>
-    <input type="button" value="下页" style="width:90px;height:40px;left:280px;top:340px;" onclick="changeNext"/>
+<stack id="stack"
+       style="width: 454px; height: 454px;">
+  <switch id="switch"
+          style="width: 64px; height: 64px; left: 100px; top: 100px; border-color: #00FF00; border-width: 10px;
+                 border-radius: 20px; padding: 10px;" />
+  <text id="text"
+        style="width: 200px; height: 40px; left: 100px; top: 240px; font-size: 30px;">
+    style002
+  </text>
+  <input id="buttonPrev"
+         type="button"
+         value="上页"
+         style="width: 90px; height: 40px; left: 80px; top: 340px;"
+         onclick="changePrev" />
+  <input id="buttonBack"
+         type="button"
+         value="首页"
+         style="width: 90px; height: 40px; left: 180px; top: 340px;"
+         onclick="backMain" />
+  <input id="buttonNext"
+         type="button"
+         value="下页"
+         style="width: 90px; height: 40px; left: 280px; top: 340px;"
+         onclick="changeNext" />
 </stack>

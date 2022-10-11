@@ -13,18 +13,42 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="left:0px;top:0px;width:454px;height:454px;">
-  <text style="left:114px;top:20px;width:100px;height:40px;">list1</text>
-  <input type="button" style="left:227px;top:20px;width:90px;height:40px;" value="首页" onclick="backMain"/>
-  <list id="list1" style="left:113px;top:113px;width:250px;height:240px;flex-direction: column;border-width:1px;border-color:#ff0000" onclick="listClick" onscrollend="scrollEnd">
-    <list-item class="itemStyle" for="{{listData}}">
-      <image src="{{$item}}" style="width:67px;height:67px;" />
-      <text style="width:160px;height:50px;">
+<stack id="stack"
+       style="left: 0px; top: 0px; width: 454px; height: 454px;">
+  <text id="text"
+        style="left: 114px; top: 20px; width: 100px; height: 40px;">
+    list1
+  </text>
+  <input id="buttonBack"
+         type="button"
+         style="left: 227px; top: 20px; width: 90px; height: 40px;"
+         value="首页"
+         onclick="backMain" />
+  <list id="list1"
+        style="left: 113px; top: 113px; width: 250px; height: 240px; flex-direction: column; border-width: 1px;
+               border-color: #ff0000"
+        onclick="listClick"
+        onscrollend="scrollEnd">
+    <list-item class="itemStyle"
+               for="{{listData}}">
+      <image src="{{$item}}"
+             style="width: 67px; height: 67px;" />
+      <text style="width: 160px; height: 50px;">
         item-{{$idx}}
       </text>
     </list-item>
   </list>
-  <input type="button" style="left:170px;top:370px;width:120px;height:40px;" value="splice" onclick="clickSplice"/>
-  <image src="common/preRow.png" style="left:20px;top:227px;width:30px;height:45px;" onclick="prePage"/>
-  <image src="common/nextRow.png" style="left:390px;top:227px;width:30px;height:45px;" onclick="nextPage"/>
+  <input id="buttonSplice"
+         type="button"
+         style="left: 170px; top: 370px; width: 120px; height: 40px;"
+         value="splice"
+         onclick="clickSplice" />
+  <image id="preImage"
+         src="common/preRow.png"
+         style="left: 20px; top: 227px; width: 30px; height: 45px;"
+         onclick="prePage" />
+  <image id="nextImage"
+         src="common/nextRow.png"
+         style="left: 390px; top: 227px; width: 30px; height: 45px;"
+         onclick="nextPage" />
 </stack>

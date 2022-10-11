@@ -13,13 +13,40 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class = "container">
-    <input type = "button" value = "one Arg" onclick = "clickOneArg" onlongpress="pressOneArg" class = "button"/>
-    <input type = "button" value = "no Arg" onclick = "clickNoArg" onlongpress="pressNoArg" class = "button"/>
-    <text class ="text">{{show}}</text>
-    <div class = "bottom">
-        <input type = "button" value = "上一页" class ="previous" onclick="goPrevious"/>
-        <input type = "button" value = "首页" class = "page" onclick="goHome"/>
-        <input type = "button" value = "下一页" class = "page" onclick="goNext"/>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <input id="oneArgButton"
+         type="button"
+         value="one Arg"
+         onclick="clickOneArg"
+         onlongpress="pressOneArg"
+         class="button" />
+  <input id="noArgButton"
+         type="button"
+         value="no Arg"
+         onclick="clickNoArg"
+         onlongpress="pressNoArg"
+         class="button" />
+  <text id="text"
+        class="text">
+    {{show}}
+  </text>
+  <div id="bottomDiv"
+       class="bottom">
+    <input id="buttonPre"
+           type="button"
+           value="上一页"
+           class="previous"
+           onclick="goPrevious" />
+    <input id="buttonHome"
+           type="button"
+           value="首页"
+           class="page"
+           onclick="goHome" />
+    <input id="buttonNext"
+           type="button"
+           value="下一页"
+           class="page"
+           onclick="goNext" />
+  </div>
 </div>

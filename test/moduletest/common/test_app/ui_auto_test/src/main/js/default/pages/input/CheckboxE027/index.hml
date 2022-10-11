@@ -13,12 +13,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class = "container">
-    <input type = "checkbox" class = "checkbox" onchange = "changeEvent" checked = "{{checked}}"/>
-    <text class = "text">{{show}}</text>
-    <div class = "bottom">
-        <input type = "button" class = "previous" onclick = "goPrevious" value = "上一页"/>
-        <input type = "button" class = "page" onclick="goHome" value = "首页"/>
-        <input type = "button" class = "page" onclick="goNext" value = "下一页"/>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <input id="checkbox"
+         type="checkbox"
+         class="checkbox"
+         onchange="changeEvent"
+         checked="{{checked}}" />
+  <text id="text"
+        class="text">
+    {{show}}
+  </text>
+  <div id="bottomDiv"
+       class="bottom">
+    <input id="buttonPre"
+           type="button"
+           class="previous"
+           onclick="goPrevious"
+           value="上一页" />
+    <input id="buttonHome"
+           type="button"
+           class="page"
+           onclick="goHome"
+           value="首页" />
+    <input id="buttonNext"
+           type="button"
+           class="page"
+           onclick="goNext"
+           value="下一页" />
+  </div>
 </div>

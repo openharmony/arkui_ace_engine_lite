@@ -13,10 +13,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="left:0px;top:0px;width:1000px;height:1000px;border-width:10px;border-color:#ff69b4">
-    <text style="left:114px;top:40px;width:120px;height:40px;">scroll6</text>
-    <input type="button" style="left:247px;top:40px;width:90px;height:40px;" value="首页" onclick="backMain"/>
-    <input type="button" style="left:190px;top:190px;width:120px;height:40px;" value="back" onclick="back"/>
-    <image src="common/preRow.png" style="left:30px;top:247px;width:30px;height:45px;" onclick="prePage"/>
-    <image src="common/nextRow.png" style="left:380px;top:247px;width:30px;height:45px;" onclick="nextPage"/>
+<stack id="stack"
+       style="left: 0px; top: 0px; width: 1000px; height: 1000px; border-width: 10px; border-color: #ff69b4">
+  <text id="text"
+        style="left: 114px; top: 40px; width: 120px; height: 40px;">
+    scroll6
+  </text>
+  <input id="buttonBack"
+         type="button"
+         style="left: 247px; top: 40px; width: 90px; height: 40px;"
+         value="首页"
+         onclick="backMain" />
+  <input id="buttonGo"
+         type="button"
+         style="left: 190px; top: 190px; width: 120px; height: 40px;"
+         value="back"
+         onclick="back" />
+  <image id="preImage"
+         src="common/preRow.png"
+         style="left: 30px; top: 247px; width: 30px; height: 45px;"
+         onclick="prePage" />
+  <image id="nextImage"
+         src="common/nextRow.png"
+         style="left: 380px; top: 247px; width: 30px; height: 45px;"
+         onclick="nextPage" />
 </stack>

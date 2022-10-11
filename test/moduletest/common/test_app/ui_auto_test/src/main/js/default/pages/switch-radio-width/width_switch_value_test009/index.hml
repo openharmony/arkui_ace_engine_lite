@@ -13,10 +13,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class = "container">
-    <switch class = "switch" style = "width:{{width}}; height: {{height}}" onclick = "changeArea"></switch>
-    <div class = "page">
-        <input type = "button" class = "button" style = "margin-left : 80px" onclick = "changeNext" value = "下一页"/>
-        <input type = "button" class = "button" style = "margin-left : 20px" onclick = "goHome" value = "首页"/>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <switch id="switch"
+          class="switch"
+          style="width: {{width}}; height: {{height}}"
+          onclick="changeArea">
+  </switch>
+  <div id="pageDiv"
+       class="page">
+    <input id="buttonNext"
+           type="button"
+           class="button"
+           style="margin-left: 80px"
+           onclick="changeNext"
+           value="下一页" />
+    <input id="buttonHome"
+           type="button"
+           class="button"
+           style="margin-left: 20px"
+           onclick="goHome"
+           value="首页" />
+  </div>
 </div>

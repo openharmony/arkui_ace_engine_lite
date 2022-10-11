@@ -13,75 +13,184 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<list class="container">
-  <list-item style="height:40px;width:454px;">
+<list id="list"
+      class="container">
+  <list-item id="listItem0"
+             style="height: 40px; width: 454px;">
   </list-item>
-  <list-item class="titleContainerStyle">
-      <text class="titleTextStyle">
-        UI自动化测试
-      </text>
+  <list-item id="listItem1"
+             class="titleContainerStyle">
+    <text id="text"
+          class="titleTextStyle">
+      UI自动化测试
+    </text>
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="canvas" onclick="changeCanvas"/>
+  <list-item id="listItem2"
+             class="listItem">
+    <input id="canvasButton"
+           type="button"
+           class="buttonStyle"
+           value="canvas"
+           onclick="changeCanvas" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="chart" onclick="changeChart"/>
+  <list-item id="listItem3"
+             class="listItem">
+    <input id="chartButton"
+           type="button"
+           class="buttonStyle"
+           value="chart"
+           onclick="changeChart" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="data-binding" onclick="changeDataBinding"/>
+  <list-item id="listItem4"
+             class="listItem">
+    <input id="dataButton"
+           type="button"
+           class="buttonStyle"
+           value="data-binding"
+           onclick="changeDataBinding" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="directive" onclick="changeDirective"/>
+  <list-item id="listItem5"
+             class="listItem">
+    <input id="directiveButton"
+           type="button"
+           class="buttonStyle"
+           value="directive"
+           onclick="changeDirective" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="div" onclick="changeDiv"/>
+  <list-item id="listItem6"
+             class="listItem">
+    <input id="divButton"
+           type="button"
+           class="buttonStyle"
+           value="div"
+           onclick="changeDiv" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="global" onclick="changeGlobal"/>
+  <list-item id="listItem7"
+             class="listItem">
+    <input id="globalButton"
+           type="button"
+           class="buttonStyle"
+           value="global"
+           onclick="changeGlobal" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="image" onclick="changeImage"/>
+  <list-item id="listItem8"
+             class="listItem">
+    <input id="imageButton"
+           type="button"
+           class="buttonStyle"
+           value="image"
+           onclick="changeImage" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="image-animator" onclick="changeImageAnimator"/>
+  <list-item id="listItem9"
+             class="listItem">
+    <input id="animatorButton"
+           type="button"
+           class="buttonStyle"
+           value="image-animator"
+           onclick="changeImageAnimator" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="input" onclick="changeInput"/>
+  <list-item id="listItem10"
+             class="listItem">
+    <input id="inputButton"
+           type="button"
+           class="buttonStyle"
+           value="input"
+           onclick="changeInput" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="lifecycle" onclick="changeLifecycle"/>
+  <list-item id="listItem11"
+             class="listItem">
+    <input id="lifecycleButton"
+           type="button"
+           class="buttonStyle"
+           value="lifecycle"
+           onclick="changeLifecycle" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="list" onclick="changeList"/>
+  <list-item id="listItem12"
+             class="listItem">
+    <input id="listButton"
+           type="button"
+           class="buttonStyle"
+           value="list"
+           onclick="changeList" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="listitem" onclick="changeListItem"/>
+  <list-item id="listItem13"
+             class="listItem">
+    <input id="listItemButton"
+           type="button"
+           class="buttonStyle"
+           value="listitem"
+           onclick="changeListItem" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="picker_view" onclick="changePickerView"/>
+  <list-item id="listItem14"
+             class="listItem">
+    <input id="pickerButton"
+           type="button"
+           class="buttonStyle"
+           value="picker_view"
+           onclick="changePickerView" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="resource" onclick="changeResource"/>
+  <list-item id="listItem15"
+             class="listItem">
+    <input id="resourceButton"
+           type="button"
+           class="buttonStyle"
+           value="resource"
+           onclick="changeResource" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="router" onclick="changeRouter"/>
+  <list-item id="listItem16"
+             class="listItem">
+    <input id="routerButton"
+           type="button"
+           class="buttonStyle"
+           value="router"
+           onclick="changeRouter" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="scroll" onclick="changeScroll"/>
+  <list-item id="listItem17"
+             class="listItem">
+    <input id="scrollButton"
+           type="button"
+           class="buttonStyle"
+           value="scroll"
+           onclick="changeScroll" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="swiper" onclick="changeSwiper"/>
+  <list-item id="listItem18"
+             class="listItem">
+    <input id="swiperButton"
+           type="button"
+           class="buttonStyle"
+           value="swiper"
+           onclick="changeSwiper" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="switch" onclick="changeSwitch"/>
+  <list-item id="listItem19"
+             class="listItem">
+    <input id="switchButton"
+           type="button"
+           class="buttonStyle"
+           value="switch"
+           onclick="changeSwitch" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="arc" onclick="changeArc"/>
+  <list-item id="listItem20"
+             class="listItem">
+    <input id="arcButton"
+           type="button"
+           class="buttonStyle"
+           value="arc"
+           onclick="changeArc" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="style" onclick="changeStyle"/>
+  <list-item id="listItem21"
+             class="listItem">
+    <input id="styleButton"
+           type="button"
+           class="buttonStyle"
+           value="style"
+           onclick="changeStyle" />
   </list-item>
-  <list-item class="listItem">
-    <input type="button" class="buttonStyle" value="radioWidth" onclick="changeWidth"/>
+  <list-item id="listItem22"
+             class="listItem">
+    <input id="widthButton"
+           type="button"
+           class="buttonStyle"
+           value="radioWidth"
+           onclick="changeWidth" />
   </list-item>
 </list>

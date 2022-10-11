@@ -13,11 +13,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class="container">
-    <div class="box">
-        <text>Panel 1</text>
-    </div>
-    <div class="box">
-        <text>Panel 2</text>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <div id="boxDiv0"
+       class="box">
+    <text id="text0">
+      Panel 1
+    </text>
+  </div>
+  <div id="boxDiv1"
+       class="box">
+    <text id="text1">
+      Panel 2
+    </text>
+  </div>
 </div>

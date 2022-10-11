@@ -13,17 +13,52 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class = "container">
-    <div style = "width:400px;height:150px;">
-    <input type = "checkbox" class = "checkbox"  for = "{{data}}" checked = "{{$item}}"/>
-    </div>
-    <input type = "checkbox" class = "checkbox" checked = "true" if = "{{ifStatus}}" show = "{{showStatus}}"/>
-    <input type = "button" class = "button" onclick = "changeIf" value = "changeIf"/>
-    <input type="button" class = "button" onclick = "changeShow" value = "changeShow"/>
-    <input type = "button" class = "button" onclick = "changeFor" value = "changeFor"/>
-    <div class = "bottom">
-        <input type = "button" class = "previous" onclick="goPrevious" value = "上一页"/>
-        <input type = "button" class = "page" onclick = "goHome" value = "首页"/>
-        <input type = "button" class = "page" onclick = "goNext" value = "下一页"/>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <div id="div"
+       style="width: 400px; height: 150px;">
+    <input type="checkbox"
+           class="checkbox"
+           for="{{data}}"
+           checked="{{$item}}" />
+  </div>
+  <input id="checkbox"
+         type="checkbox"
+         class="checkbox"
+         checked="true"
+         if="{{ifStatus}}"
+         show="{{showStatus}}" />
+  <input id="buttonIf"
+         type="button"
+         class="button"
+         onclick="changeIf"
+         value="changeIf" />
+  <input id="buttonShow"
+         type="button"
+         class="button"
+         onclick="changeShow"
+         value="changeShow" />
+  <input id="buttonFor"
+         type="button"
+         class="button"
+         onclick="changeFor"
+         value="changeFor" />
+  <div id="bottomDiv"
+       class="bottom">
+    <input id="buttonPre"
+           type="button"
+           class="previous"
+           onclick="goPrevious"
+           value="上一页" />
+    <input id="buttonHome"
+           type="button"
+           class="page"
+           onclick="goHome"
+           value="首页" />
+    <input id="buttonNext"
+           type="button"
+           class="page"
+           onclick="goNext"
+           value="下一页" />
+  </div>
 </div>
