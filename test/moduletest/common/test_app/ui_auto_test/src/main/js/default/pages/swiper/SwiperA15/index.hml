@@ -13,39 +13,52 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack id="div" style="width:454px;height:454px;">
-    <swiper
-        vertical="{{vert}}"
-        style="width:300px;height:300px;left:75px;top:75px;"
-        onchange="showPage"
-        onclick="updateVert"
-    >
-        <stack style="left:0px;top:0px;width:300px;height:300px;">
-            <text
-                style="width:220px;height:60px;"
-                value="第{{index}}页，共2页"
-            >
-            </text>
-            <text style="width:220px;height:60px;top:80px;">
-              attr015
-            </text>
-        </stack>
-        <stack style="left:0px;top:0px;width:300px;height:300px;">
-            <text
-                style="width:220px;height:60px;"
-                value="第{{index}}页，共2页"
-            >
-            </text>
-        </stack>
-        <stack style="left:0px;top:0px;width:300px;height:300px;">
-            <text
-                style="width:220px;height:60px;"
-                value="第{{index}}页，共2页"
-            >
-            </text>
-        </stack>
-    </swiper>
-    <input type="button" value="上页" style="width:90px;height:40px;left:80px;top:340px;" onclick="changePrev"/>
-    <input type="button" value="首页" style="width:90px;height:40px;left:180px;top:340px;" onclick="backMain"/>
-    <input type="button" value="下页" style="width:90px;height:40px;left:280px;top:340px;" onclick="changeNext"/>
+<stack id="div"
+       style="width: 454px; height: 454px;">
+  <swiper id="swiper"
+          vertical="{{vert}}"
+          style="width: 300px; height: 300px; left: 75px; top: 75px;"
+          onchange="showPage"
+          onclick="updateVert">
+    <stack id="stack0"
+           style="left: 0px; top: 0px; width: 300px; height: 300px;">
+      <text id="text0"
+            style="width: 220px; height: 60px;"
+            value="第{{index}}页，共2页">
+      </text>
+      <text id="textTitle"
+            style="width: 220px; height: 60px; top: 80px;">
+        attr015
+      </text>
+    </stack>
+    <stack id="stack1"
+           style="left: 0px; top: 0px; width: 300px; height: 300px;">
+      <text id="text1"
+            style="width: 220px; height: 60px;"
+            value="第{{index}}页，共2页">
+      </text>
+    </stack>
+    <stack id="stack2"
+           style="left: 0px; top: 0px; width: 300px; height: 300px;">
+      <text id="text2"
+            style="width: 220px; height: 60px;"
+            value="第{{index}}页，共2页">
+      </text>
+    </stack>
+  </swiper>
+  <input id="buttonPrev"
+         type="button"
+         value="上页"
+         style="width: 90px; height: 40px; left: 80px; top: 340px;"
+         onclick="changePrev" />
+  <input id="buttonBack"
+         type="button"
+         value="首页"
+         style="width: 90px; height: 40px; left: 180px; top: 340px;"
+         onclick="backMain" />
+  <input id="buttonNext"
+         type="button"
+         value="下页"
+         style="width: 90px; height: 40px; left: 280px; top: 340px;"
+         onclick="changeNext" />
 </stack>

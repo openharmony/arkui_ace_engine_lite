@@ -13,41 +13,108 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-    <div class="container" style="flex-direction:column; align-items:center">
-        <div style="margin-top:40px;width:320px;height:80px;" class="divFrame">
-            <text style="width:320px;height:80px;text-overflow:ellipsis">Component_Div_StyleSet_Test_035</text>
+<div id="containerDiv"
+     class="container"
+     style="flex-direction: column; align-items: center">
+  <div id="frameDiv0"
+       style="margin-top: 40px; width: 320px; height: 80px;"
+       class="divFrame">
+    <text id="frameText"
+          style="width: 320px; height: 80px; text-overflow: ellipsis">
+      Component_Div_StyleSet_Test_035
+    </text>
+  </div>
+  <div id="frameDiv1"
+       style="height: 220px;"
+       class="divFrame">
+    <div id="styleDiv"
+         style="width: 60px; height: 180px;"></div>
+    <div id="ItemsDiv"
+         style="width: 350px; height: 180px; flex-direction: {{flexDirection}};
+         justify-content: {{justifyContent}}; align-items: {{alignItems}}">
+      <text id="text"
+            style="width: 320px; height: 50px; color: #ffa500;">
+        this is text
+      </text>
+      <input id="button"
+             type="button"
+             style="width: 140px; height: 40px"
+             value="button">
+      </input>
+      <stack id="blockStack0"
+             class="stackBlock"
+             style="border-color: #ffd700; background-color: #fa8072;">
+        <list id="list"
+              style="left: 0px; top: 0px; width: 150px; height: 50px">
+          <list-item id="listItem0"
+                     style="width: 150px; height: 30px;">
+            <text id="listItemText0"
+                  style="left: 0px; top: 0px; width: 150px; height: 30px">
+              listItem
+            </text>
+          </list-item>
+          <list-item id="listItem1"
+                     style="width: 150px; height: 30px;">
+            <text id="listItemText1"
+                  style="left: 0px; top: 30px; width: 150px; height: 30px">
+              listItem
+            </text>
+          </list-item>
+        </list>
+      </stack>
+      <input id="checkbox"
+             type="checkbox"
+             style="width: 50px; height: 50px">
+      </input>
+      <stack id="blockStack1"
+             class="stackBlock"
+             style="border-color: #ffd700; background-color: #ffefd5;">
+        <div id="imageDiv"
+             style="left: 0px; top: 0px; width: 100px; height: 100px; background-color: #00ff00;">
+          <image id="image"
+                 src="common/leftHead.png">
+          </image>
         </div>
-        <div style="height:220px;" class="divFrame">
-            <div style="width:60px;height:180px;"></div>
-            <div style="width:350px;height:180px;flex-direction:{{flexDirection}};justify-content:{{justifyContent}};align-items:{{alignItems}}">
-                    <text style="width:320px;height:50px;color:#ffa500;">this is text</text>
-                    <input type="button" style="width: 140px;height:40px" value="button"></input>
-                    <stack class="stackBlock" style="border-color:#ffd700;background-color:#fa8072;">
-                        <list style="left:0px;top:0px;width:150px;height:50px">
-                            <list-item style="width: 150px; height:30px;">
-                                <text style="left:0px;top:0px;width:150px;height:30px">listItem</text>
-                            </list-item>
-                            <list-item style="width: 150px; height:30px;">
-                                <text style="left:0px;top:30px;width:150px;height:30px">listItem</text>
-                            </list-item>
-                        </list>
-                    </stack>
-                    <input type="checkbox" style="width: 50px;height:50px"> </input>
-                    <stack class="stackBlock" style="border-color:#ffd700;background-color:#ffefd5;">
-                        <div style="left:0px;top:0px;width:100px;height:100px;background-color:#00ff00;">
-                            <image src="common/leftHead.png"></image>
-                        </div>
-                    </stack>
-            </div>
-        </div>
-        <div style="width:454px;height:40px;justify-content:center">
-            <input type="button" value="direction" style="width:120px;height:40px" onclick="changeFlexDirection"></input>
-            <input type="button" value="justifyContent" style="width:120px;height:40px" onclick="changeJustifyContent"></input>
-            <input type="button" value="alignItems" style="width:120px;height:40px" onclick="changeAlignItems"></input>
-        </div>
-        <div class="divFrame">
-            <input type="button" value="上页" style="width:90px;height:40px;" onclick="changePrev"/>
-            <input type="button" value="首页" style="width:90px;height:40px;" onclick="backMain"/>
-            <input type="button" value="下页" style="width:90px;height:40px;" onclick="changeNext"/>
-        </div>
+      </stack>
     </div>
+  </div>
+  <div id="frameDiv2"
+       style="width: 454px; height: 40px; justify-content: center">
+    <input id="buttonFlex"
+           type="button"
+           value="direction"
+           style="width: 120px; height: 40px"
+           onclick="changeFlexDirection">
+    </input>
+    <input id="buttonJustify"
+           type="button"
+           value="justifyContent"
+           style="width: 120px; height: 40px"
+           onclick="changeJustifyContent">
+    </input>
+    <input id="buttonAlign"
+           type="button"
+           value="alignItems"
+           style="width: 120px; height: 40px"
+           onclick="changeAlignItems">
+    </input>
+  </div>
+  <div id="frameDiv3"
+       class="divFrame">
+    <input id="buttonPrev"
+           type="button"
+           value="上页"
+           style="width: 90px; height: 40px;"
+           onclick="changePrev" />
+    <input id="buttonBack"
+           type="button"
+           value="首页"
+           style="width: 90px; height: 40px;"
+           onclick="backMain" />
+    <input id="buttonNext"
+           type="button"
+           value="下页"
+           style="width: 90px; height: 40px;"
+           onclick="changeNext" />
+  </div>
+</div>

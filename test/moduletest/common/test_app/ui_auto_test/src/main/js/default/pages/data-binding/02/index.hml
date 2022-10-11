@@ -13,29 +13,40 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack id="div" style="width:454px;height:454px;">
-  <text style="width: 390px; height: 50px; top: 120px; left: 32px; text-align: {{align}};">
+<stack id="stack"
+       style="width: 454px; height: 454px;">
+  <text id="text"
+        style="width: 390px; height: 50px; top: 120px; left: 32px; text-align: {{ align }};">
     样式绑定：{{align}}
   </text>
-  <input type="button" value="左对齐" style="top: 170px; left: 25px;" onclick="handleSetLeft" />
-  <input type="button" value="居中对齐" style="width: 150px; top: 170px; left: 150px;" onclick="handleSetCenter" />
-  <input type="button" value="右对齐" style="top: 170px; left: 325px;" onclick="handleSetRight" />
-  <input
-    type="button"
-    value="上页"
-    style="width:90px;height:40px;left:80px;top:340px;"
-    onclick="changePrev"
-  />
-  <input
-    type="button"
-    value="首页"
-    style="width:90px;height:40px;left:180px;top:340px;"
-    onclick="backMain"
-  />
-  <input
-    type="button"
-    value="下页"
-    style="width:90px;height:40px;left:280px;top:340px;"
-    onclick="changeNext"
-  />
+  <input id="buttonLeft"
+         type="button"
+         value="左对齐"
+         style="top: 170px; left: 25px;"
+         onclick="handleSetLeft" />
+  <input id="buttonCenter"
+         type="button"
+         value="居中对齐"
+         style="width: 150px; top: 170px; left: 150px;"
+         onclick="handleSetCenter" />
+  <input id="buttonRight"
+         type="button"
+         value="右对齐"
+         style="top: 170px; left: 325px;"
+         onclick="handleSetRight" />
+  <input id="buttonPrev"
+         type="button"
+         value="上页"
+         style="width: 90px; height: 40px; left: 80px; top: 340px;"
+         onclick="changePrev" />
+  <input id="buttonBack"
+         type="button"
+         value="首页"
+         style="width: 90px; height: 40px; left: 180px; top: 340px;"
+         onclick="backMain" />
+  <input id="buttonNext"
+         type="button"
+         value="下页"
+         style="width: 90px; height: 40px; left: 280px; top: 340px;"
+         onclick="changeNext" />
 </stack>

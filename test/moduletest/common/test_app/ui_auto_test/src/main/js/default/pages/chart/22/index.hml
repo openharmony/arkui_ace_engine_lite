@@ -13,17 +13,46 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class="container" style="flex-direction:column; align-items:center">
-    <div style="margin-top:40px;width:380px;height:80px;" class="divFrame">
-        <text style="width:380px;height:80px;text-overflow:ellipsis">Component_chart_AttributeSet_Test_022</text>
-    </div>
-    <div style="height:220px;flex-direction:column;" class="divFrame">
-        <chart style="width:454px;height:220px" type="line" style="left:0px; top:0px;" ref="chart" datasets="{{datasets}}" options="{{options}}" onclick="updateData">
-        </chart>
-    </div>
-    <div class="divFrame">
-        <input type="button" value="上页" style="width:90px;height:40px;" onclick="changePrev"/>
-        <input type="button" value="首页" style="width:90px;height:40px;" onclick="backMain"/>
-        <input type="button" value="下页" style="width:90px;height:40px;" onclick="changeNext"/>
-    </div>
+<div id="containerDiv"
+     class="container"
+     style="flex-direction: column; align-items: center">
+  <div id="frameDiv0"
+       style="margin-top: 40px; width: 380px; height: 80px;"
+       class="divFrame">
+    <text id="frameText"
+          style="width: 380px; height: 80px; text-overflow: ellipsis">
+      Component_chart_AttributeSet_Test_022
+    </text>
+  </div>
+  <div id="frameDiv1"
+       style="height: 220px; flex-direction: column;"
+       class="divFrame">
+    <chart id="chart"
+           style="width: 454px; height: 220px"
+           type="line"
+           style="left: 0px; top: 0px;"
+           ref="chart"
+           datasets="{{datasets}}"
+           options="{{options}}"
+           onclick="updateData">
+    </chart>
+  </div>
+  <div id="frameDiv2"
+       class="divFrame">
+    <input id="buttonPrev"
+           type="button"
+           value="上页"
+           style="width: 90px; height: 40px;"
+           onclick="changePrev" />
+    <input id="buttonBack"
+           type="button"
+           value="首页"
+           style="width: 90px; height: 40px;"
+           onclick="backMain" />
+    <input id="buttonNext"
+           type="button"
+           value="下页"
+           style="width: 90px; height: 40px;"
+           onclick="changeNext" />
+  </div>
 </div>
