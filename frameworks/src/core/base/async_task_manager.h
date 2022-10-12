@@ -59,6 +59,11 @@ public:
 
     void SetFront(bool front);
 
+    bool IsFront() const
+    {
+        return front_;
+    }
+
 private:
     AsyncTaskManager();
 
