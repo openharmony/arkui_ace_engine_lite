@@ -36,7 +36,7 @@ void SliderTddTest::ComponentSliderAttributeMinTest001()
      */
     const int expectMinValue = 0;
     const char* minStr = "min";
-    jerry_value_t minKey = jerry_create_string((const jerry_char_t*)minStr);
+    jerry_value_t minKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(minStr));
     jerry_value_t minValue = jerry_create_number(expectMinValue);
     jerry_set_property(attrsObj_, minKey, minValue);
     Component* sliderComponent = reinterpret_cast<SliderComponent *>(GetRenderedComponent(componentNameId_));
@@ -78,7 +78,7 @@ void SliderTddTest::ComponentSliderAttributeMaxTest002()
      */
     const int expectMaxValue = 1;
     const char* maxStr = "max";
-    jerry_value_t maxKey = jerry_create_string((const jerry_char_t*)maxStr);
+    jerry_value_t maxKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(maxStr));
     jerry_value_t maxValue = jerry_create_number(expectMaxValue);
     jerry_set_property(attrsObj_, maxKey, maxValue);
     Component* sliderComponent = reinterpret_cast<SliderComponent *>(GetRenderedComponent(componentNameId_));
@@ -118,7 +118,7 @@ void SliderTddTest::ComponentSliderAttributeValueTest003()
      */
     const int expectValue = 100;
     const char* valueStr = "value";
-    jerry_value_t valueKey = jerry_create_string((const jerry_char_t*)valueStr);
+    jerry_value_t valueKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(valueStr));
     jerry_value_t value = jerry_create_number(expectValue);
     jerry_set_property(attrsObj_, valueKey, value);
     Component* sliderComponent = reinterpret_cast<SliderComponent *>(GetRenderedComponent(componentNameId_));
@@ -170,7 +170,7 @@ void SliderTddTest::ComponentSliderStyleSetColorTest004()
      */
     const int expectColorValue = 16711680;
     const char* colorStr = "color";
-    jerry_value_t textKey = jerry_create_string((const jerry_char_t*)colorStr);
+    jerry_value_t textKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(colorStr));
     jerry_value_t textColorValue = jerry_create_number(expectColorValue);
     jerry_set_property(styleObj_, textKey, textColorValue);
     Component* sliderComponent = reinterpret_cast<SliderComponent *>(GetRenderedComponent(componentNameId_));
@@ -230,7 +230,7 @@ void SliderTddTest::ComponentSliderStyleSetSelectColorTest005()
      */
     const int expectColorValue = 16711680;
     const char* selectedColorStr = "selectedColor";
-    jerry_value_t selectedColorKey = jerry_create_string((const jerry_char_t*)selectedColorStr);
+    jerry_value_t selectedColorKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(selectedColorStr));
     jerry_value_t selectedColorValue = jerry_create_number(expectColorValue);
 
     jerry_set_property(styleObj_, selectedColorKey, selectedColorValue);

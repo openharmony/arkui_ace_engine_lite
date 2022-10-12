@@ -69,7 +69,7 @@ void DfxAssist::DumpErrorMessage(const jerry_value_t errorValue)
 {
     const uint16_t stackMsgMaxLength = 256;
     const uint8_t arrMaxLength = 32;
-    jerry_value_t stackStr = jerry_create_string((const jerry_char_t *) "stack");
+    jerry_value_t stackStr = jerry_create_string(reinterpret_cast<const jerry_char_t *>("stack"));
     jerry_value_t errorVal = jerry_get_value_from_error(errorValue, false);
 
     jerry_value_t backtraceVal = jerry_get_property(errorVal, stackStr);

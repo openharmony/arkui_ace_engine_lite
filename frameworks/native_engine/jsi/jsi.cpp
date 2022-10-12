@@ -69,7 +69,7 @@ void JSI::SetNamedProperty(JSIValue object, const char * const propName, JSIValu
         return;
     }
 #if (ENABLE_JERRY == 1)
-    jerry_value_t jKey = jerry_create_string((const jerry_char_t *)propName);
+    jerry_value_t jKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(propName));
     SetProperty(object, AS_JSI_VALUE(jKey), value);
     jerry_release_value(jKey);
 #else

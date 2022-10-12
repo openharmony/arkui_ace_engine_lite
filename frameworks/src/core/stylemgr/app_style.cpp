@@ -255,7 +255,7 @@ jerry_value_t AppStyle::ConcatJerryString(jerry_value_t strA, jerry_value_t strB
     bool result = true;
     size_t size = strlen(strtokA) + strlen(strtokB) + strlen(ANIMATION_VALUE_SEP) + 1;
     const uint16_t maxBytesNum = 1024;
-    if ((size == 0) || (size >= maxBytesNum)) { // we only support 1kb
+    if ((size >= maxBytesNum)) { // we only support 1kb
         result = false;
     }
     char *newStr = nullptr;
@@ -311,7 +311,7 @@ AppStyle *AppStyle::GenerateFromJS(jerry_value_t styleKey, jerry_value_t styleVa
         return nullptr;
     }
 
-    newStyle->SetStyleName((const char *)styleNameBuffer, strLen); // translateX  #aaa
+    newStyle->SetStyleName(static_cast<const char *>(styleNameBuffer), strLen); // translateX  #aaa
     ace_free(styleNameBuffer);
     styleNameBuffer = nullptr;
 

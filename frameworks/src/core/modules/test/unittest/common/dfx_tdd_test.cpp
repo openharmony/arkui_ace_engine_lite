@@ -605,7 +605,7 @@ void DfxTddTest::DfxTest002()
     const uint16_t stackMsgMaxLength = 256;
     const uint8_t exceptLength = 3;
     const char *stack = "stack";
-    jerry_value_t stackStr = jerry_create_string((const jerry_char_t *) stack);
+    jerry_value_t stackStr = jerry_create_string(reinterpret_cast<const jerry_char_t *>(stack));
     jerry_value_t errorVal = jerry_get_value_from_error(errorValue, false);
     jerry_value_t backtraceVal = jerry_get_property(errorVal, stackStr);
     ReleaseJerryValue(stackStr, errorVal, VA_ARG_END_FLAG);
@@ -681,7 +681,7 @@ void DfxTddTest::DfxTest004()
     const uint8_t exceptLength = 32;
     const char *stack = "stack";
 
-    jerry_value_t stackStr = jerry_create_string((const jerry_char_t *) stack);
+    jerry_value_t stackStr = jerry_create_string(reinterpret_cast<const jerry_char_t *>(stack));
     jerry_value_t errorVal = jerry_get_value_from_error(ret, false);
 
     jerry_value_t backtraceVal = jerry_get_property(errorVal, stackStr);

@@ -78,7 +78,7 @@ void TimerThread::Traverse()
         if (info->remain > 0) {
             info->remain -= TIMER_STEP;
         } else {
-            UserCallbackFunc func = (UserCallbackFunc)(info->userCallback);
+            UserCallbackFunc func = reinterpret_cast<UserCallbackFunc>(info->userCallback);
             func(info->userData);
             if (info->isPeriodic) {
                 info->remain = info->delay;

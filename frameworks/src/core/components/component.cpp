@@ -784,7 +784,7 @@ void Component::SetAnimationKeyFrames(const AppStyleItem *item)
             return;
         }
         size_t valLength = strlen(itemValue);
-        if ((valLength == 0) || (valLength >= UINT8_MAX)) {
+        if (valLength >= UINT8_MAX) {
             item = item->GetNext();
             continue;
         }

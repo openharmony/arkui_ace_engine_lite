@@ -37,15 +37,15 @@ void SwitchTddTest::SetUp()
 
     optionsObj_ = jerry_get_global_object();
 
-    jerry_value_t attrsKey = jerry_create_string((const jerry_char_t*)"attrs");
+    jerry_value_t attrsKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("attrs"));
     attrsObj_ = jerry_create_object();
     jerry_value_t ret1 = jerry_set_property(optionsObj_, attrsKey, attrsObj_);
 
-    jerry_value_t styleKey = jerry_create_string((const jerry_char_t*)"staticStyle");
+    jerry_value_t styleKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("staticStyle"));
     styleObj_ = jerry_create_object();
     jerry_value_t ret2 = jerry_set_property(optionsObj_, styleKey, styleObj_);
 
-    jerry_value_t eventKey = jerry_create_string((const jerry_char_t*)"on");
+    jerry_value_t eventKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("on"));
     eventObj_ = jerry_create_object();
     jerry_value_t ret3 = jerry_set_property(optionsObj_, eventKey, eventObj_);
 
@@ -83,7 +83,7 @@ void SwitchTddTest::ComponentSwitchAttributeSetTest001()
     /**
      * @tc.steps: step3. set checked = true; get checked = true
      */
-    jerry_value_t checkedKey = jerry_create_string((const jerry_char_t*)("checked"));
+    jerry_value_t checkedKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("checked"));
     jerry_value_t checkedVal = jerry_create_boolean(true);
     jerry_value_t ret1 = jerry_set_property(attrsObj_, checkedKey, checkedVal);
     component = ComponentFactory::CreateComponent(componentKeyId_, optionsObj_, childrenObj_);
@@ -127,8 +127,8 @@ void SwitchTddTest::ComponentSwitchAttributeSetTest002()
     /**
      * @tc.steps: step1. set checked true
      */
-    jerry_value_t checkedKey = jerry_create_string((const jerry_char_t*)("checked"));
-    jerry_value_t checkedVal = jerry_create_string((const jerry_char_t*)("abc123"));
+    jerry_value_t checkedKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("checked"));
+    jerry_value_t checkedVal = jerry_create_string(reinterpret_cast<const jerry_char_t *>("abc123"));
     jerry_value_t ret1 = jerry_set_property(attrsObj_, checkedKey, checkedVal);
     Component* component = ComponentFactory::CreateComponent(componentKeyId_, optionsObj_, childrenObj_);
     component->Render();
@@ -161,10 +161,10 @@ void SwitchTddTest::ComponentSwitchAttributeSetTest003()
     /**
      * @tc.steps: step1. set id "switch", show = true
      */
-    jerry_value_t idKey = jerry_create_string((const jerry_char_t*)("id"));
-    jerry_value_t idVal = jerry_create_string((const jerry_char_t*)("switch"));
+    jerry_value_t idKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("id"));
+    jerry_value_t idVal = jerry_create_string(reinterpret_cast<const jerry_char_t *>("switch"));
     jerry_value_t ret1 = jerry_set_property(attrsObj_, idKey, idVal);
-    jerry_value_t showKey = jerry_create_string((const jerry_char_t*)("show"));
+    jerry_value_t showKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("show"));
     jerry_value_t showVal = jerry_create_boolean(false);
     jerry_value_t ret2 = jerry_set_property(attrsObj_, showKey, showVal);
     Component* component = ComponentFactory::CreateComponent(componentKeyId_, optionsObj_, childrenObj_);
