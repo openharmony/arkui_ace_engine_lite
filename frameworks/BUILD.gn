@@ -71,8 +71,8 @@ lite_library("ace_lite") {
     "$NATIVE_ENGINE_PATH:ace_native_engine_lite",
     "//base/global/i18n_lite/frameworks/i18n:global_i18n",
     "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr",
+    "//commonlibrary/utils_lite/timer_task:ace_kit_timer",
     "//foundation/graphic/ui:lite_ui",
-    "//utils/native/lite/timer_task:ace_kit_timer",
   ]
 
   if (ohos_kernel_type == "liteos_m") {
