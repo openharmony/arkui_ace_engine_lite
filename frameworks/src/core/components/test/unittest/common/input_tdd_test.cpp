@@ -1095,7 +1095,7 @@ HWTEST_F(InputTddTest, ComponentEdittextStyleTest03, TestSize.Level1)
      * @tc.expected:step2.the font placeholder-color of edittext is red
      */
     const uint32_t redValue = 16711680;
-    JerrySetNumberProperty(styleObj_, "placeholder-color", redValue);
+    JerrySetNumberProperty(styleObj_, "placeholderColor", redValue);
     Component *component = GetRenderedComponent(K_INPUT);
     EXPECT_FALSE(component == nullptr);
     if (component == nullptr) {
@@ -1120,7 +1120,7 @@ HWTEST_F(InputTddTest, ComponentEdittextStyleTest03, TestSize.Level1)
      * @tc.expected:step3.the placeholder-color of edittext is max
      */
     const uint32_t max = UINT_MAX;
-    UpdateNumAttributeOrStyleValue(component, "placeholder-color", max, false);
+    UpdateNumAttributeOrStyleValue(component, "placeholderColor", max, false);
     tempColor = edittext->GetPlaceholderColor();
     EXPECT_TRUE(CompareColor(tempColor, max));
 
@@ -1129,7 +1129,7 @@ HWTEST_F(InputTddTest, ComponentEdittextStyleTest03, TestSize.Level1)
      * @tc.expected:step4.the placeholder-color of edittext is min
      */
     const uint32_t min = 0;
-    UpdateNumAttributeOrStyleValue(component, "placeholder-color", min, false);
+    UpdateNumAttributeOrStyleValue(component, "placeholderColor", min, false);
     tempColor = edittext->GetPlaceholderColor();
     EXPECT_TRUE(CompareColor(tempColor, min));
     component->Release();
@@ -1217,8 +1217,8 @@ HWTEST_F(InputTddTest, ComponentEdittextAttributeTest05, TestSize.Level1)
         TDD_CASE_END();
         return;
     }
-    EXPECT_EQ(edittext->GetText(), "content");
-    EXPECT_EQ(edittext->GetPlaceholder(), "input here");
+    EXPECT_EQ(strcmp(edittext->GetText(), "content"), 0);
+    EXPECT_EQ(strcmp(edittext->GetPlaceholder(), "input here"), 0);
 
     component->Release();
     delete component;
@@ -1240,7 +1240,7 @@ HWTEST_F(InputTddTest, ComponentEdittextAttributeTest06, TestSize.Level1)
      */
     JerrySetStringProperty(attrsObj_, "type", "text");
     const uint16_t maxlenth = 120;
-    JerrySetNumberProperty(attrsObj_, "maxlenth", maxlenth);
+    JerrySetNumberProperty(attrsObj_, "maxlength", maxlenth);
     Component *component = GetRenderedComponent(K_INPUT);
     EXPECT_FALSE(component == nullptr);
     if (component == nullptr) {
@@ -1262,8 +1262,8 @@ HWTEST_F(InputTddTest, ComponentEdittextAttributeTest06, TestSize.Level1)
      * @tc.steps:step2.set the maxlenth attribute max
      * @tc.expected:step2.the maxlenth attribute is max
      */
-    const uint16_t max = 65535;
-    UpdateNumAttributeOrStyleValue(component, "maxlenth", max, false);
+    const uint16_t max = MAX_TEXT_LENGTH;
+    UpdateNumAttributeOrStyleValue(component, "maxlength", max, false);
     EXPECT_EQ(edittext->GetMaxLength(), max);
 
     /**
@@ -1271,7 +1271,7 @@ HWTEST_F(InputTddTest, ComponentEdittextAttributeTest06, TestSize.Level1)
      * @tc.expected:step3.the maxlenth attribute is min
      */
     const uint16_t min = 0;
-    UpdateNumAttributeOrStyleValue(component, "maxlenth", max, false);
+    UpdateNumAttributeOrStyleValue(component, "maxlength", min, false);
     EXPECT_EQ(edittext->GetMaxLength(), min);
     component->Release();
     delete component;
