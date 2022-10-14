@@ -260,7 +260,7 @@ void OpacityTddTest::SetOpaScale(jerry_value_t styleObj, double inputOpacityValu
 {
     const double expectOpacityValue = inputOpacityValue;
     const char * const opacity = "opacity";
-    jerry_value_t opacityKey = jerry_create_string((const jerry_char_t*)opacity);
+    jerry_value_t opacityKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(opacity));
     jerry_value_t opacityValue = jerry_create_number(expectOpacityValue);
     jerry_set_property(styleObj, opacityKey, opacityValue);
     jerry_release_value(opacityKey);

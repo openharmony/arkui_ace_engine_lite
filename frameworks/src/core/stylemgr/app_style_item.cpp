@@ -77,7 +77,7 @@ bool AppStyleItem::UpdateNumValToStr()
             HILOG_ERROR(HILOG_MODULE_ACE, "style item transform num to string fail");
             return false;
         }
-        SetStringValue((const char *)strVal);
+        SetStringValue(static_cast<const char *>(strVal));
     }
     return true;
 }
@@ -100,7 +100,8 @@ AppStyleItem *AppStyleItem::GenerateFromJSValue(jerry_value_t stylePropName, jer
 
     uint8_t pseudoType_ = EstimatePseudoClassType(static_cast<char *>(keyNameBuffer), &strLen);
     AppStyleItem *styleItem =
-        CreateStyleItem(KeyParser::ParseKeyId((const char *)keyNameBuffer, strLen), stylePropValue, pseudoType_);
+        CreateStyleItem(KeyParser::ParseKeyId(static_cast<const char *>(keyNameBuffer), strLen),
+                        stylePropValue, pseudoType_);
     ace_free(keyNameBuffer);
     keyNameBuffer = nullptr;
     return styleItem;
@@ -144,7 +145,7 @@ AppStyleItem *AppStyleItem::CreateStyleItem(uint16_t keyId, const jerry_value_t 
         if (NumberParser::ParsePercentValue(strValueBuffer, strLength, percentValue)) {
             newStyleItem->SetPercentValue(percentValue);
         } else {
-            newStyleItem->SetStringValue((const char *)strValueBuffer);
+            newStyleItem->SetStringValue(static_cast<const char *>(strValueBuffer));
         }
         ace_free(strValueBuffer);
         strValueBuffer = nullptr;

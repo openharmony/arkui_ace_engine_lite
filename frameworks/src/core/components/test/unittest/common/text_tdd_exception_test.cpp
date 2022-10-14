@@ -35,8 +35,8 @@ void TextTddExceptionTest::ComponentTextStyleSetExceptionTest007()
      */
     const char* expectColorStrValue = "helloWorld";
     const char* colorStr = "color";
-    jerry_value_t textKey = jerry_create_string((const jerry_char_t*)colorStr);
-    jerry_value_t textColorValue = jerry_create_string((const jerry_char_t*)expectColorStrValue);
+    jerry_value_t textKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(colorStr));
+    jerry_value_t textColorValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>(expectColorStrValue));
     jerry_set_property(styleObj_, textKey, textColorValue);
     /**
      * @tc.expected: step2. console print exception info

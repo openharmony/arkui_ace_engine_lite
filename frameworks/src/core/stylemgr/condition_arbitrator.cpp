@@ -498,8 +498,8 @@ bool ConditionArbitrator::Calculate(LinkQueue *expressionQueue) const
             if (condition1 == nullptr || condition2 == nullptr) {
                 return false;
             }
-            char *trimStr1 = StringUtil::Trim((char*)condition1);
-            char *trimStr2 = StringUtil::Trim((char*)condition2);
+            char *trimStr1 = StringUtil::Trim(const_cast<char*>(condition1));
+            char *trimStr2 = StringUtil::Trim(const_cast<char*>(condition2));
             if (trimStr1 == nullptr || trimStr2 == nullptr) {
                 return false;
             }

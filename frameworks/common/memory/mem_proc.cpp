@@ -56,7 +56,6 @@ void AceMemProc::ClearUp()
     char markdata[MSG_LENGTH];
     if (sprintf_s(markdata, MSG_LENGTH, "%ti.txt", seconds) < 0) {
         close(state);
-        state = -1;
         return;
     }
     char *fullPath = RelocateJSSourceFilePath(MEM_BACK_UP_LOG_FILE_PREFIX, markdata);
@@ -68,7 +67,6 @@ void AceMemProc::ClearUp()
         fullPath = nullptr;
     }
     close(state);
-    state = -1;
 }
 
 void AceMemProc::SysMemTracing()

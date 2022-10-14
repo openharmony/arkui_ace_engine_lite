@@ -37,8 +37,8 @@ void TextTddTest::ComponentTextAttributeSetValueTest001()
      */
     const char* expectTextValue = "hello world";
     const char* valueStr = "value";
-    jerry_value_t textKey = jerry_create_string((const jerry_char_t*)valueStr);
-    jerry_value_t textValue = jerry_create_string((const jerry_char_t*)expectTextValue);
+    jerry_value_t textKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(valueStr));
+    jerry_value_t textValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>(expectTextValue));
     jerry_set_property(attrsObj_, textKey, textValue);
     Component* textComponent = reinterpret_cast<TextComponent *>(GetRenderedComponent(componentNameId_));
     UILabel* uilabelView = reinterpret_cast<UILabel *>(textComponent->GetComponentRootView());
@@ -91,7 +91,7 @@ void TextTddTest::ComponentTextStyleSetColorTest002()
      */
     int expectColorValue = 16711680;
     const char* colorStr = "color";
-    jerry_value_t textKey = jerry_create_string((const jerry_char_t*)colorStr);
+    jerry_value_t textKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(colorStr));
     jerry_value_t textColorValue = jerry_create_number(expectColorValue);
 
     jerry_set_property(styleObj_, textKey, textColorValue);
@@ -216,7 +216,7 @@ void TextTddTest::ComponentTextStyleSetLetterSpacingTest004()
      */
     int expectLetterSpacingValue = 10;
     const char* letterSpacingStr = "letterSpacing";
-    jerry_value_t textKey = jerry_create_string((const jerry_char_t*)letterSpacingStr);
+    jerry_value_t textKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(letterSpacingStr));
     jerry_value_t textLetterSpacingValue = jerry_create_number(expectLetterSpacingValue);
     jerry_set_property(styleObj_, textKey, textLetterSpacingValue);
     Component* textComponent = reinterpret_cast<TextComponent *>(GetRenderedComponent(componentNameId_));
@@ -270,8 +270,8 @@ void TextTddTest::ComponentTextStyleSetAlignTest005()
      */
     const char* expectLeftAlign = "left";
     const char* textAlign = "textAlign";
-    jerry_value_t textKey = jerry_create_string((const jerry_char_t*)textAlign);
-    jerry_value_t textAlignValue = jerry_create_string((const jerry_char_t*)expectLeftAlign);
+    jerry_value_t textKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(textAlign));
+    jerry_value_t textAlignValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>(expectLeftAlign));
     jerry_set_property(styleObj_, textKey, textAlignValue);
     Component* textComponent = reinterpret_cast<TextComponent *>(GetRenderedComponent(componentNameId_));
     UILabel* uilabelView = reinterpret_cast<UILabel *>(textComponent->GetComponentRootView());
@@ -322,13 +322,13 @@ void TextTddTest::ComponentTextStyleSetSizeFamilyTest006()
      */
     const char *textSize = "fontSize";
     int expectSize = 30;
-    jerry_value_t textSizetKey = jerry_create_string((const jerry_char_t *)textSize);
+    jerry_value_t textSizetKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(textSize));
     jerry_value_t textSizeValue = jerry_create_number(expectSize);
     jerry_set_property(styleObj_, textSizetKey, textSizeValue);
     const char *textFamily = "fontFamily";
     const char *expectFamily = "HYQiHei-65S";
-    jerry_value_t textFamilyKey = jerry_create_string((const jerry_char_t *)textFamily);
-    jerry_value_t textFamilyValue = jerry_create_string((const jerry_char_t *)expectFamily);
+    jerry_value_t textFamilyKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(textFamily));
+    jerry_value_t textFamilyValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>(expectFamily));
     const char *expectTextValue = "hello world";
     const char *valueTag = "value";
     JerrySetStringProperty(attrsObj_, valueTag, expectTextValue);

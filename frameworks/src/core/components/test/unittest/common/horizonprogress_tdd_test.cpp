@@ -34,7 +34,7 @@ void HorizonProgressTddTest::SetUp()
 
     objGlob = jerry_get_global_object();
 
-    jerry_value_t keyAttrs = jerry_create_string((const jerry_char_t*)"attrs");
+    jerry_value_t keyAttrs = jerry_create_string(reinterpret_cast<const jerry_char_t *>("attrs"));
     objAttrs = jerry_create_object();
     jerry_set_property(objGlob, keyAttrs, objAttrs);
     jerry_release_value(keyAttrs);
@@ -57,8 +57,8 @@ void HorizonProgressTddTest::HorizonProgressTest001()
     /**
      * @tc.steps: step1. setting progress type=abc.
      */
-    jerry_value_t keyId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t valueId = jerry_create_string((const jerry_char_t*)"abc");
+    jerry_value_t keyId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t valueId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("abc"));
     jerry_set_property(objAttrs, keyId, valueId);
 
     jerry_value_t children = jerry_create_null();
@@ -100,8 +100,8 @@ void HorizonProgressTddTest::HorizonProgressTest002()
     /**
      * @tc.steps: step1. setting progress type=" ".
      */
-    jerry_value_t keyId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t valueId = jerry_create_string((const jerry_char_t*)" ");
+    jerry_value_t keyId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t valueId = jerry_create_string(reinterpret_cast<const jerry_char_t *>(" "));
     jerry_set_property(objAttrs, keyId, valueId);
 
     jerry_value_t children = jerry_create_null();
@@ -143,8 +143,8 @@ void HorizonProgressTddTest::HorizonProgressTest003()
     /**
      * @tc.steps: step1. setting progress type=arc.
      */
-    jerry_value_t keyId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t valueId = jerry_create_string((const jerry_char_t*)"arc");
+    jerry_value_t keyId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t valueId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("arc"));
     jerry_set_property(objAttrs, keyId, valueId);
 
     jerry_value_t children = jerry_create_null();
@@ -186,13 +186,13 @@ void HorizonProgressTddTest::HorizonProgressTest004()
     /**
      * @tc.steps: step1. setting percent=-32768.
      */
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
     const int32_t percentNum = -32768;
-    jerry_value_t percentId = jerry_create_string((const jerry_char_t*)"percent");
+    jerry_value_t percentId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("percent"));
     jerry_value_t percentValue = jerry_create_number(percentNum);
     jerry_set_property(objAttrs, percentId, percentValue);
     jerry_release_value(percentId);
@@ -229,13 +229,13 @@ void HorizonProgressTddTest::HorizonProgressTest005()
     /**
      * @tc.steps: step1. setting percent=100.
      */
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
 
-    jerry_value_t percentId = jerry_create_string((const jerry_char_t*)"percent");
+    jerry_value_t percentId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("percent"));
     const int32_t percentNum = 100;
     jerry_value_t percentValue = jerry_create_number(percentNum);
     jerry_set_property(objAttrs, percentId, percentValue);
@@ -271,8 +271,8 @@ void HorizonProgressTddTest::HorizonProgressTest005()
 void HorizonProgressTddTest::HorizonProgressTest006()
 {
     TDD_CASE_BEGIN();
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
@@ -280,7 +280,7 @@ void HorizonProgressTddTest::HorizonProgressTest006()
     /**
      * @tc.steps: step1. setting percent=32767.
      */
-    jerry_value_t percentId = jerry_create_string((const jerry_char_t*)"percent");
+    jerry_value_t percentId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("percent"));
     const int32_t percentNum = 32767;
     jerry_value_t percentValue = jerry_create_number(percentNum);
     jerry_set_property(objAttrs, percentId, percentValue);
@@ -316,15 +316,15 @@ void HorizonProgressTddTest::HorizonProgressTest006()
 void HorizonProgressTddTest::HorizonProgressTest007()
 {
     TDD_CASE_BEGIN();
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
     /**
      * @tc.steps: step1. setting percent=-32769.
      */
-    jerry_value_t percentId = jerry_create_string((const jerry_char_t*)"percent");
+    jerry_value_t percentId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("percent"));
     const int32_t percentNum = -32769;
     jerry_value_t percentValue = jerry_create_number(percentNum);
     jerry_set_property(objAttrs, percentId, percentValue);
@@ -360,15 +360,15 @@ void HorizonProgressTddTest::HorizonProgressTest007()
 void HorizonProgressTddTest::HorizonProgressTest008()
 {
     TDD_CASE_BEGIN();
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
     /**
      * @tc.steps: step1. setting percent=32768.
      */
-    jerry_value_t percentId = jerry_create_string((const jerry_char_t*)"percent");
+    jerry_value_t percentId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("percent"));
     const int32_t percentNum = 32768;
     jerry_value_t percentValue = jerry_create_number(percentNum);
     jerry_set_property(objAttrs, percentId, percentValue);
@@ -404,8 +404,8 @@ void HorizonProgressTddTest::HorizonProgressTest008()
 void HorizonProgressTddTest::HorizonProgressTest009()
 {
     TDD_CASE_BEGIN();
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
@@ -413,7 +413,7 @@ void HorizonProgressTddTest::HorizonProgressTest009()
     /**
      * @tc.steps: step1. setting color=0x000000.
      */
-    jerry_value_t colorKey = jerry_create_string((const jerry_char_t*)"color");
+    jerry_value_t colorKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("color"));
     // 0(0x000000)
     const int32_t percentNum = 0x000000;
     const int32_t redNum = 0x00;
@@ -457,15 +457,15 @@ void HorizonProgressTddTest::HorizonProgressTest009()
 void HorizonProgressTddTest::HorizonProgressTest013()
 {
     TDD_CASE_BEGIN();
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
     /**
      * @tc.steps: step1. setting color=0x80000000.
      */
-    jerry_value_t colorKey = jerry_create_string((const jerry_char_t*)"color");
+    jerry_value_t colorKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("color"));
     // 2147483648(0x80000000)
     const int32_t percentNum = static_cast<int32_t>(2147483648);
     const int32_t redNum = 0x00;
@@ -509,15 +509,15 @@ void HorizonProgressTddTest::HorizonProgressTest013()
 void HorizonProgressTddTest::HorizonProgressTest014()
 {
     TDD_CASE_BEGIN();
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
     /**
      * @tc.steps: step1. setting strokeWidth=0.
      */
-    jerry_value_t colorKey = jerry_create_string((const jerry_char_t*)"strokeWidth");
+    jerry_value_t colorKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("strokeWidth"));
     const int32_t strokeWidth = 0;
     jerry_value_t colorValue = jerry_create_number(strokeWidth);
     jerry_set_property(objStaticStyle, colorKey, colorValue);
@@ -550,15 +550,15 @@ void HorizonProgressTddTest::HorizonProgressTest014()
 void HorizonProgressTddTest::HorizonProgressTest015()
 {
     TDD_CASE_BEGIN();
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
     /**
      * @tc.steps: step1. setting strokeWidth=32767.
      */
-    jerry_value_t colorKey = jerry_create_string((const jerry_char_t*)"strokeWidth");
+    jerry_value_t colorKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("strokeWidth"));
     const int32_t strokeWidth = 32767;
     jerry_value_t colorValue = jerry_create_number(strokeWidth);
     jerry_set_property(objStaticStyle, colorKey, colorValue);
@@ -591,15 +591,15 @@ void HorizonProgressTddTest::HorizonProgressTest015()
 void HorizonProgressTddTest::HorizonProgressTest016()
 {
     TDD_CASE_BEGIN();
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
     /**
      * @tc.steps: step1. setting strokeWidth=32768.
      */
-    jerry_value_t colorKey = jerry_create_string((const jerry_char_t*)"strokeWidth");
+    jerry_value_t colorKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("strokeWidth"));
     const int32_t strokeWidth = 32768;
     jerry_value_t colorValue = jerry_create_number(strokeWidth);
     jerry_set_property(objStaticStyle, colorKey, colorValue);
@@ -632,15 +632,15 @@ void HorizonProgressTddTest::HorizonProgressTest016()
 void HorizonProgressTddTest::HorizonProgressTest017()
 {
     TDD_CASE_BEGIN();
-    jerry_value_t typeId = jerry_create_string((const jerry_char_t*)"type");
-    jerry_value_t typeValue = jerry_create_string((const jerry_char_t*)"horizontal");
+    jerry_value_t typeId = jerry_create_string(reinterpret_cast<const jerry_char_t *>("type"));
+    jerry_value_t typeValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("horizontal"));
     jerry_set_property(objAttrs, typeId, typeValue);
     jerry_release_value(typeId);
     jerry_release_value(typeValue);
     /**
      * @tc.steps: step1. setting strokeWidth=-1.
      */
-    jerry_value_t colorKey = jerry_create_string((const jerry_char_t*)"strokeWidth");
+    jerry_value_t colorKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("strokeWidth"));
     const int32_t strokeWidth = -1;
     jerry_value_t colorValue = jerry_create_number(strokeWidth);
     jerry_set_property(objStaticStyle, colorKey, colorValue);

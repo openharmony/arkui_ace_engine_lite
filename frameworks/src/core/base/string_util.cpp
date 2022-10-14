@@ -70,9 +70,6 @@ char *StringUtil::Slice(const char *sequence, const int32_t start, const int32_t
         return nullptr;
     }
     int32_t diffSize = endIdx - startIdx;
-    if (diffSize < 0) {
-        return nullptr;
-    }
     char *buffer = StringUtil::Malloc(diffSize);
     if (buffer == nullptr) {
         return nullptr;

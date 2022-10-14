@@ -36,13 +36,13 @@ void SwiperTddTest::SetUp()
     JsAppEnvironment* appJsEnv = JsAppEnvironment::GetInstance();
     appJsEnv->InitJsFramework();
     optionsObj_ = jerry_get_global_object();
-    jerry_value_t attrsKey = jerry_create_string((const jerry_char_t*)"attrs");
+    jerry_value_t attrsKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("attrs"));
     attrsObj_ = jerry_create_object();
     jerry_value_t ret1 = jerry_set_property(optionsObj_, attrsKey, attrsObj_);
-    jerry_value_t styleKey = jerry_create_string((const jerry_char_t*)"staticStyle");
+    jerry_value_t styleKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("staticStyle"));
     styleObj_ = jerry_create_object();
     jerry_value_t ret2 = jerry_set_property(optionsObj_, styleKey, styleObj_);
-    jerry_value_t eventKey = jerry_create_string((const jerry_char_t*)"on");
+    jerry_value_t eventKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("on"));
     eventObj_ = jerry_create_object();
     jerry_value_t ret3 = jerry_set_property(optionsObj_, eventKey, eventObj_);
     ReleaseJerryValue(attrsKey, styleKey, eventKey, ret1, ret2, ret3, VA_ARG_END_FLAG);
@@ -51,7 +51,7 @@ void SwiperTddTest::SetUp()
     childrenObj_ = jerry_create_array(childrenNum);
 
     jerry_value_t childOption = jerry_create_object();
-    jerry_value_t type = jerry_create_string((const jerry_char_t*)"stack");
+    jerry_value_t type = jerry_create_string(reinterpret_cast<const jerry_char_t *>("stack"));
     ret1 = jerry_set_property_by_index(childOption, 0, type);
     stack1_ = ComponentFactory::CreateComponent(KeyParser::ParseKeyId("div"), childOption, jerry_create_null());
     stack1_->Render();
@@ -91,7 +91,7 @@ void SwiperTddTest::ComponentSwiperAttributeSetTest001()
     /**
      * @tc.steps: step1. set index 2
      */
-    jerry_value_t indexKey = jerry_create_string((const jerry_char_t *)"index");
+    jerry_value_t indexKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("index"));
     const int val = 2;
     jerry_value_t indexVal = jerry_create_number(val);
     jerry_value_t ret1 = jerry_set_property(attrsObj_, indexKey, indexVal);
@@ -115,7 +115,7 @@ void SwiperTddTest::ComponentSwiperAttributeSetTest001()
     /**
      * @tc.steps: step3. set index = '2'; get index = 2
      */
-    indexVal = jerry_create_string((const jerry_char_t *)"2");
+    indexVal = jerry_create_string(reinterpret_cast<const jerry_char_t *>("2"));
     component->UpdateView(KeyParser::ParseKeyId("index"), indexVal);
     view = component->GetComponentRootView();
     swiperView = reinterpret_cast<UISwipeView *>(view);
@@ -177,8 +177,8 @@ void SwiperTddTest::ComponentSwiperAttributeSetTest002()
     /**
      * @tc.steps: step4. set index -1
      */
-    jerry_value_t indexKey = jerry_create_string((const jerry_char_t*)"index");
-    jerry_value_t indexVal = jerry_create_string((const jerry_char_t*)"abc123");
+    jerry_value_t indexKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("index"));
+    jerry_value_t indexVal = jerry_create_string(reinterpret_cast<const jerry_char_t *>("abc123"));
     jerry_value_t ret1 = jerry_set_property(attrsObj_, indexKey, indexVal);
     component = ComponentFactory::CreateComponent(componentKeyId_, optionsObj_, childrenObj_);
     rootComponentMock_.RenderComponent(*component);
@@ -203,7 +203,7 @@ void SwiperTddTest::ComponentSwiperAttributeSetTest003()
     /**
      * @tc.steps: step1. set index bool
      */
-    jerry_value_t indexKey = jerry_create_string((const jerry_char_t*)"index");
+    jerry_value_t indexKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("index"));
     jerry_value_t indexVal = jerry_create_boolean(true);
     jerry_value_t ret1 = jerry_set_property(attrsObj_, indexKey, indexVal);
     Component* component = ComponentFactory::CreateComponent(componentKeyId_, optionsObj_, childrenObj_);
@@ -237,7 +237,7 @@ void SwiperTddTest::ComponentSwiperAttributeSetTest004()
     /**
      * @tc.steps: step1. set index 3
      */
-    jerry_value_t indexKey = jerry_create_string((const jerry_char_t*)"index");
+    jerry_value_t indexKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("index"));
     const int val = 3;
     jerry_value_t indexVal = jerry_create_number(val);
     jerry_value_t ret1 = jerry_set_property(attrsObj_, indexKey, indexVal);
@@ -290,7 +290,7 @@ void SwiperTddTest::ComponentSwiperAttributeSetTest005()
     /**
      * @tc.steps: step1. set index -32769
      */
-    jerry_value_t indexKey = jerry_create_string((const jerry_char_t*)"index");
+    jerry_value_t indexKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("index"));
     const int val1 = -32769;
     jerry_value_t indexVal = jerry_create_number(val1);
     jerry_value_t ret1 = jerry_set_property(attrsObj_, indexKey, indexVal);
@@ -367,7 +367,7 @@ void SwiperTddTest::ComponentSwiperAttributeSetTest013()
     /**
      * @tc.steps: step4. set vert true get vert 1
      */
-    jerry_value_t vertKey = jerry_create_string((const jerry_char_t*)"vertical");
+    jerry_value_t vertKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("vertical"));
     jerry_value_t vertVal = jerry_create_boolean(true);
     jerry_value_t ret1 = jerry_set_property(attrsObj_, vertKey, vertVal);
     component = ComponentFactory::CreateComponent(componentKeyId_, optionsObj_, childrenObj_);
@@ -411,7 +411,7 @@ void SwiperTddTest::ComponentSwiperAttributeSetTest014()
     /**
      * @tc.steps: step1. do not set vertical
      */
-    jerry_value_t vertKey = jerry_create_string((const jerry_char_t*)"vertical");
+    jerry_value_t vertKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("vertical"));
     const int val = 100;
     jerry_value_t vertVal = jerry_create_number(val);
     jerry_value_t ret1 = jerry_set_property(attrsObj_, vertKey, vertVal);
@@ -446,10 +446,10 @@ void SwiperTddTest::ComponentSwiperAttributeSetTest019()
     /**
      * @tc.steps: step1. set id,visibility.
      */
-    jerry_value_t idKey = jerry_create_string((const jerry_char_t*)"id");
-    jerry_value_t idVal = jerry_create_string((const jerry_char_t*)"swiper");
+    jerry_value_t idKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("id"));
+    jerry_value_t idVal = jerry_create_string(reinterpret_cast<const jerry_char_t *>("swiper"));
     jerry_value_t ret1 = jerry_set_property(attrsObj_, idKey, idVal);
-    jerry_value_t visibilityKey = jerry_create_string((const jerry_char_t*)"show");
+    jerry_value_t visibilityKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("show"));
     jerry_value_t visibilityVal = jerry_create_boolean(false);
     jerry_value_t ret2 = jerry_set_property(attrsObj_, visibilityKey, visibilityVal);
     Component* component = ComponentFactory::CreateComponent(componentKeyId_, optionsObj_, childrenObj_);
