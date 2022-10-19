@@ -55,6 +55,7 @@ static TerminateAbilityHandler g_termiantingHandler = nullptr;
 static SetScreenOnVisibleHandler g_setScreenOnHandler = nullptr;
 static ExtraPresetModulesHook g_extraPresetModulesHooks = {nullptr, nullptr};
 static RestoreSystemHandler g_restoreSystemHandler = nullptr;
+static IsPNGSupportedHandler g_isPNGSupportedHandler = nullptr;
 // default font styles
 static char *g_defaultFontFamilyName = nullptr;
 static uint8_t g_defaultFontSize = 30;
@@ -161,6 +162,12 @@ void ProductAdapter::RegRestoreSystemHandler(RestoreSystemHandler handler)
 {
     g_restoreSystemHandler = handler;
 }
+
+void ProductAdapter::RegIsPNGSupportedHandler(IsPNGSupportedHandler handler)
+{
+    g_isPNGSupportedHandler = handler;
+}
+
 // NOTE: This TE function will be called in VSYNC interrupt, and
 // as no any task can be switched to during an interrupt, so it's safe to
 // read the global value directly here.
@@ -305,6 +312,11 @@ void ProductAdapter::RestoreSystemWrapper(const char *crashMessage)
     if (g_restoreSystemHandler != nullptr) {
         g_restoreSystemHandler(crashMessage);
     }
+}
+
+bool ProductAdapter::IsPNGSupportedWrapper(const char *imagePath, const char *bundleName)
+{
+    return (g_isPNGSupportedHandler != nullptr) ? g_isPNGSupportedHandler(imagePath, bundleName) : false;
 }
 } // namespace ACELite
 } // namespace OHOS

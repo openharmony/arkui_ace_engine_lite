@@ -1168,22 +1168,12 @@ void ExpandImagePathMem(char *&imagePath, const int16_t dotPos, const int16_t su
 }
 
 #if (OHOS_ACELITE_PRODUCT_WATCH == 1)
-void CureImagePath(char *&imagePath)
+static void FindPos(int16_t &dotPos, int16_t &lastPathPos, const char *imagePath, const size_t imagePathLen)
 {
-    if (imagePath == nullptr) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "get imagePath failed!");
+    if (imagePath == nullptr || imagePathLen < 0) {
         return;
     }
-    int16_t lastPathPos = -1;
-    int16_t dotPos = -1;
-    const int16_t suffixLen = 3;
-    const size_t imagePathLen = strlen(imagePath);
-    const char * const suffixName = "bin";
 
-    if (imagePathLen >= PATH_LENGTH_MAX) {
-        return;
-    }
-    // find the dot and last path position
     for (int16_t index = imagePathLen - 1; index >= 0; index--) {
         if (dotPos < 0) {
             if (*(imagePath + index) == PATH_PREFIX[0]) {
@@ -1197,6 +1187,32 @@ void CureImagePath(char *&imagePath)
             }
         }
     }
+    return;
+}
+
+void CureImagePath(char *&imagePath)
+{
+    if (imagePath == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "get imagePath failed!");
+        return;
+    }
+
+    const char *bundleName = JsAppContext::GetInstance()->GetCurrentBundleName();
+    if (ProductAdapter::IsPNGSupportedWrapper(imagePath, bundleName)) {
+        return;
+    }
+
+    int16_t lastPathPos = -1;
+    int16_t dotPos = -1;
+    const int16_t suffixLen = 3;
+    const size_t imagePathLen = strlen(imagePath);
+    const char * const suffixName = "bin";
+
+    if (imagePathLen >= PATH_LENGTH_MAX) {
+        return;
+    }
+    // find the dot and last path position
+    FindPos(dotPos, lastPathPos, imagePath, imagePathLen);
 
     // if dot position - last path position > 1, the suffix need to be proceed,
     // else means the file name is wrong.
