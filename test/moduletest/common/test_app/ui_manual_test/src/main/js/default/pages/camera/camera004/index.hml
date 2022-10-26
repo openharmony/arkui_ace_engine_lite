@@ -13,13 +13,35 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="width:454px;height:454px">
-  <text style="left:140px;top:0px;width:200px;height:40px">camera004</text>
-  <input type="button" style="left:125px;top:50px;width:200px;height:60px;" value="takePhoto" onclick="takePhoto">
+<stack id="stack"
+       style="width : 454px; height : 454px">
+  <text id="text"
+        style="left : 140px; top : 0px; width : 200px; height : 40px">
+    camera004
+  </text>
+  <input id="button"
+         type="button"
+         style="left : 125px; top : 50px; width : 200px; height : 60px;"
+         value="takePhoto"
+         onclick="takePhoto">
   </input>
-  <camera ref="cam" style="left:100px;top:120px;width:250px;height:200px;">
+  <camera id="camera"
+          ref="cam"
+          style="left : 100px; top : 120px; width : 250px; height : 200px;">
   </camera>
-  <input type="button" value="上页" style="width:90px;height:40px;left:80px;top:340px;" onclick="changePrev"/>
-  <input type="button" value="首页" style="width:90px;height:40px;left:180px;top:340px;" onclick="backMain"/>
-  <input type="button" value="下页" style="width:90px;height:40px;left:280px;top:340px;" onclick="backMain"/>
+  <input id="buttonPre"
+         type="button"
+         value="上页"
+         style="width : 90px; height : 40px; left : 80px; top : 340px;"
+         onclick="changePrev" />
+  <input id="buttonBack"
+         type="button"
+         value="首页"
+         style="width : 90px; height : 40px; left : 180px; top : 340px;"
+         onclick="backMain" />
+  <input id="buttonNext"
+         type="button"
+         value="下页"
+         style="width : 90px; height : 40px; left : 280px; top : 340px;"
+         onclick="backMain" />
 </stack>

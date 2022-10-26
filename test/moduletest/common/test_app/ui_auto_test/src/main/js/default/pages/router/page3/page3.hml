@@ -13,12 +13,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-    <div class="container">
-        <div style="margin-top:150px;width: 454px;height:400px;flex-direction:column;">
-            <text style="width:454px;height:50px">
-                this is the second page
-            </text>
-            <input onclick="button1" style="width:454px;height:50px" class="buttonBlock" value="switch to self"></input>
-            <input onclick="button2" style="width:454px;height:50px" class="buttonBlock" value="switch to first page"></input>
-        </div>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <div id="itemDiv"
+       style="margin-top: 150px; width: 454px; height: 400px; flex-direction: column;">
+    <text id="text"
+          style="width: 454px; height: 50px">
+      this is the second page
+    </text>
+    <input id="button1"
+           onclick="button1"
+           style="width: 454px; height: 50px"
+           class="buttonBlock"
+           value="switch to self">
+    </input>
+    <input id="button2"
+           onclick="button2"
+           style="width: 454px; height: 50px"
+           class="buttonBlock"
+           value="switch to first page">
+    </input>
+  </div>
+</div>

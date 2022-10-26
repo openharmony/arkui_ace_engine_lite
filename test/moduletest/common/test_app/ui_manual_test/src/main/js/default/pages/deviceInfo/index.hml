@@ -13,20 +13,68 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class="container">
-    <text class="title">device api</text>
-    <text class="title" onclick="clickAction">点击获取信息</text>
-    <text class="title">{{brand}}</text>
-    <text class="title">{{manufacturer}}</text>
-    <text class="title">{{model}}</text>
-    <text class="title">{{product}}</text>
-    <text class="title">{{language}}</text>
-    <text class="title">{{region}}</text>
-    <text class="title">{{windowWidth}}</text>
-    <text class="title">{{windowHeight}}</text>
-    <text class="title">{{screenDensity}}</text>
-    <text class="title">{{screenShape}}</text>
-    <text class="title">{{apiVersion}}</text>
-    <text class="title">{{deviceType}}</text>
-    <text class="title" onclick="backMain">退出</text>
+<div id="containerDiv"
+     class="container">
+  <text id="text0"
+        class="title">
+    device api
+  </text>
+  <text id="text1"
+        class="title"
+        onclick="clickAction">
+    点击获取信息
+  </text>
+  <text id="text2"
+        class="title">
+    {{brand}}
+  </text>
+  <text id="text3"
+        class="title">
+    {{manufacturer}}
+  </text>
+  <text id="text4"
+        class="title">
+    {{model}}
+  </text>
+  <text id="text5"
+        class="title">
+    {{product}}
+  </text>
+  <text id="text6"
+        class="title">
+    {{language}}
+  </text>
+  <text id="text7"
+        class="title">
+    {{region}}
+  </text>
+  <text id="text8"
+        class="title">
+    {{windowWidth}}
+  </text>
+  <text id="text9"
+        class="title">
+    {{windowHeight}}
+  </text>
+  <text id="text10"
+        class="title">
+    {{screenDensity}}
+  </text>
+  <text id="text11"
+        class="title">
+    {{screenShape}}
+  </text>
+  <text id="text12"
+        class="title">
+    {{apiVersion}}
+  </text>
+  <text id="text13"
+        class="title">
+    {{deviceType}}
+  </text>
+  <text id="text14"
+        class="title"
+        onclick="backMain">
+    退出
+  </text>
 </div>

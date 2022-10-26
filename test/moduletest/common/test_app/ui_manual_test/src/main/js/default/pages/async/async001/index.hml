@@ -13,10 +13,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<stack style="width:454px;height:454px">
-    <text style="left:50px;top:200px;width:200px;height:50px">FSModule</text>
-    <text style="left:250px;top:200px;width:150px;height:50px">{{testRes}}</text>
-    <input type="button" value="上页" style="width:90px;height:40px;left:80px;top:340px;" onclick="backMain"/>
-    <input type="button" value="首页" style="width:90px;height:40px;left:180px;top:340px;" onclick="backMain"/>
-    <input type="button" value="下页" style="width:90px;height:40px;left:280px;top:340px;" onclick="backMain"/>
+<stack id="stack"
+       style="width: 454px; height: 454px">
+  <text id="text0"
+        style="left: 50px; top: 200px; width: 200px; height: 50px">
+    FSModule
+  </text>
+  <text id="text1"
+        style="left: 250px; top: 200px; width: 150px; height: 50px">
+    {{testRes}}
+  </text>
+  <input id="buttonPre"
+         type="button"
+         value="上页"
+         style="width: 90px; height: 40px; left: 80px; top: 340px;"
+         onclick="backMain" />
+  <input id="buttonBack"
+         type="button"
+         value="首页"
+         style="width: 90px; height: 40px; left: 180px; top: 340px;"
+         onclick="backMain" />
+  <input id="buttonNext"
+         type="button"
+         value="下页"
+         style="width: 90px; height: 40px; left: 280px; top: 340px;"
+         onclick="backMain" />
 </stack>

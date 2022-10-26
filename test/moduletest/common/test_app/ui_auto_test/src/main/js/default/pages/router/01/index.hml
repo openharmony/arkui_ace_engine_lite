@@ -13,27 +13,77 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<div class="container" style="flex-direction:column; align-items:center">
-    <div style="margin-top:40px;width:320px;height:80px;" class="divFrame">
-        <text style="width:300px;height:80px;text-overflow:ellipsis">Router_Replace_Test_001</text>
+<div id="containerDiv"
+     class="container"
+     style="flex-direction: column; align-items: center">
+  <div id="frameDiv0"
+       style="margin-top: 40px; width: 320px; height: 80px;"
+       class="divFrame">
+    <text id="frameText"
+          style="width: 300px; height: 80px; text-overflow: ellipsis">
+      Router_Replace_Test_001
+    </text>
+  </div>
+  <div id="frameDiv1"
+       style="height: 260px;"
+       class="divFrame">
+    <div id="itemDiv"
+         style="width: 454px; height: 260px">
+      <text id="text"
+            style="margin-left: 5px; width: 150px; height: 220px">
+        this is the first page
+      </text>
+      <div id="buttonDiv"
+           style="width: 300px; height: 260px; flex-direction: column;">
+        <input id="button1"
+               onclick="button1"
+               type="button"
+               class="buttonBlock"
+               value="replace()">
+        </input>
+        <input id="button2"
+               onclick="button2"
+               type="button"
+               class="buttonBlock"
+               value="replace({})">
+        </input>
+        <input id="button3"
+               onclick="button3"
+               type="button"
+               class="buttonBlock"
+               value="{uri:'pages/page2/'}">
+        </input>
+        <input id="button4"
+               onclick="button4"
+               type="button"
+               class="buttonBlock"
+               value="{uri:}">
+        </input>
+        <input id="button5"
+               onclick="button5"
+               type="button"
+               class="buttonBlock"
+               value="{uri:''}">
+        </input>
+      </div>
     </div>
-    <div style="height:260px;" class="divFrame">
-        <div style="width: 454px;height:260px">
-            <text style="margin-left:5px;width:150px;height:220px">
-                this is the first page
-            </text>
-            <div style="width:300px;height:260px;flex-direction:column;">
-                <input onclick="button1" type="button" class="buttonBlock" value="replace()"></input>
-                <input onclick="button2" type="button" class="buttonBlock" value="replace({})"></input>
-                <input onclick="button3" type="button" class="buttonBlock" value="{uri:'pages/page2/'}"></input>
-                <input onclick="button4" type="button" class="buttonBlock" value="{uri:}"></input>
-                <input onclick="button5" type="button" class="buttonBlock" value="{uri:''}"></input>
-            </div>
-        </div>
-    </div>
-    <div class="divFrame">
-        <input type="button" value="上页" style="width:90px;height:40px;" onclick="changePrev"/>
-        <input type="button" value="首页" style="width:90px;height:40px;" onclick="backMain"/>
-        <input type="button" value="下页" style="width:90:height:40px;" onclick="changeNext"/>
-    </div>
+  </div>
+  <div id="frameDiv2"
+       class="divFrame">
+    <input id="buttonPre"
+           type="button"
+           value="上页"
+           style="width: 90px; height: 40px;"
+           onclick="changePrev" />
+    <input id="buttonBack"
+           type="button"
+           value="首页"
+           style="width: 90px; height: 40px;"
+           onclick="backMain" />
+    <input id="buttonNext"
+           type="button"
+           value="下页"
+           style="width: 90px; height: 40 px;"
+           onclick="changeNext" />
+  </div>
 </div>
