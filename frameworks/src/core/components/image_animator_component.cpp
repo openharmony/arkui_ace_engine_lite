@@ -209,11 +209,18 @@ bool ImageAnimatorComponent::ParseToFrames(jerry_value_t value)
         return false;
     }
 
-    frames_ = static_cast<ImageAnimatorInfo *>(ace_malloc(sizeof(ImageAnimatorInfo) * framesSize_));
+    size_t framesTotalSize = sizeof(ImageAnimatorInfo) * framesSize_;
+    frames_ = static_cast<ImageAnimatorInfo *>(ace_malloc(framesTotalSize));
     if (frames_ == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "fail to set images cause by out of memory.");
         return false;
     }
+    if (memset_s(frames_, framesTotalSize, 0, framesTotalSize) != EOK) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "fail to initialize images frame memory.");
+        ACE_FREE(frames_);
+        return false;
+    }
+
     for (uint8_t idx = 0; idx < framesSize_; ++idx) {
         jerry_value_t image = jerry_get_property_by_index(value, idx);
         if (jerry_value_is_undefined(image) || !jerry_value_is_object(image)) {
