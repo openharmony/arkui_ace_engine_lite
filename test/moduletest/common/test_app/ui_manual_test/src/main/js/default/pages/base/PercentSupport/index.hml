@@ -12,35 +12,55 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<div class="divContainer" style="flex-direction: column;">
-    <div class="divContainer2" style="flex-direction: column;">
-        <stack style="width: {{stackWidth}}; height: {{stackHeight}}; background-color: mistyrose;"
-                grab:click="changePercentToPercent">
-            <text style="width: 300px;height: 35px; color: black;">
-                父组件{{stackWidth}},{{stackHeight}}
-            </text>
-            <text class="title" style="top: {{topValue}}; left: {{leftValue}};" grab:click="changePercentToPX">
-                宽60%，高50%, top {{topValue}} left {{leftValue}}
-            </text>
-        </stack>
-        <div class="contentCenter"
-                style="width: 100%; height: 70%; background-color: burlywood; flex-direction: column;">
-            <text style="width: 340px;height: 40px; text-align: center;background-color: aqua; margin:{{marginValue}};"
-                    grab:click="changeMargin">
-                margin {{marginValue}}
-            </text>
-            <list style="width: 70%; height: 75%; background-color: black;">
-                <list-item style="width: 100%; height: 35px;">
-                    <text style="width: 340px;height: 35px;">
-                        list 70%, 75%
-                    </text>
-                </list-item>
-                <list-item class="contentCenter" for="{{listData}}"
-                        style="width: 100%; height: 30%; background-color: white;">
-                    <input type="button" style="width: 60%; height: 60%;" value="{{$item}}"
-                            grab:click="returnIndex"></input>
-                </list-item>
-            </list>
-        </div>
+
+<div id="containerDiv1"
+     class="divContainer"
+     style="flex-direction: column;">
+  <div id="containerDiv2"
+       class="divContainer2"
+       style="flex-direction: column;">
+    <stack id="stack"
+           style="width: {{stackWidth}}; height: {{stackHeight}}; background-color: mistyrose;"
+           grab:click="changePercentToPercent">
+      <text id="stackText0"
+            style="width: 300px; height: 35px; color: black;">
+        父组件{{stackWidth}},{{stackHeight}}
+      </text>
+      <text id="stackText1"
+            class="title"
+            style="top: {{topValue}}; left: {{leftValue}};"
+            grab:click="changePercentToPX">
+        宽60%，高50%, top {{topValue}} left {{leftValue}}
+      </text>
+    </stack>
+    <div id="contentDiv"
+         class="contentCenter"
+         style="width: 100%; height: 70%; background-color: burlywood; flex-direction: column;">
+      <text id="text"
+            style="width: 340px; height: 40px; text-align: center; background-color: aqua;
+          margin: {{marginValue}};"
+            grab:click="changeMargin">
+        margin {{marginValue}}
+      </text>
+      <list id="list"
+            style="width: 70%; height: 75%; background-color: black;">
+        <list-item id="listItem"
+                   style="width: 100%; height: 35px;">
+          <text id="listItemText"
+                style="width: 340px; height: 35px;">
+            list 70%, 75%
+          </text>
+        </list-item>
+        <list-item class="contentCenter"
+                   for="{{listData}}"
+                   style="width: 100%; height: 30%; background-color: white;">
+          <input type="button"
+                 style="width: 60%; height: 60%;"
+                 value="{{$item}}"
+                 grab:click="returnIndex">
+          </input>
+        </list-item>
+      </list>
     </div>
+  </div>
 </div>

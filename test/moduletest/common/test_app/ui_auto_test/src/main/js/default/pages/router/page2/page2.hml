@@ -13,13 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-    <div class="container">
-        <div style="margin-top:150px;width: 454px;height:400px;flex-direction:column;">
-            <text style="width:454px;height:150px;text-overflow:ellipsis" onclick="switchToFirst">
-                this is the second page, click to return to first page
-            </text>
-            <input type="button" style="width:454px;height:200px" value="xyz={{xyz}}">
-
-            </input>
-        </div>
-    </div>
+<div id="containerDiv"
+     class="container">
+  <div id="itemDiv"
+       style="margin-top: 150px; width: 454px; height: 400px; flex-direction: column;">
+    <text id="text"
+          style="width: 454px; height: 150px; text-overflow: ellipsis"
+          onclick="switchToFirst">
+      this is the second page, click to return to first page
+    </text>
+    <input id="button"
+           type="button"
+           style="width: 454px; height: 200px"
+           value="xyz={{xyz}}">
+    </input>
+  </div>
+</div>

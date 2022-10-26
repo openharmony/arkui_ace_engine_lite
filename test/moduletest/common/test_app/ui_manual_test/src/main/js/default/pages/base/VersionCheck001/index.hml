@@ -14,19 +14,37 @@ limitations under the License.
 -->
 
 <div id="container">
-  <text id="testTitle">显示框架版本信息</text>
-  <text class="title" style="height:50px; color:{{textColor}}">
+  <text id="testTitle">
+    显示框架版本信息
+  </text>
+  <text id="text0"
+        class="title"
+        style="height: 50px; color: {{textColor}}">
     aceVersion: {{versionStr}}
   </text>
-  <text class="title" style="height:50px; color:{{text2Color}}">
+  <text id="text1"
+        class="title"
+        style="height: 50px; color: {{text2Color}}">
     commit: {{commitStr}}
   </text>
-  <text class="title" style="height:50px; color:{{text2Color}}">
+  <text id="text2"
+        class="title"
+        style="height: 50px; color: {{text2Color}}">
     {{buildStamp}}
   </text>
   <div id="secDiv">
-    <input class="button" type="button" value="下一页" onclick="nextPage" />
-    <div style="width: 20px; height: 20px"></div>
-    <input class="button" type="button" value="返回首页" onclick="exitPage" />
+    <input id="buttonNext"
+           class="button"
+           type="button"
+           value="下一页"
+           onclick="nextPage" />
+    <div id="div"
+         style="width: 20px; height: 20px">
+    </div>
+    <input id="buttonExit"
+           class="button"
+           type="button"
+           value="返回首页"
+           onclick="exitPage" />
   </div>
 </div>
