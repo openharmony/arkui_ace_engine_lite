@@ -22,6 +22,17 @@ unittest("js_frameworks_test_js_async_work") {
   deps = ace_test_deps
 }
 
+unittest("js_frameworks_test_message_queue_utils") {
+  output_extension = "bin"
+  output_dir = test_output_root
+  configs = [ "$ace_lite_root/test:test_common_config" ]
+  sources = [ "common/message_queue_utils_tdd_test.cpp" ]
+  deps = ace_test_deps
+}
+
 group("async_unittest") {
-  deps = [ ":js_frameworks_test_js_async_work" ]
+  deps = [
+    ":js_frameworks_test_js_async_work",
+    ":js_frameworks_test_message_queue_utils",
+  ]
 }
