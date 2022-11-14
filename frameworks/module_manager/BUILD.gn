@@ -25,13 +25,6 @@ lite_component("ace_module_manager_lite") {
 lite_library("ace_module_manager") {
   if (ohos_kernel_type == "liteos_m") {
     target_type = "static_library"
-    if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
-      cflags = [
-        "--diag_suppress",
-        "Pa137,Pe226",
-      ]
-      cflags_cc = cflags
-    }
   } else {
     target_type = "shared_library"
     cflags = [ "-Wall" ]
@@ -65,6 +58,14 @@ lite_library("ace_module_manager") {
       "//third_party/bounds_checking_function:libsec_static",
       "//third_party/jerryscript:jerry_engine",
     ]
+    if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
+      public_deps -= [ "//commonlibrary/utils_lite/js/builtin:ace_utils_kits" ]
+      cflags = [
+        "--diag_suppress",
+        "Pa137,Pe226",
+      ]
+      cflags_cc = cflags
+    }
   } else {
     public_deps += [
       "${appexecfwk_lite_path}/interfaces/kits/bundle_lite/js/builtin:capability_api",
