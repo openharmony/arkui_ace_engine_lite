@@ -20,6 +20,7 @@
 #include "fatal_handler.h"
 #include "key_parser.h"
 #include "keys.h"
+#include "product_adapter.h"
 
 namespace OHOS {
 namespace ACELite {
@@ -43,6 +44,7 @@ bool ListComponent::CreateNativeViews()
     // list event listener position
     const int16_t listenPosition = 10;
     list_.SetSelectPosition(listenPosition);
+    ProductAdapter::SetViewsParaWrapper(reinterpret_cast<void *>(&list_));
     return true;
 }
 
