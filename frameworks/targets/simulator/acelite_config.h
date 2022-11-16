@@ -55,6 +55,7 @@
  */
 #define FEATURE_MODULE_DEVICE 1
 
+#if defined(LITEWEARABLE_SUPPORTED) && LITEWEARABLE_SUPPORTED
 /**
  * support geo location API for JS
  */
@@ -70,6 +71,22 @@
  */
 #define FEATURE_MODULE_BRIGHTNESS 1
 
+#else
+/**
+ * support geo location API for JS
+ */
+#define FEATURE_MODULE_GEO 0
+
+/**
+ * support sensor API for JS
+ */
+#define FEATURE_MODULE_SENSOR 0
+
+/**
+ * support brightness API for JS
+ */
+#define FEATURE_MODULE_BRIGHTNESS 0
+#endif // LITEWEARABLE_SUPPORTED
 /**
  * support battery API for JS
  */
