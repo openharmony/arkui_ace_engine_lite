@@ -66,6 +66,16 @@ typedef void (*TerminateAbilityHandler)(uint32_t token, bool forceStop);
 typedef void (*RestoreSystemHandler)(const char *crashMessage);
 
 /**
+ * The hook for determining the capability of supporting PNG and JPG image formats.
+ */
+typedef bool (*IsPNGSupportedHandler)(const char *imagePath, const char *bundleName);
+
+/**
+ * The hook for set component views parameters.
+ */
+typedef void (*SetViewsParaHandler)(void *ComponentHandler);
+
+/**
  * As all the UI event handling is driven by the render tick, and to make sure the the event handling is
  * in JS task, the HAL layer will transfer the TE event into the loop of JS task, when JS application go foreground.
  */
@@ -128,6 +138,8 @@ public:
     static void RegExtraPresetModulesHook(ExtraPresetModulesHook hook);
     static void ConfigPrivateDataRootPath(const char *appDataRoot);
     static void RegRestoreSystemHandler(RestoreSystemHandler handler);
+    static void RegIsPNGSupportedHandler(IsPNGSupportedHandler handler);
+    static void RegSetViewsParaHandler(SetViewsParaHandler handler);
 
     // wrapper functions, for ace internal calling
     static void PrintEventTrace(uint8_t info2, uint8_t info3, uint8_t info4);
@@ -148,6 +160,8 @@ public:
     static void UnloadExtraPresetModules();
     static const char *GetPrivateDataRootPath();
     static void RestoreSystemWrapper(const char *crashMessage);
+    static bool IsPNGSupportedWrapper(const char *imagePath, const char *bundleName);
+    static void SetViewsParaWrapper(void *ComponentHandler);
 };
 } // namespace ACELite
 } // namespace OHOS
