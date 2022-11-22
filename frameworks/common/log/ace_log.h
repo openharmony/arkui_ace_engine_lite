@@ -31,7 +31,11 @@
 #undef LOG_TAG
 #define LOG_DOMAIN 0xD003900
 #define LOG_TAG "ACE"
+#ifndef __ICCARM__
 #include "hilog/log.h"
+#else
+#include "hilog_lite/log.h"
+#endif
 #elif (FEATURE_ACELITE_MC_LOG_PRINTF == 1)
 #include "hilog/log.h"
 #ifndef HILOG_DEBUG
