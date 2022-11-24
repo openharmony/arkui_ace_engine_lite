@@ -24,7 +24,11 @@
 #undef LOG_TAG
 #define LOG_DOMAIN 0xD003B00
 #define LOG_TAG "JS-3RD-APP"
+#ifndef __ICCARM__
 #include "hilog/log.h"
+#else
+#include "hilog_lite/log.h"
+#endif
 #endif // FEATURE_ACELITE_HI_LOG_PRINTF
 #if (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1))
 #include "handler.h"
