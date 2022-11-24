@@ -16,6 +16,9 @@
 #include "console_log_impl.h"
 #if IS_ENABLED(CONSOLE_LOG_OUTPUT)
 #include "js_app_environment.h"
+#if (FEATURE_USER_MC_LOG_PRINTF == 1)
+#include "product_adapter.h"
+#endif // FEATURE_USER_MC_LOG_PRINTF
 #ifdef FEATURE_ACELITE_HI_LOG_PRINTF
 #undef LOG_DOMAIN
 #undef LOG_TAG
@@ -25,7 +28,6 @@
 #include "hilog/log.h"
 #else
 #include "hilog_lite/log.h"
-#include "product_adapter.h"
 #endif
 #endif // FEATURE_ACELITE_HI_LOG_PRINTF
 #if (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1))
@@ -162,7 +164,7 @@ void LogChar(char c, const LogLevel logLevel, bool endFlag)
     }
 }
 
-#ifndef __ICCARM__
+#ifdef FEATURE_ACELITE_HI_LOG_PRINTF
 static void OutputToHiLog(const LogLevel logLevel, const char * const str)
 {
     switch (logLevel) {
@@ -188,7 +190,7 @@ static void OutputToHiLog(const LogLevel logLevel, const char * const str)
             break;
     }
 }
-#else
+#elif (FEATURE_USER_MC_LOG_PRINTF == 1)
 static void OutputToHiLog(const LogLevel logLevel, const char * const str)
 {
     switch (logLevel) {
