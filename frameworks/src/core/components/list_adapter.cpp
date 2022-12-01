@@ -187,6 +187,9 @@ int16_t ListAdapter::CalculateItemIndex(int16_t itemIndex) const
 
 UIView *ListAdapter::GetView(UIView *inView, int16_t index)
 {
+    if (!AsyncTaskManager::GetInstance().IsFront()) {
+        return nullptr;
+    }
     if (index < 0) {
         return nullptr;
     }
