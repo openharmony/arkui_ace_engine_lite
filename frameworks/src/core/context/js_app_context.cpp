@@ -236,6 +236,8 @@ void JsAppContext::SetCurrentAbilityInfo(const char * const abilityPath, const c
         if ((bundleNameLen > 0) && (bundleNameLen < NAME_LENGTH_MAX)) {
             currentBundleName_ = static_cast<char *>(ace_malloc(bundleNameLen + 1));
             if (currentBundleName_ == nullptr) {
+                ace_free(currentAbilityPath_);
+                currentAbilityPath_ = nullptr;
                 HILOG_ERROR(HILOG_MODULE_ACE, "malloc buffer for current uuid failed");
                 return;
             }

@@ -277,6 +277,9 @@ public:
 
     void EventExcute(const int16_t index, jerry_value_t bindScrollFunc) const
     {
+        if (!AsyncTaskManager::GetInstance().IsFront()) {
+            return;
+        }
         if (IS_UNDEFINED(bindScrollFunc)) {
             return;
         }
