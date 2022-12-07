@@ -31,7 +31,7 @@ config("ace_lite_config") {
   if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
     cflags = [
       "--diag_suppress",
-      "Pe111,Pa137,Pe177,Pe226,Pe366,Pe367",
+      "Pe111,Pa137,Pe177,Pa205,Pe226,Pe366,Pe367",
     ]
     cflags_cc = cflags
   } else {
@@ -78,6 +78,8 @@ lite_library("ace_lite") {
   if (ohos_kernel_type == "liteos_m") {
     deps += [ ":gen_syscap_module_native_mini" ]
     sources += [ "$target_out_dir/syscap_module_native_mini.cpp" ]
+    include_dirs =
+        [ "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog_lite" ]
     public_deps += [
       "//build/lite/config/component/cJSON:cjson_static",
       "//third_party/bounds_checking_function:libsec_static",
