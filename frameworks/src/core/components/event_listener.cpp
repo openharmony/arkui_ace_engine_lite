@@ -17,6 +17,7 @@
 #include "jerryscript.h"
 #include "js_fwk_common.h"
 #include "root_view.h"
+#include "js_app_context.h"
 
 namespace OHOS {
 namespace ACELite {
@@ -148,6 +149,25 @@ void ValueChangeListener::OnChange(UIView &view, const char *value)
     }
     ReleaseJerryValue(textValue, VA_ARG_END_FLAG);
     return;
+}
+
+void ListEventListener::EventExcute(const int16_t index, jerry_value_t bindScrollFunc) const
+{
+        TopAbilityState abilityState = JsAppContext::GetInstance()->GetAbilityState();
+        if (abilityState != TopAbilityState::ABILITY_SHOWN) {
+            return;
+        }
+
+        if (IS_UNDEFINED(bindScrollFunc)) {
+            return;
+        }
+
+        int8_t currentState = this->GetScrollState();
+        jerry_value_t currentStateValue = jerry_create_number(currentState);
+        jerry_value_t componentIndex = jerry_create_number(index);
+        jerry_value_t args[ARGS_LEN] = {currentStateValue, componentIndex};
+        CallJSFunctionAutoRelease(bindScrollFunc, UNDEFINED, args, ARGS_LEN);
+        ReleaseJerryValue(currentStateValue, componentIndex, VA_ARG_END_FLAG);
 }
 } // namespace ACELite
 } // namespace OHOS

@@ -21,6 +21,20 @@
 
 namespace OHOS {
 namespace ACELite {
+
+enum class TopAbilityState {
+    ABILITY_UNINITIALIZED = -1,
+    ABILITY_INITIALIZED,
+    ABILITY_LAUNCHING,
+    ABILITY_LAUNCHDONE,
+    ABILITY_SHOWING,
+    ABILITY_SHOWN,
+    ABILITY_HIDING,
+    ABILITY_HIDDEN,
+    ABILITY_DESTROYING,
+    ABILITY_DESTROYED
+};
+
 class JSAbilityImpl;
 /**
  * @brief Global App context.
@@ -146,6 +160,8 @@ public:
         return currentToken_;
     }
 
+    TopAbilityState GetAbilityState() const;
+    void SetAbilityState(TopAbilityState state);
 private:
     /**
      * @brief: release the ability info saved
@@ -176,6 +192,7 @@ private:
     uint16_t currentToken_ = 0;
     int32_t compatibleApi_ = 0;
     int32_t targetApi_ = 0;
+    TopAbilityState abilityState_ = TopAbilityState::ABILITY_UNINITIALIZED;
 };
 } // namespace ACELite
 } // namespace OHOS

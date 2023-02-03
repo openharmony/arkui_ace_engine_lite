@@ -65,6 +65,7 @@ void JSAbilityImpl::InitEnvironment(const char * const abilityPath, const char *
         return;
     }
 
+    appContext_->SetAbilityState(TopAbilityState::ABILITY_INITIALIZED);
     START_TRACING(APP_CODE_EVAL);
     abilityModel_ = appContext_->Eval(fileFullPath, strlen(fileFullPath), true); // generate global.$app js object
     STOP_TRACING();
@@ -80,6 +81,10 @@ void JSAbilityImpl::InitEnvironment(const char * const abilityPath, const char *
 
 void JSAbilityImpl::CleanUp()
 {
+    if (appContext_ == nullptr) {
+        return;
+    }
+    appContext_->SetAbilityState(TopAbilityState::ABILITY_DESTROYING);
     if (!isEnvInit_) {
         return;
     }
@@ -95,23 +100,28 @@ void JSAbilityImpl::CleanUp()
     }
     TimersModule::Clear();
     LocalModule::Clear();
-    if (appContext_) {
-        appContext_->ClearContext();
-    }
+
+    appContext_->ClearContext();
+
     ModuleManager::GetInstance()->OnTerminate();
     JsAppEnvironment::GetInstance()->Cleanup();
     isEnvInit_ = false;
+    appContext_->SetAbilityState(TopAbilityState::ABILITY_DESTROYED);
     OUTPUT_TRACE();
 }
 
 void JSAbilityImpl::DeliverCreate(const char *param)
 {
+    if (appContext_ == nullptr) {
+        return;
+    }
+    appContext_->SetAbilityState(TopAbilityState::ABILITY_LAUNCHING);
     START_TRACING(APP_ON_CREATE);
     // call InvokeOnCreate
     InvokeOnCreate();
     STOP_TRACING();
     // if we have done the render or not initialized yet, don't call render
-    if (rendered_ || (appContext_ == nullptr)) {
+    if (rendered_) {
         ACE_ERROR_CODE_PRINT(EXCE_ACE_FWK_LAUNCH_FAILED, EXCE_ACE_APP_RENDER_FAILED);
         return;
     }
@@ -128,26 +138,37 @@ void JSAbilityImpl::DeliverCreate(const char *param)
         rendered_ = true;
     }
     jerry_release_value(object);
+    appContext_->SetAbilityState(TopAbilityState::ABILITY_LAUNCHDONE);
 }
 
 void JSAbilityImpl::Show() const
 {
+    if (appContext_ == nullptr) {
+        return;
+    }
     if (router_ == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "no router instance to perform the show request");
         return;
     }
+    appContext_->SetAbilityState(TopAbilityState::ABILITY_SHOWING);
     router_->Show();
     FatalHandler::GetInstance().NotifyVisibleStatusChange(true);
+    appContext_->SetAbilityState(TopAbilityState::ABILITY_SHOWN);
 }
 
 void JSAbilityImpl::Hide() const
 {
+    if (appContext_ == nullptr) {
+        return;
+    }
     if (router_ == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "no router instance to perform the hide request");
         return;
     }
+    appContext_->SetAbilityState(TopAbilityState::ABILITY_HIDING);
     router_->Hide();
     FatalHandler::GetInstance().NotifyVisibleStatusChange(false);
+    appContext_->SetAbilityState(TopAbilityState::ABILITY_HIDDEN);
 }
 
 void JSAbilityImpl::NotifyBackPressed() const
