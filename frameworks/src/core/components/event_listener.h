@@ -275,22 +275,7 @@ public:
             bindScrollBottomFunc_, VA_ARG_END_FLAG);
     }
 
-    void EventExcute(const int16_t index, jerry_value_t bindScrollFunc) const
-    {
-        if (!AsyncTaskManager::GetInstance().IsFront()) {
-            return;
-        }
-        if (IS_UNDEFINED(bindScrollFunc)) {
-            return;
-        }
-
-        int8_t currentState = this->GetScrollState();
-        jerry_value_t currentStateValue = jerry_create_number(currentState);
-        jerry_value_t componentIndex = jerry_create_number(index);
-        jerry_value_t args[ARGS_LEN] = {currentStateValue, componentIndex};
-        CallJSFunctionAutoRelease(bindScrollFunc, UNDEFINED, args, ARGS_LEN);
-        ReleaseJerryValue(currentStateValue, componentIndex, VA_ARG_END_FLAG);
-    }
+    void EventExcute(const int16_t index, jerry_value_t bindScrollFunc) const;
 
 // list specific event switch
 #ifdef FEATURE_LIST_SPECIFIC_EVENT_ENABLE
