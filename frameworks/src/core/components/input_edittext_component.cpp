@@ -48,6 +48,10 @@ bool InputEditTextComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value
         case K_TYPE:
             if (jerry_value_is_string(attrValue)) {
                 char *type = MallocStringOf(attrValue);
+                if (type == nullptr) {
+                    HILOG_ERROR(HILOG_MODULE_ACE, "type is nullptr");
+                    return false;
+                }
                 if (strcmp(type, "password")) {
                     edittext_.SetInputType(InputType::TEXT_TYPE);
                 } else {
@@ -61,6 +65,10 @@ bool InputEditTextComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value
         case K_VALUE:
             if (jerry_value_is_string(attrValue)) {
                 char *value = MallocStringOf(attrValue);
+                if (value == nullptr) {
+                    HILOG_ERROR(HILOG_MODULE_ACE, "value is nullptr");
+                    return false;
+                }
                 edittext_.SetText(value);
                 ACE_FREE(value);
                 return true;
@@ -70,6 +78,10 @@ bool InputEditTextComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value
         case K_PLACEHOLDER:
             if (jerry_value_is_string(attrValue)) {
                 char *placeholder = MallocStringOf(attrValue);
+                if (placeholder == nullptr) {
+                    HILOG_ERROR(HILOG_MODULE_ACE, "placeholder is nullptr");
+                    return false;
+                }
                 edittext_.SetPlaceholder(placeholder);
                 ACE_FREE(placeholder);
                 return true;

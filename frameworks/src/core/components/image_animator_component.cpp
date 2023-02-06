@@ -154,6 +154,10 @@ bool ImageAnimatorComponent::ParseToFillMode(jerry_value_t value) const
 {
     uint16_t size = 0;
     char *fillMode = MallocStringOf(value, &size);
+    if (fillMode == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "fillmode is nullptr.");
+        return false;
+    }
     if (size == 0) {
         HILOG_ERROR(HILOG_MODULE_ACE, "fillmode is null or empty.");
         ACE_FREE(fillMode);
