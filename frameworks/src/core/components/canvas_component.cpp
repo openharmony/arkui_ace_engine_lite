@@ -1219,7 +1219,9 @@ jerry_value_t CanvasComponent::StrokeRect(const jerry_value_t func,
     Point startPoint;
     startPoint.x = startX;
     startPoint.y = startY;
+#if defined(ENABLE_CANVAS_EXTEND) && ENABLE_CANVAS_EXTEND
     component->canvas_.StrokeRect(startPoint, height, width, component->paint_);
+#endif
     return UNDEFINED;
 }
 
@@ -1703,7 +1705,9 @@ jerry_value_t CanvasComponent::CleanRect(const jerry_value_t func,
     Point point;
     point.x = x;
     point.y = y;
+#if defined(ENABLE_CANVAS_EXTEND) && ENABLE_CANVAS_EXTEND
     component->canvas_.ClearRect(point, height, width);
+#endif
     return UNDEFINED;
 }
 jerry_value_t CanvasComponent::Arc(const jerry_value_t func,
@@ -1966,7 +1970,9 @@ jerry_value_t CanvasComponent::Fill(const jerry_value_t func,
         return jerry_create_error(JERRY_ERROR_TYPE,
                                   reinterpret_cast<const jerry_char_t *>("get canvas component from js object failed"));
     }
+#if defined(ENABLE_CANVAS_EXTEND) && ENABLE_CANVAS_EXTEND
     component->canvas_.FillPath(component->paint_);
+#endif
     return UNDEFINED;
 }
 
