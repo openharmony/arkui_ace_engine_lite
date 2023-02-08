@@ -1208,6 +1208,7 @@ jerry_value_t CanvasComponent::StrokeRect(const jerry_value_t func,
                                   reinterpret_cast<const jerry_char_t *>("get canvas component from js object failed"));
     }
 
+#if defined(ENABLE_CANVAS_EXTEND) && ENABLE_CANVAS_EXTEND
     int16_t startX = IntegerOf(args[ArgsIndex::IDX_0]);
     int16_t startY = IntegerOf(args[ArgsIndex::IDX_1]);
     int16_t width = IntegerOf(args[ArgsIndex::IDX_2]);
@@ -1219,7 +1220,6 @@ jerry_value_t CanvasComponent::StrokeRect(const jerry_value_t func,
     Point startPoint;
     startPoint.x = startX;
     startPoint.y = startY;
-#if defined(ENABLE_CANVAS_EXTEND) && ENABLE_CANVAS_EXTEND
     component->canvas_.StrokeRect(startPoint, height, width, component->paint_);
 #endif
     return UNDEFINED;
@@ -1697,6 +1697,7 @@ jerry_value_t CanvasComponent::CleanRect(const jerry_value_t func,
                                   reinterpret_cast<const jerry_char_t *>("get canvas component from js object failed"));
     }
 
+#if defined(ENABLE_CANVAS_EXTEND) && ENABLE_CANVAS_EXTEND
     int16_t x = IntegerOf(args[ArgsIndex::IDX_0]);
     int16_t y = IntegerOf(args[ArgsIndex::IDX_1]);
     int16_t width = IntegerOf(args[ArgsIndex::IDX_2]);
@@ -1705,7 +1706,6 @@ jerry_value_t CanvasComponent::CleanRect(const jerry_value_t func,
     Point point;
     point.x = x;
     point.y = y;
-#if defined(ENABLE_CANVAS_EXTEND) && ENABLE_CANVAS_EXTEND
     component->canvas_.ClearRect(point, height, width);
 #endif
     return UNDEFINED;
