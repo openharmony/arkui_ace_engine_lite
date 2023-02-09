@@ -399,5 +399,15 @@ void JsAppContext::SetTargetApi(int32_t targetApi)
 {
     targetApi_ = targetApi;
 }
+
+TopAbilityState JsAppContext::GetAbilityState() const
+{
+    return abilityState_;
+}
+
+void JsAppContext::SetAbilityState(TopAbilityState state)
+{
+    abilityState_ = state;
+}
 } // namespace ACELite
 } // namespace OHOS
