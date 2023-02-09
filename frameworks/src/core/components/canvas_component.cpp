@@ -2132,6 +2132,11 @@ jerry_value_t CanvasComponent::SetLineDash(const jerry_value_t func,
             num = jerry_get_number_value(val);
         } else if (jerry_value_is_string(val)) {
             char *value = MallocStringOf(val);
+            if (value == nullptr) {
+               return jerry_create_error(JERRY_ERROR_TYPE,
+                                         reinterpret_cast<const jerry_char_t *>
+                                         ("canvas_component: value is nullptr error!"));
+            }
             num = atof(value);
             ACE_FREE(value);
         } else {

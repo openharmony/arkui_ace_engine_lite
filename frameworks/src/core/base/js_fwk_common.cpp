@@ -222,6 +222,10 @@ float FloatOf(jerry_value_t source)
         value = static_cast<float>(jerry_get_number_value(source));
     } else {
         char* cstr = MallocStringOf(source);
+        if (cstr == nullptr) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "cstr is nullptr.");
+            return 0;
+        }
         value = static_cast<float>(atof(cstr));
         ACE_FREE(cstr);
     }

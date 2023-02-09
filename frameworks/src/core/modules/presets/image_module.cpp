@@ -75,6 +75,10 @@ jerry_value_t ImageModule::CreateImage(const jerry_value_t func,
             imageModule->width_ = jerry_value_to_number(args[0]);
         } else if (jerry_value_is_string(args[0])) {
             char* val = MallocStringOf(args[0]);
+            if (val == nullptr) {
+                return jerry_create_error(JERRY_ERROR_EVAL,
+                                          reinterpret_cast<const jerry_char_t *>("val is nullptr"));
+            }
             imageModule->width_ = atoi(val);
             ACE_FREE(val);
         }
@@ -84,6 +88,10 @@ jerry_value_t ImageModule::CreateImage(const jerry_value_t func,
             imageModule->height_ = jerry_value_to_number(args[1]);
         } else if (jerry_value_is_string(args[1])) {
             char* val = MallocStringOf(args[1]);
+            if (val == nullptr) {
+                return jerry_create_error(JERRY_ERROR_EVAL,
+                                          reinterpret_cast<const jerry_char_t *>("val is nullptr"));
+            }
             imageModule->height_ = atoi(val);
             ACE_FREE(val);
         }
