@@ -2133,7 +2133,9 @@ jerry_value_t CanvasComponent::SetLineDash(const jerry_value_t func,
         } else if (jerry_value_is_string(val)) {
             char *value = MallocStringOf(val);
             if (value == nullptr) {
-               return jerry_create_error(JERRY_ERROR_TYPE,
+                delete[] buff;
+                HILOG_ERROR(HILOG_MODULE_ACE, "canvas_component: value is nullptr error!");
+                return jerry_create_error(JERRY_ERROR_TYPE,
                                          reinterpret_cast<const jerry_char_t *>
                                          ("canvas_component: value is nullptr error!"));
             }
