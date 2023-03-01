@@ -74,7 +74,7 @@ lite_library("ace_module_manager") {
       "//base/security/huks/frameworks/crypto_lite/js/builtin:ace_kit_cipher",
       "//foundation/communication/netstack/frameworks/js/builtin:http_lite_shared",
       "//foundation/multimedia/media_lite/interfaces/kits/player_lite/js/builtin:audio_lite_api",
-      "//test/xts/device_attest_lite/interfaces/kit/js:ace_engine_lite_attest",
+      "//test/xts/device_attest_lite/interfaces/kit/js:kit_device_attest",
       "//third_party/bounds_checking_function:libsec_shared",
       "//third_party/jerryscript/jerry-core:jerry-core_shared",
     ]
