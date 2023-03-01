@@ -112,8 +112,7 @@ bool JsAsyncWork::DispatchAsyncWorkInner(AsyncWorkHandler workHandler, AsyncHand
 
     bool ret = DispatchToLoop(ASYNCWORK, static_cast<void *>(asyncWork));
     if (!ret) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "JsAsyncWork:DispatchAsyncWork failed!, handler[%{public}p]",
-            asyncWork->workHandler);
+        HILOG_ERROR(HILOG_MODULE_ACE, "JsAsyncWork:DispatchAsyncWork failed!, dispatch to loop failed]");
         delete(asyncWork);
         asyncWork = nullptr;
     }
