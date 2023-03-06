@@ -53,6 +53,7 @@ protected:
     uint16_t componentNameId_;
 
     Component *GetRenderedComponent(uint16_t componentKeyId) const;
+    void ReleaseComponent(Component *&component) const;
     ColorType GetRGBColor(int32_t colorIntValue) const;
     void UpdateNumAttributeOrStyleValue(Component *component,
                                         const char *attributeName,

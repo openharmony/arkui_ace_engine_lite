@@ -54,6 +54,15 @@ Component *BaseTest::GetRenderedComponent(uint16_t componentKeyId) const
     return component;
 }
 
+void BaseTest::ReleaseComponent(Component *&component) const
+{
+    if (component != nullptr) {
+        component->Release();
+        delete component;
+        component = nullptr;
+    }
+}
+
 ColorType BaseTest::GetRGBColor(int32_t colorIntValue) const
 {
     uint32_t colorValue = colorIntValue;

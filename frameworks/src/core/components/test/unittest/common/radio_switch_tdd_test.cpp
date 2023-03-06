@@ -44,12 +44,11 @@ void RadioSwitchTddTest::WidthRadioValueTest001()
     UIRadioButton *radio = reinterpret_cast<UIRadioButton *>(component->GetComponentRootView());
     if (radio->GetWidth() != width) {
         printf("[WidthRadioValueTest001] set the radio width 25 failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_FALSE(radio->GetWidth() != width);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step3.set the input width -1
@@ -62,12 +61,11 @@ void RadioSwitchTddTest::WidthRadioValueTest001()
     radio = reinterpret_cast<UIRadioButton *>(component->GetComponentRootView());
     if (radio->GetWidth() != defaultLen) {
         printf("[WidthRadioValueTest001] set the radio width 0 failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_FALSE(radio->GetWidth() != defaultLen);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step4.set the input width INT16_MAX + 20
@@ -83,8 +81,7 @@ void RadioSwitchTddTest::WidthRadioValueTest001()
         printf("[WidthRadioValueTest001] passed\n");
     }
     EXPECT_FALSE(radio->GetWidth() != CHECK_LEN);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
     TDD_CASE_END();
 }
 
@@ -108,12 +105,11 @@ void RadioSwitchTddTest::WidthRadioValueTest002()
     UIRadioButton *radio = reinterpret_cast<UIRadioButton *>(component->GetComponentRootView());
     if (radio->GetWidth() != 0) {
         printf("[WidthRadioValueTest002] set the width false failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_FALSE(radio->GetWidth() != 0);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step3.set the radio width testaaa
@@ -128,8 +124,7 @@ void RadioSwitchTddTest::WidthRadioValueTest002()
         printf("[WidthRadioValueTest002] passed\n");
     }
     EXPECT_FALSE(radio->GetWidth() != 0);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
     TDD_CASE_END();
 }
 
@@ -147,12 +142,12 @@ void RadioSwitchTddTest::WidthSwitchValueTest003()
     UIToggleButton *toggleButton = reinterpret_cast<UIToggleButton *>(component->GetComponentRootView());
     if (toggleButton->GetWidth() != width) {
         printf("[WidthSwitchValueTest003] set the switch width 25 failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_TRUE(toggleButton->GetWidth() == width);
-    delete component;
-    component = nullptr;
+    component->Release();
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step2.set the radio width 0
@@ -165,12 +160,11 @@ void RadioSwitchTddTest::WidthSwitchValueTest003()
     toggleButton = reinterpret_cast<UIToggleButton *>(component->GetComponentRootView());
     if (toggleButton->GetWidth() != defaultLen) {
         printf("[WidthSwitchValueTest003] set the switch width -1 failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_TRUE(toggleButton->GetWidth() == defaultLen);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step3.set the switch width 256
@@ -186,8 +180,7 @@ void RadioSwitchTddTest::WidthSwitchValueTest003()
         printf("[WidthSwitchValueTest003] passed\n");
     }
     EXPECT_TRUE(toggleButton->GetWidth() == CHECK_LEN);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
     TDD_CASE_END();
 }
 
@@ -206,12 +199,11 @@ void RadioSwitchTddTest::WidthSwitchValueTest004()
     UIToggleButton *toggleButton = reinterpret_cast<UIToggleButton *>(component->GetComponentRootView());
     if (toggleButton->GetWidth() != 0) {
         printf("[WidthSwitchValueTest004]set the width of switch false failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_EQ(toggleButton->GetWidth(), 0);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     JerrySetStringProperty(styleObj_, "width", "testaaa");
     component = GetRenderedComponent(switchComponentId_);
@@ -222,8 +214,7 @@ void RadioSwitchTddTest::WidthSwitchValueTest004()
         printf("[WidthSwitchValueTest004] set the width of switch testaaa failed\n");
     }
     EXPECT_EQ(toggleButton->GetWidth(), 0);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
     TDD_CASE_END();
 }
 
@@ -246,12 +237,11 @@ void RadioSwitchTddTest::HeightRadioValueTest005()
     UIToggleButton *toggleButton = reinterpret_cast<UIToggleButton *>(component->GetComponentRootView());
     if (toggleButton->GetHeight() != height) {
         printf("[HeightRadioValueTest005] set the height of radio 25 failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_TRUE(toggleButton->GetHeight() == height);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step3.set the height of radio 0
@@ -264,12 +254,11 @@ void RadioSwitchTddTest::HeightRadioValueTest005()
     toggleButton = reinterpret_cast<UIToggleButton *>(component->GetComponentRootView());
     if (toggleButton->GetHeight() != defaultLen) {
         printf("[HeightRadioValueTest005] set the height of radio 0 failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_TRUE(toggleButton->GetHeight() == defaultLen);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step4.set the height of radio UINT16_MAX + 20
@@ -285,8 +274,7 @@ void RadioSwitchTddTest::HeightRadioValueTest005()
         printf("[HeightRadioValueTest005] passed\n");
     }
     EXPECT_TRUE(toggleButton->GetHeight() == CHECK_LEN);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
     TDD_CASE_END();
 }
 
@@ -310,12 +298,11 @@ void RadioSwitchTddTest::HeightRadioValueTest006()
     UIRadioButton *radioButton = reinterpret_cast<UIRadioButton *>(component->GetComponentRootView());
     if (radioButton->GetWidth() != 0) {
         printf("[HeightRadioValueTest006] set the height of switch false");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_EQ(radioButton->GetWidth(), 0);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step3.set the height of radio testaaa
@@ -330,8 +317,7 @@ void RadioSwitchTddTest::HeightRadioValueTest006()
         printf("[HeightRadioValueTest006] passed\n");
     }
     EXPECT_EQ(radioButton->GetWidth(), 0);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
     TDD_CASE_END();
 }
 
@@ -349,12 +335,11 @@ void RadioSwitchTddTest::HeightSwitchValueTest007()
     UIRadioButton *button = reinterpret_cast<UIRadioButton *>(component->GetComponentRootView());
     if (button->GetHeight() != height) {
         printf("[HeightSwitchValueTest007]set the switch height 25 failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_TRUE(button->GetHeight() == height);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step2.set the height of switch 0
@@ -367,12 +352,11 @@ void RadioSwitchTddTest::HeightSwitchValueTest007()
     button = reinterpret_cast<UIRadioButton *>(component->GetComponentRootView());
     if (button->GetHeight() != defaultLen) {
         printf("[HeightSwitchValueTest007] set the height of switch -1 failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_TRUE(button->GetHeight() == defaultLen);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps:step3.set the height of switch INT16_MAX + 20
@@ -388,8 +372,7 @@ void RadioSwitchTddTest::HeightSwitchValueTest007()
         printf("[HeightSwitchValueTest007] passed\n");
     }
     EXPECT_TRUE(button->GetHeight() == CHECK_LEN);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
     TDD_CASE_END();
 }
 
@@ -408,12 +391,11 @@ void RadioSwitchTddTest::HeightSwitchValueTest008()
     UIRadioButton *button = reinterpret_cast<UIRadioButton *>(component->GetComponentRootView());
     if (button->GetHeight() != 0) {
         printf("[HeightSwitchValueTest008] set the height of switch false failed\n");
-        delete component;
+        ReleaseComponent(component);
         return;
     }
     EXPECT_EQ(button->GetHeight(), 0);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
 
     /**
      * @tc.steps: step2.set the switch height testaaa
@@ -428,8 +410,7 @@ void RadioSwitchTddTest::HeightSwitchValueTest008()
         printf("[HeightSwitchValueTest008] passed\n");
     }
     EXPECT_EQ(button->GetHeight(), 0);
-    delete component;
-    component = nullptr;
+    ReleaseComponent(component);
     TDD_CASE_END();
 }
 
