@@ -145,6 +145,15 @@
 
 #define FEATURE_MODULE_OHOS_HILOG 1
 
+/**
+ * device attest component
+ */
+#ifdef FEATURE_COMPONENT_DEVICE_ATTEST
+#error "must keep the global configuration unique"
+#else
+#define FEATURE_COMPONENT_DEVICE_ATTEST 1
+#endif
+
 #define DEFAULT_PROFILER_MSG_PATH "/user/data/"
 
 #define PROFILER_ENABLE_FLAG_FILE "/user/data/profiler_enable"

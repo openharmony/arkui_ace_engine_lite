@@ -185,6 +185,15 @@
 #define FEATURE_UPDATE_VIDEO_PROGRESS_ASYNC 1
 #endif
 
+/**
+ * device attest component
+ */
+#ifdef FEATURE_COMPONENT_DEVICE_ATTEST
+#error "must keep the global configuration unique"
+#else
+#define FEATURE_COMPONENT_DEVICE_ATTEST 1
+#endif
+
 #ifndef DEFAULT_PROFILER_MSG_PATH
 #define DEFAULT_PROFILER_MSG_PATH "/storage/user/data/"
 #endif
