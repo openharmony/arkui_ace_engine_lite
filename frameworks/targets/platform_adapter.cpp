@@ -28,11 +28,13 @@ namespace OHOS {
 namespace ACELite {
 void PrintVersionTrace()
 {
-#if (TARGET_SIMULATOR == 1)
+#if (defined (TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1))
+#if (defined (ACE_LITE_VERSION_JS_API) && (ACE_LITE_VERSION_JS_API == 1))
     // output version trace on simulator
     HILOG_DEBUG(HILOG_MODULE_ACE, "ACELite version: %{public}s", ACEVersion::GetStr());
     HILOG_DEBUG(HILOG_MODULE_ACE, "ACELite commit: %{public}s", ACEVersion::GetCommit());
     HILOG_DEBUG(HILOG_MODULE_ACE, "ACELite build stamp: %{public}s", ACEVersion::GetTimeStamp());
+#endif // ACE_LITE_VERSION_JS_API
 #endif // TARGET_SIMULATOR
 }
 

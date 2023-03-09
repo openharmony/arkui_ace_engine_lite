@@ -33,7 +33,7 @@ JS_OUTPUT_C_FILE_PATH = os.path.join(
 
 def output_copyright(output):
     output.write("/*\n")
-    output.write(" * Copyright (c) 2020-2021 Huawei Device Co., Ltd.\n")
+    output.write(" * Copyright (c) 2020-2023 Huawei Device Co., Ltd.\n")
     output.write(" * Licensed under the Apache License, Version 2.0")
     output.write(" (the \"License\");\n")
     output.write(" * you may not use this file except in compliance ")
@@ -57,7 +57,7 @@ def output_copyright(output):
 
 def output_check_notes(output):
     output.write("// AUTO GENERATED, PLEASE DO NOT EDIT DIRECTLY\n")
-    output.write("#include <cstdint>\n\n")
+    output.write("#include <stdint.h>\n\n")
     output.write("#ifndef ACELITE_FRAMEWORK_RAW_BUFFER\n")
     output.write("#error THIS FILE CAN ONLY BE INCLUDED BY RAW BUFFER CPP\n")
     output.write("#endif\n\n")

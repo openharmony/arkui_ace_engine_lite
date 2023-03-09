@@ -67,7 +67,9 @@ void JSAbilityImpl::InitEnvironment(const char * const abilityPath, const char *
 
     appContext_->SetAbilityState(TopAbilityState::ABILITY_INITIALIZED);
     START_TRACING(APP_CODE_EVAL);
+    MarkAppViewModelEvaling(true);
     abilityModel_ = appContext_->Eval(fileFullPath, strlen(fileFullPath), true); // generate global.$app js object
+    MarkAppViewModelEvaling(false);
     STOP_TRACING();
 
     ace_free(fileFullPath);
@@ -226,6 +228,17 @@ void JSAbilityImpl::InvokeMethodWithoutParameter(const char * const name) const
     }
     CallJSFunctionAutoRelease(function, abilityModel_, nullptr, 0);
     jerry_release_value(function);
+}
+
+void JSAbilityImpl::MarkAppViewModelEvaling(bool evaling) const
+{
+    jerry_value_t propNameValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>("__appVing__"));
+    jerry_value_t globalObject = jerry_get_global_object();
+    jerry_value_t evalingValue = jerry_create_boolean(evaling);
+    jerry_release_value(jerry_set_property(globalObject, propNameValue, evalingValue));
+    jerry_release_value(evalingValue);
+    jerry_release_value(propNameValue);
+    jerry_release_value(globalObject);
 }
 } // namespace ACELite
 } // namespace OHOS

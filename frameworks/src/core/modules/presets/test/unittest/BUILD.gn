@@ -61,3 +61,11 @@ unittest("js_frameworks_test_localization") {
   ]
   deps = ace_test_deps
 }
+
+unittest("js_frameworks_test_getapp_module") {
+  output_extension = "bin"
+  output_dir = test_output_root
+  configs = [ "$ace_lite_root/test:test_common_config" ]
+  sources = [ "common/app_data_module_tdd_test.cpp" ]
+  deps = ace_test_deps
+}

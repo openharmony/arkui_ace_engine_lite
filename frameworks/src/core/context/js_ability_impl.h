@@ -116,11 +116,17 @@ public:
         return router_;
     }
 
+    jerry_value_t GetAppVM() const
+    {
+        return abilityModel_;
+    }
+
 private:
     void InvokeOnCreate() const;
     void InvokeOnDestroy() const;
     void InvokeOnBackPressed() const;
     void InvokeMethodWithoutParameter(const char * const name) const;
+    void MarkAppViewModelEvaling(bool evaling) const;
 
     JsAppContext *appContext_;
     jerry_value_t abilityModel_;  // the object evaled from user JS code

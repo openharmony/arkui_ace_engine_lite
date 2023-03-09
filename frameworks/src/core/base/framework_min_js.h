@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Huawei Device Co., Ltd.
+ * Copyright (c) 2020-2023 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,6 +17,7 @@
 #define OHOS_ACELITE_FRAMEWORK_MIN_JS_H
 
 // AUTO GENERATED, PLEASE DO NOT EDIT DIRECTLY
+#include <stdint.h>
 
 #ifndef ACELITE_FRAMEWORK_RAW_BUFFER
 #error THIS FILE CAN ONLY BE INCLUDED BY RAW BUFFER CPP
@@ -54,10 +55,11 @@ const char * const g_frameworkJSBuffer =
     "'},s=Object.keys(r).map((function(t){return r[t]}));function c(t){if(!(this instanceof c))"
     "return new c(t);var e=this._vm=this;'[object Object]'===Object.prototype.toString.call(t)&"
     "&Object.keys(t).forEach((function(n){var i=t[n];'render'===n?e.$render=i:'data'===n?functi"
-    "on(t,e){'function'==typeof e&&(e=e.call(t,t));Object.keys(e).forEach((function(n){return f"
-    "unction(t,e,n){Object.defineProperty(t,n,{enumerable:!1,configurable:!0,get:function(){ret"
-    "urn e[n]},set:function(t){e[n]=t}})}(t,e,n)})),o.of(e)}(e,i):'styleSheet'===n?initStyleShe"
-    "et(i):'function'==typeof i&&(e[n]=i.bind(e))}))}return c.prototype.$watch=function(t,e,n){"
-    "return new i(this,t,e,n)},c}));";
+    "on(t,e){'function'==typeof e&&(e=e.call(t,t));if('undefined'!=typeof __appVing__&&__appVin"
+    "g__)return void(t.data=e);Object.keys(e).forEach((function(n){return function(t,e,n){Objec"
+    "t.defineProperty(t,n,{enumerable:!1,configurable:!0,get:function(){return e[n]},set:functi"
+    "on(t){e[n]=t}})}(t,e,n)})),o.of(e)}(e,i):'styleSheet'===n?initStyleSheet(i):'function'==ty"
+    "peof i&&(e[n]=i.bind(e))}))}return c.prototype.$watch=function(t,e,n){return new i(this,t,"
+    "e,n)},c}));";
 #endif
 #endif // OHOS_ACELITE_FRAMEWORK_MIN_JS_H
