@@ -95,6 +95,10 @@ void ViewOnTouchListener::SetStopPropagation(bool isStopPropogation)
 
 bool ViewOnTouchListener::OnDragStart(UIView& view, const DragEvent &event)
 {
+    if (!AsyncTaskManager::GetInstance().IsFront()) {
+        return isStopPropagation_;
+    }
+
     if (JSUndefined::Is(bindTouchStartFunc_)) {
         return isStopPropagation_;
     }
@@ -108,6 +112,10 @@ bool ViewOnTouchListener::OnDragStart(UIView& view, const DragEvent &event)
 
 bool ViewOnTouchListener::OnDrag(UIView& view, const DragEvent& event)
 {
+    if (!AsyncTaskManager::GetInstance().IsFront()) {
+        return isStopPropagation_;
+    }
+
     if (JSUndefined::Is(bindTouchMoveFunc_)) {
         return isStopPropagation_;
     }
@@ -121,6 +129,10 @@ bool ViewOnTouchListener::OnDrag(UIView& view, const DragEvent& event)
 
 bool ViewOnTouchListener::OnDragEnd(UIView& view, const DragEvent &event)
 {
+    if (!AsyncTaskManager::GetInstance().IsFront()) {
+        return isStopPropagation_;
+    }
+
     if (!JSUndefined::Is(bindSwipeFunc_)) {
         JSValue argSwipe = EventUtil::CreateSwipeEvent(view, event);
         EventUtil::InvokeCallback(vm_, bindSwipeFunc_, argSwipe, this);
