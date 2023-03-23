@@ -135,8 +135,10 @@ void LogString(const LogLevel logLevel, const char * const str)
 #endif
 }
 
+#if !defined(TARGET_SIMULATOR) || (TARGET_SIMULATOR != 1)
 static char logBuffer[LOG_BUFFER_SIZE] = {0};
 static uint16_t logBufferIndex = 0;
+#endif
 
 void LogChar(char c, const LogLevel logLevel, bool endFlag)
 {
