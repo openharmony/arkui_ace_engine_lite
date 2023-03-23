@@ -75,7 +75,7 @@
  * Default: 1
  */
 #ifndef ACE_LITE_VERSION_JS_API
-#define ACE_LITE_VERSION_JS_API 1
+#define ACE_LITE_VERSION_JS_API 0
 #endif
 
 /**

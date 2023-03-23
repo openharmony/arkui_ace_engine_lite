@@ -58,6 +58,7 @@ group("modules_unittest") {
     ":js_frameworks_test_dialog",
     "$presets_unittest_root:js_frameworks_test_console",
     "$presets_unittest_root:js_frameworks_test_date_time",
+    "$presets_unittest_root:js_frameworks_test_getapp_module",
     "$presets_unittest_root:js_frameworks_test_localization",
     "$presets_unittest_root:js_frameworks_test_number_format",
     "$presets_unittest_root:js_frameworks_test_timer",

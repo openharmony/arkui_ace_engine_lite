@@ -38,7 +38,8 @@ DEFINES += "ENABLE_SHAPING=0" \
     "GRAPHIC_ENABLE_PATTERN_FILL_FLAG=1" \
     "GRAPHIC_ENABLE_DRAW_IMAGE_FLAG=1" \
     "GRAPHIC_ENABLE_DRAW_TEXT_FLAG=1" \
-    "DEFAULT_ANIMATION=1"
+    "DEFAULT_ANIMATION=1" \
+    "ENABLE_CANVAS_EXTEND=1"
 
 eval(is_debug == release) {
     DEFINES += JS_PROFILER=1
@@ -131,6 +132,7 @@ SOURCES += \
         $${ACELITE_CORE_PATH}/modules/dfx_module.cpp \
         $${ACELITE_CORE_PATH}/modules/dialog_module.cpp \
         $${ACELITE_MODULE_MANAGER_PATH}/module_manager.cpp \
+        $${ACELITE_CORE_PATH}/modules/presets/app_data_module.cpp \
         $${ACELITE_CORE_PATH}/modules/presets/cjson_parser.cpp \
         $${ACELITE_CORE_PATH}/modules/presets/console_log_impl.cpp \
         $${ACELITE_CORE_PATH}/modules/presets/console_module.cpp \
@@ -174,7 +176,8 @@ SOURCES += \
         targets/simulator/mock/vsyncthread/vsync_thread.cpp \
         targets/simulator/mock/amsthread/ams_thread.cpp \
         targets/simulator/mock/timerthread/timer_thread.cpp \
-        targets/simulator/mock/global_impl_mock.cpp
+        targets/simulator/mock/global_impl_mock.cpp \
+        $${ACELITE_FRAMEWORK_PATH}/src/core/modules/presets/test/unittest/common/app_data_module_tdd_test.cpp \
 
 HEADERS += \
         $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/components/ui_view.h
@@ -259,6 +262,8 @@ INCLUDEPATH += \
             $${ROOT_PATH}/foundation/graphic/ui/interfaces/innerkits/ui/common \
             $${ROOT_PATH}/base/hiviewdfx/hilog_lite/interfaces/native/kits \
             $${ROOT_PATH}/foundation/ability/ability_lite/frameworks/abilitymgr_lite/include \
+            $${ACELITE_FRAMEWORK_PATH}/../test/moduletest/common \
+            $${ACELITE_FRAMEWORK_PATH}/src/core/modules/presets/test/unittest/common \
 
 LIBS += $$DESTDIR/jerryScript.dll
 LIBS += $$OUT_PWD/../../../../../../../graphic/ui/tools/qt/simulator/libs/libui.dll

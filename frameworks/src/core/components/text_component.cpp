@@ -397,6 +397,7 @@ void TextComponent::SetRichTextSpan()
                                      relativeSizeSpan_.end,
                                      relativeSizeSpan_.size);
     }
+#if defined(ENABLE_SPANNABLE_STRING) && ENABLE_SPANNABLE_STRING
     if (stringStyleSpan_.start != -1 && stringStyleSpan_.end != -1) {
         SpannableString spanString(textValue_);
         spanString.SetTextStyle(stringStyleSpan_.style,
@@ -404,6 +405,7 @@ void TextComponent::SetRichTextSpan()
                                 stringStyleSpan_.end);
         uiLabel_.SetText(&spanString);
     }
+#endif
 }
 #endif // FEATURE_COMPONENT_TEXT_SPANNABLE
 } // namespace ACELite

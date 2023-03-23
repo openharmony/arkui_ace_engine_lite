@@ -23,6 +23,7 @@
 #include "js_profiler.h"
 #include "module_manager.h"
 #include "platform_adapter.h"
+#include "presets/app_data_module.h"
 #include "presets/console_module.h"
 #include "presets/feature_ability_module.h"
 #include "presets/intl_module.h"
@@ -63,6 +64,7 @@ void JsAppEnvironment::LoadAceBuiltInModules() const
     PerformaceProfilerModule::Load();
     AceVersionModule::Load();
     IntlControlModule::Load();
+    AppDataModule::Load();
 }
 
 void JsAppEnvironment::InitJsFramework() const
