@@ -49,9 +49,7 @@ jerry_value_t LogNative(const LogLevel logLevel,
 {
     // print out log level if needed
     LogOutLevel(logLevel);
-#if (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1))
-    return jerryx_handler_print(jerry_create_undefined(), jerry_create_undefined(), args, argc);
-#else
+
     jerry_value_t retVal = jerry_create_undefined();
     for (jerry_length_t argIndex = 0; argIndex < argc; argIndex++) {
         jerry_value_t strVal = jerry_value_to_string(args[argIndex]);
@@ -89,7 +87,6 @@ jerry_value_t LogNative(const LogLevel logLevel,
     LogChar('\n', logLevel, true);
     FlushOutput();
     return retVal;
-#endif
 }
 
 void LogOutLevel(const LogLevel logLevel)
@@ -145,6 +142,11 @@ static uint16_t logBufferIndex = 0;
 
 void LogChar(char c, const LogLevel logLevel, bool endFlag)
 {
+#if (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1))
+   char tempBuffer[2] = {0};
+   tempBuffer[0] = c;
+   Output(logLevel, tempBuffer, 1);
+#else
     logBuffer[logBufferIndex++] = c;
     if ((logBufferIndex == (LOG_BUFFER_SIZE - 1)) || (c == '\n')) {
         if ((c == '\n') && (logBufferIndex > 0)) {
@@ -164,6 +166,7 @@ void LogChar(char c, const LogLevel logLevel, bool endFlag)
             }
         }
     }
+#endif
 }
 
 #ifdef FEATURE_ACELITE_HI_LOG_PRINTF
