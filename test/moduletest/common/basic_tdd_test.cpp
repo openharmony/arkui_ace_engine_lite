@@ -76,7 +76,7 @@ void BasicTddTest::TearDownTestCase(void)
 {
     isTickTaskRunning_ = false;
     if (window_ != nullptr) {
-        Window::DestoryWindow(window_);
+        Window::DestroyWindow(window_);
         window_ = nullptr;
     }
     if (display_ != nullptr) {
