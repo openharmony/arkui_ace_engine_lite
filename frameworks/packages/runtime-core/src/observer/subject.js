@@ -57,15 +57,13 @@ Subject.prototype.attach = function(key, observer) {
     this._obsMap = {};
   }
   if (!this._obsMap[key]) {
-    this._obsMap[key] = [];
+    this._obsMap[key] = new Set();
   }
   const observers = this._obsMap[key];
-  if (observers.indexOf(observer) < 0) {
-    observers.push(observer);
-    return function() {
-      observers.splice(observers.indexOf(observer), 1);
-    };
-  }
+  observers.add(observer);
+  return function() {
+    observers.delete(observer);
+  };
 };
 
 Subject.prototype.notify = function(key) {
