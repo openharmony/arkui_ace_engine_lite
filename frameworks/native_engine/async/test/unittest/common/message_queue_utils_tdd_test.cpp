@@ -18,8 +18,10 @@
 
 namespace OHOS {
 namespace ACELite {
+bool flag = false;
 void RestoreSystemInterface(const char *crashMessage)
 {
+    flag = true;
     HILOG_ERROR(HILOG_MODULE_ACE, crashMessage);
 }
 
@@ -32,6 +34,7 @@ HWTEST_F(MessageQueueUtilsTddTest, MessageTddTest01, TestSize.Level0)
     TDD_CASE_BEGIN();
     ProductAdapter::RegRestoreSystemHandler(RestoreSystemInterface);
     ProductAdapter::RestoreSystemWrapper("Message Queue Utils Tdd Test");
+    EXPECT_TRUE(flag);
     TDD_CASE_END();
 }
 } // namespace ACELite
