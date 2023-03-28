@@ -77,7 +77,11 @@ HWTEST_F(LocalizationModuleTddTest, TestNullValue009, TestSize.Level1)
      */
     jerry_value_t args[1];
     args[0] = jerry_create_string(reinterpret_cast<const jerry_char_t *>("test01.value"));
+    JSIValue undefined = JSI::CreateUndefined();
     JSValue result = CallJSFunction(localization_, viewModel_, args, 1);
+    EXPECT_EQ(undefined, result);
+    JSIValue array = JSI::CreateArray(1);
+    JSI::ReleaseValueList(array, undefined);
     jerry_release_value(args[0]);
     jerry_release_value(result);
     TDD_CASE_END();
