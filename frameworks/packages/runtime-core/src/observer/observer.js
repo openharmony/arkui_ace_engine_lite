@@ -56,9 +56,9 @@ Observer.prototype.subscribe = function(subject, key) {
     return void 0;
   }
   if (!this._detaches) {
-    this._detaches = [];
+    this._detaches = new Set();
   }
-  this._detaches.push(detach);
+  this._detaches.add(detach);
 };
 
 Observer.prototype.unsubscribe = function() {
@@ -66,7 +66,8 @@ Observer.prototype.unsubscribe = function() {
   if (!detaches) {
     return void 0;
   }
-  while (detaches.length) {
-    detaches.pop()();
-  }
+  detaches.forEach( detach => {
+    detach();
+  });
+  this._detaches.clear();
 };
