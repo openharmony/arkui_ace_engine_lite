@@ -21,6 +21,9 @@
 #include "message_queue_utils.h"
 #include "module_manager.h"
 #include "securec.h"
+#include "js_app_context.h"
+#include "global.h"
+#include "string_util.h"
 
 namespace OHOS {
 namespace ACELite {
@@ -53,6 +56,7 @@ static DFXWrapper g_dfxWrapper;
 static TEHandlingHooks g_teHandlingHooks = {nullptr, nullptr};
 static TerminateAbilityHandler g_termiantingHandler = nullptr;
 static SetScreenOnVisibleHandler g_setScreenOnHandler = nullptr;
+static UpdateDefaultFontHandler g_updateDefaultFontHandler = nullptr;
 static ExtraPresetModulesHook g_extraPresetModulesHooks = {nullptr, nullptr};
 static RestoreSystemHandler g_restoreSystemHandler = nullptr;
 static IsPNGSupportedHandler g_isPNGSupportedHandler = nullptr;
@@ -257,9 +261,65 @@ void ProductAdapter::RegSetScreenOnVisibleHandler(SetScreenOnVisibleHandler hand
     g_setScreenOnHandler = handler;
 }
 
+void ProductAdapter::RegUpdateDefaultFontHandler(UpdateDefaultFontHandler handler)
+{
+    g_updateDefaultFontHandler = handler;
+}
+
 bool ProductAdapter::SetScreenOnVisible(bool visible)
 {
     return (g_setScreenOnHandler != nullptr) ? g_setScreenOnHandler(visible) : false;
+}
+
+bool ProductAdapter::UpdateDefaultFont()
+{
+    if (g_updateDefaultFontHandler == nullptr) {
+        return false;
+    }
+    char *currentLanguage = static_cast<char *>(ace_malloc(MAX_LANGUAGE_LENGTH));
+    char *currentOrigion = static_cast<char *>(ace_malloc(MAX_REGION_LENGTH));
+    if ((currentLanguage == nullptr) || (currentOrigion == nullptr)) {
+        ACE_FREE(currentLanguage);
+        ACE_FREE(currentOrigion);
+        return false;
+    }
+    GLOBAL_GetLanguage(currentLanguage, MAX_LANGUAGE_LENGTH);
+    GLOBAL_GetRegion(currentOrigion, MAX_REGION_LENGTH);
+
+    uint8_t addedLen = 7; // the length of '-', ".json" and '\0'
+    uint8_t langLen = strlen(currentLanguage);
+    size_t fileLen = langLen + strlen(currentOrigion) + addedLen;
+    char *languageFileName = StringUtil::Malloc(fileLen);
+    if (languageFileName == nullptr) {
+        ACE_FREE(languageFileName);
+        ACE_FREE(currentLanguage);
+        ACE_FREE(currentOrigion);
+        return false;
+    }
+    
+    errno_t error = strcpy_s(languageFileName, fileLen, currentLanguage);
+    languageFileName[langLen] = '-';
+    languageFileName[langLen + 1] = '\0';
+    error += strcat_s(languageFileName, fileLen, currentOrigion);
+    error += strcat_s(languageFileName, fileLen, ".json");
+    if (error > 0) {
+        ACE_FREE(languageFileName);
+        ACE_FREE(currentLanguage);
+        ACE_FREE(currentOrigion);
+        return false;
+    }
+    const char * const filePath = JsAppContext::GetInstance()->GetCurrentAbilityPath();
+    const char * const folderName = "i18n";
+    char *curLanguageFilePath = RelocateResourceFilePath(filePath, folderName);
+    curLanguageFilePath = RelocateResourceFilePath(curLanguageFilePath, languageFileName);
+    ACE_FREE(languageFileName);
+
+    bool hasJson = IsFileExisted(curLanguageFilePath);
+    ACE_FREE(curLanguageFilePath);
+    g_updateDefaultFontHandler(currentLanguage, currentOrigion, hasJson);
+    ACE_FREE(currentLanguage);
+    ACE_FREE(currentOrigion);
+    return true;
 }
 
 void ProductAdapter::RegExtraPresetModulesHook(ExtraPresetModulesHook hook)

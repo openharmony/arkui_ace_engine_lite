@@ -21,6 +21,8 @@
 #include "text_component.h"
 #include "ui_label.h"
 #include "ui_font.h"
+#include "product_adapter.h"
+
 
 namespace OHOS {
 namespace ACELite {
@@ -382,6 +384,68 @@ void TextTddTest::ComponentTextStyleSetSizeFamilyTest006()
     TDD_CASE_END();
 }
 
+bool g_updateDefaultFontFlag = false;
+void UpdateDefaultFontTest(const char* curLanguage, const char* curOrigion, bool hasJson)
+{
+    g_updateDefaultFontFlag = true;
+}
+
+void TextTddTest::ComponentTextStyleSetLineHeightTest007()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.name: ComponentTextStyleSetLineHeightTest007
+     * @tc.desc: Test RegUpdateDefaultFontHandler function.
+     */
+    g_updateDefaultFontFlag = false;
+    ProductAdapter::RegUpdateDefaultFontHandler(UpdateDefaultFontTest);
+    ProductAdapter::UpdateDefaultFont();
+    EXPECT_TRUE(g_updateDefaultFontFlag);
+    TDD_CASE_END();
+}
+
+void TextTddTest::ComponentTextStyleSetLineHeightTest008()
+{
+    TDD_CASE_BEGIN();
+    /**
+     * @tc.steps: step1. set text fontSize = 30
+     */
+    const char *textSize = "fontSize";
+    int expectSize = 30;
+    jerry_value_t textSizetKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(textSize));
+    jerry_value_t textSizeValue = jerry_create_number(expectSize);
+    jerry_set_property(styleObj_, textSizetKey, textSizeValue);
+    const char *expectTextValue = "hello world";
+    const char *valueTag = "value";
+    JerrySetStringProperty(attrsObj_, valueTag, expectTextValue);
+
+    /**
+     * @tc.expected: step2. set lineHeight = 50, check uikit uilabel lineHeight == expectLineHeight
+     */
+    const char *lineHeight = "lineHeight";
+    int64_t expectLineHeight = 50; // 50: expect lineHeight
+    jerry_value_t lineHeightKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(lineHeight));
+    jerry_value_t lineHeightValue = jerry_create_number(expectLineHeight);
+    jerry_set_property(styleObj_, lineHeightKey, lineHeightValue);
+
+    Component *textComponent = reinterpret_cast<TextComponent *>(GetRenderedComponent(componentNameId_));
+    UILabel *uilabelView = reinterpret_cast<UILabel *>(textComponent->GetComponentRootView());
+    jerry_release_value(textSizetKey);
+    jerry_release_value(textSizeValue);
+    jerry_release_value(lineHeightKey);
+    jerry_release_value(lineHeightValue);
+    EXPECT_EQ(uilabelView->GetStyle(STYLE_LINE_HEIGHT), expectLineHeight);
+
+    /**
+     * @tc.expected: step3. update lineHeight = 30, check uikit uilabel lineHeight == expectLineHeight
+     */
+    expectLineHeight = 30; // 30: expect lineHeight update
+    UpdateNumAttributeOrStyleValue(textComponent, lineHeight, expectLineHeight, false);
+    EXPECT_EQ(uilabelView->GetStyle(STYLE_LINE_HEIGHT), expectLineHeight);
+
+    TDD_CASE_END();
+}
+
 void TextTddTest::RunTests()
 {
     ComponentTextAttributeSetValueTest001();
@@ -390,6 +454,8 @@ void TextTddTest::RunTests()
     ComponentTextStyleSetLetterSpacingTest004();
     ComponentTextStyleSetAlignTest005();
     ComponentTextStyleSetSizeFamilyTest006();
+    ComponentTextStyleSetLineHeightTest007();
+    ComponentTextStyleSetLineHeightTest008();
 }
 
 #ifdef TDD_ASSERTIONS
@@ -437,6 +503,17 @@ HWTEST_F(TextTddTest, textStyle005, TestSize.Level1)
 {
     TextTddTest::ComponentTextStyleSetAlignTest005();
 }
+
+HWTEST_F(TextTddTest, textStyle007, TestSize.Level1)
+{
+    TextTddTest::ComponentTextStyleSetLineHeightTest007();
+}
+
+HWTEST_F(TextTddTest, textStyle008, TestSize.Level1)
+{
+    TextTddTest::ComponentTextStyleSetLineHeightTest008();
+}
+
 #endif
 } // namespace ACELite
 } // namespace OHOS
