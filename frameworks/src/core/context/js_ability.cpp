@@ -113,6 +113,7 @@ void JSAbility::Launch(const char * const abilityPath, const char * const bundle
     ACE_EVENT_PRINT(MT_ACE_FWK_LAUNCHING, 0);
     FatalHandler::GetInstance().RegisterFatalHandler(this);
     jsAbilityImpl->DeliverCreate(pageInfo);
+    ProductAdapter::UpdateDefaultFont();
     STOP_TRACING();
     OUTPUT_TRACE();
 }

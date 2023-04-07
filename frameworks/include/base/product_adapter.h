@@ -88,6 +88,11 @@ typedef void (*VoidFuncHook)();
 typedef bool (*SetScreenOnVisibleHandler)(bool visible);
 
 /**
+ * The hook for update default font.
+ */
+typedef void (*UpdateDefaultFontHandler)(const char* curLanguage, const char* curOrigion, bool hasJson);
+
+/**
  * The wrapper data structure for get native memory pool info.
  */
 struct TEHandlingHooks {
@@ -140,6 +145,7 @@ public:
     static void RegRestoreSystemHandler(RestoreSystemHandler handler);
     static void RegIsPNGSupportedHandler(IsPNGSupportedHandler handler);
     static void RegSetViewsParaHandler(SetViewsParaHandler handler);
+    static void RegUpdateDefaultFontHandler(UpdateDefaultFontHandler handler);
 
     // wrapper functions, for ace internal calling
     static void PrintEventTrace(uint8_t info2, uint8_t info3, uint8_t info4);
@@ -147,6 +153,7 @@ public:
     static void OutputJSConsoleLog(uint8_t level, const char *content);
     static void GetNativeMemInfo(NativeMemInfo *memInfo);
     static void SendTerminatingRequest(uint32_t token, bool forceStop);
+    static bool UpdateDefaultFont();
     static bool IsTEHandlersRegisted();
     static void ProcessOneTE();
     static void NotifyRenderEnd();
