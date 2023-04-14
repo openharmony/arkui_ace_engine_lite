@@ -14,6 +14,7 @@
  */
 
 #include "message_queue_utils.h"
+#include "ability_inner_message.h"
 #include "ace_log.h"
 #include "acelite_config.h"
 #include "product_adapter.h"
@@ -25,6 +26,26 @@ namespace OHOS {
 namespace ACELite {
 static constexpr uint32_t MAX_MESSAGE_FAIL_TIMES = 100;
 static uint32_t g_messagePutFailTimes = 0;
+
+#if ((!defined(__LINUX__)) && (!defined(__LITEOS_A__)))
+AbilitySlite::SliteAbilityMsgId ConvertMsgId(const AbilityMsgId& msgId)
+{
+    AbilitySlite::SliteAbilityMsgId ret;
+    switch (msgId) {
+        case ASYNCWORK:
+            ret = AbilitySlite::SliteAbilityMsgId::ASYNCWORK;
+            break;
+        case TE_EVENT:
+            ret = AbilitySlite::SliteAbilityMsgId::TE_EVENT;
+            break;
+        default:
+            ret = AbilitySlite::SliteAbilityMsgId::UNKNOWN;
+            break;
+    }
+    return ret;
+}
+#endif
+
 QueueHandler MessageQueueUtils::CreateMessageQueue(uint32_t capacity, uint32_t msgSize)
 {
     if (capacity == 0 || msgSize == 0) {
@@ -69,8 +90,11 @@ int8_t MessageQueueUtils::PutMessage(QueueHandler handler, const void* msgPtr, u
     HILOG_WARN(HILOG_MODULE_ACE, "call linux putmsg interface here!");
     return MSGQ_FAIL;
 #else
+    AbilitySlite::SliteAbilityInnerMsg msg;
+    msg.msgId = ConvertMsgId(static_cast<const AbilityInnerMsg *>(msgPtr)->msgId);
+    msg.data = static_cast<const AbilityInnerMsg *>(msgPtr)->data;
     osMessageQueueId_t queueId = static_cast<osMessageQueueId_t>(handler);
-    if (osMessageQueuePut(queueId, msgPtr, 0, timeOut) != osOK) {
+    if (osMessageQueuePut(queueId, static_cast<void *>(&msg), 0, timeOut) != osOK) {
         uint32_t msgCount = osMessageQueueGetCount(queueId);
         g_messagePutFailTimes++;
         if (g_messagePutFailTimes > MAX_MESSAGE_FAIL_TIMES) {

@@ -63,6 +63,7 @@ lite_library("ace_lite") {
       "$ACE_LITE_PATH/src/core/context/ace_ability.cpp",
       "$ACE_LITE_PATH/src/core/modules/dfx_module.cpp",
     ]
+    sources += [ "$ACE_LITE_PATH/src/core/context/slite_ace_ability.cpp" ]
   }
 
   public_deps = [
@@ -82,6 +83,7 @@ lite_library("ace_lite") {
         [ "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog_lite" ]
     public_deps += [
       "//build/lite/config/component/cJSON:cjson_static",
+      "//foundation/ability/ability_lite/frameworks/ability_lite:ability",
       "//third_party/bounds_checking_function:libsec_static",
       "//third_party/jerryscript:jerry_engine",
     ]
