@@ -16,25 +16,25 @@ ROOT_PATH = ../../../../../../../..
 FOUNDATION_PATH = ../../../../../../..
 ACELITE_PATH = ../../../../..
 ACELITE_FRAMEWORK_PATH = ../../../..
-UIDESTDIR = $${ROOT_PATH}/foundation/graphic/ui/tools/qt/simulator
+UIDESTDIR = $${ROOT_PATH}/foundation/arkui/ui_lite/tools/qt/simulator
 
 INCLUDEPATH += \
     $${ACELITE_PATH}/interfaces/inner_api/builtin/async \
     $${ACELITE_PATH}/interfaces/inner_api/builtin/base \
     $${ACELITE_PATH}/interfaces/inner_api/builtin/jsi \
     $${ACELITE_FRAMEWORK_PATH}/include/base \
-    $${FOUNDATION_PATH}/graphic/utils/interfaces/innerkits \
-    $${FOUNDATION_PATH}/graphic/utils/interfaces/kits \
+    $${FOUNDATION_PATH}/graphic/graphic_utils_lite/interfaces/innerkits \
+    $${FOUNDATION_PATH}/graphic/graphic_utils_lite/interfaces/kits \
     $${FOUNDATION_PATH}/../third_party/freetype/include \
-    $${FOUNDATION_PATH}/graphic/ui/interfaces/innerkits \
-    $${FOUNDATION_PATH}/graphic/ui/frameworks \
-    $${FOUNDATION_PATH}/graphic/ui/test/framework \
-    $${FOUNDATION_PATH}/graphic/ui/interfaces/kits \
-    $${FOUNDATION_PATH}/graphic/ui/interfaces/innerkits/common \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/uitest \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/display \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/indev \
+    $${FOUNDATION_PATH}/arkui/ui_lite/interfaces/innerkits \
+    $${FOUNDATION_PATH}/arkui/ui_lite/frameworks \
+    $${FOUNDATION_PATH}/arkui/ui_lite/test/framework \
+    $${FOUNDATION_PATH}/arkui/ui_lite/interfaces/kits \
+    $${FOUNDATION_PATH}/arkui/ui_lite/interfaces/innerkits/common \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/uitest \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/display \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/indev \
     $${ACELITE_FRAMEWORK_PATH}/targets/simulator \
     $${ACELITE_FRAMEWORK_PATH}/include/context/ \
     $${ACELITE_FRAMEWORK_PATH}/tools/qt/simulator/jsfwk/targets/simulator/utils \
@@ -46,32 +46,32 @@ INCLUDEPATH += \
     $${FOUNDATION_PATH}/../commonlibrary/utils_lite/timer_task/include/ \
     $${FOUNDATION_PATH}/../third_party/bounds_checking_function/include \
     $${FOUNDATION_PATH}/../third_party/bounds_checking_function/src \
-    $${FOUNDATION_PATH}/graphic/ui/test/autotest/include \
-    $${FOUNDATION_PATH}/graphic/ui/test/autotest/src
+    $${FOUNDATION_PATH}/arkui/ui_lite/test/autotest/include \
+    $${FOUNDATION_PATH}/arkui/ui_lite/test/autotest/src
 
 HEADERS += \
-    $${FOUNDATION_PATH}/graphic/ui/interfaces/innerkits/font/ui_font_vector.h \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/config.h \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/display/monitor.h \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/display/task_thread.h \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/display/gui_thread.h \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/indev/mouse_input.h \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/indev/mousewheel_input.h \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/uitest/main_widget.h \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/uitest/ui_mainwidget.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/interfaces/innerkits/font/ui_font_vector.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/config.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/display/monitor.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/display/task_thread.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/display/gui_thread.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/indev/mouse_input.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/indev/mousewheel_input.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/uitest/main_widget.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/uitest/ui_mainwidget.h \
     $${ACELITE_FRAMEWORK_PATH}/include/context/js_ability.h \
-    $${FOUNDATION_PATH}/graphic/ui/test/framework/common/ui_text_language.h \
+    $${FOUNDATION_PATH}/arkui/ui_lite/test/framework/common/ui_text_language.h \
     child_widget.h \
     simulator_config.h
 
 SOURCES += \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/display/gui_thread.cpp \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/display/monitor.cpp \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/display/task_thread.cpp \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/indev/mouse_input.cpp \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/indev/mousewheel_input.cpp \
-    $${FOUNDATION_PATH}/graphic/ui/test/framework/common/ui_text_language.cpp \
-    $${FOUNDATION_PATH}/graphic/ui/tools/qt/simulator/drivers/indev/key_input.cpp \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/display/gui_thread.cpp \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/display/monitor.cpp \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/display/task_thread.cpp \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/indev/mouse_input.cpp \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/indev/mousewheel_input.cpp \
+    $${FOUNDATION_PATH}/arkui/ui_lite/test/framework/common/ui_text_language.cpp \
+    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/indev/key_input.cpp \
     main_widget.cpp \
     child_widget.cpp \
     main.cpp \
@@ -84,7 +84,7 @@ LIBS += $$UIDESTDIR/libs/test.dll
 LIBS += $$UIDESTDIR/libs/auto_test.dll
 
 COPY_DEST = $$replace(OUT_PWD, /, \\)
-UILIBS = $$FOUNDATION_PATH/graphic/ui/tools/qt/simulator/libs
+UILIBS = $$FOUNDATION_PATH/arkui/ui_lite/tools/qt/simulator/libs
 UI_LIBS = $$replace(UILIBS, /, \\)
 QMAKE_POST_LINK += copy $$UI_LIBS\\freetype.dll $$COPY_DEST\\..\\libs\\freetype.dll &
 QMAKE_POST_LINK += copy $$UI_LIBS\\icu.dll $$COPY_DEST\\..\\libs\\icu.dll &

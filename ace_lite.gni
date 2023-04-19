@@ -19,7 +19,7 @@ NATIVE_ENGINE_PATH =
     "//foundation/arkui/ace_engine_lite/frameworks/native_engine"
 MODULE_MANAGER_PATH =
     "//foundation/arkui/ace_engine_lite/frameworks/module_manager"
-GRAPHIC_LITE_PATH = "//foundation/graphic/ui"
+GRAPHIC_LITE_PATH = "//foundation/arkui/ui_lite"
 
 ace_lite_include_dirs = [
   "$GRAPHIC_LITE_PATH/interfaces/kits/config",

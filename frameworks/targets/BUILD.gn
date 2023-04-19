@@ -34,5 +34,6 @@ config("ace_lite_target_config") {
 
 group("targets") {
   public_configs = [ ":ace_lite_target_config" ]
-  public_configs += [ "//foundation/graphic/utils:graphic_utils_public_config" ]
+  public_configs +=
+      [ "//foundation/graphic/graphic_utils_lite:graphic_utils_public_config" ]
 }

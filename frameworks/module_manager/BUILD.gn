@@ -54,7 +54,7 @@ lite_library("ace_module_manager") {
 
   if (ohos_kernel_type == "liteos_m") {
     public_deps += [
-      "//foundation/graphic/ui:ui",
+      "//foundation/arkui/ui_lite:ui",
       "//third_party/bounds_checking_function:libsec_static",
       "//third_party/jerryscript:jerry_engine",
     ]

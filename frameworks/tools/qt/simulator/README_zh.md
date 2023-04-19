@@ -45,7 +45,7 @@
    // 初始化 repo
    repo init -u https://gitee.com/openharmony/manifest.git -b master --no-repo-verify
    // sync 所有相关仓
-   repo sync graphic_surface graphic_ui graphic_utils graphic_wms third_party_bounds_checking_function third_party_cJSON third_party_zlib third_party_freetype third_party_harfbuzz third_party_icu third_party_libjpeg-turbo third_party_libpng third_party_qrcodegen third_party_zlib commonlibrary_utils_lite ability_ability_lite third_party_jerryscript third_party_giflib arkui_ace_engine_lite global_resource_management_lite
+   repo sync graphic_surface_lite arkui_ui_lite graphic_graphic_utils_lite window_window_manager_lite third_party_bounds_checking_function third_party_cJSON third_party_zlib third_party_freetype third_party_harfbuzz third_party_icu third_party_libjpeg-turbo third_party_libpng third_party_qrcodegen third_party_zlib commonlibrary_utils_lite ability_ability_lite third_party_jerryscript third_party_giflib arkui_ace_engine_lite global_resource_management_lite
    ```
 
 2. **打开QT Creator**
@@ -92,8 +92,8 @@
    下面为拉取UI模拟器最小代码仓的git命令。
 
    ```
-   git clone https://gitee.com/openharmony/graphic_ui.git                           -b   master  foundation/graphic/ui
-   git clone https://gitee.com/openharmony/graphic_utils.git                        -b   master  foundation/graphic/utils
+   git clone https://gitee.com/openharmony/arkui_ui_lite.git                        -b   master  foundation/arkui/ui_lite
+   git clone https://gitee.com/openharmony/graphic_graphic_utils_lite.git           -b   master  foundation/graphic/graphic_utils_lite
    git clone https://gitee.com/openharmony/third_party_zlib.git                     -b   master  third_party/zlib
    git clone https://gitee.com/openharmony/third_party_qrcodegen.git                -b   master  third_party/qrcodegen
    git clone https://gitee.com/openharmony/third_party_libpng.git                   -b   master  third_party/libpng
@@ -116,7 +116,7 @@
 
    - 参考源码路径：
 
-     [源码工程目录]\foundation\graphic\ui\tools\qt\simulator\simulator.pro
+     [源码工程目录]\foundation\arkui\ui_lite\tools\qt\simulator\simulator.pro
      
      注意：第一次打开项目时，需要在Configure Project界面，kits列表中勾选minGW（仅勾选minGW）。
      

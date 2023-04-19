@@ -17,7 +17,7 @@
 #include <QMetaType>
 
 // NOTE: this is the dup of the main widget implementation from graphic, keep this file updated with
-// the same file under graphic/ui/tools/qt/simulator/uitest folder.
+// the same file under arkui/ui_lite/tools/qt/simulator/uitest folder.
 namespace OHOS {
 MainWidget::MainWidget(QWidget* parent) : QWidget(parent), guiThread_(nullptr), taskThread_(nullptr)
 {

@@ -180,27 +180,27 @@ SOURCES += \
         $${ACELITE_FRAMEWORK_PATH}/src/core/modules/presets/test/unittest/common/app_data_module_tdd_test.cpp \
 
 HEADERS += \
-        $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/components/ui_view.h
+        $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/components/ui_view.h
 
 INCLUDEPATH += \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/innerkits \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/innerkits/common \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/innerkits/dock \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/innerkits/font \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/animator \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/common \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/components \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/dfx \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/events \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/font \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/layout \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/themes \
-            $${ROOT_PATH}/foundation/graphic/ui/frameworks \
-            $${ROOT_PATH}/foundation/graphic/utils/frameworks/windows \
-            $${ROOT_PATH}/foundation/graphic/utils/interfaces/innerkits \
-            $${ROOT_PATH}/foundation/graphic/utils/interfaces/kits \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/innerkits/ui/common \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/innerkits \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/innerkits/common \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/innerkits/dock \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/innerkits/font \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/animator \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/common \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/components \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/dfx \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/events \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/font \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/layout \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/themes \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/frameworks \
+            $${ROOT_PATH}/foundation/graphic/graphic_utils_lite/frameworks/windows \
+            $${ROOT_PATH}/foundation/graphic/graphic_utils_lite/interfaces/innerkits \
+            $${ROOT_PATH}/foundation/graphic/graphic_utils_lite/interfaces/kits \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/innerkits/ui/common \
             $${ROOT_PATH}/base/hiviewdfx/hilog_lite/interfaces/native/kits \
             $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/kits/ability_lite \
             $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/kits/want_lite \
@@ -249,21 +249,21 @@ INCLUDEPATH += \
             $${ROOT_PATH}/third_party/freetype/include \
             $${ROOT_PATH}/base/global/resource_management_lite/interfaces/inner_api/include \
             $${ROOT_PATH}/base/global/i18n_lite/interfaces/kits/i18n/include \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/config \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui/animator \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui/common \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui/components \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui/dfx \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui/events \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui/font \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui/layout \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/kits/ui/themes \
-            $${ROOT_PATH}/foundation/graphic/ui/interfaces/innerkits/ui/common \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/ui \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/config \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/ui/animator \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/ui/common \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/ui/components \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/ui/dfx \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/ui/events \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/ui/font \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/ui/layout \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/kits/ui/themes \
+            $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/innerkits/ui/common \
             $${ROOT_PATH}/base/hiviewdfx/hilog_lite/interfaces/native/kits \
             $${ROOT_PATH}/foundation/ability/ability_lite/frameworks/abilitymgr_lite/include \
             $${ACELITE_FRAMEWORK_PATH}/../test/moduletest/common \
             $${ACELITE_FRAMEWORK_PATH}/src/core/modules/presets/test/unittest/common \
 
 LIBS += $$DESTDIR/jerryScript.dll
-LIBS += $$OUT_PWD/../../../../../../../graphic/ui/tools/qt/simulator/libs/libui.dll
+LIBS += $$OUT_PWD/../../../../../../../arkui/ui_lite/tools/qt/simulator/libs/libui.dll

@@ -27,7 +27,7 @@ set(ACE_LITE_INNERKITS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../interfaces/innerkits
 set(JSFWK_INCLUDE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(JSFWK_INNERKITS_BUILTIN_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../foundation/arkui/ace_engine_lite/interfaces/inner_api/builtin")
 set(JSFWK_SOURCE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/src/core")
-set(UIKIT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../foundation/graphic/ui")
+set(UIKIT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../foundation/arkui/ui_lite")
 set(THIRTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../third_party")
 set(JSFWK_SIMULATOR_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/developer_tools_lite/graphic_tool/simulator")
 set(AAFWK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../ability/ability_lite")
