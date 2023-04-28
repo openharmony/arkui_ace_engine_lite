@@ -23,7 +23,7 @@ namespace OHOS {
 namespace ACELite {
 class SliteAceAbility final : public SliteAbility {
 public:
-    SliteAceAbility() = default;
+    explicit SliteAceAbility(const char *bundleName);
     virtual ~SliteAceAbility() = default;
 
     void OnCreate(const Want &want) override;

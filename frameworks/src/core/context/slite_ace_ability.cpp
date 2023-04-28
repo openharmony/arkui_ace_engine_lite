@@ -18,6 +18,10 @@
 
 namespace OHOS {
 namespace ACELite {
+SliteAceAbility::SliteAceAbility(const char *bundleName) : SliteAbility(bundleName)
+{
+}
+
 void SliteAceAbility::OnCreate(const Want &want)
 {
     jsAbility_.Launch(want.appPath, want.element->bundleName, token_);
