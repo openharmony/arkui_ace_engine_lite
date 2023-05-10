@@ -29,9 +29,9 @@
       "components": [
          "bundle_framework_lite",
          "huks",
-         "ui",
+         "ui_lite",
          "syspara_lite",
-         "surface",
+         "surface_lite",
          "i18n_lite",
          "resource_management_lite",
          "hilog",

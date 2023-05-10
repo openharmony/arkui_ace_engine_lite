@@ -19,21 +19,21 @@ import("//foundation/arkui/ace_engine_lite/ace_lite.gni")
 ace_lite_root = "//foundation/arkui/ace_engine_lite"
 ace_lite_builtin_root =
     "//foundation/arkui/ace_engine_lite/interfaces/inner_api/builtin"
-graphic_ui_root = "//foundation/graphic/ui"
+arkui_ui_lite_root = "//foundation/arkui/ui_lite"
 test_output_root = "$root_out_dir/test/unittest/jsfwk"
 
 ace_test_includes = [
   "${aafwk_lite_path}/interfaces/kits/ability_lite",
   "${aafwk_lite_path}/interfaces/kits/want_lite",
   "${aafwk_lite_path}/interfaces/innerkits/abilitymgr_lite",
-  "$graphic_ui_root/frameworks",
-  "$graphic_ui_root/interfaces/kits/animator",
-  "$graphic_ui_root/interfaces/kits/components",
-  "$graphic_ui_root/interfaces/kits/dfx",
-  "$graphic_ui_root/interfaces/kits/events",
-  "$graphic_ui_root/interfaces/kits/layout",
-  "$graphic_ui_root/interfaces/kits/themes",
-  "$graphic_ui_root/interfaces/kits/font",
+  "$arkui_ui_lite_root/frameworks",
+  "$arkui_ui_lite_root/interfaces/kits/animator",
+  "$arkui_ui_lite_root/interfaces/kits/components",
+  "$arkui_ui_lite_root/interfaces/kits/dfx",
+  "$arkui_ui_lite_root/interfaces/kits/events",
+  "$arkui_ui_lite_root/interfaces/kits/layout",
+  "$arkui_ui_lite_root/interfaces/kits/themes",
+  "$arkui_ui_lite_root/interfaces/kits/font",
   "//foundation/multimedia/services/media_lite/camera",
   "//foundation/multimedia/services/media_lite/camera/hal",
   "//third_party/bounds_checking_function/include",
@@ -79,14 +79,14 @@ ace_test_deps = [
   "//commonlibrary/utils_lite/js/builtin:ace_utils_kits",
   "//foundation/arkui/ace_engine_lite/frameworks:ace_lite",
   "//foundation/arkui/ace_engine_lite/frameworks/targets",
+  "//foundation/arkui/ui_lite:ui_lite",
   "//foundation/distributeddatamgr/kv_store/interfaces/inner_api/kv_store:utils_kv_store",
-  "//foundation/graphic/surface",
-  "//foundation/graphic/ui:ui_lite",
-  "//foundation/graphic/utils:graphic_utils_lite",
-  "//foundation/graphic/wms:window_manager_lite",
+  "//foundation/graphic/graphic_utils_lite:utils_lite",
+  "//foundation/graphic/surface_lite",
   "//foundation/systemabilitymgr/samgr_lite/communication/broadcast",
   "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   "//foundation/systemabilitymgr/samgr_lite/samgr_client:client",
+  "//foundation/window/window_manager_lite:window_manager_lite",
 ]
 
 # all other extra deps when compiling the whole ace source code with test case together

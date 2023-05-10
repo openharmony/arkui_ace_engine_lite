@@ -64,7 +64,7 @@ lite_library("ace_native_engine") {
 
   if (ohos_kernel_type == "liteos_m") {
     public_deps += [
-      "//foundation/graphic/ui:ui",
+      "//foundation/arkui/ui_lite:ui",
       "//third_party/jerryscript:jerry_engine",
     ]
   } else {
