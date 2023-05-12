@@ -63,7 +63,7 @@ For details about the APIs, see the  [JS Application Development](https://device
 
 - Application Development
 
-  Please refer to [Visual Application Development](https://docs.openharmony.cn/pages/v3.1/zh-cn/device-dev/guide/device-camera-visual-overview.md/) for more application development details.
+  Please refer to [Visual Application Development](https://docs.openharmony.cn/pages/v3.1/en/device-dev/guide/device-camera-visual-overview.md/) for more application development details.
 
 - Framework Development
 
