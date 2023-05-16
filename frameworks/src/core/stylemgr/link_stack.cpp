@@ -43,18 +43,12 @@ void LinkStack::FreeNode()
 
 bool LinkStack::IsEmpty() const
 {
-    if (head_ == top_) {
-        return true;
-    }
-    return false;
+    return head_ == top_;
 }
 
 bool LinkStack::IsFull() const
 {
-    if (maxSize_ > 0 && count_ >= maxSize_) {
-        return true;
-    }
-    return false;
+    return maxSize_ > 0 && count_ >= maxSize_;
 }
 
 bool LinkStack::Push(const char *value)
