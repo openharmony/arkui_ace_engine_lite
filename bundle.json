@@ -40,7 +40,8 @@
          "timer_task",
          "ace_common_lite",
          "ace_native_engine_lite",
-         "ace_module_manager_lite"
+         "ace_module_manager_lite",
+         "init_lite"
        ]
     },
     "build": {
