@@ -30,7 +30,6 @@
          "bundle_framework_lite",
          "huks",
          "ui_lite",
-         "syspara_lite",
          "surface_lite",
          "i18n_lite",
          "resource_management_lite",
