@@ -52,9 +52,10 @@ jerry_value_t TimerModule::CreateTimer(const jerry_value_t func,
                                        const jerry_length_t argsNum,
                                        bool repeated)
 {
-    if (TimerModule::GetInstance()->GetInitState() < 0) {
+    TimerModule* timerModule = TimerModule::GetInstance();
+    if (timerModule == nullptr || timerModule->GetInitState() < 0) {
         HILOG_ERROR(HILOG_MODULE_ACE, "start timer failed, timer init failed %{public}d",
-                    TimerModule::GetInstance()->GetInitState());
+                    timerModule->GetInitState());
         return UNDEFINED;
     }
     const uint8_t leastArguments = 2;
@@ -69,7 +70,7 @@ jerry_value_t TimerModule::CreateTimer(const jerry_value_t func,
     jerry_value_t function = args[0];
     arguments->func = jerry_acquire_value(function);
     arguments->repeated = repeated;
-    TimerList* timerList = GetInstance()->GetTimerList();
+    TimerList* timerList = timerModule->GetTimerList();
     if (argsNum > leastArguments) {
         uint8_t funcNumber = argsNum - leastArguments;
         jerry_value_t *funcArg =
@@ -131,15 +132,19 @@ jerry_value_t TimerModule::ClearTimer(const jerry_value_t func,
                                       const jerry_value_t *args,
                                       const jerry_length_t argsNum)
 {
-    if (TimerModule::GetInstance()->GetInitState() < 0) {
+    TimerModule* timerModule = TimerModule::GetInstance();
+    if (timerModule == nullptr) {
+        return UNDEFINED;
+    }
+    if (timerModule->GetInitState() < 0) {
         HILOG_ERROR(HILOG_MODULE_ACE, "stop timer failed, init timer failed %{public}d",
-                    TimerModule::GetInstance()->GetInitState());
+                    timerModule->GetInitState());
         return UNDEFINED;
     }
     if (argsNum == 0) {
         return UNDEFINED;
     }
-    TimerList* timerList = GetInstance()->GetTimerList();
+    TimerList* timerList = timerModule->GetTimerList();
     if ((timerList != nullptr) && (jerry_value_is_number(args[0]))) {
         int16_t timerKey = IntegerOf(args[0]);
         if (timerKey < 0) {

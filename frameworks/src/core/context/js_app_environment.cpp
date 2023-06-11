@@ -124,14 +124,15 @@ void JsAppEnvironment::LoadFramework() const
 
 void JsAppEnvironment::Cleanup()
 {
-    Debugger::GetInstance().TearDownDebugger();
+    Debugger debugger = Debugger::GetInstance();
+    debugger.TearDownDebugger();
     FeaAbilityModule::Release();
     ProductAdapter::UnloadExtraPresetModules();
 
     // clean up engine, NOTE: all JS value must be released properly befor cleanup
     jerry_cleanup();
     // free the external JS context, only can be called after clean up engine
-    Debugger::GetInstance().ReleaseJSContext();
+    debugger.ReleaseJSContext();
 #if (JS_ENGINE_STATIC_MULTI_CONTEXTS_ENABLED == 1)
     jerry_port_default_remove_current_context_record();
 #endif
