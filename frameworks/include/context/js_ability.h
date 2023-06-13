@@ -19,6 +19,11 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+
+#ifdef _MINI_MULTI_TASKS_
+#include "ability_saved_data.h"
+#endif
+
 #include "memory_heap.h"
 
 namespace OHOS {
@@ -53,6 +58,15 @@ public:
      */
     void Launch(const char *abilityPath, const char *bundleName, uint16_t token, const char *pageInfo = nullptr);
 
+#ifdef _MINI_MULTI_TASKS_
+    /**
+     * @fn JSAbility::OnRestoreData()
+     *
+     * @brief Called when the user data need to be restored.
+     */
+    void OnRestoreData(AbilitySlite::AbilitySavedData* data);
+#endif
+
     /**
      * @fn JSAbility::Show()
      *
@@ -66,6 +80,15 @@ public:
      * @brief Call this function to move the current JS application to background
      */
     void Hide();
+
+#ifdef _MINI_MULTI_TASKS_
+    /**
+     * @fn JSAbility::OnSaveData()
+     *
+     * @brief Called when the user data need to be saved.
+     */
+    void OnSaveData(AbilitySlite::AbilitySavedData* data);
+#endif
 
     /**
      * @fn JSAbility::TransferToDestroy()

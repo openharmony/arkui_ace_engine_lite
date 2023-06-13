@@ -28,6 +28,14 @@ void SliteAceAbility::OnCreate(const Want &want)
     SliteAbility::OnCreate(want);
 }
 
+#ifdef _MINI_MULTI_TASKS_
+void SliteAceAbility::OnRestoreData(AbilitySlite::AbilitySavedData *data)
+{
+    jsAbility_.OnRestoreData(data);
+    SliteAbility::OnRestoreData(data);
+}
+#endif
+
 void SliteAceAbility::OnForeground(const Want &want)
 {
     jsAbility_.Show();
@@ -41,6 +49,14 @@ void SliteAceAbility::OnBackground()
     jsAbility_.Hide();
     SliteAbility::OnBackground();
 }
+
+#ifdef _MINI_MULTI_TASKS_
+void SliteAceAbility::OnSaveData(AbilitySlite::AbilitySavedData *data)
+{
+    jsAbility_.OnSaveData(data);
+    SliteAbility::OnSaveData(data);
+}
+#endif
 
 void SliteAceAbility::OnDestroy()
 {

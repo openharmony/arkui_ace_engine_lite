@@ -41,6 +41,12 @@ void JSThread::ResetAbilityInfo()
         ace_free(abilityBundleName_);
         abilityBundleName_ = nullptr;
     }
+#ifdef _MINI_MULTI_TASKS_
+    if (abilitySavedData_ != nullptr) {
+        delete abilitySavedData_;
+        abilitySavedData_ = nullptr;
+    }
+#endif
 }
 
 void JSThread::ConfigAbilityInfo(const char *path, const char *bundleName, uint16_t token)
@@ -49,6 +55,9 @@ void JSThread::ConfigAbilityInfo(const char *path, const char *bundleName, uint1
     abilityPath_ = StringUtil::Copy(path);
     abilityBundleName_ = StringUtil::Copy(bundleName);
     abilityToken_ = token;
+#ifdef _MINI_MULTI_TASKS_
+    abilitySavedData_ = new AbilitySlite::AbilitySavedData();
+#endif
 }
 
 void JSThread::ProcessOneRenderTick()
@@ -95,8 +104,7 @@ void JSThread::HandleEventLoop()
     while (true) {
         const AbilityInnerMsg *innerMsg = GetMessage();
         if (innerMsg == nullptr) {
-            // error case
-            return;
+            return; // error case
         }
         // the innerMsg will be freed out of the scop
         std::unique_ptr<const AbilityInnerMsg> msgGuard(innerMsg);
@@ -106,6 +114,9 @@ void JSThread::HandleEventLoop()
                 JsAsyncWork::SetAppQueueHandler(this);
                 VsyncDispatchManager::GetInstance().RegisterVsyncReceiver(this);
                 jsAbility_.Launch(abilityPath_, abilityBundleName_, abilityToken_);
+#ifdef _MINI_MULTI_TASKS_
+                jsAbility_.OnRestoreData(nullptr);
+#endif
                 break;
             }
             case AbilityMsgId::ACTIVE: {
@@ -119,10 +130,7 @@ void JSThread::HandleEventLoop()
                 break;
             }
             case AbilityMsgId::DESTROY: {
-                VsyncDispatchManager::GetInstance().UnregisterVsyncReceiver(this);
-                // cleanup the message queue id to present any new async message
-                JsAsyncWork::SetAppQueueHandler(nullptr);
-                jsAbility_.TransferToDestroy();
+                OnMSGDestroy();
                 return; // here exit the loop, and abort all messages afterwards
             }
             case AbilityMsgId::ASYNCWORK: {
@@ -131,8 +139,7 @@ void JSThread::HandleEventLoop()
                 break;
             }
             case AbilityMsgId::TE_EVENT: {
-                // vsync arrived, process
-                ProcessOneRenderTick();
+                ProcessOneRenderTick(); // vsync arrived, process
                 jsHeapStatsDumper_.Dump();
                 break;
             }
@@ -140,6 +147,17 @@ void JSThread::HandleEventLoop()
                 break;
         }
     }
+}
+
+void JSThread::OnMSGDestroy()
+{
+    VsyncDispatchManager::GetInstance().UnregisterVsyncReceiver(this);
+    // cleanup the message queue id to present any new async message
+    JsAsyncWork::SetAppQueueHandler(nullptr);
+#ifdef _MINI_MULTI_TASKS_
+    jsAbility_.OnSaveData(abilitySavedData_);
+#endif
+    jsAbility_.TransferToDestroy();
 }
 
 TEDispatchingResult JSThread::TryToDispatchTEEvent()

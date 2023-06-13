@@ -177,6 +177,7 @@ SOURCES += \
         targets/simulator/mock/amsthread/ams_thread.cpp \
         targets/simulator/mock/timerthread/timer_thread.cpp \
         targets/simulator/mock/global_impl_mock.cpp \
+        targets/simulator/mock/ability_lite/slite/ability_saved_data.cpp \
         $${ACELITE_FRAMEWORK_PATH}/src/core/modules/presets/test/unittest/common/app_data_module_tdd_test.cpp \
 
 HEADERS += \
@@ -203,6 +204,7 @@ INCLUDEPATH += \
             $${ROOT_PATH}/foundation/arkui/ui_lite/interfaces/innerkits/ui/common \
             $${ROOT_PATH}/base/hiviewdfx/hilog_lite/interfaces/native/kits \
             $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/kits/ability_lite \
+            $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/kits/ability_lite/slite \
             $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/kits/want_lite \
             $${ROOT_PATH}/foundation/ability/ability_lite/interfaces/inner_api/abilitymgr_lite \
             $${ROOT_PATH}/third_party/bounds_checking_function/include \

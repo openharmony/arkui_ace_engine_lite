@@ -35,6 +35,7 @@ INCLUDEPATH += \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/uitest \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/display \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/drivers/indev \
+    $${FOUNDATION_PATH}/ability/ability_lite/interfaces/kits/ability_lite/slite \
     $${ACELITE_FRAMEWORK_PATH}/targets/simulator \
     $${ACELITE_FRAMEWORK_PATH}/include/context/ \
     $${ACELITE_FRAMEWORK_PATH}/tools/qt/simulator/jsfwk/targets/simulator/utils \

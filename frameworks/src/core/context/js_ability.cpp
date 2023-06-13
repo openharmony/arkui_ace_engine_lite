@@ -112,11 +112,27 @@ void JSAbility::Launch(const char * const abilityPath, const char * const bundle
     jsAbilityImpl->InitEnvironment(abilityPath, bundleName, token);
     ACE_EVENT_PRINT(MT_ACE_FWK_LAUNCHING, 0);
     FatalHandler::GetInstance().RegisterFatalHandler(this);
+#ifdef _MINI_MULTI_TASKS_
+    jsAbilityImpl->DeliverCreate();
+#else
     jsAbilityImpl->DeliverCreate(pageInfo);
+#endif
     ProductAdapter::UpdateDefaultFont();
     STOP_TRACING();
     OUTPUT_TRACE();
 }
+
+#ifdef _MINI_MULTI_TASKS_
+void JSAbility::OnRestoreData(AbilitySlite::AbilitySavedData *data)
+{
+    if (jsAbilityImpl_ == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "Must trigger Launch first");
+        return;
+    }
+    JSAbilityImpl *jsAbilityImpl = CastAbilityImpl(jsAbilityImpl_);
+    jsAbilityImpl->OnRestoreData(data);
+}
+#endif
 
 void JSAbility::Show()
 {
@@ -149,6 +165,18 @@ void JSAbility::Hide()
     ProductAdapter::UpdateRenderTickAcceptable(false);
     isActived_ = false;
 }
+
+#ifdef _MINI_MULTI_TASKS_
+void JSAbility::OnSaveData(AbilitySlite::AbilitySavedData *data)
+{
+    if (jsAbilityImpl_ == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "Must trigger Launch first");
+        return;
+    }
+    JSAbilityImpl *jsAbilityImpl = CastAbilityImpl(jsAbilityImpl_);
+    jsAbilityImpl->OnSaveData(data);
+}
+#endif
 
 void JSAbility::TransferToDestroy()
 {
