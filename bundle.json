@@ -22,7 +22,7 @@
     "deps": {
       "third_party": [
           "bounds_checking_function",
-          "cjson",
+          "cJSON",
           "freetype",
           "jerryscript"
       ],
@@ -34,14 +34,16 @@
          "i18n_lite",
          "resource_management_lite",
          "hilog",
-         "permission",
-         "kal_timer",
          "kv_store",
          "timer_task",
-         "ace_common_lite",
-         "ace_native_engine_lite",
-         "ace_module_manager_lite",
-         "init_lite"
+         "utils_lite",
+         "ability_lite",
+         "init",
+         "camera_lite",
+         "media_lite",
+         "battery_lite",
+         "netstack",
+         "device_attest_lite"
        ]
     },
     "build": {
