@@ -16,10 +16,10 @@
 #include "console_log_impl.h"
 #if IS_ENABLED(CONSOLE_LOG_OUTPUT)
 #include "js_app_environment.h"
-#if (FEATURE_USER_MC_LOG_PRINTF == 1)
+#if (defined(FEATURE_USER_MC_LOG_PRINTF) && (FEATURE_USER_MC_LOG_PRINTF == 1))
 #include "product_adapter.h"
 #endif // FEATURE_USER_MC_LOG_PRINTF
-#ifdef FEATURE_ACELITE_HI_LOG_PRINTF
+#if (defined(FEATURE_ACELITE_HI_LOG_PRINTF) && (FEATURE_ACELITE_HI_LOG_PRINTF == 1))
 #undef LOG_DOMAIN
 #undef LOG_TAG
 #define LOG_DOMAIN 0xD003B00
@@ -169,7 +169,8 @@ void LogChar(char c, const LogLevel logLevel, bool endFlag)
 #endif
 }
 
-#ifdef FEATURE_ACELITE_HI_LOG_PRINTF
+#if ((defined(FEATURE_ACELITE_HI_LOG_PRINTF) && (FEATURE_ACELITE_HI_LOG_PRINTF == 1)) || \
+     (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1)))
 static void OutputToHiLog(const LogLevel logLevel, const char * const str)
 {
     switch (logLevel) {
@@ -195,7 +196,7 @@ static void OutputToHiLog(const LogLevel logLevel, const char * const str)
             break;
     }
 }
-#elif (FEATURE_USER_MC_LOG_PRINTF == 1)
+#elif (defined(FEATURE_USER_MC_LOG_PRINTF) && (FEATURE_USER_MC_LOG_PRINTF == 1))
 static void OutputToHiLog(const LogLevel logLevel, const char * const str)
 {
     switch (logLevel) {
