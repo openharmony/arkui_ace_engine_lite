@@ -55,23 +55,25 @@ char *DfxModule::GetDomViewId(const JSIValue *args)
 
 bool DfxModule::IsEventInjectorRegistered(EventDataType type)
 {
-    if ((EventInjector::GetInstance() == nullptr) || (!EventInjector::GetInstance()->IsEventInjectorRegistered(type) &&
-        !EventInjector::GetInstance()->RegisterEventInjector(type))) {
+    EventInjector* eventInjector = EventInjector::GetInstance();
+    if ((eventInjector == nullptr) || (!eventInjector->IsEventInjectorRegistered(type) &&
+        !eventInjector->RegisterEventInjector(type))) {
         HILOG_ERROR(HILOG_MODULE_ACE, "register event error");
         return false;
     }
 #ifdef __LITEOS_A__
 #if ENABLE_WINDOW
-    if (RootView::GetInstance() == nullptr) {
+    RootView* rootView = RootView::GetInstance();
+    if (rootView == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "get root view error");
         return false;
     }
-    Window *window = RootView::GetInstance()->GetBoundWindow();
+    Window *window = rootView->GetBoundWindow();
     if (window == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "set window id error");
         return false;
     }
-    EventInjector::GetInstance()->SetWindowId(window->GetWindowId());
+    eventInjector->SetWindowId(window->GetWindowId());
 #endif
 #endif
     return true;
@@ -99,7 +101,8 @@ JSIValue DfxModule::Screenshot(const JSIValue thisVal, const JSIValue *args, uin
 #endif
     char *path = RelocateResourceFilePath(savingPath, SCREEN_SNAP_PATH);
     // uikit will deal with if path is null
-    if ((UIScreenshot::GetInstance() == nullptr) || (!UIScreenshot::GetInstance()->ScreenshotToFile(path))) {
+    UIScreenshot* screenshot = UIScreenshot::GetInstance();
+    if ((screenshot == nullptr) || (!screenshot->ScreenshotToFile(path))) {
         HILOG_ERROR(HILOG_MODULE_ACE, "screenshot failed");
         JSI::ReleaseValue(retVal);
         retVal = JSI::CreateBoolean(false);
@@ -118,7 +121,7 @@ JSIValue DfxModule::DumpDomTree(const JSIValue thisVal, const JSIValue *args, ui
     if (!PreCheck(argsNum)) {
         return retVal;
     }
-
+    UIDumpDomTree* uIDumpDomTree = UIDumpDomTree::GetInstance();
     char *viewId = GetDomViewId(args);
 #if (FEATURE_ACELITE_LITE_DFX_MODULE == 1)
 #ifdef __LITEOS_A__
@@ -130,9 +133,9 @@ JSIValue DfxModule::DumpDomTree(const JSIValue thisVal, const JSIValue *args, ui
 #endif
     char *path = RelocateResourceFilePath(savingPath, DOM_TREE_PATH);
     // uikit will deal with if path and viewid is null
-    if ((UIDumpDomTree::GetInstance() != nullptr) && (UIDumpDomTree::GetInstance()->DumpDomTree(viewId, path))) {
+    if ((uIDumpDomTree != nullptr) && (uIDumpDomTree->DumpDomTree(viewId, path))) {
 #else
-    if ((UIDumpDomTree::GetInstance() != nullptr) && (UIDumpDomTree::GetInstance()->DumpDomTree(viewId))) {
+    if ((uIDumpDomTree != nullptr) && (uIDumpDomTree->DumpDomTree(viewId))) {
 #endif
         JSI::ReleaseValue(retVal);
         retVal = JSI::CreateBoolean(true);
@@ -149,12 +152,13 @@ JSIValue DfxModule::DumpDomTree(const JSIValue thisVal, const JSIValue *args, ui
 
 JSIValue DfxModule::DumpDomNode(const JSIValue thisVal, const JSIValue *args, uint8_t argsNum)
 {
-    if (!PreCheck(argsNum) || (UIDumpDomTree::GetInstance() == nullptr)) {
+    UIDumpDomTree* uIDumpDomTree = UIDumpDomTree::GetInstance();
+    if (!PreCheck(argsNum) || (uIDumpDomTree == nullptr)) {
         return JSI::CreateUndefined();
     }
 
     char *viewId = GetDomViewId(args);
-    char *msg = UIDumpDomTree::GetInstance()->DumpDomNode(viewId);
+    char *msg = uIDumpDomTree->DumpDomNode(viewId);
     if (msg == nullptr) {
         JSI::ReleaseString(viewId);
         return JSI::CreateUndefined();
@@ -204,8 +208,9 @@ JSIValue DfxModule::InjectPointEvent(const JSIValue *args, EventDataType type)
     }
 
     // simulate point event
-    if ((EventInjector::GetInstance() != nullptr) &&
-        (EventInjector::GetInstance()->SetInjectEvent(data, realLen, type))) {
+    EventInjector* eventInjector = EventInjector::GetInstance();
+    if ((eventInjector != nullptr) &&
+        (eventInjector->SetInjectEvent(data, realLen, type))) {
         ace_free(data);
         return retVal;
     }
@@ -245,10 +250,11 @@ JSIValue DfxModule::InjectEvent(const JSIValue thisVal, const JSIValue *args, ui
 
 void DfxModule::OnDestroy()
 {
+    EventInjector* eventInjector = EventInjector::GetInstance();
     // iterator remove all registered event
-    if (EventInjector::GetInstance() != nullptr) {
-        EventInjector::GetInstance()->UnregisterEventInjector(EventDataType::POINT_TYPE);
-        EventInjector::GetInstance()->UnregisterEventInjector(EventDataType::OTHERS);
+    if (eventInjector != nullptr) {
+        eventInjector->UnregisterEventInjector(EventDataType::POINT_TYPE);
+        eventInjector->UnregisterEventInjector(EventDataType::OTHERS);
     }
 }
 } // namespace ACELite

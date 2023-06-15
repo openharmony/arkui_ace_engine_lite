@@ -112,8 +112,12 @@ void ProductAdapter::InitNativeMemPoolHook(NativeMemInfoGetter getter)
 void ProductAdapter::InitExtraModulesGetter(ProductModulesGetter productModuleGetter,
                                             PrivateModulesGetter privateModuleGetter)
 {
-    ModuleManager::GetInstance()->SetProductModulesGetter(productModuleGetter);
-    ModuleManager::GetInstance()->SetPrivateModulesGetter(privateModuleGetter);
+    ModuleManager* moduleManager = ModuleManager::GetInstance();
+    if (moduleManager == nullptr) {
+        return;
+    }
+    moduleManager->SetProductModulesGetter(productModuleGetter);
+    moduleManager->SetPrivateModulesGetter(privateModuleGetter);
 }
 
 void ProductAdapter::PrintEventTrace(uint8_t info2, uint8_t info3, uint8_t info4)

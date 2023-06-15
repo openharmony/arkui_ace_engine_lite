@@ -253,7 +253,6 @@ void JSAbility::HandleRenderTick()
 
     // reset error tick tracing count
     errorTickCount_ = 0;
-
     if ((ProductAdapter::IsTEHandlersRegisted()) && !(FatalHandler::GetInstance().IsAppExiting())) {
         FatalHandler::GetInstance().SetTEHandlingFlag(true);
         ProductAdapter::ProcessOneTE();
