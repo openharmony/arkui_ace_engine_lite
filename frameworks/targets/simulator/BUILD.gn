@@ -50,10 +50,12 @@ ohos_static_library("ace_lite") {
     "-D_INC_MEMORY_S",
   ]
   deps = [
-    "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr_simulator",
-    "//foundation/arkui/ui_lite/ext/ide:ui_ide",
     "//third_party/bounds_checking_function:libsec_static",
     "//third_party/jerryscript:libjerryscript",
+  ]
+  external_deps = [
+    "resource_management_lite:global_resmgr_simulator",
+    "ui_lite:ui_ide",
   ]
   defines = [
     "TARGET_SIMULATOR=1",
