@@ -19,7 +19,7 @@ SUBDIRS += \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/libui \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/test \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/autotest/auto_test.pro \
-    cjson \
+    cJSON \
     jerryScript \
     jsfwk \
     entry/entry.pro
