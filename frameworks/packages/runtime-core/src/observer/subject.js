@@ -66,6 +66,7 @@ Subject.prototype.attach = function(key, observer) {
       observers.delete(observer);
     };
   }
+  return void 0;
 };
 
 Subject.prototype.notify = function(key) {
