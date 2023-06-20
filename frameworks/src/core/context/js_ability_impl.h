@@ -16,6 +16,10 @@
 #ifndef OHOS_ACELITE_JS_ABILITY_IMPL_H
 #define OHOS_ACELITE_JS_ABILITY_IMPL_H
 
+#ifdef _MINI_MULTI_TASKS_
+#include "ability_saved_data.h"
+#endif
+
 #include "js_app_context.h"
 #include "js_debugger_config.h"
 #include "js_router.h"
@@ -41,6 +45,9 @@ public:
           nativeElement_(0),
           rendered_(false),
           isEnvInit_(false),
+#ifdef _MINI_MULTI_TASKS_
+          pageInfo_(nullptr),
+#endif
           router_(nullptr)
     {
 #if IS_ENABLED(JS_PROFILER)
@@ -85,12 +92,21 @@ public:
      */
     void DeliverCreate(const char *param = nullptr);
 
+#ifdef _MINI_MULTI_TASKS_
+    /**
+     * @fn JSAbilityRuntime::OnRestoreData()
+     *
+     * @brief Called when the user data need to be restored.
+    */
+    void OnRestoreData(AbilitySlite::AbilitySavedData* abilitySaveData);
+#endif
+
     /**
      * @fn JSAbilityRuntime::Show();
      *
      * @brief move JS application to active state
      */
-    void Show() const;
+    void Show();
 
     /**
      * @fn JSAbilityRuntime::Hide();
@@ -98,6 +114,15 @@ public:
      * @brief move the JS application to background state
      */
     void Hide() const;
+
+#ifdef _MINI_MULTI_TASKS_
+    /**
+     * @fn JSAbilityRuntime::OnSaveData()
+     *
+     * @brief Called when the user data need to be saved.
+    */
+    void OnSaveData(AbilitySlite::AbilitySavedData* abilitySaveData);
+#endif
 
     /**
      * @fn JSAbilityRuntime::NotifyBackPressed()
@@ -123,6 +148,10 @@ public:
 
 private:
     void InvokeOnCreate() const;
+#ifdef _MINI_MULTI_TASKS_
+    bool InvokeOnRestoreData(const char* userData, AbilitySlite::SavedResultCode retCode) const;
+    void GotoPage(const char* uri);
+#endif
     void InvokeOnDestroy() const;
     void InvokeOnBackPressed() const;
     void InvokeMethodWithoutParameter(const char * const name) const;
@@ -134,6 +163,9 @@ private:
     bool rendered_;
     bool isEnvInit_;
     Router *router_;
+#ifdef _MINI_MULTI_TASKS_
+    char *pageInfo_;
+#endif
 };
 } // namespace ACELite
 } // namespace OHOS

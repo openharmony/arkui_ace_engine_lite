@@ -22,6 +22,10 @@
 #include <QThread>
 #include <QWaitCondition>
 
+#ifdef _MINI_MULTI_TASKS_
+#include "ability_saved_data.h"
+#endif
+
 #include "js_ability.h"
 #include "js_heap_stats_dumper.h"
 #include "message_queue_utils.h"
@@ -31,7 +35,11 @@ namespace OHOS {
 namespace ACELite {
 class JSThread : public QThread {
 public:
-    JSThread() : abilityPath_(nullptr), abilityBundleName_(nullptr), abilityToken_(0), actived_(false) {}
+    JSThread() : abilityPath_(nullptr), abilityBundleName_(nullptr), abilityToken_(0),
+#ifdef _MINI_MULTI_TASKS_
+        abilitySavedData_(nullptr),
+#endif
+        actived_(false) {}
     ~JSThread();
     void run() override;
     void ConfigAbilityInfo(const char *path, const char *bundleName, uint16_t token);
@@ -41,6 +49,7 @@ public:
 
 private:
     void HandleEventLoop();
+    void OnMSGDestroy();
     const AbilityInnerMsg *GetMessage();
     void ProcessOneRenderTick();
     void ResetAbilityInfo();
@@ -53,6 +62,9 @@ private:
     QMutex mutexlock_;
     bool actived_;
     JSHeapStatsDumper jsHeapStatsDumper_;
+#ifdef _MINI_MULTI_TASKS_
+    AbilitySlite::AbilitySavedData* abilitySavedData_;
+#endif
 };
 } // namespace ACELite
 } // namespace OHOS

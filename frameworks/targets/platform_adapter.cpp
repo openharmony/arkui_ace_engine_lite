@@ -59,11 +59,15 @@ void SetEngineSnapshotModeManually(bool &mode)
 
 void Terminate(uint16_t token)
 {
-#if (TARGET_SIMULATOR != 1) // no AMS support on PC simulator
+#if (TARGET_SIMULATOR != 1)
 #if (FEATURE_TERMINATE_ABILITY == 1)
     ProductAdapter::SendTerminatingRequest(token, false);
 #else
     AceAbility::TerminateSelf();
+#endif
+#else
+#ifdef _MINI_MULTI_TASKS_
+    ProductAdapter::SendTerminatingRequest(token, false);
 #endif
 #endif
 }

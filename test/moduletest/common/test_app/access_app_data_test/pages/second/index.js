@@ -19,6 +19,7 @@ import router from '@system.router';
 export default {
     data: {
         title: "",
+        jsonData: ""
     },
     onInit() {
         if (typeof this.data === 'undefined') {
@@ -31,6 +32,7 @@ export default {
             var appData = getApp().data
             if (typeof appData !== 'undefined') {
                 this.title = appData.name
+                this.jsonData = JSON.stringify(appData)
             }
         } else {
             console.log("no getApp exist")
@@ -38,6 +40,11 @@ export default {
     },
     terminateApp() {
         app.terminate();
+    },
+    nextPage() {
+        router.replace({
+            uri: "pages/third/index"
+        })
     },
     back() {
         router.replace({uri: "pages/index/index"})

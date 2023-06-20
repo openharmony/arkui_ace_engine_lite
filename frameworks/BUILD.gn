@@ -131,6 +131,9 @@ lite_library("ace_lite") {
     defines += [ "ABILITY_WINDOW_SUPPORT" ]
     defines += [ "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER" ]
   }
+  if (enable_ohos_aafwk_multi_tasks_feature == true) {
+    defines += [ "_MINI_MULTI_TASKS_" ]
+  }
 }
 
 # generate syscap_module_native_mini.cpp

@@ -91,6 +91,21 @@ public:
     {
         return currentJsPath_;
     }
+#ifdef _MINI_MULTI_TASKS_
+    /**
+     * @brief set the js path and uuid info for current ability
+     *
+     * @param: current router uri
+     */
+    void SetCurrentUri(const char* const uri);
+     /**
+     * @brief return current router uri
+     */
+    const char* GetCurrentUri() const
+    {
+        return currentUri_;
+    }
+#endif
     /**
      * @brief return current bundle name
      */
@@ -98,7 +113,6 @@ public:
     {
         return currentBundleName_;
     }
-
     const JSAbilityImpl *GetTopJSAbilityImpl() const
     {
         return topJSAbilityImpl_;
@@ -185,6 +199,9 @@ private:
     char *currentBundleName_ = nullptr;
     char *currentAbilityPath_ = nullptr;
     char *currentJsPath_ = nullptr;
+#ifdef _MINI_MULTI_TASKS_
+    char *currentUri_ = nullptr;
+#endif
     JSAbilityImpl *topJSAbilityImpl_ = nullptr;
     AppStyleManager *styleManage_ = nullptr;
     LazyLoadManager *lazyLoadManager_ = nullptr;

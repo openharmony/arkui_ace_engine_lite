@@ -205,6 +205,11 @@ bool StateMachine::BindUri(jerry_value_t &jsRes)
             jerry_create_error(JERRY_ERROR_URI, reinterpret_cast<const jerry_char_t *>("uri value can't be empty."));
         return false;
     }
+#ifdef _MINI_MULTI_TASKS_
+    // save current uri
+    appContext_->SetCurrentUri(uri_);
+#endif
+
     int result = GenerateJsPagePath(uri_);
     // check4:generate js file's path failed
     if (result != SUCCESS) {

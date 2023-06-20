@@ -21,7 +21,8 @@ export default {
         home: {
             address: "Hang Zhou",
             country: "China"
-        }
+        },
+        type: "default"
     },
     onCreate() {
         console.log("Application onCreate")
@@ -36,6 +37,29 @@ export default {
         } else {
             console.log("Correct! we can NOT access data through this.xxx.")
         }
+    },
+    onRestoreData(data) {
+        console.info("Application onRestoreData data: " + JSON.stringify(data))
+        if ((data.errorCode == 0) && (typeof data.data === 'object') && (data.data !== null)) {
+            this.data = data.data
+        } else {
+            console.error('failed to restore data, errorCode = ' + data.errorCode)
+        }
+    },
+    onSaveData(data) {
+        console.info("Application onSaveData");
+        if (this.data.type == "empty_object") {
+            data.data = {}
+            return
+        } else if (this.data.type == "null_object") {
+            data.data = null
+            return
+        } else if (this.data.type == "not_object") {
+            data.data = 111
+            return
+        }
+        this.data.test = "test11111";
+        data.data = this.data;
     },
     onDestroy() {
         console.info("Application onDestroy")

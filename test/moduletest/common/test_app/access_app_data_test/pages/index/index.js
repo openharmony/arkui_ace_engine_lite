@@ -18,7 +18,8 @@ import router from '@system.router';
 
 export default {
     data: {
-        title: ""
+        title: "",
+        jsonData: ""
     },
     onInit() {
         if (typeof this.data === 'undefined') {
@@ -31,6 +32,7 @@ export default {
             var appData = getApp().data
             if (typeof appData !== 'undefined') {
                 this.title = appData.name
+                this.jsonData = JSON.stringify(appData)
             }
         } else {
             console.log("no getApp exist")
@@ -45,6 +47,7 @@ export default {
             appData.name = "David"
             console.log("latest app data: " + JSON.stringify(appData))
             this.title = appData.name
+            this.jsonData = JSON.stringify(appData)
         } else {
             console.log("no getApp exist")
         }
@@ -55,6 +58,7 @@ export default {
             appData.children = "tong tong"
             console.log("latest app data: " + JSON.stringify(appData))
             this.title = appData.children
+            this.jsonData = JSON.stringify(appData)
         } else {
             console.log("no getApp exist")
         }

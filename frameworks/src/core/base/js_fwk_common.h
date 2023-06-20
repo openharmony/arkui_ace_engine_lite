@@ -126,6 +126,10 @@ constexpr char ATTR_ATTRS[] = "attrs";
 constexpr char ATTR_FREEZE[] = "freeze";
 constexpr char ABILITY_LIFECYCLE_CALLBACK_ON_CREATE[] = "onCreate";
 constexpr char ABILITY_LIFECYCLE_CALLBACK_ON_DESTROY[] = "onDestroy";
+#ifdef _MINI_MULTI_TASKS_
+constexpr char ABILITY_LIFECYCLE_CALLBACK_ON_RESTORE_DATA[] = "onRestoreData";
+constexpr char ABILITY_LIFECYCLE_CALLBACK_ON_SAVE_DATA[] = "onSaveData";
+#endif
 constexpr char BACK_PRESSED_NAME[] = "$backPress";
 constexpr char ROUTER_PAGE_URI[] = "uri";
 constexpr char ROUTER_PAGE_PARAMS[] = "params";

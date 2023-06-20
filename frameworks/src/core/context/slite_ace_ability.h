@@ -27,6 +27,10 @@ public:
     virtual ~SliteAceAbility() = default;
 
     void OnCreate(const Want &want) override;
+#ifdef _MINI_MULTI_TASKS_
+    void OnRestoreData(AbilitySlite::AbilitySavedData *data) override;
+    void OnSaveData(AbilitySlite::AbilitySavedData *data) override;
+#endif
     void OnForeground(const Want &want) override;
     void OnBackground() override;
     void OnDestroy() override;

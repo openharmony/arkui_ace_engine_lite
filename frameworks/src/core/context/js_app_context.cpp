@@ -281,6 +281,36 @@ void JsAppContext::SetCurrentJsPath(const char * const jsPath)
     }
 }
 
+#ifdef _MINI_MULTI_TASKS_
+void JsAppContext::SetCurrentUri(const char* const uri)
+{
+    // release old first
+    if (currentUri_) {
+        ace_free(currentUri_);
+        currentUri_ = nullptr;
+    }
+
+    if (uri == nullptr) {
+        return;
+    }
+
+    size_t uriLen = strlen(uri);
+    if ((uriLen > 0) && (uriLen < PATH_LENGTH_MAX)) {
+        currentUri_ = static_cast<char*>(ace_malloc(uriLen + 1));
+        if (currentUri_ == nullptr) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "malloc buffer for current uri failed");
+            return;
+        }
+        if (memcpy_s(currentUri_, uriLen, uri, uriLen) != 0) {
+            ace_free(currentUri_);
+            currentUri_ = nullptr;
+            return;
+        }
+        currentUri_[uriLen] = '\0';
+    }
+}
+#endif
+
 void JsAppContext::ReleaseAbilityInfo()
 {
     if (currentBundleName_) {
@@ -297,6 +327,12 @@ void JsAppContext::ReleaseAbilityInfo()
         ace_free(currentJsPath_);
         currentJsPath_ = nullptr;
     }
+#ifdef _MINI_MULTI_TASKS_
+    if (currentUri_) {
+        ace_free(currentUri_);
+        currentUri_ = nullptr;
+    }
+#endif
 }
 
 char *JsAppContext::GetResourcePath(const char *uri) const

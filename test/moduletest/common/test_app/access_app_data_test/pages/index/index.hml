@@ -44,4 +44,7 @@ limitations under the License.
             </text>
         </div>
     </div>
+    <text class="title">
+        当前data数据: {{ jsonData }}
+    </text>
 </div>
