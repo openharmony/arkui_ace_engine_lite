@@ -60,10 +60,12 @@ Subject.prototype.attach = function(key, observer) {
     this._obsMap[key] = new Set();
   }
   const observers = this._obsMap[key];
-  observers.add(observer);
-  return function() {
-    observers.delete(observer);
-  };
+  if (!observers.has(observer)) {
+    observers.add(observer);
+    return function() {
+      observers.delete(observer);
+    };
+  }
 };
 
 Subject.prototype.notify = function(key) {
