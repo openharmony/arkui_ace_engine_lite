@@ -98,7 +98,7 @@ public:
      *
      * @brief Called when the user data need to be restored.
     */
-    void OnRestoreData(AbilitySlite::AbilitySavedData* abilitySaveData);
+    void OnRestoreData(AbilitySlite::AbilitySavedData* abilitySavedData);
 #endif
 
     /**
@@ -162,10 +162,10 @@ private:
     jerry_value_t nativeElement_; // the object returned from render function
     bool rendered_;
     bool isEnvInit_;
-    Router *router_;
 #ifdef _MINI_MULTI_TASKS_
     char *pageInfo_;
 #endif
+    Router *router_;
 };
 } // namespace ACELite
 } // namespace OHOS
