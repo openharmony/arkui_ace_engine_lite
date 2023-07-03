@@ -121,7 +121,7 @@ public:
      *
      * @brief Called when the user data need to be saved.
     */
-    void OnSaveData(AbilitySlite::AbilitySavedData* abilitySaveData);
+    void OnSaveData(AbilitySlite::AbilitySavedData* abilitySavedData);
 #endif
 
     /**
