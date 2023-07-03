@@ -60,11 +60,11 @@ private:
     QQueue<const AbilityInnerMsg *> msgQueue_;
     QWaitCondition queueCondition_;
     QMutex mutexlock_;
-    bool actived_;
     JSHeapStatsDumper jsHeapStatsDumper_;
 #ifdef _MINI_MULTI_TASKS_
     AbilitySlite::AbilitySavedData* abilitySavedData_;
 #endif
+    bool actived_;
 };
 } // namespace ACELite
 } // namespace OHOS
