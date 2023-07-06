@@ -35,7 +35,6 @@
          "resource_management_lite",
          "hilog",
          "kv_store",
-         "timer_task",
          "utils_lite",
          "ability_lite",
          "init",
