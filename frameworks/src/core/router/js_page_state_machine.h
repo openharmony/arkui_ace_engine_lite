@@ -23,7 +23,7 @@
 
 #define JS_PAGE_RETURN_IF_ERROR(error, pagePath)                                           \
     do {                                                                                   \
-        if (error != 0) {                                                                  \
+        if ((error) != 0) {                                                                \
             HILOG_ERROR(HILOG_MODULE_ACE, "use secure function error(%{public}d)", error); \
             ace_free(pagePath);                                                            \
             pagePath = nullptr;                                                            \
@@ -53,7 +53,7 @@ constexpr char PAGE_LIFECYCLE_CALLBACK_ON_DESTROY[] = "onDestroy";
 // uniform error code for error throwing
 constexpr uint32_t ERR_CODE_URL_NOTEXIST = 200002;
 
-#if JS_PAGE_SPECIFIC
+#if (defined(JS_PAGE_SPECIFIC) && (JS_PAGE_SPECIFIC == 1))
 extern JSPageSpecific jsPageSpecific;
 #endif
 

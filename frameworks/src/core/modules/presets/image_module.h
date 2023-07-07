@@ -50,7 +50,7 @@ public:
                                                 const char *attributeName,
                                                 jerry_external_handler_t setterHandler,
                                                 jerry_external_handler_t getterHandler);
-#if ENABLED_DELETE_MODULE_IAMGE
+#if (defined(ENABLED_DELETE_MODULE_IAMGE) && (ENABLED_DELETE_MODULE_IAMGE == 1))
     static void DeleteImage(void* ptr)
     {
         ImageModule* image = reinterpret_cast<ImageModule*>(ptr);
