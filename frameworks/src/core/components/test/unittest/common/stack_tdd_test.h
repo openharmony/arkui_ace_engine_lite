@@ -27,7 +27,7 @@
 
 #define CASE_END_IF_NULLPTR(ptr) \
     do {                         \
-        if (ptr == nullptr) {    \
+        if ((ptr) == nullptr) {  \
             TDD_CASE_END();      \
             return;              \
         }                        \

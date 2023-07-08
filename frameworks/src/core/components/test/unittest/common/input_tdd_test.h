@@ -45,7 +45,7 @@ public:
     void ComponentRadioAttributeTest01();
     void ComponentRadioStyleTest03();
     void ComponentRadioStyleTest04();
-#if (FEATURE_COMPONENT_EDITTEXT == 1)
+#if (defined(FEATURE_COMPONENT_EDITTEXT) && (FEATURE_COMPONENT_EDITTEXT == 1))
     void ComponentEdittextStyleTest01();
     void ComponentEdittextStyleTest02();
     void ComponentEdittextStyleTest03();

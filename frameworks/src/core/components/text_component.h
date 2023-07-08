@@ -30,7 +30,7 @@
 
 namespace OHOS {
 namespace ACELite {
-#if FEATURE_COMPONENT_TEXT_SPANNABLE
+#if (defined(FEATURE_COMPONENT_TEXT_SPANNABLE) && (FEATURE_COMPONENT_TEXT_SPANNABLE == 1))
 struct AbsoluteSizeSpan {
     int16_t start;
     int16_t end;
