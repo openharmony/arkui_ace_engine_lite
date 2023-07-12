@@ -37,7 +37,7 @@
 #include "hilog_lite/log.h"
 #endif
 #elif (FEATURE_ACELITE_MC_LOG_PRINTF == 1)
-#include "hilog/log.h"
+#include "hilog_lite/log.h"
 #ifndef HILOG_DEBUG
 #define HILOG_DEBUG(mod, format, ...)
 #endif
