@@ -50,7 +50,19 @@
       "//foundation/arkui/ace_engine_lite/test:unittest",
       "//foundation/arkui/ace_engine_lite/frameworks:jsfwk"
       ],
-      "inner_kits": [],
+      "inner_kits": [
+        {
+          "name": "//foundation/arkui/ace_engine_lite/frameworks/targets/simulator:ace_lite",
+          "header": {
+            "header_files": [
+              "acelite_config.h"
+            ],
+            "header_base": [
+              "//foundation/arkui/ace_engine_lite/frameworks/targets/simulator"
+            ]
+          }
+        }
+      ],
       "test": []
     }
   }
