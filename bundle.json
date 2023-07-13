@@ -57,9 +57,7 @@
             "header_files": [
               "acelite_config.h"
             ],
-            "header_base": [
-              "//foundation/arkui/ace_engine_lite/frameworks/targets/simulator"
-            ]
+            "header_base": "//foundation/arkui/ace_engine_lite/frameworks/targets/simulator"
           }
         }
       ],
