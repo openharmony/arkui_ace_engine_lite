@@ -69,7 +69,7 @@ bool ImageComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value_t attrV
         }
         case K_HEIGHT: {
             int16_t height = IntegerOf(attrValue);
-            imageView_.SetWidth(height);
+            imageView_.SetHeight(height);
             break;
         }
         default:
