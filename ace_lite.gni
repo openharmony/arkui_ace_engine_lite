@@ -80,7 +80,6 @@ ace_lite_include_dirs += [
   "//third_party/jerryscript/jerry-core/jmem",
   "//third_party/jerryscript/jerry-core/lit",
   "//third_party/cJSON",
-  "//third_party/giflib",
   "//commonlibrary/utils_lite/timer_task/include/",
   "//third_party/freetype/include",
   "//base/global/resource_management_lite/interfaces/inner_api/include",
