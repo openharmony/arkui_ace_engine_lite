@@ -14,7 +14,6 @@ SUBDIRS += \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/third_party/zlib \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/third_party/libpng \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/third_party/freetype \
-    $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/third_party/giflib \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/third_party/qrcodegen \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/libui \
     $${FOUNDATION_PATH}/arkui/ui_lite/tools/qt/simulator/test \

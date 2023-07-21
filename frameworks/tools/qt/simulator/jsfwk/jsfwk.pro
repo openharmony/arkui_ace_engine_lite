@@ -246,7 +246,6 @@ INCLUDEPATH += \
             $${ROOT_PATH}/third_party/jerryscript/jerry-ext/include/jerryscript-ext \
             $${ROOT_PATH}/third_party/jerryscript/jerry-port/default/include \
             $${ROOT_PATH}/third_party/cJSON \
-            $${ROOT_PATH}/third_party/giflib \
             $${ROOT_PATH}/commonlibrary/utils_lite/timer_task/include/ \
             $${ROOT_PATH}/third_party/freetype/include \
             $${ROOT_PATH}/base/global/resource_management_lite/interfaces/inner_api/include \
