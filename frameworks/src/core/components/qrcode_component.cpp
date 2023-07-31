@@ -115,6 +115,10 @@ bool QrcodeComponent::SetColor(const AppStyleItem &style, ColorType &colortype)
 
 void QrcodeComponent::DrawQrcode()
 {
+    if (qrcodeValue_ == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "no qrcode value specified");
+        return;
+    }
     const uint16_t defaultWidth = GetWidth();
     const uint16_t defaultHeight = GetHeight();
     uint16_t length = static_cast<uint16_t>(strlen(qrcodeValue_));
