@@ -73,9 +73,8 @@ void MarqueeEventTddTest::MarqueeEvent001()
     const uint8_t speedVal2 = 50;
 
     // click change speed
-    JSValue ret = JSObject::Call(page, FUNC_NAME);
-    value = JSObject::Get(page, "speed");
-    speed = JSNumber::Value(value);
+    JSValue ret;
+    ClickAgain(ret, page, value, speed);
     if (jerry_value_is_error(ret)) {
         EXPECT_TRUE((uint8_t)speed == speedVal1);
         jerry_release_value(value);
@@ -89,9 +88,7 @@ void MarqueeEventTddTest::MarqueeEvent001()
     jerry_release_value(value);
 
     // click again
-    ret = JSObject::Call(page, FUNC_NAME);
-    value = JSObject::Get(page, "speed");
-    speed = JSNumber::Value(value);
+    ClickAgain(ret, page, value, speed);
     if (jerry_value_is_error(ret)) {
         EXPECT_TRUE((uint8_t)speed == speedVal2);
         jerry_release_value(value);
@@ -105,9 +102,7 @@ void MarqueeEventTddTest::MarqueeEvent001()
     jerry_release_value(value);
 
     // click again
-    ret = JSObject::Call(page, FUNC_NAME);
-    value = JSObject::Get(page, "speed");
-    speed = JSNumber::Value(value);
+    ClickAgain(ret, page, value, speed);
     if (jerry_value_is_error(ret)) {
         EXPECT_TRUE((uint8_t)speed == speedVal1);
         jerry_release_value(value);
@@ -122,6 +117,13 @@ void MarqueeEventTddTest::MarqueeEvent001()
     jerry_release_value(ret);
     DestroyPage(page);
     TDD_CASE_END();
+}
+
+void MarqueeEventTddTest::ClickAgain(JSValue& ret, JSValue& page, JSValue& value, double& speed)
+{
+    ret = JSObject::Call(page, FUNC_NAME);
+    value = JSObject::Get(page, "speed");
+    speed = JSNumber::Value(value);
 }
 
 void MarqueeEventTddTest::RunTests()

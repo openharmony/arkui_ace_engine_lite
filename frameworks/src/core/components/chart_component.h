@@ -89,6 +89,7 @@ private:
     void AppendValues(UIChartDataSerial &dataserial, Point *pointArray, uint16_t dataLen);
     bool ParseDataValue(jerry_value_t dataValue, uint16_t interval, Point *pointArray, uint16_t arrayLen);
     bool SetOptions(jerry_value_t options);
+    void SetOptionsInfo(jerry_value_t jSeriesVal, PointType type, char* styleName);
     bool SetOptionsAxis(jerry_value_t options, bool isXAxis);
     bool SetOptionsAxisDataRange(jerry_value_t options, bool isXAxis);
     bool SetOptionsAxisDataRange(uint16_t minValue, uint16_t maxValue, uint8_t defaultMinValue,

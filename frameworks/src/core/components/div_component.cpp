@@ -52,53 +52,21 @@ bool DivComponent::ApplyPrivateStyle(const AppStyleItem* style)
     }
 
     bool applyResult = true;
+    NativeViewSetDirection(style, stylePropNameId, strValue, applyResult);
+    return applyResult;
+}
+
+void DivComponent::NativeViewSetDirection(const AppStyleItem* style, uint16_t stylePropNameId,
+                                          const char * const strValue, bool& applyResult)
+{
     uint16_t valueId = KeyParser::ParseKeyId(strValue, GetStyleStrValueLen(style));
     switch (stylePropNameId) {
         case K_FLEX_DIRECTION: {
-            switch (valueId) {
-                case K_COLUMN:
-                    nativeView_.SetLayoutDirection(LAYOUT_VER);
-                    isVerticalLayout_ = true;
-                    break;
-                case K_ROW:
-                    nativeView_.SetLayoutDirection(LAYOUT_HOR);
-                    break;
-                case K_ROW_REVERSE:
-                    nativeView_.SetLayoutDirection(LAYOUT_HOR_R);
-                    break;
-                case K_COLUMN_REVERSE:
-                    nativeView_.SetLayoutDirection(LAYOUT_VER_R);
-                    break;
-                default:
-                    applyResult = false;
-                    break;
-            }
+            NativeViewSetLayoutDirection(valueId, applyResult);
             break;
         }
         case K_JUSTIFY_CONTENT: {
-            switch (valueId) {
-                case K_FLEX_START:
-                    nativeView_.SetMajorAxisAlign(OHOS::ALIGN_START);
-                    break;
-                case K_FLEX_END:
-                    nativeView_.SetMajorAxisAlign(OHOS::ALIGN_END);
-                    break;
-                case K_CENTER:
-                    nativeView_.SetMajorAxisAlign(OHOS::ALIGN_CENTER);
-                    break;
-                case K_SPACE_BETWEEN:
-                    nativeView_.SetMajorAxisAlign(OHOS::ALIGN_BETWEEN);
-                    break;
-                case K_SPACE_AROUND:
-                    nativeView_.SetMajorAxisAlign(OHOS::ALIGN_AROUND);
-                    break;
-                case K_SPACE_EVENLY:
-                    nativeView_.SetMajorAxisAlign(OHOS::ALIGN_EVENLY);
-                    break;
-                default:
-                    applyResult = false;
-                    break;
-            }
+            NativeViewSetMajorAxisAlign(valueId, applyResult);
             break;
         }
         case K_ALIGN_ITEMS: {
@@ -132,8 +100,55 @@ bool DivComponent::ApplyPrivateStyle(const AppStyleItem* style)
             applyResult = false;
             break;
     }
+}
 
-    return applyResult;
+void DivComponent::NativeViewSetLayoutDirection(uint16_t valueId, bool& applyResult)
+{
+    switch (valueId) {
+        case K_COLUMN:
+            nativeView_.SetLayoutDirection(LAYOUT_VER);
+            isVerticalLayout_ = true;
+            break;
+        case K_ROW:
+            nativeView_.SetLayoutDirection(LAYOUT_HOR);
+            break;
+        case K_ROW_REVERSE:
+            nativeView_.SetLayoutDirection(LAYOUT_HOR_R);
+            break;
+        case K_COLUMN_REVERSE:
+            nativeView_.SetLayoutDirection(LAYOUT_VER_R);
+            break;
+        default:
+            applyResult = false;
+            break;
+    }
+}
+
+void DivComponent::NativeViewSetMajorAxisAlign(uint16_t valueId, bool& applyResult)
+{
+    switch (valueId) {
+        case K_FLEX_START:
+            nativeView_.SetMajorAxisAlign(OHOS::ALIGN_START);
+            break;
+        case K_FLEX_END:
+            nativeView_.SetMajorAxisAlign(OHOS::ALIGN_END);
+            break;
+        case K_CENTER:
+            nativeView_.SetMajorAxisAlign(OHOS::ALIGN_CENTER);
+            break;
+        case K_SPACE_BETWEEN:
+            nativeView_.SetMajorAxisAlign(OHOS::ALIGN_BETWEEN);
+            break;
+        case K_SPACE_AROUND:
+            nativeView_.SetMajorAxisAlign(OHOS::ALIGN_AROUND);
+            break;
+        case K_SPACE_EVENLY:
+            nativeView_.SetMajorAxisAlign(OHOS::ALIGN_EVENLY);
+            break;
+        default:
+            applyResult = false;
+            break;
+    }
 }
 
 bool DivComponent::ProcessChildren()

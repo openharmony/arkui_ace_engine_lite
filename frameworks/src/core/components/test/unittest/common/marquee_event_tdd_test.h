@@ -25,7 +25,7 @@ public:
     ~MarqueeEventTddTest() override {}
     void MarqueeEvent001();
     void RunTests();
-
+    void ClickAgain(JSValue& ret, JSValue& page, JSValue& value, double& speed);
 private:
     static const char * const BUNDLE;
     static const char * const FUNC_NAME;
