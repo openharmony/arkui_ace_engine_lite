@@ -33,7 +33,6 @@
          "surface_lite",
          "i18n_lite",
          "resource_management_lite",
-         "hilog",
          "kv_store",
          "utils_lite",
          "ability_lite",
