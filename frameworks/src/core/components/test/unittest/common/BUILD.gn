@@ -20,7 +20,7 @@ unittest("js_frameworks_test_arc") {
   configs = [ "$ace_lite_root/test:test_common_config" ]
   sources = [
     "$ace_lite_root/test/moduletest/common/base_test.cpp",
-    "arc_tdd_test.cpp",
+    "arc/arc_tdd_test.cpp",
     "root_component_mock.cpp",
   ]
   deps = ace_test_deps
@@ -32,7 +32,7 @@ unittest("js_frameworks_test_directive") {
   configs = [ "$ace_lite_root/test:test_common_config" ]
   sources = [
     "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
-    "directive_tdd_test.cpp",
+    "directive/directive_tdd_test.cpp",
   ]
   deps = ace_test_deps
 }
@@ -43,7 +43,7 @@ unittest("js_frameworks_test_data_binding") {
   configs = [ "$ace_lite_root/test:test_common_config" ]
   sources = [
     "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
-    "data_binding_tdd_test.cpp",
+    "data_binding/data_binding_tdd_test.cpp",
   ]
   deps = ace_test_deps
 }
@@ -66,7 +66,7 @@ unittest("js_frameworks_test_event_bubble") {
   configs = [ "$ace_lite_root/test:test_common_config" ]
   sources = [
     "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
-    "event_bubble_tdd_test.cpp",
+    "event_bubble/event_bubble_tdd_test.cpp",
   ]
   deps = ace_test_deps
 }
@@ -87,7 +87,7 @@ unittest("js_frameworks_test_image_animator") {
   configs = [ "$ace_lite_root/test:test_common_config" ]
   sources = [
     "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
-    "image_animator_tdd_test.cpp",
+    "image_animator/image_animator_tdd_test.cpp",
   ]
   deps = ace_test_deps
 }
@@ -296,7 +296,7 @@ unittest("js_frameworks_test_chart") {
   configs = [ "$ace_lite_root/test:test_common_config" ]
   sources = [
     "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
-    "chart_tdd_test.cpp",
+    "chart/chart_tdd_test.cpp",
   ]
   deps = ace_test_deps
 }
@@ -307,7 +307,7 @@ unittest("js_frameworks_test_canvas") {
   configs = [ "$ace_lite_root/test:test_common_config" ]
   sources = [
     "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
-    "canvas_tdd_test.cpp",
+    "canvas/canvas_tdd_test.cpp",
   ]
   deps = ace_test_deps
 }

@@ -31,7 +31,7 @@ unittest("js_frameworks_tdd_door") {
     "$ace_lite_root/frameworks/src/core/components/test/unittest/common/root_component_mock.cpp",
     "$ace_lite_root/test/moduletest/common/base_test.cpp",
     "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
-    "$ace_lite_src_core/components/test/unittest/common/arc_tdd_test.cpp",
+    "$ace_lite_src_core/components/test/unittest/common/arc/arc_tdd_test.cpp",
     "$ace_lite_src_core/components/test/unittest/common/div_tdd_test.cpp",
     "$ace_lite_src_core/components/test/unittest/common/horizonprogress_tdd_test.cpp",
     "$ace_lite_src_core/components/test/unittest/common/image_src_path_tdd_test.cpp",
