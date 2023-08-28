@@ -821,6 +821,11 @@ void ChartComponent::RecordOptionsSeriesPoint(jerry_value_t jSeriesVal, PointTyp
     if ((styleName == nullptr) || !jerryx_has_property_str(jSeriesVal, styleName)) {
         return;
     }
+    SetOptionsInfo(jSeriesVal, type, styleName);
+}
+
+void ChartComponent::SetOptionsInfo(jerry_value_t jSeriesVal, PointType type, char* styleName)
+{
     jerry_value_t jPointStyleVal = jerryx_get_property_str(jSeriesVal, styleName);
     styleName = const_cast<char *>(SIZE);
     uint8_t defaultValue = 4;

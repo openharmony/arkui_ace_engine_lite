@@ -58,7 +58,7 @@ private:
                         int16_t &startAngle,
                         int16_t &endAngle,
                         bool counterClockwise) const;
-						
+
     static void RegisterAttributeFunc(jerry_value_t canvas2ddom,
                                       const char *attributeName,
                                       jerry_external_handler_t setterHandler,
@@ -223,7 +223,7 @@ private:
                                                         const jerry_value_t dom,
                                                         const jerry_value_t args[],
                                                         const jerry_length_t argsNum);
-														
+
     static jerry_value_t FillRect(const jerry_value_t func,
                                   const jerry_value_t dom,
                                   const jerry_value_t args[],

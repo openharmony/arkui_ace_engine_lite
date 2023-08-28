@@ -38,6 +38,10 @@ protected:
     void LayoutChildren() override;
 
 private:
+    void NativeViewSetDirection(const AppStyleItem* style, uint16_t stylePropNameId,
+                                const char * const strValue, bool& applyResult);
+    void NativeViewSetLayoutDirection(uint16_t valueId, bool& applyResult);
+    void NativeViewSetMajorAxisAlign(uint16_t valueId, bool& applyResult);
     bool isSecondaryAxisAlignSet_;
     bool isVerticalLayout_;
     FlexLayout nativeView_;
