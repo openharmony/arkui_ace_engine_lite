@@ -62,16 +62,6 @@ bool ImageComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value_t attrV
             ACE_FREE(src);
             break;
         }
-        case K_WIDTH: {
-            int16_t width = IntegerOf(attrValue);
-            imageView_.SetWidth(width);
-            break;
-        }
-        case K_HEIGHT: {
-            int16_t height = IntegerOf(attrValue);
-            imageView_.SetHeight(height);
-            break;
-        }
         default:
             setResult = false;
             break;
