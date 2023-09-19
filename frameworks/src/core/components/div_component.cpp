@@ -84,8 +84,9 @@ void DivComponent::NativeViewSetDirection(const AppStyleItem* style, uint16_t st
                     applyResult = false;
                     break;
             }
-            if (applyResult)
+            if (applyResult) {
                 isSecondaryAxisAlignSet_ = true;
+            }
             break;
         }
         case K_FLEX_WRAP: {
