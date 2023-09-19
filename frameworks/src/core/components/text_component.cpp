@@ -397,7 +397,7 @@ void TextComponent::SetRichTextSpan()
                                      relativeSizeSpan_.end,
                                      relativeSizeSpan_.size);
     }
-#if defined(ENABLE_SPANNABLE_STRING) && ENABLE_SPANNABLE_STRING
+#if defined(ENABLE_TEXT_STYLE) && ENABLE_TEXT_STYLE
     if (stringStyleSpan_.start != -1 && stringStyleSpan_.end != -1) {
         SpannableString spanString(textValue_);
         spanString.SetTextStyle(stringStyleSpan_.style,
