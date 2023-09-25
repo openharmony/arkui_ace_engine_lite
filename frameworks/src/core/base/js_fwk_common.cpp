@@ -1171,83 +1171,6 @@ void ExpandImagePathMem(char *&imagePath, const int16_t dotPos, const int16_t su
     imagePath = newImagePath;
 }
 
-#if (OHOS_ACELITE_PRODUCT_WATCH == 1)
-static void FindPos(int16_t &dotPos, int16_t &lastPathPos, const char *imagePath, const size_t imagePathLen)
-{
-    if (imagePath == nullptr || imagePathLen < 0) {
-        return;
-    }
-
-    for (int16_t index = imagePathLen - 1; index >= 0; index--) {
-        if (dotPos < 0) {
-            if (*(imagePath + index) == PATH_PREFIX[0]) {
-                dotPos = index;
-            }
-        }
-
-        if (lastPathPos < 0) {
-            if (*(imagePath + index) == PATH_SEPARATOR) {
-                lastPathPos = index;
-            }
-        }
-    }
-    return;
-}
-
-void CureImagePath(char *&imagePath)
-{
-    if (imagePath == nullptr) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "get imagePath failed!");
-        return;
-    }
-
-    const char *bundleName = JsAppContext::GetInstance()->GetCurrentBundleName();
-    if (ProductAdapter::IsPNGSupportedWrapper(imagePath, bundleName)) {
-        return;
-    }
-
-    int16_t lastPathPos = -1;
-    int16_t dotPos = -1;
-    const int16_t suffixLen = 3;
-    const size_t imagePathLen = strlen(imagePath);
-    const char * const suffixName = "bin";
-
-    if (imagePathLen >= PATH_LENGTH_MAX) {
-        return;
-    }
-    // find the dot and last path position
-    FindPos(dotPos, lastPathPos, imagePath, imagePathLen);
-
-    // if dot position - last path position > 1, the suffix need to be proceed,
-    // else means the file name is wrong.
-    if ((dotPos - lastPathPos) > 1) {
-        // if suffix length < 3, need expand memory first.
-        if (static_cast<int16_t>(imagePathLen) < (suffixLen + dotPos + 1)) {
-            ExpandImagePathMem(imagePath, dotPos, suffixLen, imagePathLen);
-            if (imagePath == nullptr) {
-                HILOG_ERROR(HILOG_MODULE_ACE, "malloc buffer for path failed, needed length[%{public}d]",
-                            (dotPos + 1 + suffixLen + 1));
-                return;
-            }
-        }
-
-        *(imagePath + dotPos + 1) = '\0';
-        if (strcat_s(imagePath, dotPos + 1 + suffixLen + 1, suffixName) != 0) {
-            HILOG_ERROR(HILOG_MODULE_ACE, "strcat_s failed!");
-            ace_free(imagePath);
-            imagePath = nullptr;
-            return;
-        }
-    } else {
-        HILOG_ERROR(HILOG_MODULE_ACE, "the image suffix error, please check!");
-        ace_free(imagePath);
-        imagePath = nullptr;
-        return;
-    }
-    return;
-}
-#endif // OHOS_ACELITE_PRODUCT_WATCH
-
 const char *ParseImageSrc(jerry_value_t source)
 {
     uint16_t length = 0;
@@ -1273,9 +1196,6 @@ const char *ParseImageSrc(jerry_value_t source)
     char *imageSrc = JsAppContext::GetInstance()->GetResourcePath(rawSrc);
     ace_free(rawSrc);
     rawSrc = nullptr;
-#if (OHOS_ACELITE_PRODUCT_WATCH == 1)
-    CureImagePath(imageSrc);
-#endif // OHOS_ACELITE_PRODUCT_WATCH
     return imageSrc;
 }
 

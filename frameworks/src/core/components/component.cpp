@@ -1934,10 +1934,6 @@ bool Component::HandleBackgroundImg(const AppStyleItem &styleItem, char *&presse
                 filePath = nullptr;
                 return result;
             }
-#if (OHOS_ACELITE_PRODUCT_WATCH == 1)
-            // convert .png/jpeg/bmp to .bin subfix
-            CureImagePath(imagePath);
-#endif // OHOS_ACELITE_PRODUCT_WATCH
             if ((styleItem.GetPseudoClassType() == PSEUDO_CLASS_ACTIVE) ||
                 (styleItem.GetPseudoClassType() == PSEUDO_CLASS_CHECKED)) {
                 // in case we don't free the buffer after using
