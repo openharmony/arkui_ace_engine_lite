@@ -18,15 +18,18 @@
 
 #include "acelite_config.h"
 
-#if ((FEATURE_ACELITE_HI_LOG_PRINTF == 1) && (FEATURE_ACELITE_MC_LOG_PRINTF == 1))
+#if ((defined(FEATURE_ACELITE_HI_LOG_PRINTF) && (FEATURE_ACELITE_HI_LOG_PRINTF == 1)) && \
+     (defined(FEATURE_ACELITE_MC_LOG_PRINTF) && (FEATURE_ACELITE_MC_LOG_PRINTF == 1)))
 #error Only one marco can be defined
-#elif ((FEATURE_ACELITE_HI_LOG_PRINTF == 1) && (TARGET_SIMULATOR == 1))
+#elif ((defined(FEATURE_ACELITE_HI_LOG_PRINTF) && (FEATURE_ACELITE_HI_LOG_PRINTF == 1)) && \
+       (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1)))
 #error Only one marco can be defined
-#elif ((FEATURE_ACELITE_MC_LOG_PRINTF == 1) && (TARGET_SIMULATOR == 1))
+#elif ((defined(FEATURE_ACELITE_MC_LOG_PRINTF) && (FEATURE_ACELITE_MC_LOG_PRINTF == 1)) && \
+       (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1)))
 #error Only one macro can be defined
 #endif
 
-#if (FEATURE_ACELITE_HI_LOG_PRINTF == 1)
+#if defined(FEATURE_ACELITE_HI_LOG_PRINTF) && (FEATURE_ACELITE_HI_LOG_PRINTF == 1)
 #undef LOG_DOMAIN
 #undef LOG_TAG
 #define LOG_DOMAIN 0xD003900
@@ -36,7 +39,7 @@
 #else
 #include "hilog_lite/log.h"
 #endif
-#elif (FEATURE_ACELITE_MC_LOG_PRINTF == 1)
+#elif defined(FEATURE_ACELITE_MC_LOG_PRINTF) && (FEATURE_ACELITE_MC_LOG_PRINTF == 1)
 #include "hilog_lite/log.h"
 #ifndef HILOG_DEBUG
 #define HILOG_DEBUG(mod, format, ...)
@@ -56,7 +59,7 @@
 #ifndef HILOG_RACE
 #define HILOG_RACE(mod, format, ...)
 #endif
-#elif (TARGET_SIMULATOR == 1)
+#elif defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1)
 namespace OHOS {
 namespace ACELite {
 typedef enum { HILOG_MODULE_ACE = 1 } HiLogModuleType;
