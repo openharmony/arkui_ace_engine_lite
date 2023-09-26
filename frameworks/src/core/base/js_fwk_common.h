@@ -281,9 +281,6 @@ JSValue CallWithRootAbilitySlice(JSValue func);
 JSValue CreateWatcher(JSValue getter, JSHandler handler, JSValue options);
 
 void ExpandImagePathMem(char *&imagePath, const int16_t dotPos, const int16_t suffixLen, const int16_t imagePathLen);
-#if (OHOS_ACELITE_PRODUCT_WATCH == 1)
-void CureImagePath(char *&imagePath);
-#endif // OHOS_ACELITE_PRODUCT_WATCH
 const char *ParseImageSrc(jerry_value_t source);
 
 /**
