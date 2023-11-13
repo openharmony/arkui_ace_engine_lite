@@ -49,6 +49,7 @@ extern void InitNativeApiKv(JSIValue exports);
 
 #if (FEATURE_MODULE_DEVICE == 1)
 extern void InitDeviceModule(JSIValue exports);
+extern void InitDeviceInfoModule(JSIValue exports);
 #endif
 
 #if (FEATURE_MODULE_GEO == 1)
@@ -121,6 +122,7 @@ const Module OHOS_MODULES[] = {
 #endif
 #if (FEATURE_MODULE_DEVICE == 1)
     {"device", InitDeviceModule},
+    {"deviceInfo", InitDeviceInfoModule},
 #endif
 #if (FEATURE_MODULE_GEO == 1)
     {"geolocation", InitLocationModule},
