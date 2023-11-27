@@ -428,7 +428,6 @@ void JSI::ReleaseString(char *&str)
 void JSI::CallFunction(JSIValue funcObj, JSIValue thisVal, const JSIValue *argv, uint8_t argc)
 {
     if (!ValueIsFunction(funcObj)) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "JSI:CallFunction failed!");
         return;
     }
 #if (ENABLE_JERRY == 1)
