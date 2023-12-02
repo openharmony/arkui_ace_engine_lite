@@ -205,7 +205,7 @@ private:
     {
         uint64_t hash = 2166136261;
         uint32_t len = strlen(key);
-        for (uint8_t i = 0; i < len; i++) {
+        for (uint32_t i = 0; i < len; i++) {
             uint8_t keyVal = key[i];
             hash = (hash ^ keyVal) * NFV_PRIME;
         }
