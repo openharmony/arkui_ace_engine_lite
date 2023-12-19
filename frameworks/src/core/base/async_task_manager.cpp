@@ -128,7 +128,12 @@ uint16_t AsyncTaskManager::Dispatch(AsyncTaskHandler handler, void *data, const 
     }
     task->handler = handler;
     task->data = data;
-    task->id = (++uniqueTaskID_);
+    ++uniqueTaskID_;
+    //溢出为0，造成page切换失败
+    if (uniqueTaskID_ == 0) {
+        uniqueTaskID_ += 1;
+    }
+    task->id = (uniqueTaskID_);
     task->context = context;
     task->isRunning = false;
     task->next = nullptr;
