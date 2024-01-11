@@ -14,7 +14,7 @@
 import("//build/lite/config/subsystem/aafwk/config.gni")
 import("//build/ohos.gni")
 import("//foundation/arkui/ace_engine_lite/ace_lite.gni")
-import("//ide/tools/previewer/gn/config.gni")
+import("//foundation/arkui/ace_engine_lite/simulator.gni")
 if (os_level == "standard") {
   config("ace_lite_config") {
     include_dirs = ace_lite_include_dirs_simulator

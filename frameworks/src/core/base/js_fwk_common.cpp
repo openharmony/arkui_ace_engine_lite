@@ -622,7 +622,7 @@ static void OutputFileMaxLimitationTrace(const char * const fullPath, size_t lim
     char traceData[traceDataLen] = {0};
     const size_t oneKB = 1024;
     size_t currentLimitation = limitation / oneKB;
-    if (sprintf_s(traceData, traceDataLen, "%s is bigger than %d KB.\n", (ptr + 1), currentLimitation) < 0) {
+    if (sprintf_s(traceData, traceDataLen, "%s is bigger than %zu KB.\n", (ptr + 1), currentLimitation) < 0) {
         HILOG_ERROR(HILOG_MODULE_ACE, "splice trace data failed.");
         return;
     }
