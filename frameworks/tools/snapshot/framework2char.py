@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import os
+import stat
 import getopt
 import sys
 
@@ -66,7 +67,9 @@ def output_check_notes(output):
 def convert_bc():
     with open(FRAMEWORK_SNAPSHOT_FILE_PATH, 'rb') as input_file:
         byte_code_buffer = input_file.read()
-        with open(SNAPSHOT_OUTPUT_C_FILE_PATH, 'w') as output:
+        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+        modes = stat.S_IWUSR | stat.S_IRUSR
+        with os.fdopen(os.open(SNAPSHOT_OUTPUT_C_FILE_PATH, flags, modes), 'w') as output:
             output_copyright(output)
             output.write("#ifndef OHOS_ACELITE_FRAMEWORK_MIN_BC_H\n")
             output.write("#define OHOS_ACELITE_FRAMEWORK_MIN_BC_H\n")

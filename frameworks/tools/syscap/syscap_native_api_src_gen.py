@@ -15,6 +15,8 @@
 
 import json
 import argparse
+import os
+import stat
 
 license_string = """/*
  * Copyright (c) 2022 Huawei Device Co., Ltd.
@@ -109,7 +111,9 @@ def assemble_cpp_file():
          + function_define_string \
          + tail_string
     outpath = parse_args().output_file
-    f = open(outpath, 'w')
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+    modes = stat.S_IWUSR | stat.S_IRUSR
+    f = os.fdopen(os.open(outpath, flags, modes), 'w')
     f.writelines(line)
     f.close()
 
