@@ -1,0 +1,100 @@
+<!--
+Copyright (c) 2024 Huawei Device Co., Ltd.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<stack id="div" style="width:454px;height:454px;">
+    <swiper class="swiper_size"
+            duration="{{duration}}"
+            vertical="true"
+            onchange="showPage"
+            onswipe="updateIndex">
+        <stack class="stack_size">
+            <text class="text_style_a"
+                  class="font_style"
+                  class="text_decoration_style"
+                  class="letter_spacing">
+                {{text_a}}
+            </text>
+            <text class="text_style_b"
+                  class="font_style_bottom"
+                  class="text_decoration_style"
+                  class="letter_spacing">
+                第{{index}}页，共3页
+            </text>
+        </stack>
+        <stack class="stack_size">
+            <text class="text_sytle_c"
+                  class="font_style_bottom"
+                  class="text_decoration_style"
+                  class="letter_spacing">
+                第一项    {{first_text}}次
+            </text>
+            <progress class="first_progress_size"
+                      class="progress_style"
+                      percent="{{ first_percent }}">
+            </progress>
+            <text class="text_sytle_d"
+                  class="font_style_bottom"
+                  class="text_decoration_style"
+                  class="letter_spacing">
+                第二项 {{ second_text }}次
+            </text>
+            <progress class="second_progress_size"
+                      class="progress_style"
+                      percent="{{ second_percent }}">
+            </progress>
+            <text class="text_sytle_e"
+                  class="font_style_bottom"
+                  class="text_decoration_style"
+                  class="letter_spacing">
+                第三项 {{ third_text }}次
+            </text>
+            <progress class="third_progress_size"
+                      class="progress_style"
+                      percent="{{ third_percent }}">
+
+            </progress>
+            <text class="text_sytle_f"
+                  class="font_style_bottom"
+                  class="text_decoration_style"
+                  class="letter_spacing">
+                第四项 {{ fourth_text }}次
+            </text>
+            <progress class="fourth_progress_size"
+                      class="progress_style"
+                      percent="{{ fourth_percent }}">
+            </progress>
+            <text class="text_sytle_g"
+                  class="font_style_bottom"
+                  class="text_decoration_style"
+                  class="letter_spacing">
+                第{{index}}页，共3页
+            </text>
+        </stack>
+        <stack class="stack_size">
+            <text class="text_sytle_h"
+                  class="font_style"
+                  class="text_decoration_style"
+                  class="letter_spacing">
+                {{text_b}}
+            </text>
+            <text class="text_style_b"
+                  class="font_style_bottom"
+                  class="text_decoration_style"
+                  class="letter_spacing">
+                第{{index}}页，共3页
+            </text>
+        </stack>
+    </swiper>
+</stack>
