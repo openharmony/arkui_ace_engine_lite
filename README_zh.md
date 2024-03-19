@@ -62,7 +62,7 @@ API介绍请参考[《OpenHarmony Device开发API参考》](https://device.harmo
 
 - 为轻量系统开发三方应用
 
-  可参考[《轻量系统设备视觉应用开发》](https://docs.openharmony.cn/pages/v3.1/zh-cn/device-dev/guide/device-camera-visual-overview.md/)指南了解应用的开发细节。
+  可参考[《轻量系统设备视觉应用开发》](https://gitee.com/openharmony/docs/blob/master/zh-cn/device-dev/guide/device-camera-visual-overview.md/)指南了解应用的开发细节。
 
 - 调试轻量JS-UI开发框架
 
