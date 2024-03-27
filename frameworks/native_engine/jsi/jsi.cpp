@@ -717,12 +717,12 @@ double JSI::ValueToNumber(JSIValue value)
 #if (ENABLE_JERRY == 1)
     jerry_value_t jVal = AS_JERRY_VALUE(value);
     if (!jerry_value_is_number(jVal)) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "JSI:ValueToNumber params invalid!");
+        HILOG_INFO(HILOG_MODULE_ACE, "JSI:ValueToNumber params invalid!");
         return 0.0;
     }
     return jerry_get_number_value(jVal);
 #else
-    HILOG_ERROR(HILOG_MODULE_ACE, "JSI:ValueToNumber has not been implemented in this js engine!");
+    HILOG_INFO(HILOG_MODULE_ACE, "JSI:ValueToNumber has not been implemented in this js engine!");
     return 0.0;
 #endif
 }
