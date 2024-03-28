@@ -69,13 +69,13 @@ static uint16_t g_screenHeight = 454;
 
 // default app private data root path
 const static char *DEFAULT_APP_DATA_PATH = "user/ace/data/";
-static const char *g_defaultDataRootPath = DEFAULT_APP_DATA_PATH;
+static const char *DEFAULT_DATA_ROOT_PATH = DEFAULT_APP_DATA_PATH;
 
 // default device info
 const static uint8_t DEVICE_TYPE_STR_LEN = 24;
 const static char *DEFAULT_DEVICE_TYPE_NAME = "smartVision";
 // smartVision as default
-static const char *g_deviceType = DEFAULT_DEVICE_TYPE_NAME;
+static const char *DEVICE_TYPE = DEFAULT_DEVICE_TYPE_NAME;
 
 // indicating if the ace application is on foreground
 static bool g_isRenderTickAcceptable = false;
@@ -355,12 +355,12 @@ void ProductAdapter::ConfigPrivateDataRootPath(const char *appDataRoot)
     if (pathLen == 0 || pathLen >= UINT8_MAX) {
         return;
     }
-    g_defaultDataRootPath = appDataRoot;
+    DEFAULT_DATA_ROOT_PATH = appDataRoot;
 }
 
 const char *ProductAdapter::GetPrivateDataRootPath()
 {
-    return g_defaultDataRootPath;
+    return DEFAULT_DATA_ROOT_PATH;
 }
 
 void ProductAdapter::InitDeviceInfo(const char *deviceType)
@@ -368,12 +368,12 @@ void ProductAdapter::InitDeviceInfo(const char *deviceType)
     if (deviceType == nullptr || (strlen(deviceType) == 0) || strlen(deviceType) >= DEVICE_TYPE_STR_LEN) {
         return;
     }
-    g_deviceType = deviceType;
+    DEVICE_TYPE = deviceType;
 }
 
 const char *ProductAdapter::GetDeviceType()
 {
-    return g_deviceType;
+    return DEVICE_TYPE;
 }
 
 void ProductAdapter::RestoreSystemWrapper(const char *crashMessage)
