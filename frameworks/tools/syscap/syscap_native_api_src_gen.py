@@ -101,7 +101,7 @@ def get_syscap_list():
 def assemble_syscap_array():
     string = "static const SysCapDef g_syscap[] = {\n"
     for i in get_syscap_list():
-        string =  string + '    {' + '"' + i + '", ENABLE},\n'
+        string = string + '    {' + '"' + i + '", ENABLE},\n'
     string = string.strip(',\n') + '\n};\n'
     return string
 
