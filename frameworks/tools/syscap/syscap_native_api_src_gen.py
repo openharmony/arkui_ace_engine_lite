@@ -89,19 +89,19 @@ def parse_args():
 
 def get_syscap_list():
     path = parse_args().syscap_file
-    with open(path, 'rb') as syscap_file:
-        syscap_json = json.load(syscap_file)['syscap']
-        syscap_file.close()
-        syscap_list = syscap_json['os']
-        if ('private' in syscap_json):
-            for i in syscap_json['private']:
-                syscap_list.append(i)
+    syscap_file = open(path, 'rb')
+    syscap_json = json.load(syscap_file)['syscap']
+    syscap_file.close()
+    syscap_list = syscap_json['os']
+    if ('private' in syscap_json):
+        for i in syscap_json['private']:
+            syscap_list.append(i)
     return syscap_list
 
 def assemble_syscap_array():
     string = "static const SysCapDef g_syscap[] = {\n"
     for i in get_syscap_list():
-        string.append('    {"%s", ENABLE},\n') % i
+        string = string + '    {' + '"' + i + '", ENABLE},\n'
     string = string.strip(',\n') + '\n};\n'
     return string
 
@@ -113,9 +113,9 @@ def assemble_cpp_file():
     outpath = parse_args().output_file
     flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
     modes = stat.S_IWUSR | stat.S_IRUSR
-    with os.fdopen(os.open(outpath, flags, modes), 'w') as f:
-        f.writelines(line)
-        f.close()
+    f = os.fdopen(os.open(outpath, flags, modes), 'w')
+    f.writelines(line)
+    f.close()
 
 if __name__ == '__main__':
     assemble_cpp_file()
