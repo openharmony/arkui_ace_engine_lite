@@ -225,7 +225,7 @@ void JSProfiler::FlushProfilerMsg(void *data)
         return;
     }
 
-    int32_t fd = open(fullPath, O_CREAT | O_RDWR);
+    int32_t fd = open(fullPath, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
     if (fd < 0) {
         HILOG_ERROR(HILOG_MODULE_ACE, "ace js profiler open error");
         ace_free(fullPath);
