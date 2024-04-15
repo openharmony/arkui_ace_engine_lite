@@ -146,7 +146,7 @@ char *MallocStringOf(jerry_value_t source, uint16_t *strLength)
             target = jerry_value_to_string(source);
         }
         if (IS_ERROR_VALUE(target)) {
-            HILOG_ERROR(HILOG_MODULE_ACE, "jerry_value_to_string failed, can not continue to generate char buffer");
+            HILOG_INFO(HILOG_MODULE_ACE, "jerry_value_to_string failed, can not continue to generate char buffer");
             break;
         }
 
