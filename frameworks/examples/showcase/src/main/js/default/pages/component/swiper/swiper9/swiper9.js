@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 // swiper9.js
-import { backPage, routePage } from "../../../../common/js/general";
-import { showPage } from "../../../../common/js/swiper";
+import { backPage, routePage } from '../../../../common/js/general';
+import { showPage } from '../../../../common/js/swiper';
 export default {
   data: {
     index: 0
   },
-  ...backPage("pages/component/swiper/indexStyle/index"),
+  ...backPage('pages/component/swiper/indexStyle/index'),
   showPage: showPage
 };

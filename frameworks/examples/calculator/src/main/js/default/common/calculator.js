@@ -13,17 +13,17 @@
  * limitations under the License.
  */
 const OperatorLevels = {
-    "+": 0,
-    "-": 0,
-    "*": 1,
-    "/": 1,
+    '+': 0,
+    '-': 0,
+    '*': 1,
+    '/': 1,
 };
 
 const OperatorHandlers = {
-    "+": (one, other) => one + other,
-    "-": (one, other) => one - other,
-    "*": (one, other) => one * other,
-    "/": (one, other) => one / other,
+    '+': (one, other) => one + other,
+    '-': (one, other) => one - other,
+    '*': (one, other) => one * other,
+    '/': (one, other) => one / other,
 };
 
 function calcSuffixExpression(expression) {
@@ -49,14 +49,14 @@ function toSuffixExpression(expression) {
     let topOperator;
     for (let idx = 0, size = expression.length; idx < size; idx++) {
         const element = expression[idx];
-        if (element === "(") {
+        if (element === '(') {
             operatorStack.push(element);
             continue;
         }
-        if (element === ")") {
+        if (element === ')') {
             if (operatorStack.length) {
                 let operator = operatorStack.pop();
-                while (operator !== "(") {
+                while (operator !== '(') {
                     suffixExpression.push(operator);
                     operator = operatorStack.pop();
                 }
@@ -86,23 +86,23 @@ function toSuffixExpression(expression) {
 function parseInfixExpression(content) {
     const size = content.length;
     const lastIdx = size - 1;
-    let number = "";
+    let number = '';
     const expression = [];
     for (let idx = 0; idx < size; idx++) {
         const element = content[idx];
         if (isGrouping(element)) {
-            if (number !== "") {
+            if (number !== '') {
                 expression.push(number);
-                number = "";
+                number = '';
             }
             expression.push(element);
         } else if (isOperator(element)) {
-            if (isSymbol(element) && (idx === 0 || content[idx - 1] === "(")) {
+            if (isSymbol(element) && (idx === 0 || content[idx - 1] === '(')) {
                 number += element;
             } else {
-                if (number !== "") {
+                if (number !== '') {
                     expression.push(number);
-                    number = "";
+                    number = '';
                 }
 
                 if (idx !== lastIdx) {
@@ -113,7 +113,7 @@ function parseInfixExpression(content) {
             number += element;
         }
 
-        if (idx === lastIdx && number !== "") {
+        if (idx === lastIdx && number !== '') {
             expression.push(number);
         }
     }
@@ -126,16 +126,16 @@ function isPrioritized(one, other) {
 
 export function isOperator(operator) {
     return (
-        operator === "+" || operator === "-" || operator === "*" || operator === "/"
+        operator === '+' || operator === '-' || operator === '*' || operator === '/'
     );
 }
 
 function isSymbol(symbol) {
-    return symbol === "+" || symbol === "-";
+    return symbol === '+' || symbol === '-';
 }
 
 function isGrouping(operator) {
-    return operator === "(" || operator === ")";
+    return operator === '(' || operator === ')';
 }
 
 export function calc(content) {

@@ -12,32 +12,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../common/js/general";
+import { goPage, routePage } from '../../../../common/js/general';
 export default {
   data: {
     showStatus: true,
     ifStatus: true,
-    display: "flex",
-    textfor: ["1", "2"],
+    display: 'flex',
+    textfor: ['1', '2'],
     type:'rect',
   },
-  ...goPage("pages/component/qrcode/index/index"),
+  ...goPage('pages/component/qrcode/index/index'),
   changeShow() {
-    if (this.showStatus == true) {
+    if (this.showStatus === true) {
       this.showStatus = false;
     } else {
       this.showStatus = true;
     }
   },
   changeStatusIf() {
-    if (this.ifStatus == true) {
+    if (this.ifStatus === true) {
       this.ifStatus = false;
     } else {
       this.ifStatus = true;
     }
   },
   changeType() {
-    if (this.type == 'rect') {
+    if (this.type === 'rect') {
       this.type = 'circle';
     } else {
       this.type = 'rect';

@@ -12,11 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import router from "@system.router";
+import router from '@system.router';
 export const backPage = function(superiorUri) {
   return {
     backMain() {
-      router.replace({ uri: "pages/index/index" });
+      router.replace({ uri: 'pages/index/index' });
     },
     backSuperior() {
       router.replace({ uri: superiorUri });
@@ -26,7 +26,7 @@ export const backPage = function(superiorUri) {
 export const goPage = function(superiorUri) {
   return {
     goHome() {
-      router.replace({ uri: "pages/index/index" });
+      router.replace({ uri: 'pages/index/index' });
     },
     goPrevious() {
       router.replace({ uri: superiorUri });
@@ -42,17 +42,18 @@ export const routePage = function(page) {
 };
 export const eventCommon = function() {
   return {
-    text1: "点击事件未触发",
-    text2: "长按事件未触发",
-    text3: "swipe事件未触发",
+    text1: '点击事件未触发',
+    text2: '长按事件未触发',
+    text3: 'swipe事件未触发',
     clickFunc: function() {
-      this.text1 = "点击事件已触发";
+      this.text1 = '点击事件已触发';
     },
     longpressFunc: function() {
-      this.text2 = "长按事件已触发";
+      this.text2 = '长按事件已触发';
     },
     swipeFunc: function(e) {
-      this.text3 = "swipe方向：" + e.direction;
+      this.text3 = 'swipe方向:' + e.direction;
     }
   };
 };
+

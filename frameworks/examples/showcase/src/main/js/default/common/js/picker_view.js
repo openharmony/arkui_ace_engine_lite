@@ -14,7 +14,7 @@
  */
 // picker_view.js
 export const changeStatus = function() {
-  if (this.status == true) {
+  if (this.status === true) {
     this.status = false;
   } else {
     this.status = true;

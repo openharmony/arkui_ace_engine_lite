@@ -66,7 +66,7 @@ describe('ViewModel', () => {
     expect(vm.count).toBe(1);
     const watcher = vm.$watch(
         () => vm.count,
-        (newValue,oldValue) => {
+        (newValue, oldValue) => {
           expect(oldValue).toBe(1);
           expect(newValue).toBe(2);
           watcher.unsubscribe();
@@ -88,7 +88,7 @@ describe('ViewModel', () => {
 
     const watcher = vm.$watch(
         () => vm.user.name,
-        (newName,oldName) => {
+        (newName, oldName) => {
           expect(oldName).toBe('Chen');
           expect(newName).toBe('Chen2');
           watcher.unsubscribe();
@@ -355,7 +355,7 @@ describe('ViewModel', () => {
         () => vm.a + vm.b,
         number => {
           expect(number).toEqual(4);
-          watcher.unsubscribe()
+          watcher.unsubscribe();
           done();
         }
     );
@@ -364,7 +364,7 @@ describe('ViewModel', () => {
         () => vm.a + vm.b,
         number => {
           expect(number).toEqual(5);
-          watcher2.unsubscribe()
+          watcher2.unsubscribe();
           done();
         }
     );

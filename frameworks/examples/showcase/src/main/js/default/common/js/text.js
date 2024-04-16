@@ -13,14 +13,14 @@
  * limitations under the License.
  */
 export const changeShow = function() {
-  if (this.showStatus == true) {
+  if (this.showStatus === true) {
     this.showStatus = false;
   } else {
     this.showStatus = true;
   }
 };
 export const changeStatusIf = function() {
-  if (this.ifStatus == true) {
+  if (this.ifStatus === true) {
     this.ifStatus = false;
   } else {
     this.ifStatus = true;

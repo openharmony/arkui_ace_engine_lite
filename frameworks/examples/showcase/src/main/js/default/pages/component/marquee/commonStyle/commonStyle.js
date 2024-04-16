@@ -12,20 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../common/js/general";
+import { goPage, routePage } from '../../../../common/js/general';
 export default {
   data: {
-    displayVal: "flex",
+    displayVal: 'flex',
     flag: true
   },
   changeDisplay() {
     if (this.flag) {
-      this.displayVal = "none";
+      this.displayVal = 'none';
       this.flag = false;
     } else {
-      this.displayVal = "flex";
+      this.displayVal = 'flex';
       this.flag = true;
     }
   },
-  ...goPage("pages/component/marquee/index/index")
+  ...goPage('pages/component/marquee/index/index')
 };

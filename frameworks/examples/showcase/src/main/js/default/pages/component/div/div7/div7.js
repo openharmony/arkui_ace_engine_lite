@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 // div7.js
-import { backPage } from "../../../../common/js/general";
+import { backPage } from '../../../../common/js/general';
 export default {
-  ...backPage("pages/component/div/indexSpecStyle/index")
+  ...backPage('pages/component/div/indexSpecStyle/index')
 };

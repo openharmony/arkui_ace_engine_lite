@@ -12,11 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../../common/js/general";
-var displayData = ["flex", "none"];
+import { goPage, routePage } from '../../../../../common/js/general';
+let displayData = ['flex', 'none'];
 export default {
   changeDisplay: function() {
-    if (this.status == true) {
+    if (this.status === true) {
       this.displayValue = displayData[1];
       this.status = false;
     } else {
@@ -28,5 +28,5 @@ export default {
     status: true,
     displayValue: displayData[0]
   },
-  ...goPage("pages/component/progress/horizontal/index/index")
+  ...goPage('pages/component/progress/horizontal/index/index')
 };

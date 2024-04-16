@@ -13,7 +13,8 @@
  * limitations under the License.
  */
 // commonStyle.js
-import { goPage, routePage } from "../../../../common/js/general";
+import { goPage, routePage } from '../../../../common/js/general';
 export default {
-  ...goPage("pages/component/qrcode/index/index")
+  ...goPage('pages/component/qrcode/index/index')
 };
+

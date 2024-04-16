@@ -12,16 +12,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../../common/js/general";
-import { changeStatus, changeStatusIf } from "../../../../../common/js/progress";
+import { goPage, routePage } from '../../../../../common/js/general';
+import { changeStatus, changeStatusIf } from '../../../../../common/js/progress';
 export default {
   data: {
-    listData: ["a", "b"],
+    listData: ['a', 'b'],
     status: true,
     ifStatus: true,
     showAttr: 20
   },
-  ...goPage("pages/component/progress/horizontal/index/index"),
+  ...goPage('pages/component/progress/horizontal/index/index'),
   changeStatus: changeStatus,
   changeStatusIf: changeStatusIf
 };

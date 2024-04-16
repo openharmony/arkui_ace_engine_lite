@@ -12,23 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../../common/js/general";
-import { changeStatus, changeStatusIf, changeDisplay } from "../../../../../common/js/progress";
+import { goPage, routePage } from '../../../../../common/js/general';
+import { changeStatus, changeStatusIf, changeDisplay } from '../../../../../common/js/progress';
 export default {
   data: {
     showStatus: true,
     ifStatus: true,
     percentAttribute: 20,
-    loopArray: ["1", "2", "3"],
-    p01: "p01",
-    display: "flex"
+    loopArray: ['1', '2', '3'],
+    p01: 'p01',
+    display: 'flex'
   },
-  ...goPage("pages/component/progress/circle/index/index"),
+  ...goPage('pages/component/progress/circle/index/index'),
   changePercent() {
     this.percentAttribute = this.percentAttribute + 10;
   },
   changeStatus() {
-    if (this.showStatus == true) {
+    if (this.showStatus === true) {
       this.showStatus = false;
     } else {
       this.showStatus = true;
@@ -37,3 +37,4 @@ export default {
   changeStatusIf: changeStatusIf,
   changeDisplay: changeDisplay
 };
+
