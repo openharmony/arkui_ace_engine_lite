@@ -78,7 +78,7 @@ function initState(vm, data) {
   stopTracing(); // PHASE_INIT_DATA_GET_DATA
 
   if ((typeof __appVing__ !== 'undefined') && __appVing__) {
-    vm['data'] = data;
+    vm.data = data;
     stopTracing(); // PHASE_INIT_STATE
     return; // is evaling app.js, mount to this and skip state initialization
   }

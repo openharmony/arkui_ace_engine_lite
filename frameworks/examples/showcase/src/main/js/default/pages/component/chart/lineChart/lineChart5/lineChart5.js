@@ -12,12 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { backPage, routePage } from "../../../../../common/js/general";
-import { dataCommon } from "../../../../../common/js/chart";
+import { backPage, routePage } from '../../../../../common/js/general';
+import { dataCommon } from '../../../../../common/js/chart';
 export default {
-  ...backPage("pages/component/chart/lineChart/indexAttr/index"),
+  ...backPage('pages/component/chart/lineChart/indexAttr/index'),
   data: {
     datasets: dataCommon.datasets.linesets,
     options: dataCommon.optionsNoDisplay
   }
 };
+

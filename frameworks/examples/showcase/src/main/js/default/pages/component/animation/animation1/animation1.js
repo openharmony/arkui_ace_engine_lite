@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 // animation1.js
-import { backPage } from "../../../../common/js/general";
+import { backPage } from '../../../../common/js/general';
 export default {
-  ...backPage("pages/component/animation/index1/index")
+  ...backPage('pages/component/animation/index1/index')
 };

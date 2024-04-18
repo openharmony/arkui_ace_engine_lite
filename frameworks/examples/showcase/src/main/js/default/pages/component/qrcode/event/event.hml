@@ -32,7 +32,7 @@ limitations under the License.
         <text class="text">swipe</text>
       </div>
       <div class="two-right-div" style="flex-direction: column">
-        <qrcode value='value' style="color: {{qr_color}};" onclick="clickEvent" onlongpress="longpressEvent" onswipe="swipeEvent" class="click-qrcode"></qrcode>
+        <qrcode value='value' style="color: {{qrColor}};" onclick="clickEvent" onlongpress="longpressEvent" onswipe="swipeEvent" class="click-qrcode"></qrcode>
       </div>
     </div>
   </list-item>

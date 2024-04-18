@@ -12,14 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../../common/js/general";
+import { goPage, routePage } from '../../../../../common/js/general';
 export default {
   data: {
-    showAttr: "false",
-    name: "show",
+    showAttr: 'false',
+    name: 'show',
     status: true
   },
-  ...goPage("pages/component/input/radio/index/index"),
+  ...goPage('pages/component/input/radio/index/index'),
   changeShow: function() {
     this.status = !this.status;
   },
@@ -28,9 +28,9 @@ export default {
   },
   changeChecked: function(e) {
     if (e.checked) {
-      this.show = "true";
+      this.show = 'true';
     } else {
-      this.show = "false";
+      this.show = 'false';
     }
   }
 };

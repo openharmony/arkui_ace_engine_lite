@@ -16,29 +16,29 @@ export const dataCommon = {
   datasets: {
     barsets: [
       {
-        fillColor: "#9c9c9c",
+        fillColor: '#9c9c9c',
         data: [2478, 2600, 3000, 3200, 3500, 3888, 4023, 4501, 4999, 5267]
       },
       {
-        fillColor: "#3f9c3f",
+        fillColor: '#3f9c3f',
         data: [2000, 2, 800, 700, 433]
       },
       {
-        fillColor: "#9c3f3f",
+        fillColor: '#9c3f3f',
         data: [100, 200, 300, 400, 500, 600, 550, 450, 350]
       }
     ],
     linesets: [
       {
-        strokeColor: "#eeaaff",
+        strokeColor: '#eeaaff',
         data: [2478, 2600, 3000, 3200, 3500, 3888, 4023, 4501, 4999, 5267]
       },
       {
-        strokeColor: "#ccddee",
+        strokeColor: '#ccddee',
         data: [2000, 2, 800, 700, 433]
       },
       {
-        strokeColor: "#ddaacc",
+        strokeColor: '#ddaacc',
         data: [100, 200, 300, 400, 500, 600, 550, 450, 350]
       }
     ]
@@ -71,16 +71,16 @@ export const dataCommon = {
   }
 };
 export const changeStatus = function() {
-  if (this.status == true) {
+  if (this.status === true) {
     this.status = false;
   } else {
     this.status = true;
   }
 };
 export const changeDisplay = function() {
-  if (this.display === "flex") {
-    this.display = "none";
+  if (this.display === 'flex') {
+    this.display = 'none';
   } else {
-    this.display = "flex";
+    this.display = 'flex';
   }
 };

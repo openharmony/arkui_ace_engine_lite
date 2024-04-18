@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 // div4.js
-import { backPage } from "../../../../common/js/general";
+import { backPage } from '../../../../common/js/general';
 export default {
-  ...backPage("pages/component/div/indexCommonStyle/index")
+  ...backPage('pages/component/div/indexCommonStyle/index')
 };

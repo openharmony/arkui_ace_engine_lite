@@ -12,10 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { backPage, routePage, eventCommon } from "../../../../../common/js/general";
-import { dataCommon } from "../../../../../common/js/chart";
+import { backPage, routePage, eventCommon } from '../../../../../common/js/general';
+import { dataCommon } from '../../../../../common/js/chart';
 export default {
-  ...backPage("pages/component/chart/barChart/indexEvent/index"),
+  ...backPage('pages/component/chart/barChart/indexEvent/index'),
   data: {
     text1: eventCommon().text1,
     text2: eventCommon().text2,

@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../../common/js/general";
-import { changeStatus, changeIf } from "../../../../../common/js/input";
+import { goPage, routePage } from '../../../../../common/js/general';
+import { changeStatus, changeIf } from '../../../../../common/js/input';
 export default {
   data: {
     showAttr: true,
@@ -21,9 +21,9 @@ export default {
     ifStatus: true,
     listData: [true, false]
   },
-  ...goPage("pages/component/input/checkbox/index/index"),
+  ...goPage('pages/component/input/checkbox/index/index'),
   changeEvent(e) {
-    this.checked = "change触发";
+    this.checked = 'change触发';
   },
   changeStatus(e) {
     this.show = e.checked;

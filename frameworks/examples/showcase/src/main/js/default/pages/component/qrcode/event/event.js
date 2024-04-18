@@ -12,19 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../common/js/general";
+import { goPage, routePage } from '../../../../common/js/general';
 export default {
   data: {
-    qr_color: ""
+    qrColor: ''
   },
-  ...goPage("pages/component/qrcode/index/index"),
+  ...goPage('pages/component/qrcode/index/index'),
   clickEvent() {
-    this.qr_color = "#fa8072";
+    this.qrColor = '#fa8072';
   },
   longpressEvent() {
-    this.qr_color = "#87ceeb";
+    this.qrColor = '#87ceeb';
   },
   swipeEvent(e) {
-    this.qr_color = '#50bf1f';
+    this.qrColor = '#50bf1f';
   }
 };
+

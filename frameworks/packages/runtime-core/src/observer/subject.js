@@ -78,6 +78,7 @@ Subject.prototype.notify = function(key) {
     return void 0;
   }
   this._obsMap[key].forEach(observer => observer.update());
+  return void 1;
 };
 
 Subject.prototype.setParent = function(parent, key) {

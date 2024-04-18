@@ -12,14 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../../common/js/general";
-import { clickEvent, longpressEvent, swipeEvent } from "../../../../../common/js/progress";
+import { goPage, routePage } from '../../../../../common/js/general';
+import { clickEvent, longpressEvent, swipeEvent } from '../../../../../common/js/progress';
 export default {
   data: {
     percent: 20,
-    value: "点击/长按/滑动"
+    value: '点击/长按/滑动'
   },
-  ...goPage("pages/component/progress/horizontal/index/index"),
+  ...goPage('pages/component/progress/horizontal/index/index'),
   clickEvent: clickEvent,
   longpressEvent: longpressEvent,
   swipeEvent: swipeEvent

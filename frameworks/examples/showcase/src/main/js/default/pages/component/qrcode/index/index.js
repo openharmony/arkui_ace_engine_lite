@@ -12,10 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { backPage, routePage } from "../../../../common/js/general";
+import { backPage, routePage } from '../../../../common/js/general';
 export default {
-  ...backPage("pages/component/index/baseIndex/index"),
-  changePage1: routePage("pages/component/qrcode/attr/attr").changePage,
-  changePage2: routePage("pages/component/qrcode/style/style").changePage,
-  changePage3: routePage("pages/component/qrcode/event/event").changePage
+  ...backPage('pages/component/index/baseIndex/index'),
+  changePage1: routePage('pages/component/qrcode/attr/attr').changePage,
+  changePage2: routePage('pages/component/qrcode/style/style').changePage,
+  changePage3: routePage('pages/component/qrcode/event/event').changePage
 };

@@ -31,7 +31,7 @@ export default {
     this.swipeValue = "swipe方向：" + e.direction;
   },
   change: function() {
-    if (this.checkedValue == false) {
+    if (this.checkedValue === false) {
       this.checkedValue = true;
     } else {
       this.checkedValue = false;

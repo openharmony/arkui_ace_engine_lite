@@ -13,20 +13,20 @@
  * limitations under the License.
  */
 
-import { backPage, routePage } from "../../../../common/js/general";
+import { backPage, routePage } from '../../../../common/js/general';
 export default {
   data: {
-    text1: "点击按钮改变状态",
+    text1: '点击按钮改变状态',
     status: true
   },
-  ...backPage("pages/component/canvas/indexAttr/index"),
+  ...backPage('pages/component/canvas/indexAttr/index'),
   fillRectFunc: function() {
-    var canvasRef = this.$refs.canvas1;
-    var ctx = canvasRef.getContext("2d");
+    let canvasRef = this.$refs.canvas1;
+    let ctx = canvasRef.getContext('2d');
     ctx.fillRect(20, 20, 100, 150);
   },
   changeStatus: function() {
-    if (this.status == true) {
+    if (this.status === true) {
       this.status = false;
     } else {
       this.status = true;

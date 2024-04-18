@@ -12,15 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { goPage, routePage } from "../../../../../common/js/general";
-import { changeStatus, changeIf } from "../../../../../common/js/input";
+import { goPage, routePage } from '../../../../../common/js/general';
+import { changeStatus, changeIf } from '../../../../../common/js/input';
 export default {
   data: {
     status: true,
     ifStatus: true,
-    valueList: ["for1", "for2"]
+    valueList: ['for1', 'for2']
   },
-  ...goPage("pages/component/input/button/index/index"),
+  ...goPage('pages/component/input/button/index/index'),
   changeStatus: changeStatus,
   changeIf: changeIf
 };

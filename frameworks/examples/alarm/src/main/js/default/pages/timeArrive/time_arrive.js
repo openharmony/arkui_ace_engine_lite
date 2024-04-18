@@ -12,44 +12,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import router from "@system.router"
+import router from '@system.router';
 
 export default {
   data: {
-    amOrPm: "",
+    amOrPm: '',
     dataWrapper: {
-      mode: "",
-      time: "00:00",
-      repeat: "不重复",
+      mode: '',
+      time: '00:00',
+      repeat: '不重复',
       alarmItemIndex: -1
     },
     originData: [],
     imageFrames: [
       {
-        src: "/common/A016_017.png"
+        src: '/common/A016_017.png'
       },
       {
-        src: "/common/A016_018.png"
+        src: '/common/A016_018.png'
       },
       {
-        src: "/common/A016_019.png"
+        src: '/common/A016_019.png'
       },
       {
-        src: "/common/A016_020.png"
+        src: '/common/A016_020.png'
       },
       {
-        src: "/common/A016_021.png"
+        src: '/common/A016_021.png'
       },
     ]
   },
   onInit() {
     this.dataWrapper = this.dataWrapper;
-    if (this.originData.toString() !== "undefined") {
+    if (this.originData.toString() !== 'undefined') {
       this.originData = this.originData;
     }
 
-    var alarmTime = this.dataWrapper.time;
-    var alarmTimeArray = alarmTime.split(" ");
+    let alarmTime = this.dataWrapper.time;
+    let alarmTimeArray = alarmTime.split(' ');
     this.dataWrapper.time = alarmTimeArray[0];
     this.amOrPm = alarmTimeArray[1];
   },
@@ -73,4 +73,4 @@ export default {
       }
     });
   }
-}
+};

@@ -46,7 +46,7 @@ export default {
                     }
                 }
             }
-            if (!this.expression && (value == '*' || value == '/')) {
+            if (!this.expression && (value === '*' || value ==='/')) {
                 return;
             }
             this.expression += value;
@@ -60,7 +60,7 @@ export default {
         }
     },
     handleBackspace() {
-        if(pressedEqual) {
+        if (pressedEqual) {
             this.expression = '';
             this.result = '';
             pressedEqual = false;
@@ -86,4 +86,4 @@ export default {
     handleExist() {
         app.terminate();
     },
-}
+};
