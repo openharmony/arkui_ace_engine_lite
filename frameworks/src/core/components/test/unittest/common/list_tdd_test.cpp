@@ -23,7 +23,7 @@ namespace ACELite {
 ListTddTest::ListTddTest()
     : objGlob(UNDEFINED),
       objAttrs(UNDEFINED),
-      objStaticStyle(UNDEFINED){}
+      objStaticStyle(UNDEFINED) {}
 void ListTddTest::SetUp()
 {
     JsAppEnvironment* appJsEnv = JsAppEnvironment::GetInstance();

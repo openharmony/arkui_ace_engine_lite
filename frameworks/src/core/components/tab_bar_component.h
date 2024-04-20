@@ -30,7 +30,7 @@ public:
     ACE_DISALLOW_COPY_AND_MOVE(TabBarComponent);
     TabBarComponent() = delete;
     TabBarComponent(jerry_value_t options, jerry_value_t children, AppStyleManager* styleManager);
-    ~TabBarComponent(){}
+    ~TabBarComponent() {}
     int16_t GetWidth() const
     {
         return width_;

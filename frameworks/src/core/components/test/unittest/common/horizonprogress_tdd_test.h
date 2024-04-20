@@ -38,7 +38,7 @@ class HorizonProgressTddTest {
 #endif
 public:
     HorizonProgressTddTest();
-    ~HorizonProgressTddTest(){}
+    ~HorizonProgressTddTest() {}
     void SetUp();
     void TearDown();
     void HorizonProgressTest001();

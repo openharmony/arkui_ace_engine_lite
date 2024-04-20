@@ -22,13 +22,13 @@ let modeImages = ['common/ic_music_listorder.png', 'common/ic_music_listcycle.pn
 export default {
   data: {
     showMusicList: false,
-    playMode: 1,  //0:sequential,1:list loop,2:random,3:single
+    playMode: 1, //0:sequential,1:list loop,2:random,3:single
     modeImage: 'common/ic_music_listcycle.png',
     playImage: 'common/ic_music_play.png',
-    playProgress: 0,  //progress
-    curMusicIndex: 0,  //music index
-    playStatus: 2,  //0:play,1:pause,2:stop
-    curMusic: {  //current music info
+    playProgress: 0, //progress
+    curMusicIndex: 0, //music index
+    playStatus: 2, //0:play,1:pause,2:stop
+    curMusic:  //current music info
       curMusicName: '',
       singer: '',
       playTime: '00:00',
@@ -179,7 +179,7 @@ export default {
     } else if (mode === 'random') {  //random
       this.curMusicIndex = parseInt(Math.random() * (this.musicList.length), 10);
       console.log('ChangeSong:random:' + this.curMusicIndex);
-    } else {  //next
+    } else { //next
       (this.curMusicIndex === this.musicList.length - 1) ? this.curMusicIndex = 0 : this.curMusicIndex++;
       console.log('ChangeSong:next' + this.curMusicIndex);
     }
@@ -220,7 +220,7 @@ export default {
     app.terminate();
     console.log('end exit');
   },
-  swipeEvent(e){
+  swipeEvent(e) {
     if (e.direction === 'right') {
       console.log('start exit');
       this.exitApp();

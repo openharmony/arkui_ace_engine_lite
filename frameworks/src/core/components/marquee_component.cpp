@@ -31,7 +31,7 @@ MarqueeComponent::MarqueeComponent(jerry_value_t options, jerry_value_t children
 bool MarqueeComponent::CreateNativeViews()
 {
     if (TextComponent::CreateNativeViews()) {
-        UILabelTypeWrapper *uiLabel = TextComponent::GetUILabelView();
+        UI_LABEL_TYPE_WRAPPER *uiLabel = TextComponent::GetUILabelView();
         if (uiLabel != nullptr) {
             // default mode, speed
             uiLabel->SetLineBreakMode(UILabel::LINE_BREAK_MARQUEE);
@@ -83,7 +83,7 @@ void MarqueeComponent::SetScrolldelay(uint16_t scrolldelay)
 
 void MarqueeComponent::SetRollSpeed()
 {
-    UILabelTypeWrapper *uiLabel = TextComponent::GetUILabelView();
+    UI_LABEL_TYPE_WRAPPER *uiLabel = TextComponent::GetUILabelView();
     if (uiLabel != nullptr) {
         const int32_t supportScrolldelayApiVersion = 5;
         if (JsAppContext::GetInstance()->GetTargetApi() >= supportScrolldelayApiVersion) {

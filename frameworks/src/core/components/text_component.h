@@ -23,9 +23,9 @@
 #include "ui_label.h"
 #ifdef FEATURE_EXTRA_TEXT_X_SUPPORT
 #include "ui_label_x.h"
-#define UILabelTypeWrapper UILabelX
+#define UI_LABEL_TYPE_WRAPPER UILabelX
 #else
-#define UILabelTypeWrapper UILabel
+#define UI_LABEL_TYPE_WRAPPER UILabel
 #endif // FEATURE_EXTRA_TEXT_X_SUPPORT
 
 namespace OHOS {
@@ -66,28 +66,28 @@ protected:
     UIView *GetComponentRootView() const override;
     bool SetPrivateAttribute(uint16_t attrKeyId, jerry_value_t attrValue) override;
     bool ApplyPrivateStyle(const AppStyleItem* styleItem) override;
-    UILabelTypeWrapper *GetUILabelView() const;
+    UI_LABEL_TYPE_WRAPPER *GetUILabelView() const;
     void OnViewAttached() override;
     void PostUpdate(uint16_t attrKeyId) override;
 
 private:
     // parse js text align style to ui_label
-    void SetTextAlign(UILabelTypeWrapper& label, const AppStyleItem* styleItem);
-    void UpdateTextAlignToLabel(UILabelTypeWrapper& label);
+    void SetTextAlign(UI_LABEL_TYPE_WRAPPER& label, const AppStyleItem* styleItem);
+    void UpdateTextAlignToLabel(UI_LABEL_TYPE_WRAPPER& label);
     // parse js text size style to fontSize_
     void SetTextSize(const AppStyleItem* styleItem);
     // parse js text color style to ui_label
-    void SetTextColor(UILabelTypeWrapper& label, const AppStyleItem* styleItem) const;
+    void SetTextColor(UI_LABEL_TYPE_WRAPPER& label, const AppStyleItem* styleItem) const;
     // parse js text overflow style to ui_label
-    void SetTextOverflow(UILabelTypeWrapper& label, const AppStyleItem* styleItem);
+    void SetTextOverflow(UI_LABEL_TYPE_WRAPPER& label, const AppStyleItem* styleItem);
     // parse js text letter space style to ui_label
-    void SetTextLetterSpace(UILabelTypeWrapper& label, const AppStyleItem* styleItem) const;
+    void SetTextLetterSpace(UI_LABEL_TYPE_WRAPPER& label, const AppStyleItem* styleItem) const;
     // parse js text line height style to ui_label
-    void SetTextLineHeight(UILabelTypeWrapper& label, const AppStyleItem* styleItem) const;
+    void SetTextLineHeight(UI_LABEL_TYPE_WRAPPER& label, const AppStyleItem* styleItem) const;
 #if FEATURE_COMPONENT_TEXT_SPANNABLE
     void SetRichTextSpan();
 #endif
-    UILabelTypeWrapper uiLabel_;
+    UI_LABEL_TYPE_WRAPPER uiLabel_;
     uint8_t fontSize_;
     char* fontFamily_;
     char* textValue_;

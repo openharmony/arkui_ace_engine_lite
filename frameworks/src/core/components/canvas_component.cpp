@@ -2136,8 +2136,7 @@ jerry_value_t CanvasComponent::SetLineDash(const jerry_value_t func,
                 delete[] buff;
                 HILOG_ERROR(HILOG_MODULE_ACE, "canvas_component: value is nullptr error!");
                 return jerry_create_error(JERRY_ERROR_TYPE,
-                                         reinterpret_cast<const jerry_char_t *>
-                                         ("canvas_component: value is nullptr error!"));
+                    reinterpret_cast<const jerry_char_t *>("canvas_component:value is nullptr error!"));
             }
             num = atof(value);
             ACE_FREE(value);

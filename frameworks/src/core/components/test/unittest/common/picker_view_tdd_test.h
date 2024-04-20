@@ -44,7 +44,7 @@ class PickerViewTddTest {
 public:
 
     PickerViewTddTest();
-    ~PickerViewTddTest(){}
+    ~PickerViewTddTest() {}
     void SetUp();
     void TearDown();
     Component* GetRenderedComponent(uint16_t componentKeyId) const;

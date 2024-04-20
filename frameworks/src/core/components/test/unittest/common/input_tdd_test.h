@@ -26,7 +26,7 @@ namespace ACELite {
 class InputTddTest : public BaseTest {
 public:
     InputTddTest() {}
-    ~InputTddTest(){}
+    ~InputTddTest() {}
     void ComponentInputAttributeTest01();
     void ComponentInputAttributeTest02();
     void ComponentInputStyleTest03();

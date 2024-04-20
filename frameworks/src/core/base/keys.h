@@ -276,7 +276,7 @@ enum {
     KEYWORD(START_ANGLE, startAngle) // circle progress start angle
     KEYWORD(STEP, step)
     KEYWORD(STROKE_WIDTH, strokeWidth) // horizon/arc progress style
-    KEYWORD(SWIPE, swipe)  // swipe event listener
+    KEYWORD(SWIPE, swipe) // swipe event listener
     KEYWORD(SWIPER, swiper) // tag name
     KEYWORD(SWITCH, switch) // tag name
 #if (FEATURE_COMPONENT_TABS == 1)

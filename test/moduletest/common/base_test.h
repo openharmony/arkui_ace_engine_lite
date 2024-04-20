@@ -42,7 +42,7 @@ class BaseTest {
 #endif
 public:
     BaseTest();
-    virtual ~BaseTest(){}
+    virtual ~BaseTest() {}
     void SetUp();
     void TearDown();
 

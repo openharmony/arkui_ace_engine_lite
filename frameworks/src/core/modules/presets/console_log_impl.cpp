@@ -143,9 +143,9 @@ static uint16_t logBufferIndex = 0;
 void LogChar(char c, const LogLevel logLevel, bool endFlag)
 {
 #if (defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1))
-   char tempBuffer[2] = {0};
-   tempBuffer[0] = c;
-   Output(logLevel, tempBuffer, 1);
+    char tempBuffer[2] = {0};
+    tempBuffer[0] = c;
+    Output(logLevel, tempBuffer, 1);
 #else
     logBuffer[logBufferIndex++] = c;
     if ((logBufferIndex == (LOG_BUFFER_SIZE - 1)) || (c == '\n')) {

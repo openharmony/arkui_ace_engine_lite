@@ -54,7 +54,7 @@ struct SeriesOptions : public MemoryHeap {
     bool isLoopSet;
     ACE_DISALLOW_COPY_AND_MOVE(SeriesOptions);
     SeriesOptions() : width(1), margin(1), head(nullptr), top(nullptr), bottom(nullptr), smooth(false),
-        isHeadSet(false), isTopSet(false), isBottomSet(false), isLoopSet(false){}
+        isHeadSet(false), isTopSet(false), isBottomSet(false), isLoopSet(false) {}
 };
 
 class ChartComponent final : public Component {

@@ -36,7 +36,7 @@ class JsbundleTddTest {
 #endif
 public:
     JsbundleTddTest();
-    ~JsbundleTddTest(){}
+    ~JsbundleTddTest() {}
 
     void SetUp();
     void TearDown();

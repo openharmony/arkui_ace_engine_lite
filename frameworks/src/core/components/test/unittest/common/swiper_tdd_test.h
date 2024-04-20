@@ -38,7 +38,7 @@ class SwiperTddTest {
 #endif
 public:
     SwiperTddTest();
-    ~SwiperTddTest(){}
+    ~SwiperTddTest() {}
     void SetUp();
     void TearDown();
     void ComponentSwiperAttributeSetTest001();

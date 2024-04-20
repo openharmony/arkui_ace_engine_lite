@@ -35,7 +35,7 @@ export default {
   changeIfStatus: function() {
     if (this.ifStatus === true) {
       this.ifStatus = false;
-    } else if (this.ifStatus == false) {
+    } else if (this.ifStatus === false) {
       this.ifStatus = true;
     }
   },

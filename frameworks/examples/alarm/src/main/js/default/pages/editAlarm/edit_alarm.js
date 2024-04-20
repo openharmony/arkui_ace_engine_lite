@@ -87,7 +87,7 @@ export default {
 
     let onTheHour = 12;
     if (timeAMPM === '下午') {
-      if (Number(hour) != onTheHour) {
+      if (Number(hour) !== onTheHour) {
         hour = Number(hour) + onTheHour;
       }
       this.dataWrapper.time = hour + ':' + minute;
