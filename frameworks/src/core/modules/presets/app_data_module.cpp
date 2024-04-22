@@ -22,11 +22,11 @@
 
 namespace OHOS {
 namespace ACELite {
-const char * const AppDataModule::GETAPP_METHOD_NAME = "getApp";
-const char * const AppDataModule::GETAPP_DATA_STR = "data";
+const char * const AppDataModule::getAppMethodName = "getApp";
+const char * const AppDataModule::getAppDataStr = "data";
 void AppDataModule::Init()
 {
-    CreateNamedFunction(GETAPP_METHOD_NAME, GetApp);
+    CreateNamedFunction(getAppMethodName, GetApp);
 }
 
 jerry_value_t AppDataModule::GetApp(const jerry_value_t func,
@@ -52,7 +52,7 @@ jerry_value_t AppDataModule::GetApp(const jerry_value_t func,
         return UNDEFINED;
     }
 
-    jerry_value_t dataObj = jerryx_get_property_str(abilityVM, GETAPP_DATA_STR);
+    jerry_value_t dataObj = jerryx_get_property_str(abilityVM, getAppDataStr);
     if (IS_UNDEFINED(dataObj)) {
         return UNDEFINED;
     }

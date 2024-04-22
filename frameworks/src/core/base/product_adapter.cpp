@@ -32,24 +32,24 @@ namespace ACELite {
  */
 struct DFXWrapper {
     DFXWrapper()
-        : eventTag_(0),
-          eventSubTag_(0),
-          errCodeTag_(0),
-          errCodeSubTag_(0),
-          eventPrintHandler_(nullptr),
-          errCodePrintHandler_(nullptr),
-          jsLogOutputHandler_(nullptr),
-          nativeMemInfoGetter_(nullptr)
+        : eventTag(0),
+          eventSubTag(0),
+          errCodeTag(0),
+          errCodeSubTag(0),
+          eventPrintHandler(nullptr),
+          errCodePrintHandler(nullptr),
+          jsLogOutputHandler(nullptr),
+          nativeMemInfoGetter(nullptr)
     {
     }
-    uint8_t eventTag_;
-    uint8_t eventSubTag_;
-    uint8_t errCodeTag_;
-    uint8_t errCodeSubTag_;
-    EventPrintHandler eventPrintHandler_;
-    ErrCodePrintHandler errCodePrintHandler_;
-    JSLogOutputHandler jsLogOutputHandler_;
-    NativeMemInfoGetter nativeMemInfoGetter_;
+    uint8_t eventTag;
+    uint8_t eventSubTag;
+    uint8_t errCodeTag;
+    uint8_t errCodeSubTag;
+    EventPrintHandler eventPrintHandler;
+    ErrCodePrintHandler errCodePrintHandler;
+    JSLogOutputHandler jsLogOutputHandler;
+    NativeMemInfoGetter nativeMemInfoGetter;
 };
 
 static DFXWrapper g_dfxWrapper;
@@ -87,26 +87,26 @@ void ProductAdapter::InitAceTags(uint8_t *aceTags, uint8_t tagCount)
         return;
     }
     uint8_t index = 0;
-    g_dfxWrapper.eventTag_ = aceTags[index++];
-    g_dfxWrapper.eventSubTag_ = aceTags[index++];
-    g_dfxWrapper.errCodeTag_ = aceTags[index++];
-    g_dfxWrapper.errCodeSubTag_ = aceTags[index++];
+    g_dfxWrapper.eventTag = aceTags[index++];
+    g_dfxWrapper.eventSubTag = aceTags[index++];
+    g_dfxWrapper.errCodeTag = aceTags[index++];
+    g_dfxWrapper.errCodeSubTag = aceTags[index++];
 }
 
 void ProductAdapter::InitTraceHandlers(EventPrintHandler eventHandler, ErrCodePrintHandler errCodeHandler)
 {
-    g_dfxWrapper.eventPrintHandler_ = eventHandler;
-    g_dfxWrapper.errCodePrintHandler_ = errCodeHandler;
+    g_dfxWrapper.eventPrintHandler = eventHandler;
+    g_dfxWrapper.errCodePrintHandler = errCodeHandler;
 }
 
 void ProductAdapter::InitConsoleNativeHandler(JSLogOutputHandler handler)
 {
-    g_dfxWrapper.jsLogOutputHandler_ = handler;
+    g_dfxWrapper.jsLogOutputHandler = handler;
 }
 
 void ProductAdapter::InitNativeMemPoolHook(NativeMemInfoGetter getter)
 {
-    g_dfxWrapper.nativeMemInfoGetter_ = getter;
+    g_dfxWrapper.nativeMemInfoGetter = getter;
 }
 
 void ProductAdapter::InitExtraModulesGetter(ProductModulesGetter productModuleGetter,
@@ -122,38 +122,38 @@ void ProductAdapter::InitExtraModulesGetter(ProductModulesGetter productModuleGe
 
 void ProductAdapter::PrintEventTrace(uint8_t info2, uint8_t info3, uint8_t info4)
 {
-    if (g_dfxWrapper.eventPrintHandler_ == nullptr || g_dfxWrapper.eventTag_ == 0 || g_dfxWrapper.eventSubTag_ == 0) {
+    if (g_dfxWrapper.eventPrintHandler == nullptr || g_dfxWrapper.eventTag == 0 || g_dfxWrapper.eventSubTag == 0) {
         return;
     }
 
-    uint8_t subTag = (info2 == 0) ? g_dfxWrapper.eventSubTag_ : info2;
-    g_dfxWrapper.eventPrintHandler_(g_dfxWrapper.eventTag_, subTag, info3, info4);
+    uint8_t subTag = (info2 == 0) ? g_dfxWrapper.eventSubTag : info2;
+    g_dfxWrapper.eventPrintHandler(g_dfxWrapper.eventTag, subTag, info3, info4);
 }
 
 void ProductAdapter::PrintErrCode(uint8_t info2, uint16_t rfu)
 {
-    if (g_dfxWrapper.errCodePrintHandler_ == nullptr || g_dfxWrapper.errCodeTag_ == 0 ||
-        g_dfxWrapper.errCodeSubTag_ == 0) {
+    if (g_dfxWrapper.errCodePrintHandler == nullptr || g_dfxWrapper.errCodeTag == 0 ||
+        g_dfxWrapper.errCodeSubTag == 0) {
         return;
     }
-    g_dfxWrapper.errCodePrintHandler_(g_dfxWrapper.errCodeTag_, g_dfxWrapper.errCodeSubTag_, info2, rfu);
+    g_dfxWrapper.errCodePrintHandler(g_dfxWrapper.errCodeTag, g_dfxWrapper.errCodeSubTag, info2, rfu);
 }
 
 void ProductAdapter::OutputJSConsoleLog(uint8_t level, const char *content)
 {
-    if (g_dfxWrapper.jsLogOutputHandler_ == nullptr) {
+    if (g_dfxWrapper.jsLogOutputHandler == nullptr) {
         return;
     }
-    g_dfxWrapper.jsLogOutputHandler_(level, content);
+    g_dfxWrapper.jsLogOutputHandler(level, content);
 }
 
 void ProductAdapter::GetNativeMemInfo(NativeMemInfo *memInfo)
 {
-    if (g_dfxWrapper.nativeMemInfoGetter_ == nullptr) {
+    if (g_dfxWrapper.nativeMemInfoGetter == nullptr) {
         return;
     }
 
-    g_dfxWrapper.nativeMemInfoGetter_(memInfo);
+    g_dfxWrapper.nativeMemInfoGetter(memInfo);
 }
 
 void ProductAdapter::RegTerminatingHandler(TerminateAbilityHandler handler)

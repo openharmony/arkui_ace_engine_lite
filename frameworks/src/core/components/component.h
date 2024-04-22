@@ -202,7 +202,7 @@ public:
         TransitionImpl *transitionImpl;
         AnimationsNode *next;
 
-        AnimationsNode() : transitionImpl(nullptr), next(nullptr){}
+        AnimationsNode() : transitionImpl(nullptr), next(nullptr) {}
     };
 
     static void HandlerAnimations();

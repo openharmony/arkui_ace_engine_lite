@@ -38,7 +38,7 @@ class JsiInterfaceTddTest {
 #endif
 public:
     JsiInterfaceTddTest();
-    ~JsiInterfaceTddTest(){}
+    ~JsiInterfaceTddTest() {}
     void SetUp();
     void TearDown();
     static void OnDestroy(int8_t statusCode);

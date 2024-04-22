@@ -33,6 +33,8 @@ constexpr uint32_t SPACE_CHAR_LIMIT_SCOPE = 5;
 constexpr int32_t SLICE_FROM_CURRENT_POS = 0;
 constexpr uint8_t MAX_LENGTH_PER_CONDITION = 32;
 constexpr uint8_t MAX_LENGTH_PER_CONDITION_ADD_BRACKETS = 35;
+constexpr uint8_t ASSICLL_DIGIT_START = 48;
+constexpr uint8_t ASSICLL_DIGIT_END = 57;
 
 /**
  * @brief Absolute value of x.
@@ -165,7 +167,7 @@ bool ConditionArbitrator::JudgeConditionByStrValue(ConditionName conditionId, co
 bool ConditionArbitrator::JudgeConditionByNumberValue(ConditionName conditionId, const char *targetValue) const
 {
     // must be started with number character
-    if (!(targetValue[0] >= 48 && targetValue[0] <= 57)) {
+    if (!(targetValue[0] >= ASSICLL_DIGIT_START && targetValue[0] <= ASSICLL_DIGIT_END)) {
         return false;
     }
     switch (conditionId) {

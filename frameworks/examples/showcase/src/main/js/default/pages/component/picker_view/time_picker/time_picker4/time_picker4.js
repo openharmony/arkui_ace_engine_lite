@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 // time_picker4.js
-import { backPage, routePage } from "../../../../../common/js/general";
+import { backPage, routePage } from '../../../../../common/js/general';
 export default {
-  ...backPage("pages/component/picker_view/time_picker/indexStyle/index")
+  ...backPage('pages/component/picker_view/time_picker/indexStyle/index')
 };

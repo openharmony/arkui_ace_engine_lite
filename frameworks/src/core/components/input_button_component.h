@@ -20,9 +20,9 @@
 #include "ui_label_button.h"
 #ifdef FEATURE_EXTRA_TEXT_X_SUPPORT
 #include "ui_label_button_x.h"
-#define UILabelButtonTypeWrapper UILabelButtonX
+#define UI_LABEL_BUTTON_TYPE_WRAPPER UILabelButtonX
 #else
-#define UILabelButtonTypeWrapper UILabelButton
+#define UI_LABEL_BUTTON_TYPE_WRAPPER UILabelButton
 #endif // FEATURE_EXTRA_TEXT_X_SUPPORT
 
 namespace OHOS {
@@ -57,7 +57,7 @@ public:
 protected:
     UIView *GetComponentRootView() const override
     {
-        return const_cast<UILabelButtonTypeWrapper *>(&button_);
+        return const_cast<UI_LABEL_BUTTON_TYPE_WRAPPER *>(&button_);
     }
 
 private:
@@ -68,7 +68,7 @@ private:
     bool SetColor(const AppStyleItem &style);
     bool HandleImage(const AppStyleItem &style);
     jerry_value_t options_;
-    UILabelButtonTypeWrapper button_;
+    UI_LABEL_BUTTON_TYPE_WRAPPER button_;
     ViewOnClickListener *clickListener_;
     int32_t pressedBackGroundColorValue_;
     uint8_t pressedOpacityValue_;

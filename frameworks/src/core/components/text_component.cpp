@@ -70,12 +70,12 @@ void TextComponent::ReleaseNativeViews()
 
 inline UIView *TextComponent::GetComponentRootView() const
 {
-    return const_cast<UILabelTypeWrapper *>(&uiLabel_);
+    return const_cast<UI_LABEL_TYPE_WRAPPER *>(&uiLabel_);
 }
 
-UILabelTypeWrapper *TextComponent::GetUILabelView() const
+UI_LABEL_TYPE_WRAPPER *TextComponent::GetUILabelView() const
 {
-    return const_cast<UILabelTypeWrapper *>(&uiLabel_);
+    return const_cast<UI_LABEL_TYPE_WRAPPER *>(&uiLabel_);
 }
 
 bool TextComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value_t attrValue)
@@ -224,17 +224,17 @@ bool TextComponent::ApplyPrivateStyle(const AppStyleItem *styleItem)
     return true;
 }
 
-void TextComponent::SetTextLetterSpace(UILabelTypeWrapper &label, const AppStyleItem *styleItem) const
+void TextComponent::SetTextLetterSpace(UI_LABEL_TYPE_WRAPPER &label, const AppStyleItem *styleItem) const
 {
     label.SetStyle(STYLE_LETTER_SPACE, (int16_t)GetStylePixelValue(styleItem));
 }
 
-void TextComponent::SetTextLineHeight(UILabelTypeWrapper &label, const AppStyleItem *styleItem) const
+void TextComponent::SetTextLineHeight(UI_LABEL_TYPE_WRAPPER &label, const AppStyleItem *styleItem) const
 {
     label.SetStyle(STYLE_LINE_HEIGHT, (int16_t)GetStylePixelValue(styleItem));
 }
 
-void TextComponent::SetTextOverflow(UILabelTypeWrapper &label, const AppStyleItem *styleItem)
+void TextComponent::SetTextOverflow(UI_LABEL_TYPE_WRAPPER &label, const AppStyleItem *styleItem)
 {
     if (!IsStyleValueTypeString(styleItem)) {
         HILOG_ERROR(HILOG_MODULE_ACE, "text overflow style value is invalid!");
@@ -263,7 +263,7 @@ void TextComponent::SetTextOverflow(UILabelTypeWrapper &label, const AppStyleIte
     label.SetLineBreakMode(overflowMode_);
 }
 
-void TextComponent::SetTextColor(UILabelTypeWrapper &label, const AppStyleItem *styleItem) const
+void TextComponent::SetTextColor(UI_LABEL_TYPE_WRAPPER &label, const AppStyleItem *styleItem) const
 {
     uint32_t color = 0;
     uint8_t alpha = OPA_OPAQUE;
@@ -332,7 +332,7 @@ void TextComponent::PostUpdate(uint16_t attrKeyId)
     }
 }
 
-void TextComponent::SetTextAlign(UILabelTypeWrapper &label, const AppStyleItem *styleItem)
+void TextComponent::SetTextAlign(UI_LABEL_TYPE_WRAPPER &label, const AppStyleItem *styleItem)
 {
     if (!IsStyleValueTypeString(styleItem)) {
         HILOG_ERROR(HILOG_MODULE_ACE, "text text align style value is invalid!");
@@ -359,7 +359,7 @@ void TextComponent::SetTextAlign(UILabelTypeWrapper &label, const AppStyleItem *
     UpdateTextAlignToLabel(label);
 }
 
-void TextComponent::UpdateTextAlignToLabel(UILabelTypeWrapper& label)
+void TextComponent::UpdateTextAlignToLabel(UI_LABEL_TYPE_WRAPPER& label)
 {
     const int32_t defaultVerticalAlignCenterApiVersion = 5;
     if (JsAppContext::GetInstance()->GetTargetApi() < defaultVerticalAlignCenterApiVersion) {

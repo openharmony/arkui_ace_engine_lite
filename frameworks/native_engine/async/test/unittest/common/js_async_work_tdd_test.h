@@ -34,10 +34,10 @@ class JsAsyncWorkTddTest : public testing::Test {
 class JsAsyncWorkTddTest {
 #endif
 public:
-    JsAsyncWorkTddTest(){}
-    ~JsAsyncWorkTddTest(){}
+    JsAsyncWorkTddTest() {}
+    ~JsAsyncWorkTddTest() {}
     void SetUp();
-    void TearDown(){}
+    void TearDown() {}
     void JsAsyncWorkTest001();
     void JsAsyncWorkTest002();
     void JsAsyncWorkTest003();

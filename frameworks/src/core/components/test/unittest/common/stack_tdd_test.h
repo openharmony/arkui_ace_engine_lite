@@ -44,7 +44,7 @@ class StackTddTest {
 #endif
 public:
     StackTddTest();
-    ~StackTddTest(){}
+    ~StackTddTest() {}
     void SetUp();
     void TearDown();
     void ComponentStackTest001();

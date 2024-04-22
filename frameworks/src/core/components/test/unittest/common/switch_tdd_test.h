@@ -37,7 +37,7 @@ class SwitchTddTest {
 #endif
 public:
     SwitchTddTest();
-    ~SwitchTddTest(){}
+    ~SwitchTddTest() {}
     void SetUp();
     void TearDown();
     void ComponentSwitchAttributeSetTest001();

@@ -28,8 +28,8 @@ namespace ACELite {
 const char *GetFrameworkRawBuffer(bool snapshotMode, size_t &bufLen)
 {
     if (snapshotMode) {
-        bufLen = sizeof(g_frameworkBCBuffer);
-        return reinterpret_cast<const char *>(g_frameworkBCBuffer);
+        bufLen = sizeof(FRAMEWORK_BC_BUFFER);
+        return reinterpret_cast<const char *>(FRAMEWORK_BC_BUFFER);
     }
     bufLen = strlen(g_frameworkJSBuffer);
     return g_frameworkJSBuffer;

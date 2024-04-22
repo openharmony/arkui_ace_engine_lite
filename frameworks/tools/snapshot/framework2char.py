@@ -79,7 +79,7 @@ def convert_bc():
                 "#ifndef OHOS_ACELITE_FRAMEWORK_MIN_SNAPSHOT_BUFFER\n")
             output.write(
                 "#define OHOS_ACELITE_FRAMEWORK_MIN_SNAPSHOT_BUFFER\n")
-            output.write("const uint8_t g_frameworkBCBuffer[] =\n{\n    ")
+            output.write("const uint8_t FRAMEWORK_BC_BUFFER[] =\n{\n    ")
             index = 1
             max_count = len(byte_code_buffer)
             for data in byte_code_buffer:

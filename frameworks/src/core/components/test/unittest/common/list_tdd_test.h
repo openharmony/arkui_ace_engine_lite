@@ -36,7 +36,7 @@ class ListTddTest {
 #endif
 public:
     ListTddTest();
-    ~ListTddTest(){}
+    ~ListTddTest() {}
     void SetUp();
     void TearDown();
     void ListTest001();

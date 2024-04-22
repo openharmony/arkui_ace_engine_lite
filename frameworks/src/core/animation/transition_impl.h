@@ -71,7 +71,7 @@ struct TransitionParams {
           opacity_from(-1),
           opacity_to(-1),
           background_color_from(RGB_COLOR_VALUE_MAX),
-          background_color_to(RGB_COLOR_VALUE_MAX){}
+          background_color_to(RGB_COLOR_VALUE_MAX) {}
 };
 
 struct ViewStatus {

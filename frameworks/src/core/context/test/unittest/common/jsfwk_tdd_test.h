@@ -36,7 +36,7 @@ class JSfwkTddTest {
 #endif
 public:
     JSfwkTddTest();
-    ~JSfwkTddTest(){}
+    ~JSfwkTddTest() {}
     void SetUp();
     void TearDown();
     void JudeTestCaseResult() const;

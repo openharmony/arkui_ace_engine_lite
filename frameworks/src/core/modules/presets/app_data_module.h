@@ -54,8 +54,8 @@ private:
                                 const jerry_value_t context,
                                 const jerry_value_t args[],
                                 const jerry_length_t argsNum);
-    static const char * const GETAPP_METHOD_NAME;
-    static const char * const GETAPP_DATA_STR;
+    static const char * const getAppMethodName;
+    static const char * const getAppDataStr;
 };
 } // namespace ACELite
 } // namespace OHOS

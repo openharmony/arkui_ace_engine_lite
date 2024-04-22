@@ -41,7 +41,7 @@ class StyleMgrTddTest {
 #endif
 public:
     StyleMgrTddTest();
-    ~StyleMgrTddTest(){}
+    ~StyleMgrTddTest() {}
     void SetUp();
     void TearDown();
     void TestCaseB(const char* name) const;

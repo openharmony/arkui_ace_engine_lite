@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 // time_picker7.js
-import { backPage, routePage } from "../../../../../common/js/general";
-import { changeStatus } from "../../../../../common/js/picker_view";
+import { backPage, routePage } from '../../../../../common/js/general';
+import { changeStatus } from '../../../../../common/js/picker_view';
 export default {
   data: {
     status: true
   },
-  ...backPage("pages/component/picker_view/time_picker/indexAttr/index"),
+  ...backPage('pages/component/picker_view/time_picker/indexAttr/index'),
   changeStatus: changeStatus
 };
