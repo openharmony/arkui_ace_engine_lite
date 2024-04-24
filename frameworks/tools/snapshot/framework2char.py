@@ -65,7 +65,9 @@ def output_check_notes(output):
 
 
 def convert_bc():
-    with open(FRAMEWORK_SNAPSHOT_FILE_PATH, 'rb') as input_file:
+    input_flags = os.O_WRONLY | os.O_CREAT
+    input_modes = stat.S_IWUSR | stat.S_IRUSR
+    with os.fdopen(os.open(FRAMEWORK_SNAPSHOT_FILE_PATH, input_flags, input_modes), 'rb') as input_file:
         byte_code_buffer = input_file.read()
         flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
         modes = stat.S_IWUSR | stat.S_IRUSR
@@ -103,9 +105,11 @@ def convert_bc():
 
 
 def convert_js():
-    with open(FRAMEWORK_JS_FILE_PATH, 'r') as input_file:
+    flags = os.O_WRONLY | os.O_CREAT
+    modes = stat.S_IWUSR | stat.S_IRUSR
+    with os.fdopen(os.open(FRAMEWORK_JS_FILE_PATH, flags, modes), 'r') as input_file:
         javascript_buffer = input_file.read()
-        with open(JS_OUTPUT_C_FILE_PATH, 'w') as output:
+        with os.fdopen(os.open(JS_OUTPUT_C_FILE_PATH, flags, modes), 'w') as output:
             output_copyright(output)
             output.write("#ifndef OHOS_ACELITE_FRAMEWORK_MIN_JS_H\n")
             output.write("#define OHOS_ACELITE_FRAMEWORK_MIN_JS_H\n")
