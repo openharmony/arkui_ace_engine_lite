@@ -66,7 +66,9 @@ def parser(opt):
 
 def output(msg, dest):
     try:
-        with open(dest, 'a+') as destination:
+        flags = os.O_WRONLY | os.O_CREAT | os.O_APPEND
+        modes = stat.S_IWUSR | stat.S_IRUSR
+        with os.fdopen(os.open(dest, flags, modes), 'a+') as destination:
             destination.write(msg + '\n')
     except Exception:
         print('open destination file error')
