@@ -31,13 +31,6 @@
 #endif
 
 /**
- * A convenience macro to create jerry-values.
- */
-#if (ENABLE_JERRY == 1)
-#define JERRY_CREATE(var, create) jerry_value_t var = (create);
-#endif
-
-/**
  * Key words for native module callbacks.
  */
 constexpr char ON_TERMINATE[] = "onTerminate";
