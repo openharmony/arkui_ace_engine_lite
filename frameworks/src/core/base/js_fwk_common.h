@@ -52,19 +52,23 @@ struct Watcher : public MemoryHeap {
 #endif
 
 #ifndef ACE_FREE
-#define ACE_FREE(pointer)     \
-    if (pointer != nullptr) { \
-        ace_free(pointer);    \
-        pointer = nullptr;    \
-    }
+#define ACE_FREE(pointer)         \
+    do {                          \
+        if (pointer != nullptr) { \
+            ace_free(pointer);    \
+            pointer = nullptr;    \
+        }                         \
+    } while (false)
 #endif // ACE_FREE
 
 #ifndef ACE_DELETE
-#define ACE_DELETE(pointer)   \
-    if (pointer != nullptr) { \
-        delete pointer;       \
-        pointer = nullptr;    \
-    }
+#define ACE_DELETE(pointer)       \
+    do {                          \
+        if (pointer != nullptr) { \
+            delete pointer;       \
+            pointer = nullptr;    \
+        }                         \
+    } while (false)
 #endif // ACE_DELETE
 
 #if IS_ENABLED(JS_PROFILER)
