@@ -1,0 +1,172 @@
+/*
+ * Copyright (c) 2024 Huawei Device Co., Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 0px;
+  top: 10px;
+  width: 454px;
+  height: 454px;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  left: 0px;
+  top: 40px;
+  width: 454px;
+  height: 45px;
+}
+
+.operate-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  left: 0px;
+  top: 40px;
+  width: 454px;
+  height: 45px;
+}
+
+.todo-wraper {
+  left: 10px;
+  right: 5px;
+  width: 400px;
+  height: 250px;
+  flex-direction: column;
+  text-align: left;
+  border-width: 2;
+  border-color: chartreuse;
+  border-radius: 2px;
+  background-color: blue;
+  divider-color: red;
+  padding-top: 10px;
+  opacity: 0.9;
+  display: flex;
+  scrolleffect: fade;
+  indexer: true;
+  indexercircle: false;
+  indexerbubble: true;
+}
+
+.todo-item {
+  width: 454px;
+  height: 80px;
+  font-size: 30px;
+  flex-direction: column;
+  padding: 1px;
+  border-width: 2;
+  color: crimson;
+  letter-spacing: 1px;
+  text-align: left;
+  scrollbar: on;
+}
+
+.todo-title {
+  width: 454px;
+  height: 40px;
+  font-size: 30px;
+  flex-direction: column;
+  text-align: left;
+  color: yellow;
+  letter-spacing: 1px;
+  padding-left: 150px;
+}
+
+.todo-content {
+  width: 454px;
+  height: 40px;
+  font-size: 30px;
+  flex-direction: column;
+  text-align: left;
+  color: yellow;
+  letter-spacing: 1px;
+  padding-left: 30px;
+}
+
+.goto-end {
+  width: 200px;
+  height: 40px;
+  text-align: left;
+  font-size: 30px;
+  border-width: 2px;
+  border-radius: 2px;
+  background-color: aliceblue;
+  color: crimson;
+  margin-top: 2px;
+}
+
+.other_func {
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  font-size: 30px;
+  border-width: 2px;
+  border-radius: 2px;
+  background-color: aliceblue;
+  color: crimson;
+  margin-top: 2px;
+}
+
+.goto-front {
+  width: 400px;
+  height: 40px;
+  top: 380px;
+  text-align: center;
+  font-size: 30px;
+  border-width: 2px;
+  border-radius: 2px;
+  background-color: aliceblue;
+  color: crimson;
+}
+
+.goto-special {
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  font-size: 30px;
+  border-width: 2px;
+  border-radius: 2px;
+  background-color: aliceblue;
+  color: crimson;
+}
+
+.delete-all {
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  font-size: 30px;
+  border-width: 2px;
+  border-radius: 2px;
+  background-color: aliceblue;
+  color: crimson;
+}
+
+.add-delete {
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  font-size: 30px;
+  border-width: 2px;
+  border-radius: 2px;
+  background-color: aliceblue;
+  color: crimson;
+}
