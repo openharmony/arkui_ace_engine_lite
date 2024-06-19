@@ -77,7 +77,7 @@ struct JSPropertyDescriptor : public MemoryHeap {
 };
 
 /**
- * @brief JavaScriptInterface for adapatation to javascript engines.
+ * @brief JavaScriptInterface for adaptation to javascript engines.
  */
 class JSI final : public MemoryHeap {
 public:
