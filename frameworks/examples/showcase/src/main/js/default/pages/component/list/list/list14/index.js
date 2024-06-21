@@ -54,7 +54,7 @@ export default {
                 color: COLOR_ORANGE,
                 borderColor: COLOR_BLACK,
                 backgroundColor: COLOR_BLUE,
-            }
+            };
             this.planList.push(data);
         }
     },
@@ -86,7 +86,7 @@ export default {
         let data = { id: length,
             title: 'plan-addItem',
             date: '2021-12-31 10:00:00',
-            color: COLOR_ORANGE}
+            color: COLOR_ORANGE};
 
         data.date = this.getCurrentDateTime();
         this.planList.push(data);
@@ -104,16 +104,16 @@ export default {
         }
     },
     onSelectItem(item) {
-        console.log('onSelectItem=' + item)
-        this.planList[item].title = "select";
+        console.log('onSelectItem=' + item);
+        this.planList[item].title = 'select';
         this.planList[item].color = COLOR_RED;
         this.planList[item].backgroundColor = COLOR_YELLOW;
         this.planList[item].date = this.getCurrentDateTime();
         this.onInitItem(item);
     },
     onLongPressItem(item) {
-        console.log('onLongPressItem = ' + item)
-        this.planList[item].title = "onLongPress";
+        console.log('onLongPressItem = ' + item);
+        this.planList[item].title = 'onLongPress';
         this.planList[item].color = COLOR_GREEN;
         this.onInitItem(item);
     },
@@ -121,13 +121,13 @@ export default {
         console.log('onDragItem = ' + item);
     },
     onDeleteAll() {
-        console.log("onDeleteAll");
-        while(this.planList.length > 0) {
+        console.log('onDeleteAll');
+        while (this.planList.length > 0) {
             this.planList.pop();
         }
     },
     onChangeBackgroundColor() {
-        console.log("onChangeBackgroundColor");
+        console.log('onChangeBackgroundColor');
         if (this.backGroundColor === COLOR_BLUE) {
             this.backGroundColor = COLOR_YELLOW;
         } else if (this.backGroundColor === COLOR_YELLOW) {
@@ -147,13 +147,13 @@ export default {
         let minutes = now.getMinutes();
         let seconds = now.getSeconds();
 
-        month = (month < 10 ? "0" : "") + month;
-        day = (day < 10 ? "0" : "") + day;
-        hours = (hours < 10 ? "0" : "") + hours;
-        minutes = (minutes < 10 ? "0" : "") + minutes;
-        seconds = (seconds < 10 ? "0" : "") + seconds;
+        month = (month < 10 ? '0' : '') + month;
+        day = (day < 10 ? '0' : '') + day;
+        hours = (hours < 10 ? '0' : '') + hours;
+        minutes = (minutes < 10 ? '0' : '') + minutes;
+        seconds = (seconds < 10 ? '0' : '') + seconds;
 
-        return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+        return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
     },
     onInitItem(item) {
         for (let i = 0; i < this.planList.length; i++) {
