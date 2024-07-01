@@ -56,7 +56,6 @@ ace_test_includes = [
   "$ace_lite_root/frameworks/src/core/router",
   "$ace_lite_root/frameworks/src/core/modules",
   "$ace_lite_root/frameworks/src/core/modules/presets",
-  "$ace_lite_root/frameworks/src/core/router",
   "$ace_lite_root/frameworks/src/core/stylemgr",
   "$ace_lite_root/frameworks/src/core/wrapper",
   "$ace_lite_root/test/moduletest/common",
