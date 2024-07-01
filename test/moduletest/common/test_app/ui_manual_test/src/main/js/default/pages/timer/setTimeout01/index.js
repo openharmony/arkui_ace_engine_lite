@@ -15,9 +15,9 @@
 import {backPage,routePage} from "../../../common/js/general";
 
 export default {
-    data:{show:"show"},
+    data:{value:"show"},
     startTimer:function() {
-        setTimeout(()=> {this.show = "once_timer success"}, 1000);
+        setTimeout(()=> {this.value = "once_timer success"}, 1000);
     },
     goPrevious:routePage("/").changePage,
     goHome:routePage("/").changePage,
