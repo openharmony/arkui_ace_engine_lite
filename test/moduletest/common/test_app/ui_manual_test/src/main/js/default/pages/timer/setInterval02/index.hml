@@ -15,7 +15,7 @@ limitations under the License.
 
 <div class = "container">
     <input type = "button" onclick = "startTimer" class = "button" value = "startInterval"/>
-    <text class = "text">{{show}}</text>
+    <text class = "text">{{value}}</text>
     <div class = "bottom">
         <input type = "button" class = "previous" onclick = "goPrevious" value = "上一页"/>
         <input type = "button" class = "page" onclick = "goHome" value = "首页"/>
