@@ -87,7 +87,9 @@
  * support battery API for JS
  */
 #ifndef FEATURE_MODULE_BATTERY
+#ifdef ACE_ENGINE_LITE_BATTERY_LITE_ENABLE
 #define FEATURE_MODULE_BATTERY 1
+#endif
 #endif
 
 /**
@@ -145,7 +147,9 @@
 #endif
 
 #ifndef FEATURE_COMPONENT_CAMERA
+#ifdef ACE_ENGINE_LITE_CAMERA_LITE_ENABLE
 #define FEATURE_COMPONENT_CAMERA 1
+#endif
 #endif
 
 /**
@@ -160,7 +164,9 @@
 #endif
 
 #ifndef FEATURE_COMPONENT_VIDEO
+#ifdef ACE_ENGINE_LITE_MEDIA_LITE_ENABLE
 #define FEATURE_COMPONENT_VIDEO 1
+#endif
 #endif
 
 #ifndef FEATURE_MODULE_DIALOG
