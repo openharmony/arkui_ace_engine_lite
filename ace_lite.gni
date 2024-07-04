@@ -21,6 +21,56 @@ MODULE_MANAGER_PATH =
     "//foundation/arkui/ace_engine_lite/frameworks/module_manager"
 GRAPHIC_LITE_PATH = "//foundation/arkui/ui_lite"
 
+ace_lite_common_defines = []
+
+if (!defined(global_parts_info) ||
+    defined(global_parts_info.graphic_surface_lite)) {
+  ace_engine_lite_surface_lite_enable = true
+  ace_lite_common_defines += [ "ace_engine_lite_surface_lite_enable" ]
+} else {
+  ace_engine_lite_surface_lite_enable = false
+}
+
+if (!defined(global_parts_info) ||
+    defined(global_parts_info.communication_netstack)) {
+  ace_engine_lite_netstack_enable = true
+  ace_lite_common_defines += [ "ACE_ENGINE_LITE_NETSTACK_ENABLE" ]
+} else {
+  ace_engine_lite_netstack_enable = false
+}
+
+if (!defined(global_parts_info) ||
+    defined(global_parts_info.powermgr_battery_lite)) {
+  ace_engine_lite_battery_lite_enable = true
+  ace_lite_common_defines += [ "ACE_ENGINE_LITE_BATTERY_LITE_ENABLE" ]
+} else {
+  ace_engine_lite_battery_lite_enable = false
+}
+
+if (!defined(global_parts_info) ||
+    defined(global_parts_info.distributeddatamgr_kv_store)) {
+  ace_engine_lite_kv_store_enable = true
+  ace_lite_common_defines += [ "ACE_ENGINE_LITE_KV_STORE_ENABLE" ]
+} else {
+  ace_engine_lite_kv_store_enable = false
+}
+
+if (!defined(global_parts_info) ||
+    defined(global_parts_info.multimedia_media_lite)) {
+  ace_engine_lite_media_lite_enable = true
+  ace_lite_common_defines += [ "ACE_ENGINE_LITE_MEDIA_LITE_ENABLE" ]
+} else {
+  ace_engine_lite_media_lite_enable = false
+}
+
+if (!defined(global_parts_info) ||
+    defined(global_parts_info.multimedia_camera_lite)) {
+  ace_engine_lite_camera_lite_enable = true
+  ace_lite_common_defines += [ "ACE_ENGINE_LITE_CAMERA_LITE_ENABLE" ]
+} else {
+  ace_engine_lite_camera_lite_enable = false
+}
+
 ace_lite_include_dirs = [
   "$GRAPHIC_LITE_PATH/interfaces/kits/config",
   "$GRAPHIC_LITE_PATH/interfaces/kits/animator",
