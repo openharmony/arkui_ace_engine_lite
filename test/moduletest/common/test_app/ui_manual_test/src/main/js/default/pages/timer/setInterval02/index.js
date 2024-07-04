@@ -16,16 +16,17 @@ import {backPage,routePage} from "../../../common/js/general";
 
 var index = 0;
 export default {
-    data:{show:"show",
+    data:{
+        value: "show",
         index:0},
     startTimer:function() {
         var id = setInterval(()=> {
             if(index >5) {
-                this.show = "clearInterval";
+                this.value = "clearInterval";
                 clearInterval(id);
             }
             index ++;
-            this.show = index;
+            this.index = index;
         }, 200);
     },
     goPrevious:routePage("/pages/timer/setTimeout01/index").changePage,
