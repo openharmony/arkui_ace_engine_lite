@@ -15,7 +15,7 @@
 import {goPage} from "../../../common/js/general";
 export default {
     data:{
-        show:"show"
+        value:"show"
     },
     clickOneArg:function() {
         this.show = "clickOne";
