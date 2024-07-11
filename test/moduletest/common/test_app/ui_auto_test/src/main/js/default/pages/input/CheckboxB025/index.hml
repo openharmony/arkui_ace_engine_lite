@@ -23,7 +23,7 @@ limitations under the License.
   <text id="text"
         class="text"
         onclick="changeChecked">
-    {{show}}
+    {{value}}
   </text>
   <div id="bottomDiv"
        class="bottom">
