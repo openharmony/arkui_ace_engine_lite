@@ -65,7 +65,7 @@ export default {
         this.repeat.push(this.dataWrapper.repeat);
         this.switchStatus.push(false);
       } else if (this.dataWrapper.mode === this.mode[1]) { // edit alarm
-        if (typeof (this.deleteAlarm) != 'undefined') {
+        if (typeof (this.deleteAlarm) !== 'undefined') {
           this.time.splice(this.dataWrapper.alarmItemIndex, 1);
           this.repeat.splice(this.dataWrapper.alarmItemIndex, 1);
           this.switchStatus.splice(this.dataWrapper.alarmItemIndex, 1);
