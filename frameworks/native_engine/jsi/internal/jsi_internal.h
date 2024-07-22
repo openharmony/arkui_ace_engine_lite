@@ -27,7 +27,7 @@
 #if (ENABLE_JERRY == 1)
 #define AS_JERRY_VALUE(jsiValue) (jerry_value_t)(uintptr_t) jsiValue
 #define AS_JLENGTH_VALUE(jsiValue) (jerry_length_t)(uintptr_t) jsiValue
-#define AS_JSI_VALUE(jValue) (JSIValue)(uintptr_t) jValue
+#define AS_JSI_VALUE(jValue) ((JSIValue)(uintptr_t)(jValue))
 #endif
 
 /**
