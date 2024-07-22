@@ -238,7 +238,7 @@ export default {
                     that.musicList = music;
                 }
             },
-            fail (data,code) {
+            fail(data, code) {
                 console.log('get music list failed :' + code);
             }
         });
