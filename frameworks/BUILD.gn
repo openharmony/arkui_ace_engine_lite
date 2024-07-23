@@ -76,22 +76,6 @@ lite_library("ace_lite") {
     "//foundation/arkui/ui_lite:ui_lite",
   ]
 
-  defines = [
-    "GRAPHIC_ENABLE_LINECAP_FLAG=1",
-    "GRAPHIC_ENABLE_LINEJOIN_FLAG=1",
-    "GRAPHIC_ENABLE_ELLIPSE_FLAG=1",
-    "GRAPHIC_ENABLE_BEZIER_ARC_FLAG=1",
-    "GRAPHIC_ENABLE_ARC_FLAG=1",
-    "GRAPHIC_ENABLE_ROUNDEDRECT_FLAG=1",
-    "GRAPHIC_ENABLE_DASH_GENERATE_FLAG=1",
-    "GRAPHIC_ENABLE_BLUR_EFFECT_FLAG=1",
-    "GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG=1",
-    "GRAPHIC_ENABLE_GRADIENT_FILL_FLAG=1",
-    "GRAPHIC_ENABLE_PATTERN_FILL_FLAG=1",
-    "GRAPHIC_ENABLE_DRAW_IMAGE_FLAG=1",
-    "GRAPHIC_ENABLE_DRAW_TEXT_FLAG=1",
-  ]
-
   defines += ace_lite_common_defines
 
   if (ohos_kernel_type == "liteos_m") {
@@ -106,11 +90,6 @@ lite_library("ace_lite") {
       "//third_party/jerryscript:jerry_engine",
     ]
   } else {
-    if (enable_ohos_appexecfwk_feature_ability == true) {
-      defines += [ "ABILITY_WINDOW_SUPPORT" ]
-      defines += [ "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER" ]
-    }
-
     public_deps += [
       "//base/startup/init/interfaces/innerkits/syscap:syscap",
       "//build/lite/config/component/cJSON:cjson_shared",
@@ -141,6 +120,22 @@ lite_library("ace_lite") {
     }
   }
 
+  defines += [
+    "GRAPHIC_ENABLE_LINECAP_FLAG=1",
+    "GRAPHIC_ENABLE_LINEJOIN_FLAG=1",
+    "GRAPHIC_ENABLE_ELLIPSE_FLAG=1",
+    "GRAPHIC_ENABLE_BEZIER_ARC_FLAG=1",
+    "GRAPHIC_ENABLE_ARC_FLAG=1",
+    "GRAPHIC_ENABLE_ROUNDEDRECT_FLAG=1",
+    "GRAPHIC_ENABLE_DASH_GENERATE_FLAG=1",
+    "GRAPHIC_ENABLE_BLUR_EFFECT_FLAG=1",
+    "GRAPHIC_ENABLE_SHADOW_EFFECT_FLAG=1",
+    "GRAPHIC_ENABLE_GRADIENT_FILL_FLAG=1",
+    "GRAPHIC_ENABLE_PATTERN_FILL_FLAG=1",
+    "GRAPHIC_ENABLE_DRAW_IMAGE_FLAG=1",
+    "GRAPHIC_ENABLE_DRAW_TEXT_FLAG=1",
+  ]
+
   if (ohos_build_type == "debug") {
     defines += [ "JS_PROFILER=1" ]
   } else {
@@ -149,6 +144,11 @@ lite_library("ace_lite") {
 
   if (LOSCFG_TEST_JS_BUILD) {
     defines += [ "JSFWK_TEST=1" ]
+  }
+
+  if (enable_ohos_appexecfwk_feature_ability == true) {
+    defines += [ "ABILITY_WINDOW_SUPPORT" ]
+    defines += [ "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER" ]
   }
 
   if (enable_ohos_aafwk_multi_tasks_feature == true) {
