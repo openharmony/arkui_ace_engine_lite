@@ -14,7 +14,7 @@
  */
 #include "js_fwk_common.h"
 #include <climits>
-#include <errno>
+#include <cerrno>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
