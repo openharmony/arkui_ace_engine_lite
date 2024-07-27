@@ -426,7 +426,7 @@ bool CJSONParser::IsFileExistFullMatch(const char *fileName)
         return false;
     }
     bool canBeFullMatched = false;
-    for (uint8_t i = 0; i <= count; i++) {
+    for (int i = 0; i <= count; i++) {
         if (!strcmp(fileName, GetNode(fileList, i))) {
             canBeFullMatched = true;
             break;
