@@ -16,7 +16,7 @@ import {goPage} from "../../../common/js/general";
 export default {
     data:{
         checked:true,
-        show:"show"
+        value:"show"
     },
     changeEvent:function(e) {
         if(e.checked) {
