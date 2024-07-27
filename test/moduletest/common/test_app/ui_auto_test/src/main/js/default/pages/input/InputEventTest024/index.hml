@@ -29,7 +29,7 @@ limitations under the License.
          class="button" />
   <text id="text"
         class="text">
-    {{show}}
+    {{value}}
   </text>
   <div id="bottomDiv"
        class="bottom">
