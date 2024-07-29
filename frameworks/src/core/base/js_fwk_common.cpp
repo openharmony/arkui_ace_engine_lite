@@ -132,6 +132,7 @@ char *MallocStringOf(jerry_value_t source)
 char *MallocStringOf(jerry_value_t source, uint16_t *strLength)
 {
     if ((IS_UNDEFINED(source)) || (strLength == nullptr)) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "Invalid input: source is undefined or strLength is nullptr");
         return nullptr;
     }
 
@@ -147,12 +148,13 @@ char *MallocStringOf(jerry_value_t source, uint16_t *strLength)
             target = jerry_value_to_string(source);
         }
         if (IS_ERROR_VALUE(target)) {
-            HILOG_INFO(HILOG_MODULE_ACE, "jerry_value_to_string failed, can not continue to generate char buffer");
+            HILOG_ERROR(HILOG_MODULE_ACE, "jerry_value_to_string failed, can not continue to generate char buffer");
             break;
         }
 
         jerry_size_t size = jerry_get_string_size(target);
         if (size >= UINT16_MAX) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "String size exceeds UINT16_MAX, cannot process");
             break;
         }
         buffer = static_cast<jerry_char_t *>(ace_malloc(sizeof(jerry_char_t) * (size + 1)));
@@ -507,7 +509,7 @@ char *RelocateFilePathRelative(const char * const appRootPath, const char * cons
         HILOG_ERROR(HILOG_MODULE_ACE, "malloc dirPath memory heap failed.");
         return nullptr;
     }
-    if (memcpy_s(dirPath, len, jsPath, len) != 0) {
+    if (memcpy_s(dirPath, len + 1, jsPath, len) != 0) {
         ace_free(dirPath);
         dirPath = nullptr;
         return nullptr;
@@ -730,6 +732,9 @@ char *ReadJSFile(const char * const appPath, const char * const jsFileName, uint
     }
 
     char *fileBuffer = ReadFile(fullPath, fileSize, JsAppEnvironment::GetInstance()->IsSnapshotMode());
+    if (fileBuffer == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "Failed to read JS file from path: %{public}s", fullPath);
+    }
     ace_free(fullPath);
     fullPath = nullptr;
     return fileBuffer;
@@ -796,7 +801,7 @@ char *CreatePathStrFromUrl(const char * const url)
                     pathLength);
         return nullptr;
     }
-    if (memcpy_s(filePath, pathLength, (url + start), pathLength) != 0) {
+    if (memcpy_s(filePath, pathLength + 1, (url + start), pathLength) != 0) {
         HILOG_ERROR(HILOG_MODULE_ACE, "append path error when calculating from url");
         ace_free(filePath);
         filePath = nullptr;
@@ -845,8 +850,9 @@ void InsertWatcherCommon(Watcher *&head, const jerry_value_t watcher)
 void ClearWatchersCommon(Watcher *&head)
 {
     Watcher *node = head;
+    Watcher *nextNode = nullptr;
     while (node) {
-        head = node->next;
+        nextNode = node->next;
         // avoid allocating any JS objects when JS runtime broken
         if (!(FatalHandler::GetInstance().IsJSRuntimeFatal())) {
             // call js watcher.unsubscribe to release watcher
@@ -855,7 +861,7 @@ void ClearWatchersCommon(Watcher *&head)
             ReleaseJerryValue(CallJSFunction(unsubscribe, watcher, nullptr, 0), unsubscribe, watcher, VA_ARG_END_FLAG);
         }
         delete node;
-        node = head;
+        node = nextNode;
     }
     head = nullptr;
 }
@@ -1032,7 +1038,7 @@ bool ParseRgbaColor(const char * const source, uint32_t &color, uint8_t &alpha)
     if (buffer == nullptr) {
         return false;
     }
-    if (memcpy_s(buffer, bufSize, source + idxOpenBrace + 1, bufSize) != 0) {
+    if (memcpy_s(buffer, bufSize + 1, source + idxOpenBrace + 1, bufSize) != 0) {
         ace_free(buffer);
         buffer = nullptr;
         return false;
