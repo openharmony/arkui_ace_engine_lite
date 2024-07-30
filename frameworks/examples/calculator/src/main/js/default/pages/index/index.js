@@ -46,7 +46,7 @@ export default {
                     }
                 }
             }
-            if (!this.expression && (value === '*' || value ==='/')) {
+            if (!this.expression && (value === '*' || value === '/')) {
                 return;
             }
             this.expression += value;

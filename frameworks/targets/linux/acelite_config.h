@@ -120,7 +120,9 @@
 #ifdef FEATURE_COMPONENT_CAMERA
 #error "must keep the global configuration unique"
 #else
+#ifdef ACE_ENGINE_LITE_CAMERA_LITE_ENABLE
 #define FEATURE_COMPONENT_CAMERA 1
+#endif
 #endif
 
 #ifdef FEATURE_COMPONENT_EDITTEXT
@@ -132,7 +134,9 @@
 #ifdef FEATURE_COMPONENT_VIDEO
 #error "must keep the global configuration unique"
 #else
+#ifdef ACE_ENGINE_LITE_MEDIA_LITE_ENABLE
 #define FEATURE_COMPONENT_VIDEO 1
+#endif
 #endif
 
 #define FEATURE_UPDATE_VIDEO_PROGRESS_ASYNC 1

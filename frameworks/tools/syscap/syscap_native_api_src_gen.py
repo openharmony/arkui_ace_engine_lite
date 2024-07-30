@@ -13,10 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import json
-import argparse
 import os
 import stat
+import json
+import argparse
 
 license_string = """/*
  * Copyright (c) 2022 Huawei Device Co., Ltd.

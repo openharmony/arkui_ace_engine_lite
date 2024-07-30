@@ -69,7 +69,7 @@ def convert_bc():
     input_modes = stat.S_IWUSR | stat.S_IRUSR
     with os.fdopen(os.open(FRAMEWORK_SNAPSHOT_FILE_PATH, input_flags, input_modes), 'rb') as input_file:
         byte_code_buffer = input_file.read()
-        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+        flags = os.O_WRONLY | os.O_CREAT
         modes = stat.S_IWUSR | stat.S_IRUSR
         with os.fdopen(os.open(SNAPSHOT_OUTPUT_C_FILE_PATH, flags, modes), 'w') as output:
             output_copyright(output)

@@ -22,7 +22,7 @@ limitations under the License.
          checked="{{checked}}" />
   <text id="text"
         class="text">
-    {{show}}
+    {{value}}
   </text>
   <div id="bottomDiv"
        class="bottom">

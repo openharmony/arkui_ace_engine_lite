@@ -46,7 +46,7 @@ def add_description_info(description_id):
 def parser(opt):
     source_file = opt.source
     try:
-        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+        flags = os.O_WRONLY | os.O_CREAT
         modes = stat.S_IWUSR | stat.S_IRUSR
         with os.fdopen(os.open(source_file, flags, modes), 'w') as source:
             for line in source.readlines():

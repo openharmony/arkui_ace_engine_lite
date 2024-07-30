@@ -176,7 +176,7 @@ export default {
     if (mode === 'previous') {
       this.curMusicIndex === 0 ? (this.curMusicIndex = (this.musicList.length - 1)) : this.curMusicIndex--;
       console.log('ChangeSong:previous:' + this.curMusicIndex);
-    } else if (mode === 'random') {  //random
+    } else if (mode === 'random') { //random
       this.curMusicIndex = parseInt(Math.random() * (this.musicList.length), 10);
       console.log('ChangeSong:random:' + this.curMusicIndex);
     } else { //next
@@ -238,7 +238,7 @@ export default {
                     that.musicList = music;
                 }
             },
-            fail (data,code) {
+            fail(data, code) {
                 console.log('get music list failed :' + code);
             }
         });

@@ -76,7 +76,51 @@ lite_library("ace_lite") {
     "//foundation/arkui/ui_lite:ui_lite",
   ]
 
-  defines = [
+  defines += ace_lite_common_defines
+
+  if (ohos_kernel_type == "liteos_m") {
+    deps += [ ":gen_syscap_module_native_mini" ]
+    sources += [ "$target_out_dir/syscap_module_native_mini.cpp" ]
+    include_dirs =
+        [ "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog_lite" ]
+    public_deps += [
+      "//build/lite/config/component/cJSON:cjson_static",
+      "//foundation/ability/ability_lite/frameworks/ability_lite:ability",
+      "//third_party/bounds_checking_function:libsec_static",
+      "//third_party/jerryscript:jerry_engine",
+    ]
+  } else {
+    public_deps += [
+      "//base/startup/init/interfaces/innerkits/syscap:syscap",
+      "//build/lite/config/component/cJSON:cjson_shared",
+      "//third_party/bounds_checking_function:libsec_shared",
+      "//third_party/jerryscript/jerry-core:jerry-core_shared",
+      "//third_party/jerryscript/jerry-ext:jerry-ext_shared",
+      "//third_party/jerryscript/jerry-libm:jerry-libm_shared",
+      "//third_party/jerryscript/jerry-port/default:jerry-port-default_shared",
+    ]
+
+    if (ace_engine_lite_surface_lite_enable) {
+      public_deps += [ "//foundation/graphic/surface_lite:surface_lite" ]
+    }
+
+    if (ace_engine_lite_kv_store_enable) {
+      public_deps += []
+    }
+
+    if (ace_engine_lite_media_lite_enable) {
+      public_deps += [
+        "//foundation/multimedia/media_lite/frameworks/player_lite:player_lite",
+      ]
+    }
+
+    if (ace_engine_lite_camera_lite_enable) {
+      public_deps +=
+          [ "//foundation/multimedia/camera_lite/frameworks:camera_lite" ]
+    }
+  }
+
+  defines += [
     "GRAPHIC_ENABLE_LINECAP_FLAG=1",
     "GRAPHIC_ENABLE_LINEJOIN_FLAG=1",
     "GRAPHIC_ENABLE_ELLIPSE_FLAG=1",
@@ -92,36 +136,6 @@ lite_library("ace_lite") {
     "GRAPHIC_ENABLE_DRAW_TEXT_FLAG=1",
   ]
 
-  if (ohos_kernel_type == "liteos_m") {
-    deps += [ ":gen_syscap_module_native_mini" ]
-    sources += [ "$target_out_dir/syscap_module_native_mini.cpp" ]
-    include_dirs =
-        [ "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog_lite" ]
-    public_deps += [
-      "//build/lite/config/component/cJSON:cjson_static",
-      "//foundation/ability/ability_lite/frameworks/ability_lite:ability",
-      "//third_party/bounds_checking_function:libsec_static",
-      "//third_party/jerryscript:jerry_engine",
-    ]
-  } else {
-    if (ability_lite_enable_ohos_appexecfwk_feature_ability == true) {
-      defines += [ "ABILITY_WINDOW_SUPPORT" ]
-      defines += [ "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER" ]
-    }
-    public_deps += [
-      "//base/startup/init/interfaces/innerkits/syscap:syscap",
-      "//build/lite/config/component/cJSON:cjson_shared",
-      "//foundation/graphic/surface_lite:surface_lite",
-      "//foundation/multimedia/camera_lite/frameworks:camera_lite",
-      "//foundation/multimedia/media_lite/frameworks/player_lite:player_lite",
-      "//third_party/bounds_checking_function:libsec_shared",
-      "//third_party/jerryscript/jerry-core:jerry-core_shared",
-      "//third_party/jerryscript/jerry-ext:jerry-ext_shared",
-      "//third_party/jerryscript/jerry-libm:jerry-libm_shared",
-      "//third_party/jerryscript/jerry-port/default:jerry-port-default_shared",
-    ]
-  }
-
   if (ohos_build_type == "debug") {
     defines += [ "JS_PROFILER=1" ]
   } else {
@@ -130,6 +144,11 @@ lite_library("ace_lite") {
 
   if (LOSCFG_TEST_JS_BUILD) {
     defines += [ "JSFWK_TEST=1" ]
+  }
+
+  if (ability_lite_enable_ohos_appexecfwk_feature_ability == true) {
+    defines += [ "ABILITY_WINDOW_SUPPORT" ]
+    defines += [ "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER" ]
   }
 
   if (ability_lite_enable_ohos_aafwk_multi_tasks_feature == true) {

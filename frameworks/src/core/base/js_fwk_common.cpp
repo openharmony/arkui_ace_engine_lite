@@ -14,6 +14,7 @@
  */
 #include "js_fwk_common.h"
 #include <climits>
+#include <cerrno>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -580,7 +581,8 @@ int32_t GetFileSize(const char * const filePath)
     struct stat info = {0};
     int32_t ret = stat(filePath, &info);
     if (ret < 0) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "file doesn't exit or it's empty, [%{public}s]", filePath);
+        HILOG_ERROR(HILOG_MODULE_ACE, "file doesn't exit or it's empty, [%{public}s],\
+            errno: %{public}d, desc = %{public}s", filePath, errno, strerror(errno) );
     }
     return info.st_size;
 }
