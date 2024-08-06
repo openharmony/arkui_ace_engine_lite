@@ -132,6 +132,7 @@ char *MallocStringOf(jerry_value_t source)
 char *MallocStringOf(jerry_value_t source, uint16_t *strLength)
 {
     if ((IS_UNDEFINED(source)) || (strLength == nullptr)) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "Invalid input: source is undefined or strLength is nullptr");
         return nullptr;
     }
 
@@ -147,12 +148,13 @@ char *MallocStringOf(jerry_value_t source, uint16_t *strLength)
             target = jerry_value_to_string(source);
         }
         if (IS_ERROR_VALUE(target)) {
-            HILOG_INFO(HILOG_MODULE_ACE, "jerry_value_to_string failed, can not continue to generate char buffer");
+            HILOG_ERROR(HILOG_MODULE_ACE, "jerry_value_to_string failed, can not continue to generate char buffer");
             break;
         }
 
         jerry_size_t size = jerry_get_string_size(target);
         if (size >= UINT16_MAX) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "String size exceeds UINT16_MAX, cannot process");
             break;
         }
         buffer = static_cast<jerry_char_t *>(ace_malloc(sizeof(jerry_char_t) * (size + 1)));
@@ -730,6 +732,9 @@ char *ReadJSFile(const char * const appPath, const char * const jsFileName, uint
     }
 
     char *fileBuffer = ReadFile(fullPath, fileSize, JsAppEnvironment::GetInstance()->IsSnapshotMode());
+    if (fileBuffer == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "Failed to read JS file from path: %{public}s", fullPath);
+    }
     ace_free(fullPath);
     fullPath = nullptr;
     return fileBuffer;
