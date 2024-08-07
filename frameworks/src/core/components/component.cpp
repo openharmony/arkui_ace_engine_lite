@@ -1573,6 +1573,7 @@ jerry_value_t Component::SetListForWatcher(jerry_value_t getter, jerry_value_t c
 
     jerry_value_t watcher = CallJSWatcher(getter, ListForWatcherCallbackFunc, options);
     if (IS_UNDEFINED(watcher) || jerry_value_is_error(watcher)) {
+        jerry_release_value(watcher); // release error case, note: release undefined is harmless
         HILOG_ERROR(HILOG_MODULE_ACE, "Failed to create ListForWatcher instance.");
     } else {
         InsertWatcherCommon(watchersHead_, watcher);
