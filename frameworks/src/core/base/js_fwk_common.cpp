@@ -581,11 +581,17 @@ int32_t GetFileSize(const char * const filePath)
         return 0;
     }
     struct stat info = {0};
-    int32_t ret = stat(filePath, &info);
-    if (ret < 0) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "file doesn't exit or it's empty, [%{public}s],\
-            errno: %{public}d, desc = %{public}s", filePath, errno, strerror(errno) );
+    const int retryCount = 5;
+    for (int i = 0; i < retryCount; i++) {
+        int32_t ret = stat(filePath, &info);
+        if (ret < 0) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "file doesn't exit or it's empty, [%{public}s],\
+                errno: %{public}d, desc = %{public}s", filePath, errno, strerror(errno) );
+        } else {
+            break;
+        }
     }
+
     return info.st_size;
 }
 
