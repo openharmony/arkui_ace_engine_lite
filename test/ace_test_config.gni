@@ -114,7 +114,7 @@ all_external_includes = ace_lite_include_dirs + ace_test_includes
 
 # add specific defines for test case only here
 all_defines = ace_test_defines
-if (enable_ohos_appexecfwk_feature_ability == true) {
+if (ability_lite_enable_ohos_appexecfwk_feature_ability == true) {
   all_defines += [ "ABILITY_WINDOW_SUPPORT" ]
   all_defines += [ "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER" ]
 }

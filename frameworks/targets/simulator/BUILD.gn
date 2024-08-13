@@ -66,7 +66,7 @@ if (os_level == "standard") {
     } else {
       defines += [ "JS_PROFILER=0" ]
     }
-    if (enable_ohos_appexecfwk_feature_ability == true) {
+    if (ability_lite_enable_ohos_appexecfwk_feature_ability == true) {
       defines += [ "ABILITY_WINDOW_SUPPORT" ]
     }
   }
