@@ -15,7 +15,9 @@
     "syscap": [
        "SystemCapability.ArkUI.ArkUI.Lite"
     ],
-    "feature": [],
+    "feature": [
+      "ace_engine_lite_feature_product_config = false"
+    ],
     "adapted_system_type": [ "mini","small" ],
     "rom": "521KB",
     "ram": "~82KB",
