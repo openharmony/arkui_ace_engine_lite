@@ -16,7 +16,7 @@
        "SystemCapability.ArkUI.ArkUI.Lite"
     ],
     "feature": [
-      "ace_engine_lite_feature_product_config = false"
+      "ace_engine_lite_feature_product_config"
     ],
     "adapted_system_type": [ "mini","small" ],
     "rom": "521KB",
