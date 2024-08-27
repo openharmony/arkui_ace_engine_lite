@@ -17,6 +17,7 @@
 #define OHOS_ACELITE_ACE_LOG_H
 
 #include "acelite_config.h"
+#include <cstddef>
 
 #if ((defined(FEATURE_ACELITE_HI_LOG_PRINTF) && (FEATURE_ACELITE_HI_LOG_PRINTF == 1)) && \
      (defined(FEATURE_ACELITE_MC_LOG_PRINTF) && (FEATURE_ACELITE_MC_LOG_PRINTF == 1)))
@@ -59,6 +60,9 @@
 #ifndef HILOG_RACE
 #define HILOG_RACE(mod, format, ...)
 #endif
+
+void HILOG_CHARACTERS(const size_t size, const char* buffer);
+
 #elif defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1)
 namespace OHOS {
 namespace ACELite {

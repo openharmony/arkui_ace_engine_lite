@@ -42,6 +42,9 @@ public:
      * @brief dump js stack error message
      */
     void DumpErrorMessage(const jerry_value_t errorValue);
+
+private:
+    void PrintErrorInfo(jerry_size_t size, jerry_char_t* errorValue);
 };
 } // namespace ACELite
 } // namespace OHOS
