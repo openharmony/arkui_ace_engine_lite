@@ -55,6 +55,7 @@ void DfxAssist::DumpErrorCode(const jerry_value_t errorValue)
     errStrBuffer[stringEnd] = '\0';
     // output to platform trace
     HILOG_ERROR(HILOG_MODULE_ACE, " [JS Error]: %{public}s", reinterpret_cast<char *>(errStrBuffer));
+    PrintErrorInfo(errStrSize, errStrBuffer);
     // output to user console
     LogString(LogLevel::LOG_LEVEL_ERR, "[JS Exception]: ");
     LogString(LogLevel::LOG_LEVEL_ERR, reinterpret_cast<char *>(errStrBuffer));
@@ -110,12 +111,23 @@ void DfxAssist::DumpErrorMessage(const jerry_value_t errorValue)
             jerry_size_t stringEnd = jerry_string_to_utf8_char_buffer(itemVal, errStrBuffer, strSize);
             errStrBuffer[stringEnd] = '\0';
             HILOG_ERROR(HILOG_MODULE_ACE, "%{public}u: %{public}s", i, reinterpret_cast<char *>(errStrBuffer));
+            PrintErrorInfo(strSize, errStrBuffer);
         }
         jerry_release_value(itemVal);
     }
     ace_free(errStrBuffer);
     errStrBuffer = nullptr;
     jerry_release_value(backtraceVal);
+}
+
+void DfxAssist::PrintErrorInfo(jerry_size_t size, jerry_char_t* errorValue)
+{
+#if defined(FEATURE_ACELITE_MC_LOG_PRINTF) && (FEATURE_ACELITE_MC_LOG_PRINTF == 1)
+    size_t length = reinterpret_cast<jerry_size_t>(size);
+    char* buffer = reinterpret_cast<char *>(errorValue);
+
+    HILOG_CHARACTERS(length, buffer);
+#endif
 }
 } // namespace ACELite
 } // namespace OHOS

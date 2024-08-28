@@ -16,6 +16,7 @@
 #include "ace_log.h"
 #include <stdarg.h>
 #include <stdio.h>
+#include <algorithm>
 #if defined(TARGET_SIMULATOR) && (TARGET_SIMULATOR == 1)
 #include <string>
 
@@ -98,3 +99,42 @@ void HILOG_DEBUG(HiLogModuleType mod, const char *msg, ...)
 } // namespace ACELite
 } // namespace OHOS
 #endif // TARGET_SIMULATOR
+
+#if defined(FEATURE_ACELITE_MC_LOG_PRINTF) && (FEATURE_ACELITE_MC_LOG_PRINTF == 1)
+void HILOG_CHARACTERS(const size_t size, const char* buffer)
+{
+    if (size == 0 || buffer == nullptr) {
+        return;
+    }
+
+    const size_t len1 = 1;
+    const size_t len2 = 2;
+    const size_t len3 = 3;
+    const size_t len4 = 4;
+    const size_t len5 = 5;
+    const size_t chunkSize = 6;
+
+    for (size_t index = 0; index < size; index += chunkSize) {
+        size_t len = std::min(size - index, chunkSize);
+        if (len == chunkSize) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "%{public}c%{public}c%{public}c%{public}c%{public}c%{public}c",
+                buffer[index], buffer[index + len1], buffer[index + len2],
+                buffer[index + len3], buffer[index + len4], buffer[index + len5]);
+        } else if (len == len5) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "%{public}c%{public}c%{public}c%{public}c%{public}c",
+                buffer[index], buffer[index + len1], buffer[index + len2],
+                buffer[index + len3], buffer[index + len4]);
+        } else if (len == len4) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "%{public}c%{public}c%{public}c%{public}c",
+                buffer[index], buffer[index + len1], buffer[index + len2], buffer[index + len3]);
+        } else if (len == len3) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "%{public}c%{public}c%{public}c",
+                buffer[index], buffer[index + len1], buffer[index + len2]);
+        } else if (len == len2) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "%{public}c%{public}c", buffer[index], buffer[index + len1]);
+        } else if (len == len1) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "%{public}c", buffer[index]);
+        }
+    }
+}
+#endif
