@@ -442,11 +442,6 @@ void StateMachine::ReleaseRootObject() const
 
 void StateMachine::ReleaseHistoryPageResource()
 {
-    // remove all native views and release components styles.
-    if (appContext_ != nullptr) {
-        appContext_->ReleaseStyles();
-        appContext_->ReleaseLazyLoadManager();
-    }
     // release scroll layer object.
     if (scrollLayer_ != nullptr) {
         if (!isEntireHidden_) {
@@ -478,6 +473,12 @@ void StateMachine::ReleaseHistoryPageResource()
     uint16_t remainComponentCount = FatalHandler::GetInstance().GetComponentCount();
     if (remainComponentCount != 0) {
         HILOG_ERROR(HILOG_MODULE_ACE, "[%{public}d] components leaked!", remainComponentCount);
+    }
+
+    // remove all native views and release components styles.
+    if (appContext_ != nullptr) {
+        appContext_->ReleaseStyles();
+        appContext_->ReleaseLazyLoadManager();
     }
 }
 
