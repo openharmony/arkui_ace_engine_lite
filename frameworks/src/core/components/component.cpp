@@ -213,7 +213,6 @@ void Component::Release()
     // stop view animation
     if (curTransitionImpl_) {
         curTransitionImpl_->Stop();
-        ACE_DELETE(curTransitionImpl_);
     }
     ReleaseViewExtraMsg();
     jerry_delete_object_native_pointer(nativeElement_, nullptr);
@@ -232,7 +231,6 @@ void Component::Release()
     jerry_release_value(descriptors_);
     jerry_release_value(children_);
     jerry_release_value(viewModel_);
-    jerry_release_value(options_);
 }
 
 bool Component::UpdateView(uint16_t attrKeyId, jerry_value_t attrValue)
@@ -995,7 +993,6 @@ void Component::StartAnimation()
         if (uiView) {
             if (curTransitionImpl_ != nullptr) {
                 curTransitionImpl_->Stop();
-                ACE_DELETE(curTransitionImpl_);
             }
             curTransitionImpl_ = new TransitionImpl(*trans_, uiView);
             if (curTransitionImpl_ == nullptr) {
@@ -1576,8 +1573,8 @@ jerry_value_t Component::SetListForWatcher(jerry_value_t getter, jerry_value_t c
 
     jerry_value_t watcher = CallJSWatcher(getter, ListForWatcherCallbackFunc, options);
     if (IS_UNDEFINED(watcher) || jerry_value_is_error(watcher)) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "Failed to create ListForWatcher instance.");
         jerry_release_value(watcher); // release error case, note: release undefined is harmless
+        HILOG_ERROR(HILOG_MODULE_ACE, "Failed to create ListForWatcher instance.");
     } else {
         InsertWatcherCommon(watchersHead_, watcher);
     }
