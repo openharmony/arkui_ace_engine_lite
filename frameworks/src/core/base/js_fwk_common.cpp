@@ -509,7 +509,7 @@ char *RelocateFilePathRelative(const char * const appRootPath, const char * cons
         HILOG_ERROR(HILOG_MODULE_ACE, "malloc dirPath memory heap failed.");
         return nullptr;
     }
-    if (memcpy_s(dirPath, len + 1, jsPath, len) != 0) {
+    if (memcpy_s(dirPath, len, jsPath, len) != 0) {
         ace_free(dirPath);
         dirPath = nullptr;
         return nullptr;
@@ -801,7 +801,7 @@ char *CreatePathStrFromUrl(const char * const url)
                     pathLength);
         return nullptr;
     }
-    if (memcpy_s(filePath, pathLength + 1, (url + start), pathLength) != 0) {
+    if (memcpy_s(filePath, pathLength, (url + start), pathLength) != 0) {
         HILOG_ERROR(HILOG_MODULE_ACE, "append path error when calculating from url");
         ace_free(filePath);
         filePath = nullptr;
@@ -850,9 +850,8 @@ void InsertWatcherCommon(Watcher *&head, const jerry_value_t watcher)
 void ClearWatchersCommon(Watcher *&head)
 {
     Watcher *node = head;
-    Watcher *nextNode = nullptr;
     while (node) {
-        nextNode = node->next;
+        head = node->next;
         // avoid allocating any JS objects when JS runtime broken
         if (!(FatalHandler::GetInstance().IsJSRuntimeFatal())) {
             // call js watcher.unsubscribe to release watcher
@@ -861,7 +860,7 @@ void ClearWatchersCommon(Watcher *&head)
             ReleaseJerryValue(CallJSFunction(unsubscribe, watcher, nullptr, 0), unsubscribe, watcher, VA_ARG_END_FLAG);
         }
         delete node;
-        node = nextNode;
+        node = head;
     }
     head = nullptr;
 }
@@ -1038,7 +1037,7 @@ bool ParseRgbaColor(const char * const source, uint32_t &color, uint8_t &alpha)
     if (buffer == nullptr) {
         return false;
     }
-    if (memcpy_s(buffer, bufSize + 1, source + idxOpenBrace + 1, bufSize) != 0) {
+    if (memcpy_s(buffer, bufSize, source + idxOpenBrace + 1, bufSize) != 0) {
         ace_free(buffer);
         buffer = nullptr;
         return false;

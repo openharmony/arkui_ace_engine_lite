@@ -102,7 +102,7 @@ void LazyLoadManager::AddLazyLoadWatcher(jerry_value_t nativeElement,
 
     LazyLoadWatcher *watcher = new LazyLoadWatcher(nativeElement, attrName, getter, keyId);
     if (watcher == nullptr) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "create watcher error");
+        HILOG_ERROR(HILOG_MODULE_ACE, "create watcher errpr");
         return;
     }
     lazyWatchersList_.PushBack(watcher);
