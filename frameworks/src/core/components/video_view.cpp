@@ -503,13 +503,13 @@ void VideoView::FormatTime(uint32_t inSeconds, char *outBuffer, uint8_t bufferLe
         return;
     }
     if (hours == 0) {
-        if (sprintf_s(outBuffer, bufferLength, "%02d:%02d", minutes, seconds) < 0) {
+        if (sprintf_s(outBuffer, bufferLength, "%02hhu:%02hhu", minutes, seconds) < 0) {
             HILOG_ERROR(HILOG_MODULE_ACE, "xx:xx transfer error");
             return;
         }
         outBuffer[minBufferLength - 1] = '\0';
     } else {
-        if (sprintf_s(outBuffer, bufferLength, "%02d:%02d:%02d", hours, minutes, seconds) < 0) {
+        if (sprintf_s(outBuffer, bufferLength, "%02hhu:%02hhu:%02hhu", hours, minutes, seconds) < 0) {
             HILOG_ERROR(HILOG_MODULE_ACE, "xx:xx:xx transfer error");
             return;
         }
