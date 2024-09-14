@@ -40,8 +40,13 @@ static void ReplaceAsync(void *data)
 jerry_value_t Router::Replace(jerry_value_t object, bool async)
 {
     if (newSm_ != nullptr) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "router is replacing, can not handle the new request");
-        return UNDEFINED;
+        if (taskID_ != DISPATCH_FAILURE) {
+            AsyncTaskManager::GetInstance().Cancel(taskID_);
+            ACE_DELETE(newSm_);
+        } else {
+            HILOG_ERROR(HILOG_MODULE_ACE, "router is replacing, can not handle the new request");
+            return UNDEFINED;
+        }
     }
     StateMachine *newSm = new StateMachine();
     if (newSm == nullptr) {
@@ -59,7 +64,8 @@ jerry_value_t Router::Replace(jerry_value_t object, bool async)
     // dispatch the new page rendering to the async handling as the current context of
     // router.replace need to be released, which need to return out from the scope
     if (async) {
-        if (DISPATCH_FAILURE == AsyncTaskManager::GetInstance().Dispatch(ReplaceAsync, this)) {
+        taskID_ = AsyncTaskManager::GetInstance().Dispatch(ReplaceAsync, this);
+        if (DISPATCH_FAILURE == taskID_) {
             // request replacing failed, no chance to do it, release the new state machine
             HILOG_ERROR(HILOG_MODULE_ACE, "dispatch replacing request failed");
             delete newSm_;
@@ -74,6 +80,7 @@ jerry_value_t Router::Replace(jerry_value_t object, bool async)
 
 void Router::ReplaceSync()
 {
+    taskID_ = DISPATCH_FAILURE;
     if (newSm_ == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "replace sync failed, new sm should be prepared");
         return;
