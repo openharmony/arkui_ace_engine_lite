@@ -23,7 +23,7 @@ namespace ACELite {
 class Router final : public MemoryHeap {
 public:
     ACE_DISALLOW_COPY_AND_MOVE(Router);
-    Router() : currentSm_(nullptr), newSm_(nullptr), hidden_(false) {}
+    Router() : currentSm_(nullptr), newSm_(nullptr), hidden_(false), taskID_(DISPATCH_FAILURE) {}
     ~Router()
     {
         if (currentSm_ != nullptr) {
@@ -39,6 +39,7 @@ private:
     StateMachine *currentSm_; // current state machine for current shown page
     StateMachine *newSm_;     // current state machine for target showing page
     bool hidden_;             // the flag representing whether the whole app is moved to background
+    uint16_t taskID_;
 };
 } // namespace ACELite
 } // namespace OHOS
