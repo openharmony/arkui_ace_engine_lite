@@ -70,75 +70,50 @@ bool InputButtonComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value_t
 
 bool InputButtonComponent::ApplyPrivateStyle(const AppStyleItem *style)
 {
-    bool result = true;
     uint16_t styleKey = GetStylePropNameId(style);
     switch (styleKey) {
         case K_FONT_SIZE:
-            result = SetFontSize(style);
-            break;
+            return SetFontSize(style);
         case K_FONT_FAMILY:
-            if (IsStyleValueTypeString(style)) {
-                // the style would be freed after this method
-                result = CopyFontFamily(fontFamily_, GetStyleStrValue(style));
+            if (IsStyleValueTypeString(style)) { // the style would be freed after this method
+                return CopyFontFamily(fontFamily_, GetStyleStrValue(style));
             } else {
-                result = false;
+                return false;
             }
-            break;
         case K_TEXT_ALIGN:
-            result = SetTextAlign(style);
-            break;
+            return SetTextAlign(style);
         case K_COLOR:
-            result = SetColor(*style);
-            break;
+            return SetColor(*style);
         case K_BACKGROUND_COLOR:
-            result = SetBackgroundColor(*style);
-            break;
+            return SetBackgroundColor(*style);
         case K_BACKGROUND_IMAGE:
-            result = HandleBackgroundImg(*style, pressedBackGroundImg_, normalBackGroundImg_);
-            break;
-        case K_PADDING:
-        // fall through
-        case K_PADDING_BOTTOM:
-        // fall through
-        case K_PADDING_LEFT:
-        // fall through
-        case K_PADDING_RIGHT:
-        // fall through
-        case K_PADDING_TOP:
-        // fall through
-        case K_BORDER_BOTTOM_WIDTH:
-        // fall through
-        case K_BORDER_LEFT_WIDTH:
-        // fall through
-        case K_BORDER_RIGHT_WIDTH:
-        // fall through
-        case K_BORDER_TOP_WIDTH:
-        // fall through
-        case K_BORDER_WIDTH:
-        // fall through
-        case K_BORDER_BOTTOM_COLOR:
-        // fall through
-        case K_BORDER_LEFT_COLOR:
-        // fall through
-        case K_BORDER_RIGHT_COLOR:
-        // fall through
-        case K_BORDER_TOP_COLOR:
-        // fall through
-        case K_BORDER_COLOR:
-        // fall through
-        case K_BORDER_RADIUS: {
+            return HandleBackgroundImg(*style, pressedBackGroundImg_, normalBackGroundImg_);
+        case K_PADDING: //fall through
+        case K_PADDING_BOTTOM: //fall through
+        case K_PADDING_LEFT: //fall through
+        case K_PADDING_RIGHT: //fall through
+        case K_PADDING_TOP: //fall through
+        case K_BORDER_BOTTOM_WIDTH: //fall through
+        case K_BORDER_LEFT_WIDTH: //fall through
+        case K_BORDER_RIGHT_WIDTH: //fall through
+        case K_BORDER_TOP_WIDTH: //fall through
+        case K_BORDER_WIDTH: //fall through
+        case K_BORDER_BOTTOM_COLOR: //fall through
+        case K_BORDER_LEFT_COLOR: //fall through
+        case K_BORDER_RIGHT_COLOR: //fall through
+        case K_BORDER_TOP_COLOR: //fall through
+        case K_BORDER_COLOR: //fall through
+        case K_BORDER_RADIUS: { //fall through
             button_.SetStateForStyle(UIButton::ButtonState::PRESSED);
             bool pressResult = ApplyCommonStyle(button_, style);
             button_.SetStateForStyle(UIButton::ButtonState::RELEASED);
             bool releaseResult = ApplyCommonStyle(button_, style);
-            result = pressResult && releaseResult;
-            break;
+            return pressResult && releaseResult;
         }
         default:
-            result = false;
-            break;
+            return false;
     }
-    return result;
+    return false;
 }
 
 bool InputButtonComponent::SetBackgroundColor(const AppStyleItem &style)
