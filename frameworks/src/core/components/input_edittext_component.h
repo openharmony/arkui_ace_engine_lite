@@ -56,6 +56,10 @@ private:
     bool SetFontSize(const AppStyleItem *style);
     bool SetColor(const AppStyleItem &style);
     bool SetPlaceholderColor(const AppStyleItem &style);
+    bool SetInputType(const jerry_value_t& attrValue);
+    bool SetText(const jerry_value_t& attrValue);
+    bool SetPlaceholder(const jerry_value_t& attrValue);
+    bool SetMaxLength(const jerry_value_t& attrValue);
     UIEditText edittext_;
     ValueChangeListener* onValueChangeListener_;
     char *fontFamily_;

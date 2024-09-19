@@ -42,60 +42,80 @@ void InputEditTextComponent::ReleaseNativeViews()
     ACE_FREE(fontFamily_);
 }
 
+bool InputEditTextComponent::SetInputType(const jerry_value_t& attrValue)
+{
+    if (jerry_value_is_string(attrValue)) {
+        char *type = MallocStringOf(attrValue);
+        if (type == nullptr) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "type is nullptr");
+            return false;
+        }
+        if (strcmp(type, "password")) {
+            edittext_.SetInputType(InputType::TEXT_TYPE);
+        } else {
+            edittext_.SetInputType(InputType::PASSWORD_TYPE);
+        }
+        ACE_FREE(type);
+        return true;
+    }
+    HILOG_ERROR(HILOG_MODULE_ACE, "the edittext type is error value");
+    return false;
+}
+
+bool InputEditTextComponent::SetText(const jerry_value_t& attrValue)
+{
+    if (jerry_value_is_string(attrValue)) {
+        char *value = MallocStringOf(attrValue);
+        if (value == nullptr) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "value is nullptr");
+            return false;
+        }
+        edittext_.SetText(value);
+        ACE_FREE(value);
+        return true;
+    }
+    HILOG_ERROR(HILOG_MODULE_ACE, "the edittext value is error value");
+    return false;
+}
+
+bool InputEditTextComponent::SetPlaceholder(const jerry_value_t& attrValue)
+{
+    if (jerry_value_is_string(attrValue)) {
+        char *placeholder = MallocStringOf(attrValue);
+        if (placeholder == nullptr) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "placeholder is nullptr");
+            return false;
+        }
+        edittext_.SetPlaceholder(placeholder);
+        ACE_FREE(placeholder);
+        return true;
+    }
+    HILOG_ERROR(HILOG_MODULE_ACE, "the edittext placeholder is error value");
+    return false;
+}
+  
+bool InputEditTextComponent::SetMaxLength(const jerry_value_t& attrValue)
+{
+    if (jerry_value_is_number(attrValue)) {
+        uint16_t maxLenth = IntegerOf(attrValue);
+        edittext_.SetMaxLength(maxLenth);
+        return true;
+    }
+    HILOG_ERROR(HILOG_MODULE_ACE, "the edittext maxLenth is error value");
+    return false;
+}
+
 bool InputEditTextComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value_t attrValue)
 {
     switch (attrKeyId) {
         case K_TYPE:
-            if (jerry_value_is_string(attrValue)) {
-                char *type = MallocStringOf(attrValue);
-                if (type == nullptr) {
-                    HILOG_ERROR(HILOG_MODULE_ACE, "type is nullptr");
-                    return false;
-                }
-                if (strcmp(type, "password")) {
-                    edittext_.SetInputType(InputType::TEXT_TYPE);
-                } else {
-                    edittext_.SetInputType(InputType::PASSWORD_TYPE);
-                }
-                ACE_FREE(type);
-                return true;
-            }
-            HILOG_ERROR(HILOG_MODULE_ACE, "the edittext type is error value");
-            break;
+            return SetInputType(attrValue);
         case K_VALUE:
-            if (jerry_value_is_string(attrValue)) {
-                char *value = MallocStringOf(attrValue);
-                if (value == nullptr) {
-                    HILOG_ERROR(HILOG_MODULE_ACE, "value is nullptr");
-                    return false;
-                }
-                edittext_.SetText(value);
-                ACE_FREE(value);
-                return true;
-            }
-            HILOG_ERROR(HILOG_MODULE_ACE, "the edittext value is error value");
-            break;
+            return SetText(attrValue);
         case K_PLACEHOLDER:
-            if (jerry_value_is_string(attrValue)) {
-                char *placeholder = MallocStringOf(attrValue);
-                if (placeholder == nullptr) {
-                    HILOG_ERROR(HILOG_MODULE_ACE, "placeholder is nullptr");
-                    return false;
-                }
-                edittext_.SetPlaceholder(placeholder);
-                ACE_FREE(placeholder);
-                return true;
-            }
-            HILOG_ERROR(HILOG_MODULE_ACE, "the edittext placeholder is error value");
-            break;
+            return SetPlaceholder(attrValue);
         case K_MAX_LENGTH:
-            if (jerry_value_is_number(attrValue)) {
-                uint16_t maxLenth = IntegerOf(attrValue);
-                edittext_.SetMaxLength(maxLenth);
-                return true;
-            }
-            HILOG_ERROR(HILOG_MODULE_ACE, "the edittext maxLenth is error value");
-            break;
+            return SetMaxLength(attrValue);
         default:
             return false;
     }
