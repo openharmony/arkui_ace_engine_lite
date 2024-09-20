@@ -42,25 +42,31 @@ jerry_value_t Router::Replace(jerry_value_t object, bool async)
     if (newSm_ != nullptr) {
         if (taskID_ != DISPATCH_FAILURE) {
             AsyncTaskManager::GetInstance().Cancel(taskID_);
-            ACE_DELETE(newSm_);
         } else {
             HILOG_ERROR(HILOG_MODULE_ACE, "router is replacing, can not handle the new request");
             return UNDEFINED;
         }
     }
-    StateMachine *newSm = new StateMachine();
-    if (newSm == nullptr) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "malloc state machine memory heap failed.");
-        return UNDEFINED;
-    }
-    // init new state machine
+
     jerry_value_t jsRes = jerry_create_undefined();
-    bool res = newSm->Init(object, jsRes);
-    if (!res) {
-        delete newSm;
-        return jsRes;
+    if (newSm_ == nullptr) {
+        StateMachine *newSm = new StateMachine();
+        if (newSm == nullptr) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "malloc state machine memory heap failed.");
+            return UNDEFINED;
+        }
+
+        // init new state machine
+        bool res = newSm->Init(object, jsRes);
+        if (!res) {
+            delete newSm;
+            return jsRes;
+        }
+        newSm_ = newSm;
+    } else {
+        HILOG_ERROR(HILOG_MODULE_ACE, "consume asynchronous tasks in the task queue first.async:%d", async);
     }
-    newSm_ = newSm;
+
     // dispatch the new page rendering to the async handling as the current context of
     // router.replace need to be released, which need to return out from the scope
     if (async) {
