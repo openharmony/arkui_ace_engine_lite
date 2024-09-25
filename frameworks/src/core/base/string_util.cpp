@@ -40,6 +40,7 @@ char *StringUtil::Copy(const char *sequence)
     ace_free(buffer);
     return nullptr;
 }
+
 char *StringUtil::Malloc(const uint32_t size)
 {
     char *buffer = static_cast<char *>(ace_malloc(size + 1));
@@ -49,6 +50,7 @@ char *StringUtil::Malloc(const uint32_t size)
     buffer[size] = '\0';
     return buffer;
 }
+
 char *StringUtil::Slice(const char *sequence, const int32_t start)
 {
     return StringUtil::Slice(sequence, start, strlen(sequence));
