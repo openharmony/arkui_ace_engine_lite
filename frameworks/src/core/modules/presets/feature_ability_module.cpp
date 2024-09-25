@@ -328,7 +328,6 @@ void FeatureAbilityModule::CopySuccessMessage(const FeatureAbilityDataInfo *orig
             }
         }
     }
-
     if (origin->bundleName != nullptr) {
         bufSize = strlen(origin->bundleName);
         if (bufSize < NAME_LENGTH_MAX) {
@@ -341,7 +340,6 @@ void FeatureAbilityModule::CopySuccessMessage(const FeatureAbilityDataInfo *orig
             }
         }
     }
-
     if (origin->abilityName != nullptr) {
         bufSize = strlen(origin->abilityName);
         if (bufSize < NAME_LENGTH_MAX) {
@@ -354,7 +352,6 @@ void FeatureAbilityModule::CopySuccessMessage(const FeatureAbilityDataInfo *orig
             }
         }
     }
-
     if ((origin->message != nullptr) && (origin->messageLength > 0) && (origin->messageLength < UINT16_MAX)) {
         bufSize = origin->messageLength;
         char *buffer = static_cast<char *>(ace_malloc(sizeof(char) * (bufSize + 1)));
@@ -369,6 +366,7 @@ void FeatureAbilityModule::CopySuccessMessage(const FeatureAbilityDataInfo *orig
         }
     }
 }
+
 int32_t FeatureAbilityModule::MessageFailCallback(const void *data, uint16_t dataLength, uint16_t errorCode)
 {
     if (FatalHandler::GetInstance().IsFatalErrorHitted()) {
