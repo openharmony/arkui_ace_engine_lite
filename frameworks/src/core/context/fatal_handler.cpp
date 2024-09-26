@@ -55,7 +55,7 @@ static void HandleFatal(int errorCode)
 #if (FEATURE_FATAL_ERROR_HANDLING == 1)
     HILOG_ERROR(HILOG_MODULE_ACE, "hitted by fatal error[%{public}d]", errorCode);
     if (FatalHandler::GetInstance().IsFatalErrorHitted()) {
-        // fatal hitted again during one fatal handing, return to avoid dead loop
+        HILOG_ERROR(HILOG_MODULE_ACE, "fatal hitted again during one fatal handing, return to avoid dead loop");
         return;
     }
     // record error code
