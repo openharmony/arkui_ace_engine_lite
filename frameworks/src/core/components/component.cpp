@@ -862,6 +862,93 @@ void Component::SetAnimationKeyFrames(int16_t keyId, int32_t valueFrom, int32_t 
     }
 }
 
+void Component::SetAnimationDuration(const AppStyleItem *styleItem, const char *strValue)
+{
+    if ((styleItem == nullptr) || (!const_cast<AppStyleItem *>(styleItem)->UpdateNumValToStr())
+        || strValue == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "SetAnimationDuration fail");
+        return;
+    }
+
+    if (!IsStyleValueTypeString(styleItem)) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "style animation during value is invalid!");
+        return;
+    }
+    trans_->during = ParseToMilliseconds(strValue);
+}
+
+void Component::SetAnimationTimingFunction(const char *strValue, size_t strLen)
+{
+    if (strValue == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "SetAnimationTimingFunction fail");
+        return;
+    }
+
+    uint16_t animationTimingKeyId = KeyParser::ParseKeyId(strValue, strLen);
+    switch (animationTimingKeyId) {
+        case K_EASE_IN:
+            trans_->easing = EasingType::EASE_IN;
+            break;
+        case K_EASE_OUT:
+            trans_->easing = EasingType::EASE_OUT;
+            break;
+        case K_EASE_IN_OUT:
+            trans_->easing = EasingType::EASE_IN_OUT;
+            break;
+        default:
+            trans_->easing = EasingType::LINEAR;
+            break;
+    }
+}
+
+void Component::SetAnimationFillMode(const char *strValue, size_t strLen)
+{
+    if (strValue == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "SetAnimationFillMode fail");
+        return;
+    }
+
+    uint16_t animationFillKeyId = KeyParser::ParseKeyId(strValue, strLen);
+    switch (animationFillKeyId) {
+        case K_FORWARDS:
+            trans_->fill = OptionsFill::FORWARDS;
+            break;
+        default:
+            trans_->fill = OptionsFill::FNONE;
+            break;
+    }
+}
+
+void Component::SetAnimationDelay(const AppStyleItem *styleItem, const char *strValue)
+{
+    if ((styleItem == nullptr) || (!const_cast<AppStyleItem *>(styleItem)->UpdateNumValToStr())
+        || strValue == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "SetAnimationDelay fail");
+        return;
+    }
+
+    if (!IsStyleValueTypeString(styleItem)) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "style animation delay value is invalid!");
+        return;
+    }
+    trans_->delay = ParseToMilliseconds(strValue);
+}
+
+void Component::SetAnimationIterationCount(const AppStyleItem *styleItem, const char *strValue)
+{
+    if ((styleItem == nullptr) || (!const_cast<AppStyleItem *>(styleItem)->UpdateNumValToStr())
+        || strValue == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "SetAnimationIterationCount fail");
+        return;
+    }
+
+    if (!IsStyleValueTypeString(styleItem)) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "style iteration count value is invalid!");
+        return;
+    }
+    trans_->iterations = TransitionImpl::GetNumIterations(strValue);
+}
+
 void Component::SetAnimationStyle(const UIView &view, const AppStyleItem *styleItem, const int16_t keyId)
 {
     // special for "animation-iteration-count" which value could be a number or string "infinite"
@@ -885,57 +972,23 @@ void Component::SetAnimationStyle(const UIView &view, const AppStyleItem *styleI
     }
     switch (keyId) {
         case K_ANIMATION_DURATION: {
-            if (!IsStyleValueTypeString(styleItem)) {
-                HILOG_ERROR(HILOG_MODULE_ACE, "style animation during value is invalid!");
-                return;
-            }
-            trans_->during = ParseToMilliseconds(strValue);
+            SetAnimationDuration(styleItem, strValue);
             break;
         }
         case K_ANIMATION_TIMING_FUNCTION: {
-            uint16_t animationTimingKeyId = KeyParser::ParseKeyId(strValue, strLen);
-            switch (animationTimingKeyId) {
-                case K_EASE_IN:
-                    trans_->easing = EasingType::EASE_IN;
-                    break;
-                case K_EASE_OUT:
-                    trans_->easing = EasingType::EASE_OUT;
-                    break;
-                case K_EASE_IN_OUT:
-                    trans_->easing = EasingType::EASE_IN_OUT;
-                    break;
-                default:
-                    trans_->easing = EasingType::LINEAR;
-                    break;
-            }
+            SetAnimationTimingFunction(strValue, strLen);
             break;
         }
         case K_ANIMATION_FILL_MODE: {
-            uint16_t animationFillKeyId = KeyParser::ParseKeyId(strValue, strLen);
-            switch (animationFillKeyId) {
-                case K_FORWARDS:
-                    trans_->fill = OptionsFill::FORWARDS;
-                    break;
-                default:
-                    trans_->fill = OptionsFill::FNONE;
-                    break;
-            }
+            SetAnimationFillMode(strValue, strLen);
             break;
         }
         case K_ANIMATION_DELAY: {
-            if (!IsStyleValueTypeString(styleItem)) {
-                HILOG_ERROR(HILOG_MODULE_ACE, "style animation delay value is invalid!");
-                return;
-            }
-            trans_->delay = ParseToMilliseconds(strValue);
+            SetAnimationDelay(styleItem, strValue);
             break;
         }
         case K_ANIMATION_ITERATION_COUNT: {
-            if (!IsStyleValueTypeString(styleItem)) {
-                HILOG_ERROR(HILOG_MODULE_ACE, "style iteration count value is invalid!");
-                return;
-            }
-            trans_->iterations = TransitionImpl::GetNumIterations(strValue);
+            SetAnimationIterationCount(styleItem, strValue);
             break;
         }
         default:
