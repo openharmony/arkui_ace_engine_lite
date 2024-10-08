@@ -46,6 +46,7 @@ void JSDialog::SetTitle(char *title)
 {
     title_ = title;
 }
+
 void JSDialog::SetMessage(char *message)
 {
     message_ = message;
