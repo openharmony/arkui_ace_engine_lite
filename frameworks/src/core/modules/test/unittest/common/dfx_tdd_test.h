@@ -34,6 +34,9 @@ public:
     void DfxTest007();
     void RunTests();
 private:
+    void OnDfxTest002(jerry_value_t& backtraceVal, JSValue& page,
+        const uint16_t stackMsgMaxLength, const uint8_t exceptLength);
+
     static const char * const BUNDLE1;
     static const char * const BUNDLE2;
     static const char * const BUNDLE3;
