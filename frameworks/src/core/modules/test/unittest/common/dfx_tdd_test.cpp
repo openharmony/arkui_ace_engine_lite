@@ -615,6 +615,13 @@ void DfxTddTest::DfxTest002()
         TDD_CASE_END();
         return;
     }
+
+    OnDfxTest002(backtraceVal, page, stackMsgMaxLength, exceptLength);
+}
+
+void DfxTddTest::OnDfxTest002(jerry_value_t& backtraceVal, JSValue& page,
+                              const uint16_t stackMsgMaxLength, const uint8_t exceptLength)
+{
     uint32_t length = jerry_get_array_length(backtraceVal);
     EXPECT_EQ(length, exceptLength);
     jerry_char_t *errStrBuffer = static_cast<jerry_char_t *>(ace_malloc(sizeof(jerry_char_t) * (stackMsgMaxLength)));
