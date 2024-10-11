@@ -39,6 +39,7 @@ void TransitionImpl::Callback(UIView *view)
 {
     (void)(view);
     if (animator_ == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "animator is nullptr");
         return;
     }
     int32_t elapsedTime = animator_->GetRunTime() - params_.delay; // animation execution time
