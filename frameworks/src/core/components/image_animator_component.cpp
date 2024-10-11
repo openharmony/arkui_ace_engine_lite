@@ -337,6 +337,7 @@ jerry_value_t ImageAnimatorComponent::StartAnimator(const jerry_value_t func,
 
     return UNDEFINED;
 }
+
 jerry_value_t ImageAnimatorComponent::PauseAnimator(const jerry_value_t func,
                                                     const jerry_value_t dom,
                                                     const jerry_value_t args[],
@@ -357,6 +358,7 @@ jerry_value_t ImageAnimatorComponent::PauseAnimator(const jerry_value_t func,
 
     return UNDEFINED;
 }
+
 jerry_value_t ImageAnimatorComponent::ResumeAnimator(const jerry_value_t func,
                                                      const jerry_value_t dom,
                                                      const jerry_value_t args[],
@@ -377,6 +379,7 @@ jerry_value_t ImageAnimatorComponent::ResumeAnimator(const jerry_value_t func,
 
     return UNDEFINED;
 }
+
 jerry_value_t ImageAnimatorComponent::StopAnimator(const jerry_value_t func,
                                                    const jerry_value_t dom,
                                                    const jerry_value_t args[],
