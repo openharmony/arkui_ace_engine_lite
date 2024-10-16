@@ -165,4 +165,4 @@ export default {
             this.planList[i].color = COLOR_ORANGE;
         }
     }
-}
+};
