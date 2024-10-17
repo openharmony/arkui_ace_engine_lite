@@ -43,79 +43,65 @@ function calcSuffixExpression(expression) {
     return numberStack[0];
 }
 
+function processElement(operatorStack, suffixExpression, element) {
+    if (element === '(') {
+        operatorStack.push(element);
+    } else if (element === ')') {
+        while (operatorStack.length && operatorStack[operatorStack.length - 1] !== '(') {
+            suffixExpression.push(operatorStack.pop());
+        }
+        if (operatorStack.length) {
+            operatorStack.pop();
+        }
+    } else if (isOperator(element)) {
+        let topOperator = operatorStack[operatorStack.length - 1];
+        while (topOperator && !isGrouping(topOperator) && !isPrioritized(element, topOperator)) {
+            suffixExpression.push(operatorStack.pop());
+            topOperator = operatorStack[operatorStack.length - 1];
+        }
+        operatorStack.push(element);
+    } else {
+        suffixExpression.push(element);
+    }
+}
+
 function toSuffixExpression(expression) {
     const operatorStack = [];
     const suffixExpression = [];
-    let topOperator;
-    for (let idx = 0, size = expression.length; idx < size; idx++) {
-        const element = expression[idx];
-        if (element === '(') {
-            operatorStack.push(element);
-            continue;
-        }
-        if (element === ')') {
-            if (operatorStack.length) {
-                let operator = operatorStack.pop();
-                while (operator !== '(') {
-                    suffixExpression.push(operator);
-                    operator = operatorStack.pop();
-                }
-            }
-            continue;
-        }
-        if (isOperator(element)) {
-            if (!operatorStack.length) {
-                operatorStack.push(element);
-            } else {
-                topOperator = operatorStack[operatorStack.length - 1];
-                if (!isGrouping(topOperator) && !isPrioritized(element, topOperator)) {
-                    suffixExpression.push(operatorStack.pop());
-                }
-                operatorStack.push(element);
-            }
-            continue;
-        }
-        suffixExpression.push(element);
+
+    for (let idx = 0; idx < expression.length; idx++) {
+        processElement(operatorStack, suffixExpression, expression[idx]);
     }
+
     while (operatorStack.length) {
         suffixExpression.push(operatorStack.pop());
     }
+
     return suffixExpression;
 }
 
 function parseInfixExpression(content) {
     const size = content.length;
-    const lastIdx = size - 1;
     let number = '';
     const expression = [];
     for (let idx = 0; idx < size; idx++) {
         const element = content[idx];
         if (isGrouping(element)) {
-            if (number !== '') {
-                expression.push(number);
-                number = '';
-            }
+            number && expression.push(number); number = '';
             expression.push(element);
         } else if (isOperator(element)) {
             if (isSymbol(element) && (idx === 0 || content[idx - 1] === '(')) {
                 number += element;
             } else {
-                if (number !== '') {
-                    expression.push(number);
-                    number = '';
-                }
+                number && expression.push(number); number = '';
 
-                if (idx !== lastIdx) {
-                    expression.push(element);
-                }
+                idx !== size - 1 && expression.push(element);
             }
         } else {
             number += element;
         }
 
-        if (idx === lastIdx && number !== '') {
-            expression.push(number);
-        }
+        idx === size - 1 && number && expression.push(number);
     }
     return expression;
 }
