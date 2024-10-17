@@ -34,26 +34,24 @@ export default {
         this.result = '';
     },
     handleInput(value) {
-        if (isOperator(value)) {
-            if (pressedEqual) {
-                pressedEqual = false;
-            } else {
-                const size = this.expression.length;
-                if (size) {
-                    const last = this.expression.charAt(size - 1);
-                    if (isOperator(last)) {
-                        this.expression = this.expression.slice(0, -1);
-                    }
-                }
-            }
-            if (!this.expression && (value === '*' || value === '/')) {
-                return;
-            }
-            this.expression += value;
+        const isOp = isOperator(value);
+        const isEmptyExpression = !this.expression;
+
+        if (pressedEqual) {
+            this.expression = value;
+            pressedEqual = false;
         } else {
-            if (pressedEqual) {
-                this.expression = value;
-                pressedEqual = false;
+            if (isOp) {
+                // Remove the last operator if the current input is an operator
+                if (this.expression.length > 0 &&
+                        isOperator(this.expression.charAt(this.expression.length - 1))) {
+                    this.expression = this.expression.slice(0, -1);
+                }
+                // Prevent leading division or multiplication
+                if (isEmptyExpression && (value === '*' || value === '/')) {
+                    return;
+                }
+                this.expression += value;
             } else {
                 this.expression += value;
             }
