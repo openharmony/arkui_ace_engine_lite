@@ -53,7 +53,9 @@ void CallbackExecutor(void *data)
     constexpr uint8_t argsLength = 1;
     JSValue args[argsLength] = {params->arg};
     JSRelease(JSFunction::Call(params->fn, params->vm, args, argsLength));
-    JSRelease(params->arg);
+    if (params->arg) {
+        JSRelease(params->arg);
+    }
     delete params;
     params = nullptr;
 }
