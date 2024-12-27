@@ -26,10 +26,12 @@ SwiperComponent::SwiperComponent(jerry_value_t options, jerry_value_t children, 
       hasChildren_(false),
       index_(0),
       childrenNum_(0),
-      changeListener_(nullptr)
+      changeListener_(nullptr),
+      loop_(true)
 {
     SetComponentName(K_SWIPER);
-    swiperView_.SetLoopState(true);
+    swiperView_.SetLoopState(loop_);
+    blankSize_ = swiperView_.GetBlankSize();
 #if (FEATURE_ROTATION_API == 1)
     RegisterNamedFunction(FUNC_ROTATION_NAME, HandleRotationRequest);
 #endif // FEATURE_ROTATION_API
@@ -60,10 +62,11 @@ bool SwiperComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value_t attr
         return true;
     } else if (attrKeyId == K_LOOP) {
         if (jerry_value_is_boolean(attrValue)) {
-            swiperView_.SetLoopState(BoolOf(attrValue));
+            loop_ = BoolOf(attrValue);
         } else {
-            swiperView_.SetLoopState(true);
+            loop_ = true;
         }
+        swiperView_.SetLoopState(loop_);
         return true;
     } else if (attrKeyId == K_INDEX) {
         if (!jerry_value_is_number(attrValue) && !jerry_value_is_string(attrValue)) {
@@ -157,6 +160,9 @@ void SwiperComponent::SetPageIndex()
     if (childrenNum == 1) {
         swiperView_.SetBlankSize(0);
         swiperView_.SetLoopState(false);
+    } else {
+        swiperView_.SetBlankSize(blankSize_);
+        swiperView_.SetLoopState(loop_);
     }
 }
 
