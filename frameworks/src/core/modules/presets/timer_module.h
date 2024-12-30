@@ -47,6 +47,7 @@ public:
             delete (timerList_);
             timerList_ = nullptr;
         }
+        initRes_ = -1;
     }
 
 private:
