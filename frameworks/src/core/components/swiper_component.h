@@ -61,6 +61,8 @@ private:
     int16_t index_;
     uint16_t childrenNum_;
     ChangeListener *changeListener_;
+    bool loop_;
+    uint16_t blankSize_;
 };
 } // namespace ACELite
 } // namespace OHOS
