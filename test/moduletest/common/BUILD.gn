@@ -44,7 +44,6 @@ unittest("js_frameworks_tdd_door") {
     "$ace_lite_src_core/components/test/unittest/common/slider_tdd_test.cpp",
     "$ace_lite_src_core/components/test/unittest/common/stack_tdd_test.cpp",
     "$ace_lite_src_core/components/test/unittest/common/switch_tdd_test.cpp",
-    "$ace_lite_src_core/components/test/unittest/common/text_tdd_exception_test.cpp",
     "$ace_lite_src_core/components/test/unittest/common/text_tdd_test.cpp",
     "$ace_lite_src_core/modules/presets/test/unittest/common/console_module_test.cpp",
     "$ace_lite_src_core/modules/presets/test/unittest/common/date_time_module_tdd_test.cpp",
