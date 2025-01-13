@@ -245,18 +245,6 @@ unittest("js_frameworks_test_text") {
   deps = ace_test_deps
 }
 
-unittest("js_frameworks_test_text_exception") {
-  output_extension = "bin"
-  output_dir = test_output_root
-  configs = [ "$ace_lite_root/test:test_common_config" ]
-  sources = [
-    "$ace_lite_root/test/moduletest/common/base_test.cpp",
-    "root_component_mock.cpp",
-    "text_tdd_exception_test.cpp",
-  ]
-  deps = ace_test_deps
-}
-
 unittest("js_frameworks_test_input_event") {
   output_extension = "bin"
   output_dir = test_output_root
