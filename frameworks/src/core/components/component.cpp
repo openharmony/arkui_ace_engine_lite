@@ -1011,7 +1011,6 @@ void Component::AddAnimationToList(const TransitionImpl *transitionImpl) const
 void Component::RecordAnimation()
 {
     if (trans_ == nullptr) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "failed to record animation, trans_ is nullptr");
         return;
     }
 

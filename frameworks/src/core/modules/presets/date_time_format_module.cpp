@@ -231,7 +231,7 @@ jerry_value_t DateTimeFormatModule::GetMonthVal(jerry_value_t time) const
     const uint8_t monthIndex = 1;
     const uint8_t maxMonthLen = 20;
     uint8_t start = 0;
-    char *result = reinterpret_cast<char *>(ace_malloc(maxMonthLen));
+    char *result = reinterpret_cast<char *>(ace_malloc(maxMonthLen + 1));
     if (result == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "malloc month str failed");
         return jerry_create_error(JERRY_ERROR_EVAL, reinterpret_cast<const jerry_char_t *>("memory is not enough"));

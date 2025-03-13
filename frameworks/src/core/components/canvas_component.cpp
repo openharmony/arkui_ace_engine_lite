@@ -2016,7 +2016,7 @@ jerry_value_t CanvasComponent::ParseImageName(const jerry_value_t args[],
         } else {
             // The argument is the object passed through the new Image()
             imageName = GetImageObjectParam(args, width, height);
-            if (strlen(imageName) < 1) {
+            if (imageName && strlen(imageName) < 1) {
                 return jerry_create_error(JERRY_ERROR_TYPE,
                                           reinterpret_cast<const jerry_char_t *>("get imageName value failed"));
             }
