@@ -67,13 +67,7 @@ public:
     ACE_DISALLOW_COPY_AND_MOVE(Component);
     Component() = delete;
     Component(jerry_value_t options, jerry_value_t children, AppStyleManager *styleManager);
-    virtual ~Component()
-    {
-        if (trans_ != nullptr) {
-            delete (trans_);
-            trans_ = nullptr;
-        }
-    }
+    virtual ~Component() {}
 
     /**
      * @brief After construct a specific component, call this function to setup this component's native view

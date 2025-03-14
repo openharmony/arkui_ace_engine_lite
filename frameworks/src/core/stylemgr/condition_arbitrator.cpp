@@ -397,7 +397,7 @@ bool ConditionArbitrator::DecomPositionConditions(const char *conditions, LinkQu
         conditions = recordPos;
         len = 0;
     }
-    if (*conditions != '\0' && strlen(conditions) > 0) {
+    if (conditions && *conditions != '\0' && strlen(conditions) > 0) {
         buff = StringUtil::Slice(conditions, SLICE_FROM_CURRENT_POS);
         if (buff != nullptr) {
             result = queue->Enqueue(buff);
@@ -522,6 +522,9 @@ bool ConditionArbitrator::Calculate(LinkQueue *expressionQueue) const
         return false;
     }
     stack.Pop(&value);
+    if (value == nullptr) {
+        return false;
+    }
     return strcmp(value, "true") == 0 ? true : false;
 }
 
