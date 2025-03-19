@@ -183,7 +183,7 @@ jerry_value_t DateTimeFormatModule::Format(const jerry_value_t func,
     formatter->ConvertLocalToGMT(dateTime);
     if (formatter->isSetDate_ || formatter->isSetTime_) {
         uint8_t maxSize = 128;
-        char *res = reinterpret_cast<char *>(ace_malloc(maxSize));
+        char *res = reinterpret_cast<char *>(ace_malloc(maxSize + 1));
         if (res == nullptr) {
             return UNDEFINED;
         }
