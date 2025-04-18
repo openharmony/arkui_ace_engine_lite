@@ -45,6 +45,9 @@ limitations under the License.
     <list-item class="buttonContainerStyle">
       <input type="button" class="buttonStyle" value="特有设置" onclick="changePage4" />
     </list-item>
+    <list-item class="buttonContainerStyle">
+      <input type="button" class="buttonStyle" value="循环滑动" onclick="changePage5" />
+    </list-item>
     <list-item style="width: 454px; height: 100px"> </list-item>
   </list>
 </stack>

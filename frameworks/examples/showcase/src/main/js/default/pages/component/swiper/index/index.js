@@ -18,5 +18,6 @@ export default {
   changePage1: routePage('pages/component/swiper/indexAttr/index').changePage,
   changePage2: routePage('pages/component/swiper/indexStyle/index').changePage,
   changePage3: routePage('pages/component/swiper/indexEvent/index').changePage,
-  changePage4: routePage('pages/component/swiper/indexSpecSet/index').changePage
+  changePage4: routePage('pages/component/swiper/indexSpecSet/index').changePage,
+  changePage5: routePage('pages/component/swiper/swiper12/swiper12').changePage
 };
