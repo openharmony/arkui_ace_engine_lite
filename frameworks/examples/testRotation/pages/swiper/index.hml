@@ -1,0 +1,45 @@
+<!--
+Copyright (c) 2025 Huawei Device Co., Ltd.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<div class="container">
+    <text class="title" onclick="onSelectSwiper">
+        {{this.title}}
+    </text>
+    <swiper class="swiper_container" ref="swiperObj">
+        <div class="swiper_child">
+            <list class="list_container" onclick="onSelectList" ref="listObj">
+                <list-item class="list_item_style" for="{{items}}">
+                    <text class="list_item_text">
+                        {{$item}}
+                    </text>
+                </list-item>
+            </list>=
+        </div>
+        <div class="swiper_child" onclick="onSelectPickerView">
+            <picker-view class="time-picker" type="text" range="{{pickerData}}" ref="pickerObj">
+            </picker-view>
+        </div>
+        <div class="swiper_child">
+            <slider class="slider" min="0" max="100" value="30" ref="sliderObj1" onclick="onSelectSlider(1)">
+            </slider>
+            <slider class="slider" min="0" max="100" value="50" ref="sliderObj2" onclick="onSelectSlider(2)">
+            </slider>
+            <slider class="slider" min="0" max="100" value="10" ref="sliderObj3" onclick="onSelectSlider(3)">
+            </slider>
+        </div>
+    </swiper>
+    <input class="back-page" value="homepage" onclick="backPage">
+    </input>
+</div>
