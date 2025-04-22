@@ -26,8 +26,39 @@
 #include "memory_heap.h"
 #include "non_copyable.h"
 
+#if defined(__LITEOS_M__)
+extern void LOS_TaskLock(void);
+extern void LOS_TaskUnlock(void);
+#endif
+
 namespace OHOS {
 namespace ACELite {
+class TaskLockGuard {
+public:
+    explicit TaskLockGuard(void* lock): lock_(lock)
+    {
+#if (defined(__LINUX__) || defined(__LITEOS_A__))
+        pthread_mutex_lock((pthread_mutex_t*)lock_);
+#elif defined(__LITEOS_M__)
+        LOS_TaskLock();
+#endif
+    }
+    ~TaskLockGuard()
+    {
+#if (defined(__LINUX__) || defined(__LITEOS_A__))
+        pthread_mutex_unlock((pthread_mutex_t*)lock_);
+#elif defined(__LITEOS_M__)
+        LOS_TaskUnlock();
+#endif
+        lock_ = nullptr;
+    }
+    TaskLockGuard(const TaskLockGuard&) = delete;
+    TaskLockGuard& operator=(const TaskLockGuard&) = delete;
+private:
+    void* lock_ = nullptr;
+};
+
+
 using AsyncTaskHandler = void (*)(void *);
 
 struct AsyncTask final : public MemoryHeap {

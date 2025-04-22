@@ -17,34 +17,6 @@
 #include "ace_log.h"
 #include "fatal_handler.h"
 
-#if (defined(__LINUX__) || defined(__LITEOS_A__))
-#define TRY_LOCK()                  \
-    {                               \
-        pthread_mutex_lock(&lock_); \
-    }
-
-#define TRY_UNLOCK()                  \
-    {                                 \
-        pthread_mutex_unlock(&lock_); \
-    }
-#elif defined(__LITEOS_M__)
-#define TRY_LOCK()      \
-    {                   \
-        LOS_TaskLock(); \
-    }
-#define TRY_UNLOCK()      \
-    {                     \
-        LOS_TaskUnlock(); \
-    }
-#else
-#define TRY_LOCK() \
-    {              \
-    }
-#define TRY_UNLOCK() \
-    {                \
-    }
-#endif
-
 namespace OHOS {
 namespace ACELite {
 AsyncTaskManager::AsyncTaskManager()
@@ -64,12 +36,18 @@ AsyncTaskManager::AsyncTaskManager()
 
 void AsyncTaskManager::Reset()
 {
-    while (head_ != nullptr) {
-        AsyncTask *task = head_;
-        head_ = head_->next;
-        delete task;
-        task = nullptr;
+#if defined(__LINUX__) || defined(__LITEOS_A__)
+    TaskLockGuard lock(&lock_);
+#elif defined(__LITEOS_M__)
+    TaskLockGuard lock(nullptr);
+#endif
+    AsyncTask* current = head_;
+    while (current != nullptr) {
+        AsyncTask* next = current->next;
+        delete current;
+        current = next;
     }
+    head_ = nullptr;
     tail_ = nullptr;
 }
 
@@ -81,11 +59,11 @@ AsyncTaskManager &AsyncTaskManager::GetInstance()
 
 void AsyncTaskManager::Init()
 {
-    Reset(); // make sure no residual task in list
     if (initialized_) {
         // do not add repeatly
         return;
     }
+    Reset(); // make sure no residual task in list
     Task::Init();
     initialized_ = true;
 }
@@ -96,16 +74,31 @@ void AsyncTaskManager::Callback()
         return;
     }
 
-    while (head_ != nullptr) {
-        AsyncTask *task = head_;
-        task->isRunning = true;
-        task->handler(task->data);
-        if (head_ == tail_) {
-            tail_ = nullptr;
+    bool hasMoreTasks = true;
+    while (hasMoreTasks) {
+        AsyncTask *task = nullptr;
+        {
+#if defined(__LINUX__) || defined(__LITEOS_A__)
+        TaskLockGuard lock(&lock_);
+#elif defined(__LITEOS_M__)
+        TaskLockGuard lock(nullptr);
+#endif
+            if (!front_ || !head_) {
+                hasMoreTasks = false;
+                break;
+            }
+            task = head_;
+            head_ = head_->next;
+            if (!head_) {
+                tail_ = nullptr;
+            }
         }
-        head_ = head_->next;
-        delete task;
-        task = nullptr;
+        if (task) {
+            task->isRunning = true;
+            task->handler(task->data);
+            delete task;
+            task = nullptr;
+        }
     }
 }
 
@@ -119,11 +112,14 @@ uint16_t AsyncTaskManager::Dispatch(AsyncTaskHandler handler, void *data, const 
         HILOG_ERROR(HILOG_MODULE_ACE, "AsyncTaskManager::Dispatch failed: Fatal error is hitted.");
         return DISPATCH_FAILURE;
     }
-    TRY_LOCK();
+#if defined(__LINUX__) || defined(__LITEOS_A__)
+    TaskLockGuard lock(&lock_);
+#elif defined(__LITEOS_M__)
+    TaskLockGuard lock(nullptr);
+#endif
     auto *task = new AsyncTask();
     if (task == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "AsyncTaskManager::Dispatch failed: out of memory.");
-        TRY_UNLOCK();
         return DISPATCH_FAILURE;
     }
     task->handler = handler;
@@ -144,7 +140,6 @@ uint16_t AsyncTaskManager::Dispatch(AsyncTaskHandler handler, void *data, const 
         tail_->next = task;
         tail_ = task;
     }
-    TRY_UNLOCK();
     return uniqueTaskID_;
 }
 
@@ -154,7 +149,11 @@ void AsyncTaskManager::Cancel(uint16_t taskID)
         HILOG_ERROR(HILOG_MODULE_ACE, "AsyncTaskManager::Cancel failed: invalid task ID.");
         return;
     }
-    TRY_LOCK();
+#if defined(__LINUX__) || defined(__LITEOS_A__)
+    TaskLockGuard lock(&lock_);
+#elif defined(__LITEOS_M__)
+    TaskLockGuard lock(nullptr);
+#endif
     AsyncTask *node = head_;
     AsyncTask *prev = nullptr;
     while (node != nullptr) {
@@ -174,7 +173,6 @@ void AsyncTaskManager::Cancel(uint16_t taskID)
         prev = node;
         node = node->next;
     }
-    TRY_UNLOCK();
 }
 
 void AsyncTaskManager::CancelWithContext(const void *context)
@@ -183,7 +181,11 @@ void AsyncTaskManager::CancelWithContext(const void *context)
         HILOG_ERROR(HILOG_MODULE_ACE, "AsyncTaskManager::CancelWithContext failed: null context.");
         return;
     }
-    TRY_LOCK();
+#if defined(__LINUX__) || defined(__LITEOS_A__)
+    TaskLockGuard lock(&lock_);
+#elif defined(__LITEOS_M__)
+    TaskLockGuard lock(nullptr);
+#endif
     AsyncTask *node = head_;
     AsyncTask *prev = nullptr;
     AsyncTask *next = nullptr;
@@ -205,7 +207,6 @@ void AsyncTaskManager::CancelWithContext(const void *context)
         prev = node;
         node = next;
     }
-    TRY_UNLOCK();
 }
 
 void AsyncTaskManager::SetFront(bool front)
