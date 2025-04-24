@@ -54,7 +54,9 @@ void AceAbility::OnStart(const Want &want)
         HILOG_ERROR(HILOG_MODULE_ACE, "get rootView is nullptr");
         return;
     }
+#ifdef ABILITY_WINDOW_SUPPORT
     SetUIContent(rootView);
+#endif
     Ability::OnStart(want);
     HILOG_DEBUG(HILOG_MODULE_ACE, "AceAbility OnStart Done");
 }
