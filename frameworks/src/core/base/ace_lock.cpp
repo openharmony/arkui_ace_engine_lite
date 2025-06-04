@@ -64,6 +64,7 @@ AutoLockGuard::AutoLockGuard(LockType &lock) : lock_(lock)
     lock_.Lock();
 #elif (defined(__LITEOS_M__) || (OHOS_ACELITE_PRODUCT_WATCH == 1))
     LOS_TaskLock();
+    (void)lock_;
 #else
     (void)lock_;
 #endif
