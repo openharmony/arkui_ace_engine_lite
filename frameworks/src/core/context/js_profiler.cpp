@@ -351,6 +351,7 @@ void JSProfiler::Output()
             continue;
         }
 #if (FEATURE_ACELITE_MC_JS_PROFILER == 1)
+        (void)g_profilerPhaseConfig;
         HILOG_DEBUG(HILOG_MODULE_ACE, "the length of g_profilerPhaseConfig is %{public}zu",
             sizeof(g_profilerPhaseConfig) / sizeof(g_profilerPhaseConfig[0]));
         if (g_profiler_msg_index == 0) {

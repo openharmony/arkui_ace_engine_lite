@@ -207,11 +207,11 @@ CanvasComponent::CanvasComponent(jerry_value_t options, jerry_value_t children, 
 #if GRAPHIC_ENABLE_GRADIENT_FILL_FLAG
       colorStopValue_(nullptr),
 #endif
-      lineWidthValue_(1),
 #if GRAPHIC_ENABLE_PATTERN_FILL_FLAG
       patternPathValue_(nullptr),
       patternRepeatTypeValue_(nullptr),
 #endif
+      lineWidthValue_(1),
       lineCapValue_(nullptr),
       lineJoinValue_(nullptr)
 {

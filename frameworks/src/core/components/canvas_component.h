@@ -392,10 +392,6 @@ private:
     int16_t shadowBlurValue_;
     char *shadowColorValue_;
 #endif
-    int16_t lineWidthValue_;
-
-    char *lineCapValue_;
-    char *lineJoinValue_;
 #if GRAPHIC_ENABLE_LINEJOIN_FLAG
     float miterLimitValue_;
 #endif
@@ -487,6 +483,10 @@ private:
 #if GRAPHIC_ENABLE_PATTERN_FILL_FLAG
     static const char * const FUNC_CREATEPATTERN;
 #endif
+    int16_t lineWidthValue_;
+
+    char *lineCapValue_;
+    char *lineJoinValue_;
 };
 } // namespace ACELite
 } // namespace OHOS
