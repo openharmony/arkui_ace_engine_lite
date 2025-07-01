@@ -59,11 +59,11 @@ AsyncTaskManager &AsyncTaskManager::GetInstance()
 
 void AsyncTaskManager::Init()
 {
+    Reset(); // make sure no residual task in list
     if (initialized_) {
         // do not add repeatly
         return;
     }
-    Reset(); // make sure no residual task in list
     Task::Init();
     initialized_ = true;
 }
