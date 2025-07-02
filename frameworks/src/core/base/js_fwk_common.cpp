@@ -517,15 +517,12 @@ char *RelocateFilePathRelative(const char * const appRootPath, const char * cons
     dirPath[len] = '\0';
     // first splice resFileName with directory path
     char *filePath = RelocateFilePath(dirPath, SRC_SUB_FOLDER_NAME, resFileName);
-    if (filePath != nullptr) {
-        ace_free(dirPath);
-        filePath = nullptr;
-    }
+    ACE_FREE(dirPath);
     // second splice root path with res file path
     char *realPath = nullptr;
     if (filePath != nullptr) {
         realPath = RelocateFilePath(appRootPath, SRC_SUB_FOLDER_NAME, filePath);
-        ace_free(filePath);
+        ACE_FREE(filePath);
     }
     return realPath;
 }
