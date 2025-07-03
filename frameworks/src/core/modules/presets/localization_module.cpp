@@ -93,6 +93,7 @@ jerry_value_t LocalizationModule::GetValueByKey(const jerry_value_t *args, const
     char *param = MallocStringOf(args[0], &paramStrLength);
     if (param == nullptr || paramStrLength == 0) {
         HILOG_ERROR(HILOG_MODULE_ACE, "GetValueByKey failed: parse key to string error");
+        ACE_FREE(param);
         return UNDEFINED;
     }
     jerry_value_t resultProp = localization->parser_->GetValue(param, args, argsNum);

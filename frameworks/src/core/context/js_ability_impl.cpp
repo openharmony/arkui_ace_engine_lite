@@ -194,6 +194,7 @@ void JSAbilityImpl::OnRestoreData(AbilitySlite::AbilitySavedData *abilitySavedDa
     pageInfo_ = StringUtil::Malloc(AbilitySlite::SAVED_DATA_LIMIT);
     if (pageInfo_ == nullptr) {
         InvokeOnRestoreData(EMPTY_OBJECT_JSON_STRING, AbilitySlite::SavedResultCode::SAVED_RESULT_NO_DATA);
+        ACE_FREE(userData);
         return;
     }
     uint16_t pageInfoLen = AbilitySlite::SAVED_DATA_LIMIT;
@@ -203,6 +204,7 @@ void JSAbilityImpl::OnRestoreData(AbilitySlite::AbilitySavedData *abilitySavedDa
         ACE_FREE(pageInfo_);
         pageInfo_ = nullptr;
         InvokeOnRestoreData(EMPTY_OBJECT_JSON_STRING, AbilitySlite::SavedResultCode::SAVED_RESULT_NO_DATA);
+        ACE_FREE(userData);
         return;
     }
 
