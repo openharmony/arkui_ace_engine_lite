@@ -87,6 +87,11 @@ void DftImpl::CallbackPageReplaced(int state, const char *param)
     value.routerPath = DftImpl::GetPagePath();
     pageInfoFunc_(value);
     ACE_FREE(paramValue);
+    if (value.routerPath != nullptr) {
+        char *nonConstRouterPath = const_cast<char *>(value.routerPath);
+        ACE_FREE(nonConstRouterPath);
+        value.routerPath = nullptr;
+    }
 }
 } // namespace ACELite
 } // namespace OHOS
