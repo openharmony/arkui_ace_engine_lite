@@ -2017,6 +2017,7 @@ jerry_value_t Component::HandleRotationRequest(const jerry_value_t func,
     UNUSED(func);
     UIView *bindedView = ComponentUtils::GetViewFromBindingObject(dom);
     if (bindedView == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "bindedView is nullptr");
         return UNDEFINED;
     }
 
