@@ -649,7 +649,7 @@ static bool CheckFileLength(const char * const fullPath, int32_t &outFileSize)
         HILOG_ERROR(HILOG_MODULE_ACE, "open file[%{public}s] failed for reading.", fullPath);
         return false;
     }
-    if (fileSize > FILE_CONTENT_LENGTH_MAX) {
+    if (fileSize > static_cast<int32_t>(FILE_CONTENT_LENGTH_MAX)) {
         OutputFileMaxLimitationTrace(fullPath, FILE_CONTENT_LENGTH_MAX);
         ACE_ERROR_CODE_PRINT(EXCE_ACE_ROUTER_REPLACE_FAILED, EXCE_ACE_PAGE_FILE_TOO_HUGE);
         return false;
