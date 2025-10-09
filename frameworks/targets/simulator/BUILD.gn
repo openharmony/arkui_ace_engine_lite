@@ -46,12 +46,22 @@ if (os_level == "standard") {
       "-D_INC_STDLIB_S",
       "-D_INC_MEMORY_S",
     ]
-    deps = [
-      "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr_simulator",
-      "//foundation/arkui/ui_lite/ext/ide:ui_ide",
-      "//third_party/bounds_checking_function:libsec_static",
-      "//third_party/jerryscript:libjerryscript",
-    ]
+    if (build_ohos_sdk) {
+      deps = [
+        "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr_simulator",
+        "//foundation/arkui/ui_lite/ext/ide:ui_ide",
+        "//third_party/bounds_checking_function:libsec_static",
+        "//third_party/jerryscript:libjerryscript",
+      ]
+    } else {
+      external_deps = [
+        "resource_management_lite:global_resmgr_simulator",
+        "ui_lite:ui_ide",
+        "bounds_checking_function:libsec_static",
+        "jerryscript:libjerryscript"
+      ]
+    }
+
     defines = [
       "TARGET_SIMULATOR=1",
       "JS_ENGINE_EXTERNAL_CONTEXT=1",
