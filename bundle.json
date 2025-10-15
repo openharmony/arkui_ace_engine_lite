@@ -23,10 +23,8 @@
     "ram": "~82KB",
     "deps": {
       "third_party": [
-          "bounds_checking_function",
           "cJSON",
-          "freetype",
-          "jerryscript"
+          "freetype"
       ],
       "components": [
          "bundle_framework_lite",
@@ -43,7 +41,9 @@
          "media_lite",
          "battery_lite",
          "netstack",
-         "device_attest_lite"
+         "device_attest_lite",
+         "bounds_checking_function",
+         "jerryscript"
        ]
     },
     "build": {
