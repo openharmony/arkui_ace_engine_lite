@@ -185,10 +185,14 @@ bool StateMachine::BindUri(jerry_value_t &jsRes)
     jerry_value_t uriValue = jerryx_get_property_str(object_, ROUTER_PAGE_URI);
     if (!jerry_value_is_string(uriValue)) {
         jerry_release_value(uriValue);
-        HILOG_ERROR(HILOG_MODULE_ACE, "statemachine init failed as uri is invalid.");
-        jsRes =  AS_JERRY_VALUE(JSI::CreateErrorWithCode(JSI_ERR_CODE_PARAM_CHECK_FAILED,
-                                                         "uri value type should be string."));
-        return false;
+        uriValue = jerryx_get_property_str(object_, ROUTER_PAGE_URL);
+        if (!jerry_value_is_string(uriValue)) {
+            jerry_release_value(uriValue);
+            HILOG_ERROR(HILOG_MODULE_ACE, "statemachine init failed as uri/url is invalid.");
+            jsRes = AS_JERRY_VALUE(
+                JSI::CreateErrorWithCode(JSI_ERR_CODE_PARAM_CHECK_FAILED, "uri/url value type should be string."));
+            return false;
+        }
     }
     uri_ = MallocStringOf(uriValue);
     jerry_release_value(uriValue);

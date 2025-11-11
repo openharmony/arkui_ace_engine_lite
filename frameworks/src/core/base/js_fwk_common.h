@@ -136,6 +136,7 @@ constexpr char ABILITY_LIFECYCLE_CALLBACK_ON_SAVE_DATA[] = "onSaveData";
 #endif
 constexpr char BACK_PRESSED_NAME[] = "$backPress";
 constexpr char ROUTER_PAGE_URI[] = "uri";
+constexpr char ROUTER_PAGE_URL[] = "url";
 constexpr char ROUTER_PAGE_PARAMS[] = "params";
 constexpr char ROUTER_PAGE_PATH[] = "path";
 constexpr char ROUTER_PAGE[] = "$page";
