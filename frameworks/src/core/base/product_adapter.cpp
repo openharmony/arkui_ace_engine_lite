@@ -24,6 +24,7 @@
 #include "js_app_context.h"
 #include "global.h"
 #include "string_util.h"
+#include "ace_log.h"
 
 namespace OHOS {
 namespace ACELite {
@@ -203,6 +204,7 @@ TEDispatchingResult ProductAdapter::DispatchTEMessage()
 
 void ProductAdapter::SendTerminatingRequest(uint32_t token, bool forceStop)
 {
+    HILOG_INFO(HILOG_MODULE_ACE, "STR:IN SUCCESS");
     if (g_termiantingHandler != nullptr) {
         g_termiantingHandler(token, forceStop);
     }
