@@ -204,7 +204,7 @@ TEDispatchingResult ProductAdapter::DispatchTEMessage()
 
 void ProductAdapter::SendTerminatingRequest(uint32_t token, bool forceStop)
 {
-    HILOG_INFO(HILOG_MODULE_ACE, "JSI:STR SUCCESS");
+    HILOG_INFO(HILOG_MODULE_ACE, "STR:IN SUCCESS");
     if (g_termiantingHandler != nullptr) {
         g_termiantingHandler(token, forceStop);
     }
