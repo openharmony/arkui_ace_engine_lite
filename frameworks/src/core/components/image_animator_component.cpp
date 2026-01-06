@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 #include "image_animator_component.h"
+#include "imgdecode/cache_manager.h"
 #include "ace_log.h"
 #include "handler.h"
 #include "key_parser.h"
@@ -71,6 +72,7 @@ bool ImageAnimatorComponent::CreateNativeViews()
     imageAnimator_->SetRepeat(true);
     imageAnimator_->SetReverse(false);
     imageAnimator_->SetSizeFixed(true);
+    imageAnimator_->SetPlayImageByTimestamp(true);
     return true;
 }
 
@@ -193,6 +195,7 @@ void ImageAnimatorComponent::ReleaseFrame()
     for (uint8_t idx = 0; idx < framesSize_; ++idx) {
         ImageAnimatorInfo frame = frames_[idx];
         if (frame.imagePath != nullptr) {
+            CacheManager::GetInstance().Close(frame.imagePath);
             ace_free(const_cast<char *>(frame.imagePath));
             frame.imagePath = nullptr;
         }
