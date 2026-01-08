@@ -82,6 +82,7 @@ ace_lite_include_dirs = [
   "$GRAPHIC_LITE_PATH/interfaces/kits/layout",
   "$GRAPHIC_LITE_PATH/interfaces/kits/themes",
   "$GRAPHIC_LITE_PATH/interfaces/innerkits/common",
+  "$GRAPHIC_LITE_PATH/frameworks",
   "//foundation/communication/ipc/interfaces/innerkits/c/ipc/include",
   "//commonlibrary/utils_lite/include",
   "${aafwk_lite_path}/interfaces/kits/ability_lite",
