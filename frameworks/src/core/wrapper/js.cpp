@@ -74,7 +74,7 @@ char *JSString::Value(JSValue value)
         return nullptr;
     }
     jerry_size_t length = jerry_string_to_char_buffer(target, buffer, size);
-    if (length == 0) {
+    if (length == 0 || length > size) {
         jerry_release_value(target);
         ace_free(buffer);
         buffer = nullptr;
