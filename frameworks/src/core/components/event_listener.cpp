@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <cmath>
 #include "event_listener.h"
 #include "ace_log.h"
 #include "jerryscript.h"
@@ -21,6 +22,10 @@
 
 namespace OHOS {
 namespace ACELite {
+static constexpr char CROWN_EVENT_TIMESTAMP[] = "timestamp";
+static constexpr char CROWN_EVENT_ANGULARVELOCITY[] = "angularVelocity";
+static constexpr char CROWN_EVENT_DEGREE[] = "degree";
+constexpr float FLOAT_EPSILON = 0.001f;
 #ifdef JS_EXTRA_EVENT_SUPPORT
 KeyBoardEventListener::KeyBoardEventListener(jerry_value_t fn, const uint16_t id)
     : fn_ (jerry_acquire_value(fn)), id_ (id) {}
@@ -180,6 +185,68 @@ void ListEventListener::EventExcute(const int16_t index, jerry_value_t bindScrol
         jerry_value_t args[ARGS_LEN] = {currentStateValue, componentIndex};
         CallJSFunctionAutoRelease(bindScrollFunc, UNDEFINED, args, ARGS_LEN);
         ReleaseJerryValue(currentStateValue, componentIndex, VA_ARG_END_FLAG);
+}
+
+inline bool NearZero(const float &value)
+{
+    return (fabs(value) < FLOAT_EPSILON);
+}
+
+bool GlobalRotateEventListener::OnRotateEvent(const RotateEvent &event)
+{
+    if (IS_UNDEFINED(globalRotateEventFunc_)) {
+        return false;
+    }
+    if (!jerry_value_is_function(globalRotateEventFunc_)) {
+        return false;
+    }
+    float angularVelocity = event.GetRotateVelocityJs();
+    float degree = event.GetRotateDegree();
+    jerry_value_t args = jerry_create_object();
+    JerrySetNumberProperty(args, CROWN_EVENT_TIMESTAMP, event.GetTimestamp());
+    JerrySetNumberProperty(args, CROWN_EVENT_ANGULARVELOCITY, NearZero(angularVelocity) ? 0 : angularVelocity);
+    JerrySetNumberProperty(args, CROWN_EVENT_DEGREE, NearZero(degree) ? 0 : degree);
+    jerry_value_t ret = CallJSFunction(globalRotateEventFunc_, UNDEFINED, &args, 1);
+    jerry_release_value(args);
+    if (jerry_value_is_boolean(ret)) {
+        bool boolValue = jerry_get_boolean_value(ret);
+        jerry_release_value(ret);
+        return boolValue;
+    } else {
+        jerry_release_value(ret);
+        return false;
+    }
+}
+
+bool GlobalRotateEventListener::OnRotateStartEvent(const RotateEvent &event)
+{
+    return OnRotateEvent(event);
+}
+
+bool GlobalRotateEventListener::OnRotateEndEvent(const RotateEvent &event)
+{
+    return OnRotateEvent(event);
+}
+
+void GlobalRotateEventListener::SetGlobalRotateEventFunc(jerry_value_t globalRotateEventFunc)
+{
+    if (!IS_UNDEFINED(globalRotateEventFunc_)) {
+        jerry_release_value(globalRotateEventFunc_);
+    }
+
+    if (!IS_UNDEFINED(globalRotateEventFunc)) {
+        globalRotateEventFunc_ = jerry_acquire_value(globalRotateEventFunc);
+    } else {
+        globalRotateEventFunc_ = UNDEFINED;
+    }
+}
+
+void GlobalRotateEventListener::Reset()
+{
+    if (!IS_UNDEFINED(globalRotateEventFunc_)) {
+        jerry_release_value(globalRotateEventFunc_);
+    }
+    globalRotateEventFunc_ = UNDEFINED;
 }
 } // namespace ACELite
 } // namespace OHOS

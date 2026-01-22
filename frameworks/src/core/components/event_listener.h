@@ -29,6 +29,8 @@
 #include "ui_slider.h"
 #include "ui_toggle_button.h"
 #include "ui_edit_text.h"
+#include "rotate_event_listener.h"
+#include "rotate_event.h"
 
 namespace OHOS {
 namespace ACELite {
@@ -344,6 +346,29 @@ private:
     jerry_value_t bindScrollSelectedFunc_;
     jerry_value_t bindScrollTopFunc_;
     jerry_value_t bindScrollBottomFunc_;
+};
+
+class GlobalRotateEventListener final : public RotateEventListener {
+public:
+    ACE_DISALLOW_COPY_AND_MOVE(GlobalRotateEventListener);
+    GlobalRotateEventListener() : globalRotateEventFunc_(UNDEFINED){};
+    ~GlobalRotateEventListener()
+    {
+        jerry_release_value(globalRotateEventFunc_);
+    }
+
+    bool OnRotateStartEvent(const RotateEvent &event) override;
+
+    bool OnRotateEvent(const RotateEvent &event) override;
+
+    bool OnRotateEndEvent(const RotateEvent &event) override;
+
+    void SetGlobalRotateEventFunc(jerry_value_t globalRotateEventFunc);
+
+    void Reset();
+
+private:
+    jerry_value_t globalRotateEventFunc_;
 };
 } // namespace ACELite
 } // namespace OHOS
