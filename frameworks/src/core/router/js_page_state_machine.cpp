@@ -16,6 +16,7 @@
 #include "js_page_state_machine.h"
 #include "ace_log.h"
 #include "component.h"
+#include "digital_crown_module.h"
 #include "directive/descriptor_utils.h"
 #include "fatal_handler.h"
 #include "js_app_environment.h"
@@ -56,6 +57,7 @@ StateMachine::~StateMachine()
 {
     // release this page's all resource
     // if error happens, statemachine must force to jump to destroy state for releasing resource.
+    DigitalCrownModule::ClearMonitorForCrownEvents(UNDEFINED, UNDEFINED, nullptr, 0);
     if ((currentState_ >= INIT_STATE) || FatalHandler::GetInstance().IsFatalErrorHitted()) {
         ChangeState(BACKGROUND_STATE);
         ChangeState(DESTROY_STATE);
