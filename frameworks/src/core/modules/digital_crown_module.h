@@ -48,7 +48,7 @@ public:
     ~DigitalCrownModule() = default;
 
 private:
-    DigitalCrownModule() : PresetModule(nullptr){}
+    DigitalCrownModule() : PresetModule(nullptr) {}
 
     GlobalRotateEventListener globalRotateEventListener_;
 };
@@ -74,4 +74,4 @@ private:
 } // namespace ACELite
 } // namespace OHOS
 
-#endif // OHOS_ACELITE_DIGITAL_CROWN_MODULE_H
+#endif // OHOS_ACELITE_DIGITAL_CROWN_MODULE_H
