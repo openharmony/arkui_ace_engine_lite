@@ -18,7 +18,6 @@
 #include "ace_log.h"
 #include "component.h"
 #include "component_utils.h"
-#include "digital_crown_module.h"
 #include "fatal_handler.h"
 #include "js_app_context.h"
 #include "js_app_environment.h"
@@ -110,7 +109,6 @@ void JSAbilityImpl::CleanUp()
         delete router_;
         router_ = nullptr;
     }
-    DigitalCrownEventsModule::Clear();
 #ifdef _MINI_MULTI_TASKS_
     if (pageInfo_ != nullptr) {
         ACE_FREE(pageInfo_);
