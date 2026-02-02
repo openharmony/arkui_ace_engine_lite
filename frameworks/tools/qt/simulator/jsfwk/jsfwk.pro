@@ -148,7 +148,6 @@ SOURCES += \
         $${ACELITE_CORE_PATH}/modules/presets/timer_module.cpp \
         $${ACELITE_CORE_PATH}/modules/presets/syscap_module.cpp \
         $${ACELITE_CORE_PATH}/modules/presets/version_module.cpp \
-        $${ACELITE_CORE_PATH}/modules/digital_crown_module.cpp \
         $${ACELITE_CORE_PATH}/modules/router_module.cpp \
         $${ACELITE_CORE_PATH}/modules/sample_module.cpp \
         $${ACELITE_CORE_PATH}/resource/video_muted_image_res.cpp \
