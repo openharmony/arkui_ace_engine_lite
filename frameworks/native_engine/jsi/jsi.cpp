@@ -633,8 +633,6 @@ bool JSI::SetPropertyByIndex(JSIValue object, uint32_t index, JSIValue value)
 char *JSI::ValueToString(JSIValue value)
 {
 #if (ENABLE_JERRY == 1)
-    uint32_t lr = 0;
-    lr = GetLR();
     char *result = nullptr;
     jerry_value_t jVal = AS_JERRY_VALUE(value);
     if (!jerry_value_is_string(jVal)) {
@@ -645,7 +643,7 @@ char *JSI::ValueToString(JSIValue value)
     jerry_size_t size = jerry_get_string_size(jVal);
     if ((size == 0) || (size == UINT32_MAX)) {
         // Output empty char instead of nullptr, thus caller can free safely
-        result = static_cast<char *>(ace_malloc(sizeof(char), lr));
+        result = static_cast<char *>(ace_malloc(sizeof(char)));
         if (result == nullptr) {
             HILOG_ERROR(HILOG_MODULE_ACE, "JSI:ValueToString malloc memory for empty char failed!");
             return nullptr;
@@ -653,7 +651,7 @@ char *JSI::ValueToString(JSIValue value)
         result[0] = '\0';
         return result;
     } else {
-        jerry_char_t *buffer = static_cast<jerry_char_t *>(ace_malloc(sizeof(jerry_char_t) * (size + 1), lr));
+        jerry_char_t *buffer = static_cast<jerry_char_t *>(ace_malloc(sizeof(jerry_char_t) * (size + 1)));
         if (buffer == nullptr) {
             HILOG_ERROR(HILOG_MODULE_ACE, "JSI:ValueToString malloc memory failed!");
             return nullptr;
