@@ -634,8 +634,13 @@ static void OutputFileMaxLimitationTrace(const char * const fullPath, size_t lim
         return;
     }
 
+#if (TARGET_SIMULATOR == 1)
+    LogOutLevel(LogLevel::LOG_LEVEL_WARN);
+    LogString(LogLevel::LOG_LEVEL_WARN, traceData);
+#else
     LogOutLevel(LogLevel::LOG_LEVEL_ERR);
     LogString(LogLevel::LOG_LEVEL_ERR, traceData);
+#endif
 }
 
 /**
@@ -651,7 +656,12 @@ static bool CheckFileLength(const char * const fullPath, int32_t &outFileSize)
     }
     if (fileSize > static_cast<int32_t>(FILE_CONTENT_LENGTH_MAX)) {
         OutputFileMaxLimitationTrace(fullPath, FILE_CONTENT_LENGTH_MAX);
+#if (TARGET_SIMULATOR == 1)
+        // On simulator, downgrade error to warning for file size limitation
+        HILOG_WARN(HILOG_MODULE_ACE, "File exceeds size limit but allowed on simulator.");
+#else
         ACE_ERROR_CODE_PRINT(EXCE_ACE_ROUTER_REPLACE_FAILED, EXCE_ACE_PAGE_FILE_TOO_HUGE);
+#endif
         return false;
     }
     outFileSize = fileSize;
