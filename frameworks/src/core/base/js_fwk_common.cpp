@@ -661,8 +661,8 @@ static bool CheckFileLength(const char * const fullPath, int32_t &outFileSize)
         HILOG_WARN(HILOG_MODULE_ACE, "File exceeds size limit but allowed on simulator.");
 #else
         ACE_ERROR_CODE_PRINT(EXCE_ACE_ROUTER_REPLACE_FAILED, EXCE_ACE_PAGE_FILE_TOO_HUGE);
-#endif
         return false;
+#endif
     }
     outFileSize = fileSize;
     return true;
