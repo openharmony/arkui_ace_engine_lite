@@ -21,11 +21,27 @@
 
 namespace OHOS {
 namespace ACELite {
+
+inline uint32_t GetLR()
+{
+#if __riscv
+    uint32_t lr;
+    __asm volatile ("mv %0, ra" : "=r" (lr));
+    return lr;
+#elif defined(__arm__) || defined(__aarch64__)
+    uint32_t lr;
+    __asm volatile ("mov %0, LR" : "=r" (lr));
+    return lr;
+#else
+    return static_cast<uint32_t>(0);
+#endif
+}
+
 /**
  * @brief The ACEMemHooks struct saving the memory allocating hooks used for ACE
  */
 struct ACEMemHooks {
-    void *(*malloc_func)(size_t sz);
+    void *(*malloc_func)(size_t sz, uint32_t lr);
     void (*free_func)(void *ptr);
     void *(*calloc_func)(size_t num, size_t size);
 };
@@ -54,6 +70,16 @@ void InitCacheBuf(uintptr_t bufAddress, size_t bufSize);
  * @return a pointer to the allocated memory block.if the request fails,return NULL
  */
 void *ace_malloc(size_t size);
+
+/**
+ * @brief Allocate the required memory space with LR tracking
+ *
+ * @param [in] size: size of memory block,in bytes
+ * @param [in] lr: Link Register value for tracking, 0 means not available
+ *
+ * @return a pointer to the allocated memory block.if the request fails,return NULL
+ */
+void *ace_malloc(size_t size, uint32_t lr);
 
 /**
  * @brief Allocate the required memory space and return a pointer to it
