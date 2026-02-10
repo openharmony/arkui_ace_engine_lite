@@ -157,7 +157,7 @@ void JSAbility::Hide()
         HILOG_ERROR(HILOG_MODULE_ACE, "Must trigger Launch first");
         return;
     }
-    HILOG_INFO(HILOG_MODULE_ACE, "LIFECYCLE: JS Ability will be hidden");
+    HILOG_ERROR(HILOG_MODULE_ACE, "LIFECYCLE: JS Ability will be hidden");
     ACE_EVENT_PRINT(MT_ACE_FWK_HIDING, 0);
     JSAbilityImpl *jsAbilityImpl = CastAbilityImpl(jsAbilityImpl_);
     jsAbilityImpl->Hide();
