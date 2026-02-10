@@ -82,12 +82,22 @@ jerry_value_t JsAppContext::Eval(char *fullPath, size_t fullPathLength, bool isA
     bool isSnapshotMode = JsAppEnvironment::GetInstance()->IsSnapshotMode();
     char *jsCode = EvaluateFile(isSnapshotMode, contentLength, fullPath, fullPathLength);
     STOP_TRACING();
-    if ((jsCode == nullptr) || (contentLength > FILE_CONTENT_LENGTH_MAX)) {
+    if (jsCode == nullptr) {
         HILOG_ERROR(HILOG_MODULE_ACE, "empty js file or length is incorrect, eval user code failed");
         ACE_ERROR_CODE_PRINT(EXCE_ACE_ROUTER_REPLACE_FAILED, EXCE_ACE_PAGE_FILE_READ_FAILED);
-        ACE_FREE(jsCode);
         return UNDEFINED;
     }
+#if (TARGET_SIMULATOR == 1)
+    if (contentLength > FILE_CONTENT_LENGTH_MAX) {
+        HILOG_WARN(HILOG_MODULE_ACE, "File exceeds size limit but allowed on simulator.");
+    }
+#else
+    if (contentLength > FILE_CONTENT_LENGTH_MAX) {
+        ACE_FREE(jsCode);
+        ACE_ERROR_CODE_PRINT(EXCE_ACE_ROUTER_REPLACE_FAILED, EXCE_ACE_PAGE_FILE_TOO_HUGE);
+        return UNDEFINED;
+    }
+#endif
 
     START_TRACING(PAGE_CODE_EVAL);
     jerry_value_t viewModel = UNDEFINED;
@@ -144,8 +154,16 @@ char *JsAppContext::EvaluateFile(bool &isSnapshotMode,
     }
     outLength = 0;
     char *jsCode = ReadFile(fullPath, outLength, isSnapshotMode);
-    if ((jsCode != nullptr) && (outLength <= FILE_CONTENT_LENGTH_MAX)) {
-        // read successfully
+    if (jsCode == nullptr) {
+        return nullptr;
+    }
+#if (TARGET_SIMULATOR == 1)
+    if (outLength > FILE_CONTENT_LENGTH_MAX) {
+        HILOG_WARN(HILOG_MODULE_ACE, "File exceeds size limit but allowed on simulator.");
+    }
+    return jsCode;
+#else
+    if (outLength <= FILE_CONTENT_LENGTH_MAX) {
         return jsCode;
     }
     // make sure the memory is freed
