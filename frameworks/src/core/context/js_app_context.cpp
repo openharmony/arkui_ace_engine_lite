@@ -166,6 +166,7 @@ char *JsAppContext::EvaluateFile(bool &isSnapshotMode,
     if (outLength <= FILE_CONTENT_LENGTH_MAX) {
         return jsCode;
     }
+#endif
     // make sure the memory is freed
     ACE_FREE(jsCode);
 
