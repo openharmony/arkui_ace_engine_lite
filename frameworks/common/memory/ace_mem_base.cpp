@@ -19,12 +19,22 @@
 
 namespace OHOS {
 namespace ACELite {
+
+namespace {
+// Default malloc implementation without LR tracking
+void* DefaultMalloc(size_t size, uint32_t lr)
+{
+    (void)lr;  // LR parameter not used in default implementation
+    return malloc(size);
+}
+}  // anonymous namespace
+
 /**
  * @brief g_customHookSet
  * Record the memory hooks used for ACE, only can be setup once when system start-up.
  * The standard memory allocating methods are used as default.
  */
-static ACEMemHooks g_memoryHooks = {malloc, free, calloc};
+static ACEMemHooks g_memoryHooks = {DefaultMalloc, free, calloc};
 /**
  * @brief g_customHookSet flag for representing if the customer hooks are set
  */
@@ -54,7 +64,12 @@ void InitCacheBuf(uintptr_t bufAddress, size_t bufSize)
 
 void *ace_malloc(size_t size)
 {
-    return g_memoryHooks.malloc_func(size);
+    return g_memoryHooks.malloc_func(size, 0);
+}
+
+void *ace_malloc(size_t size, uint32_t lr)
+{
+    return g_memoryHooks.malloc_func(size, lr);
 }
 
 void *ace_calloc(size_t num, size_t size)
