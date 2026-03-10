@@ -44,7 +44,7 @@ static constexpr uint8_t PICKER_SELECTED_FONT_SIZE = 38; // F_HYQIHEI_65S_38_4
 class TextPickerListener final : public OHOS::UIPicker::SelectedListener {
 public:
     ACE_DISALLOW_COPY_AND_MOVE(TextPickerListener);
-    TextPickerListener() : pTextArray_(nullptr), textCallback_(UNDEFINED) {}
+    TextPickerListener() : pTextArray_(nullptr), textArraySize_(0), textCallback_(UNDEFINED) {}
     ~TextPickerListener()
     {
         jerry_release_value(textCallback_);
@@ -63,8 +63,14 @@ public:
         pTextArray_ = range;
     }
 
+    void SetTextArraySize(uint16_t size)
+    {
+        textArraySize_ = size;
+    }
+
 private:
     char** pTextArray_;
+    uint16_t textArraySize_;
     jerry_value_t textCallback_;
 };
 

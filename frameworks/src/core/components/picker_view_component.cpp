@@ -56,6 +56,10 @@ void TextPickerListener::OnPickerStoped(UIPicker &picker)
         return;
     }
     uint16_t index = picker.GetSelected();
+    if (index >= textArraySize_) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "TextPickerListener: index out of range!");
+        return;
+    }
     jerry_value_t arg = jerry_create_object();
     JerrySetStringProperty(arg, TEXT_PICKER_NEW_VALUE, pTextArray_[index]);
     JerrySetNumberProperty(arg, TEXT_PICKER_NEW_SELECTED, index);
@@ -617,6 +621,7 @@ bool PickerViewComponent::SetTextPickerRange(jerry_value_t rangeValue)
     UIPicker *textPicker = reinterpret_cast<UIPicker *>(pickerView_);
     if (textPickerListener_ != nullptr) {
         textPickerListener_->SetTextRange(pTextArray_); // call SetTextRange before SetValues!
+        textPickerListener_->SetTextArraySize(textArraySize_);
     }
     textPicker->SetValues(const_cast<const char **>(pTextArray_), textArraySize_);
     // can not loop when pickerview has one child
