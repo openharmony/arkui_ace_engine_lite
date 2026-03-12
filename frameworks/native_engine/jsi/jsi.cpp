@@ -640,7 +640,7 @@ char *JSI::ValueToString(JSIValue value)
         return nullptr;
     }
 
-    jerry_size_t size = jerry_get_string_size(jVal);
+    jerry_size_t size = jerry_get_utf8_string_size(jVal);
     if ((size == 0) || (size == UINT32_MAX)) {
         // Output empty char instead of nullptr, thus caller can free safely
         result = static_cast<char *>(ace_malloc(sizeof(char)));
@@ -656,7 +656,7 @@ char *JSI::ValueToString(JSIValue value)
             HILOG_ERROR(HILOG_MODULE_ACE, "JSI:ValueToString malloc memory failed!");
             return nullptr;
         }
-        jerry_size_t length = jerry_string_to_char_buffer(jVal, buffer, size);
+        jerry_size_t length = jerry_string_to_utf8_char_buffer(jVal, buffer, size);
         if ((length == 0) || (length > size)) {
             HILOG_ERROR(HILOG_MODULE_ACE, "JSI:ValueToString jerry string to char buffer failed");
             ace_free(buffer);
@@ -683,7 +683,7 @@ char *JSI::ValueToStringWithBufferSize(JSIValue value, size_t &size)
         return nullptr;
     }
 
-    size = jerry_get_string_size(jVal);
+    size = jerry_get_utf8_string_size(jVal);
     if ((size == 0) || (size == UINT32_MAX)) {
         // Output nullptr
         size = 0;
@@ -695,7 +695,7 @@ char *JSI::ValueToStringWithBufferSize(JSIValue value, size_t &size)
             size = 0;
             return nullptr;
         }
-        jerry_size_t length = jerry_string_to_char_buffer(jVal, buffer, size);
+        jerry_size_t length = jerry_string_to_utf8_char_buffer(jVal, buffer, size);
         if ((length == 0) || (length > size)) {
             HILOG_ERROR(HILOG_MODULE_ACE, "JSI:ValueToStringWithBufferSize jerry string to char buffer failed");
             ace_free(buffer);
