@@ -154,16 +154,13 @@ char *JsAppContext::EvaluateFile(bool &isSnapshotMode,
     }
     outLength = 0;
     char *jsCode = ReadFile(fullPath, outLength, isSnapshotMode);
-    if (jsCode == nullptr) {
-        return nullptr;
+    if ((jsCode != nullptr) && (outLength <= FILE_CONTENT_LENGTH_MAX)) {
+        // read successfully
+        return jsCode;
     }
 #if (TARGET_SIMULATOR == 1)
-    if (outLength > FILE_CONTENT_LENGTH_MAX) {
-        HILOG_WARN(HILOG_MODULE_ACE, "File exceeds size limit but allowed on simulator.");
-    }
-    return jsCode;
-#else
-    if (outLength <= FILE_CONTENT_LENGTH_MAX) {
+    if (jsCode != nullptr) {
+        // read successfully
         return jsCode;
     }
 #endif
