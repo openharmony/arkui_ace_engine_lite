@@ -37,7 +37,7 @@ JSIValue ModuleManager::RequireModule(const char * const moduleName)
     }
 
     JSIValue moduleObj;
-    if (!strcmp(category, CATEGORY_SYSTEM) || !strcmp(category, CATEGORY_OHOS)) {
+    if (!strcmp(category, CATEGORY_SYSTEM) || !strcmp(category, CATEGORY_OHOS) || !strcmp(category, categoryHms)) {
         uint16_t moduleCount = sizeof(OHOS_MODULES) / sizeof(Module);
         moduleObj = GetModuleObject(name, OHOS_MODULES, moduleCount, requiredSystemModules);
 #if (FEATURE_PRODUCT_MODULE == 1)
