@@ -53,7 +53,7 @@ char *JSString::Value(JSValue value)
         return nullptr;
     }
 
-    jerry_size_t size = jerry_get_utf8_string_size(target);
+    jerry_size_t size = jerry_get_string_size(target);
     if (size == 0) {
         jerry_release_value(target);
         // return empty char instead of nullptr, so caller can free safely
@@ -73,7 +73,7 @@ char *JSString::Value(JSValue value)
         jerry_release_value(target);
         return nullptr;
     }
-    jerry_size_t length = jerry_string_to_utf8_char_buffer(target, buffer, size);
+    jerry_size_t length = jerry_string_to_char_buffer(target, buffer, size);
     if (length == 0 || length > size) {
         jerry_release_value(target);
         ace_free(buffer);
