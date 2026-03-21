@@ -152,7 +152,7 @@ char *MallocStringOf(jerry_value_t source, uint16_t *strLength)
             break;
         }
 
-        jerry_size_t size = jerry_get_utf8_string_size(target);
+        jerry_size_t size = jerry_get_string_size(target);
         if (size >= UINT16_MAX) {
             HILOG_ERROR(HILOG_MODULE_ACE, "String size exceeds UINT16_MAX, cannot process");
             break;
@@ -168,7 +168,7 @@ char *MallocStringOf(jerry_value_t source, uint16_t *strLength)
             break;
         }
 
-        length = jerry_string_to_utf8_char_buffer(target, buffer, size);
+        length = jerry_string_to_char_buffer(target, buffer, size);
         if ((length == 0) || (length >= UINT16_MAX) || (length > size)) {
             HILOG_ERROR(HILOG_MODULE_ACE, "jerry string to char buffer failed, target size[%{public}d]", size);
             break;
