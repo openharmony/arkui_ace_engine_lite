@@ -105,7 +105,13 @@ void LazyLoadManager::AddLazyLoadWatcher(jerry_value_t nativeElement,
         HILOG_ERROR(HILOG_MODULE_ACE, "create watcher errpr");
         return;
     }
+    uint16_t sizeBefore = lazyWatchersList_.Size();
     lazyWatchersList_.PushBack(watcher);
+    if (lazyWatchersList_.Size() == sizeBefore) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "PushBack watcher failed");
+        delete watcher;
+        return;
+    }
     // The state must be ready if any watcher lazy loading request was added, otherwise, in some cases,
     // the js_ability may not be able to know there are watchers need to be loaded.
     state_ = LazyLoadState::READY;
