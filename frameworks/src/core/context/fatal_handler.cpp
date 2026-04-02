@@ -163,6 +163,8 @@ void FatalHandler::HandleFatalError(int errorCode)
     // reset the low layer rendering flag if needed
     FatalHandler::GetInstance().ResetRendering();
     FeaAbilityModule::Release();
+    // release the lazy load manager to avoid watcher memory leak on fatal error
+    JsAppContext::GetInstance()->ReleaseLazyLoadManager();
     componentNodes_.Clear();
     isFatalHandled_ = true;
 }
