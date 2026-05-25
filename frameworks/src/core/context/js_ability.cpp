@@ -191,6 +191,10 @@ void JSAbility::TransferToDestroy()
 #endif
     HILOG_INFO(HILOG_MODULE_ACE, "LIFECYCLE: JS Ability is exiting");
     ACE_EVENT_PRINT(MT_ACE_FWK_DESTROYING, 0);
+#ifndef _MINI_MULTI_TASKS_
+    AsyncTaskManager::GetInstance().SetFront(false);
+    AsyncTaskManager::GetInstance().Reset();
+#endif
     JSAbilityImpl *jsAbilityImpl = CastAbilityImpl(jsAbilityImpl_);
     jsAbilityImpl->CleanUp();
     // Reset render flag or low layer task mutex in case we are during the rendering process,
