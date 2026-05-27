@@ -95,12 +95,12 @@ public:
         return front_;
     }
 
-    void Reset();
-
 private:
     AsyncTaskManager();
 
     ~AsyncTaskManager() = default;
+
+    void Reset();
 
     AsyncTask *head_;
     AsyncTask *tail_;
