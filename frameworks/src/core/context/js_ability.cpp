@@ -69,8 +69,7 @@ void JSAbility::Launch(const char * const abilityPath, const char * const bundle
                        const char *pageInfo)
 {
     if (jsAbilityImpl_ != nullptr) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "Launch only can be triggered once");
-        ACE_ERROR_CODE_PRINT(EXCE_ACE_FWK_LAUNCH_FAILED, EXCE_ACE_APP_ALREADY_LAUNCHED);
+        HILOG_WARN(HILOG_MODULE_ACE, "Launch only can be triggered once");
         return;
     }
 
