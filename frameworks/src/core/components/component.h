@@ -32,6 +32,11 @@
 #include "transition_impl.h"
 
 namespace OHOS {
+
+#if (FEATURE_COMPONENT_SVG == 1)
+using SvgDocumentHandle = void*;
+#endif
+
 namespace ACELite {
 #if FEATURE_TRANSITION_ANIMATOR
 class KeyframesTransitionImpl;
@@ -153,7 +158,43 @@ public:
     {
         return componentName_;
     }
+#if (FEATURE_COMPONENT_SVG == 1)
+    /**
+     * @brief Returns true if this component is part of the SVG subsystem.
+     *
+     * The default implementation returns false. SvgComponent and SvgElementComponent
+     * override this to return true so that callers can distinguish SVG nodes from
+     * normal UI components without relying on dynamic_cast.
+     */
+    virtual bool IsSvgComponent() const
+    {
+        return false;
+    }
 
+    /**
+     * @brief Returns true only for SVG leaf elements (SvgElementComponent).
+     *
+     * Used by SVG container AttachView to safely identify children that can be
+     * appended to the SVG document tree, without relying on root-view heuristics
+     * or dynamic_cast.
+     */
+    virtual bool IsSvgElementComponent() const
+    {
+        return false;
+    }
+
+    /**
+     * @brief Returns the SVG document handle owned by an SVG root component.
+     *
+     * The default implementation returns nullptr. SvgComponent overrides this to
+     * provide its document handle, allowing SvgElementComponent to walk the parent
+     * chain without dynamic_cast.
+     */
+    virtual SvgDocumentHandle GetSvgDocument() const
+    {
+        return nullptr;
+    }
+#endif
     bool IsFreeze() const
     {
         return freeze_;
@@ -676,6 +717,17 @@ private:
      * @param childNode the child component
      */
     void RemoveChild(Component *childNode);
+#if (FEATURE_COMPONENT_SVG == 1)
+    /**
+     * @brief RemoveSvgChild handles detaching an SVG element component.
+     *
+     * SVG element components own no native UIView (GetComponentRootView()
+     * returns nullptr), so the baseline early-return-on-null-view logic must
+     * be bypassed. Otherwise RemoveAllChildren() would hang and Release()
+     * would leave a dangling child pointer.
+     */
+    void RemoveSvgChild(Component *childNode);
+#endif
     /**
      * @brief RemoveAllChildren clean all children
      */

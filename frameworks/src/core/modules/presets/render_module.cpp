@@ -14,12 +14,23 @@
  */
 
 #include "presets/render_module.h"
+
+#if (FEATURE_COMPONENT_SVG == 1)
+#include <cstring>
+#endif // FEATURE_COMPONENT_SVG
+
 #include "ace_log.h"
 #include "component_factory.h"
 #include "component_utils.h"
 #include "directive/descriptor_utils.h"
 #include "js_app_context.h"
 #include "js_profiler.h"
+
+#if (FEATURE_COMPONENT_SVG == 1)
+#include "svg_component_factory.h"
+#include "svg_component_utils.h"
+#endif // FEATURE_COMPONENT_SVG
+
 namespace OHOS {
 namespace ACELite {
 const char * const RenderModule::FUNC_CREATE_ELEMENT = "_c";
@@ -39,6 +50,27 @@ void RenderModule::Init()
     CreateNamedFunction(FUNC_INIT_STYLE_SHEET, InitStyleSheet);
 }
 
+#if (FEATURE_COMPONENT_SVG == 1)
+static Component *TryCreateSvgComponent(const char *componentName,
+                                        uint16_t tagNameLength,
+                                        jerry_value_t options,
+                                        jerry_value_t children)
+{
+    const char *canonical = SvgComponentUtils::CanonicalSvgTagName(componentName);
+    const char *nameToParse = canonical ? canonical : componentName;
+    uint16_t lenToParse = tagNameLength;
+    if (canonical != nullptr) {
+        size_t canonicalLen = strlen(canonical);
+        if (canonicalLen > UINT16_MAX) {
+            return nullptr;
+        }
+        lenToParse = static_cast<uint16_t>(canonicalLen);
+    }
+    uint16_t tagId = KeyParser::ParseKeyId(nameToParse, lenToParse);
+    return SvgComponentFactory::CreateComponent(tagId, options, children);
+}
+#endif
+
 jerry_value_t RenderModule::CreateElement(jerry_value_t tagName, jerry_value_t options, jerry_value_t children)
 {
     uint16_t tagNameLength = 0;
@@ -52,12 +84,19 @@ jerry_value_t RenderModule::CreateElement(jerry_value_t tagName, jerry_value_t o
         return UNDEFINED;
     }
 
-    uint16_t componentNameId = KeyParser::ParseKeyId(componentName, tagNameLength);
+    Component *component = nullptr;
+#if (FEATURE_COMPONENT_SVG == 1)
+    component = TryCreateSvgComponent(componentName, tagNameLength, options, children);
+#endif
+    if (component == nullptr) {
+        uint16_t componentNameId = KeyParser::ParseKeyId(componentName, tagNameLength);
+        // create component by tag name using factory
+        component = ComponentFactory::CreateComponent(componentNameId, options, children);
+    }
+
     ace_free(componentName);
     componentName = nullptr;
 
-    // create component by tag name using factory
-    Component *component = ComponentFactory::CreateComponent(componentNameId, options, children);
     if (component == nullptr) {
         // Release all children before we return UNDEFINED to avoid the children becoming ownerless in this case.
         HILOG_ERROR(HILOG_MODULE_ACE, "Fail to create element because the tag is not supported.");

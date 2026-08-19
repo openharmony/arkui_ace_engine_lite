@@ -173,13 +173,23 @@ Component::Component(jerry_value_t options, jerry_value_t children, AppStyleMana
       marginRight_(-1, DimensionType::TYPE_UNKNOWN),
       marginBottom_(-1, DimensionType::TYPE_UNKNOWN)
 {
-    JSValue attrs = JSObject::Get(options, ATTR_ATTRS);
-    if (JSUndefined::Is(attrs)) {
+#if (FEATURE_COMPONENT_SVG == 1)
+    // SVG elements without attributes (e.g. dynamic <g>) may be compiled as _c('g', children),
+    // leaving options as undefined. Reading attrs.freeze from undefined triggers a JerryScript assert.
+    if (JSUndefined::Is(options)) {
         freeze_ = false;
     } else {
-        freeze_ = JSObject::GetBoolean(attrs, ATTR_FREEZE);
+#endif
+        JSValue attrs = JSObject::Get(options, ATTR_ATTRS);
+        if (JSUndefined::Is(attrs)) {
+            freeze_ = false;
+        } else {
+            freeze_ = JSObject::GetBoolean(attrs, ATTR_FREEZE);
+        }
+        JSRelease(attrs);
+#if (FEATURE_COMPONENT_SVG == 1)
     }
-    JSRelease(attrs);
+#endif
     // create native element object before combining styles, as style data binding need it
     nativeElement_ = jerry_create_object();
     jerry_value_t global = jerry_get_global_object();
@@ -2348,6 +2358,13 @@ void Component::RemoveChild(Component *childNode)
         return;
     }
 
+#if (FEATURE_COMPONENT_SVG == 1)
+    if (childNode->IsSvgComponent() || IsSvgComponent()) {
+        RemoveSvgChild(childNode);
+        return;
+    }
+#endif
+
     UIView *childNativeView = childNode->GetComponentRootView();
     UIViewGroup *parentView = reinterpret_cast<UIViewGroup *>(GetComponentRootView());
     if (childNativeView == nullptr || parentView == nullptr) {
@@ -2389,6 +2406,44 @@ void Component::RemoveChild(Component *childNode)
     RecomputeGradientSubtreeFlag();
 #endif
 }
+
+#if (FEATURE_COMPONENT_SVG == 1)
+void Component::RemoveSvgChild(Component *childNode)
+{
+    // SVG element components own no native UIView (GetComponentRootView()
+    // returns nullptr). We must not return early on null view, otherwise
+    // RemoveAllChildren() would hang (it loops until childHead_ becomes
+    // nullptr) and Release() would leave a dangling child pointer.
+    UIView *childNativeView = childNode->GetComponentRootView();
+    UIViewGroup *parentView = reinterpret_cast<UIViewGroup *>(GetComponentRootView());
+    if ((childNativeView != nullptr) && (parentView != nullptr)) {
+        parentView->Remove(childNativeView);
+    }
+
+    if (childNode == childHead_) {
+        Component *next = childHead_->GetNextSibling();
+        childNode->SetNextSibling(nullptr);
+        childNode->SetParent(nullptr);
+        childHead_ = next;
+        return;
+    }
+
+    Component *temp = childHead_;
+    while (temp != nullptr) {
+        if (temp->GetNextSibling() == childNode) {
+            break;
+        }
+        temp = temp->GetNextSibling();
+    }
+    if (temp == nullptr) {
+        return;
+    }
+
+    temp->SetNextSibling(childNode->GetNextSibling());
+    childNode->SetNextSibling(nullptr);
+    childNode->SetParent(nullptr);
+}
+#endif
 
 void Component::RemoveAllChildren()
 {

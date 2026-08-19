@@ -286,6 +286,9 @@ enum {
 #endif // ((FEATURE_COMPONENT_DATE_PICKER == 1) || (FEATURE_COMPONENT_VIDEO == 1))
     KEYWORD(START_ANGLE, startAngle) // circle progress start angle
     KEYWORD(STEP, step)
+#if (FEATURE_COMPONENT_SVG == 1)
+    KEYWORD(STROKE, stroke) // svg/css stroke color
+#endif
     KEYWORD(STROKE_WIDTH, strokeWidth) // horizon/arc progress style
     KEYWORD(SWIPE, swipe) // swipe event listener
     KEYWORD(SWIPER, swiper) // tag name
@@ -382,6 +385,40 @@ enum {
     KEYWORD(STRETCH, stretch) // layout style
     KEYWORD(VISIBLE, visible) // overflow visible
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+#if (FEATURE_COMPONENT_SVG == 1)
+    KEYWORD(SVG, svg) // tag name
+    KEYWORD(RECT, rect) // svg shape tag name
+    KEYWORD(CIRCLE, circle) // svg shape tag name
+    KEYWORD(ELLIPSE, ellipse) // svg shape tag name
+    KEYWORD(LINE, line) // svg shape tag name
+    KEYWORD(POLYLINE, polyline) // svg shape tag name
+    KEYWORD(POLYGON, polygon) // svg shape tag name
+    KEYWORD(PATH, path) // svg shape tag name
+    KEYWORD(SVG_G, g) // svg container tag name
+    KEYWORD(DEFS, defs) // svg container tag name
+    KEYWORD(LINEAR_GRADIENT, linearGradient) // svg gradient tag name
+    KEYWORD(RADIAL_GRADIENT, radialGradient) // svg gradient tag name
+    // note: svg gradient <stop> reuses the existing K_STOP keyword (image-animator stop)
+    KEYWORD(SOLID_COLOR, solidColor) // svg solid color tag name
+    KEYWORD(ANIMATE, animate) // svg animation tag name
+    KEYWORD(ANIMATE_COLOR, animateColor) // svg animation tag name
+    KEYWORD(ANIMATE_TRANSFORM, animateTransform) // svg animation tag name
+    KEYWORD(ANIMATE_MOTION, animateMotion) // svg animation tag name
+    KEYWORD(SET, set) // svg animation tag name
+    KEYWORD(MPATH, mpath) // svg animation tag name
+    KEYWORD(USE, use) // svg use tag name
+    KEYWORD(TEXT_AREA, textArea) // svg text area tag name
+    KEYWORD(TSPAN, tspan) // svg tspan tag name
+    KEYWORD(STROKE_LINECAP, strokeLinecap) // svg stroke linecap style
+    KEYWORD(STROKE_LINEJOIN, strokeLinejoin) // svg stroke linejoin style
+    KEYWORD(STROKE_MITERLIMIT, strokeMiterlimit) // svg stroke miterlimit style
+    KEYWORD(STROKE_DASHARRAY, strokeDasharray) // svg stroke dasharray style
+    KEYWORD(STROKE_DASHOFFSET, strokeDashoffset) // svg stroke dashoffset style
+    KEYWORD(FILL_OPACITY, fillOpacity) // svg fill opacity style
+    KEYWORD(STROKE_OPACITY, strokeOpacity) // svg stroke opacity style
+    KEYWORD(VISIBILITY, visibility) // svg visibility style
+    KEYWORD(TEXT_ANCHOR, textAnchor) // svg text anchor style
+#endif // FEATURE_COMPONENT_SVG
     // Reused by the struct end
 // clang-format on
 #ifdef KEYWORDS_ENUM_DEFINE

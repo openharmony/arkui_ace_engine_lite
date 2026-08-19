@@ -321,3 +321,14 @@ unittest("js_frameworks_test_canvas") {
   ]
   deps = ace_test_deps
 }
+
+unittest("js_frameworks_test_svg") {
+  output_extension = "bin"
+  output_dir = test_output_root
+  configs = [ "$ace_lite_root/test:test_common_config" ]
+  sources = [
+    "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
+    "svg/svg_tdd_test.cpp",
+  ]
+  deps = ace_test_deps
+}

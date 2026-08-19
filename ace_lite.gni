@@ -34,6 +34,23 @@ GRAPHIC_LITE_PATH = "//foundation/arkui/ui_lite"
 
 ace_lite_common_defines = []
 
+declare_args() {
+  ace_engine_lite_enable_svg_component_config = false
+}
+
+if (ace_engine_lite_enable_svg_component_config) {
+  # The ACE SVG bridge links against the ui_lite SVG implementation: both feature
+  # flags must be enabled together, otherwise the build fails with undefined
+  # references (or silently produces a non-functional component).
+  import("//foundation/arkui/ui_lite/ui.gni")
+  assert(
+      ui_lite_enable_svg_component_config,
+      "ace_engine_lite_enable_svg_component_config requires ui_lite_enable_svg_component_config = true")
+  ace_lite_common_defines += [ "FEATURE_COMPONENT_SVG=1" ]
+} else {
+  ace_lite_common_defines += [ "FEATURE_COMPONENT_SVG=0" ]
+}
+
 if (!defined(global_parts_info) ||
     defined(global_parts_info.graphic_surface_lite)) {
   ace_engine_lite_surface_lite_enable = true
@@ -302,5 +319,17 @@ if (ace_engine_lite_enable_gradient_capability) {
   ace_lite_light_graphics_sources += [
     "$ACE_LITE_PATH/src/core/stylemgr/app_style_gradient_parser.cpp",
     "$ACE_LITE_PATH/src/core/components/component_gradient.cpp",
+    ]
+}
+
+if (ace_engine_lite_enable_svg_component_config) {
+  ace_lite_include_dirs += [
+    "$GRAPHIC_LITE_PATH/interfaces/kits/svg",
+  ]
+  ace_lite_sources += [
+    "$ACE_LITE_PATH/src/core/components/svg_component.cpp",
+    "$ACE_LITE_PATH/src/core/components/svg_component_factory.cpp",
+    "$ACE_LITE_PATH/src/core/components/svg_component_utils.cpp",
+    "$ACE_LITE_PATH/src/core/components/svg_element_component.cpp",
   ]
 }

@@ -40,6 +40,7 @@ group("components_unittest") {
     "common:js_frameworks_test_swiper",
     "common:js_frameworks_test_switch",
     "common:js_frameworks_test_text",
+    "common:js_frameworks_test_svg",
   ]
 
   if (ace_engine_lite_enable_element_transition_capability) {
