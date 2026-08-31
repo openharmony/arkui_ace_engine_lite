@@ -17,6 +17,7 @@
 
 #include "ace_log.h"
 #include "js_fwk_common.h"
+#include "parse_media_int.h"
 #include "securec.h"
 #include "stdlib.h"
 #include "string_util.h"
@@ -192,7 +193,12 @@ bool ConditionArbitrator::JudgeConditionByNumberValue(ConditionName conditionId,
 
 bool ConditionArbitrator::CompareIntDimension(ConditionName conditionId, const char *targetValue) const
 {
-    int dimensionValue = atoi(targetValue);
+    int dimensionValue = 0;
+    if (!ParseMediaInt(targetValue, dimensionValue)) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "media query dimension parse failed [%{public}s]",
+            (targetValue == nullptr) ? "null" : targetValue);
+        return false;
+    }
     if (dimensionValue <= 0 || dimensionValue >= UINT16_MAX) {
         return false;
     }
