@@ -57,6 +57,15 @@ jerry_value_t AppDataModule::GetApp(const jerry_value_t func,
         return UNDEFINED;
     }
     jerry_release_value(dataObj);
+
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    // getApp() returns a reference borrowed from JSAbilityImpl, but a native handler's return
+    // value is owned by the VM and freed when the frame is torn down. Without this acquire each
+    // getApp() call drops one $app reference that was never granted: the count walks past zero,
+    // wraps, and the next ecma_ref_object() kills the process with ERR_REF_COUNT_LIMIT
+    // ("JS REF LIMIT").
+    jerry_acquire_value(abilityVM);
+#endif // ENABLE_PAGE_TRANSITION_EFFECT
     return abilityVM;
 }
 } // namespace ACELite

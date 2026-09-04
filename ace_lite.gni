@@ -13,6 +13,16 @@
 
 import("//build/lite/config/subsystem/aafwk/path.gni")
 
+declare_args() {
+  # Compile-time gate for the JS router page-transition animation feature.
+  # Default OFF (original instant-replace behavior); enabled per-product through
+  # the component "features" in vendor <product>/config.json, e.g.
+  #   arkui/ace_engine_lite features: [ "ace_engine_lite_feature_page_transition_effect = true" ]
+  # When ON the engine defines ENABLE_PAGE_TRANSITION_EFFECT and compiles
+  # page_transition.cpp; when OFF the new logic is compiled out entirely.
+  ace_engine_lite_feature_page_transition_effect = false
+}
+
 ACE_LITE_PATH = "//foundation/arkui/ace_engine_lite/frameworks"
 ACE_LITE_COMMON_PATH = "//foundation/arkui/ace_engine_lite/frameworks/common"
 NATIVE_ENGINE_PATH =

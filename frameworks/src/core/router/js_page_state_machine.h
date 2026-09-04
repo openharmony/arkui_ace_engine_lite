@@ -79,6 +79,21 @@ public:
     void InvokePageLifeCycleCallback(const char * const name) const;
     void ReleaseHistoryPageResource();
     void SetHiddenFlag(bool flag);
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    /**
+     * @brief Give up the process-wide bindings this page registered, called by the Router for a page
+     *        that is kept alive by a running transition. It must happen before the replacing page's
+     *        onInit runs, so that the page which registers last stays the owner of those bindings.
+     */
+    void ReleaseProcessWideBindings();
+    // called by the Router before deleting a page that a newer page has already replaced
+    void SetReleasedAfterTransition(bool released);
+    /**
+     * @brief Get this page's root view, used by the Router to keep the old page alive during
+     *        a page transition.
+     */
+    UIView *GetPageRootView() const;
+#endif
 #ifdef TDD_ASSERTIONS
     // this function is just for unittest's view modle hooking purpose, should not be used in real environment
     void SetViewModel(jerry_value_t viewModel);
@@ -103,6 +118,9 @@ private:
     jerry_value_t object_;        // object transferred from one page to another page
     bool hasParams_;              // the flag representation for whether having params of object_
     bool isEntireHidden_;            // representing if the whole app is in background
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    bool releasedAfterTransition_;   // the page was replaced while a transition was running
+#endif
     Watcher *watchersHead_;       // head of watchers list
     ScrollLayer *scrollLayer_;
 };

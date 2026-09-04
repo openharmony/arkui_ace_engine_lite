@@ -201,6 +201,13 @@ public:
 
     static void HandlerAnimations();
     static void ReleaseAnimations();
+#ifdef TDD_ASSERTIONS
+    /**
+     * @brief Test-only helper returning how many animations are recorded in the process-wide list.
+     *        TDD_ASSERTIONS is defined by unit-test builds only, so a product never sees it.
+     */
+    static uint16_t GetAnimationNodeCountForTest();
+#endif // TDD_ASSERTIONS
     /**
      * @brief GetDimension return the dimension data, only width, height, margin, top and left are supported
      * @param keyNameId the key ID for representing which dimension data is wanted
@@ -550,7 +557,7 @@ private:
      * @param invalidateSelf true for just invaliding self, false for to relayout parent, default is false.
      */
     void InvalidateIfNeeded(uint16_t attrKeyId, bool invalidateSelf = false) const;
-    void AddAnimationToList(const TransitionImpl *transitionImpl) const;
+    void AddAnimationToList(const TransitionImpl *transitionImpl);
 
     void GetDimensionFromStyle(Dimension &dimension, const AppStyleItem &styleItem) const;
     void CalculateDimensionPixel(Dimension &dimension, int16_t base) const;
@@ -631,6 +638,10 @@ private:
     bool isAnimationKeyFramesSet_;
     bool freeze_;
     TransitionImpl *curTransitionImpl_;
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    // the node this component owns in the process-wide animation list, released with the component
+    AnimationsNode *animationNode_;
+#endif
     TransitionParams *trans_;
     jerry_value_t descriptors_;
     Watcher *watchersHead_;

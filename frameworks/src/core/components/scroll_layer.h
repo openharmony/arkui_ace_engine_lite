@@ -32,6 +32,12 @@ public:
     void Hide() const;
     void Show() const;
     void DetachFromRootView() const;
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    UIView *GetPageRootView() const
+    {
+        return pageRootView_;
+    }
+#endif
 
 private:
     UIScrollView *AddScrollLayer(UIView &view) const;

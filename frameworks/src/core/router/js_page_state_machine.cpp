@@ -49,6 +49,9 @@ StateMachine::StateMachine()
     object_ = UNDEFINED;
     hasParams_ = false;
     isEntireHidden_ = false;
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    releasedAfterTransition_ = false;
+#endif
     watchersHead_ = nullptr;
     scrollLayer_ = nullptr;
 }
@@ -57,7 +60,16 @@ StateMachine::~StateMachine()
 {
     // release this page's all resource
     // if error happens, statemachine must force to jump to destroy state for releasing resource.
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    // A page replaced during a transition handed the process-wide bindings over before the
+    // replacing page's onInit ran, so the crown monitor registered in the meantime belongs to that
+    // newer page. Clearing it here would take the crown events away from a live page.
+    if (!releasedAfterTransition_) {
+        DigitalCrownModule::ClearMonitorForCrownEvents(UNDEFINED, UNDEFINED, nullptr, 0);
+    }
+#else
     DigitalCrownModule::ClearMonitorForCrownEvents(UNDEFINED, UNDEFINED, nullptr, 0);
+#endif
     if ((currentState_ >= INIT_STATE) || FatalHandler::GetInstance().IsFatalErrorHitted()) {
         ChangeState(BACKGROUND_STATE);
         ChangeState(DESTROY_STATE);
@@ -465,6 +477,19 @@ void StateMachine::ReleaseHistoryPageResource()
         rootComponent_ = nullptr;
     }
 
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    // a page replaced during a transition must leave the process-wide bindings and the app
+    // context managers to the page that replaced it, which still holds them. Its component
+    // animations went away with its components above, so Component::ReleaseAnimations() - which
+    // releases the animations of every page, including the live ones - is correctly skipped here
+    if (releasedAfterTransition_) {
+        // this page's own view model handle goes back either way
+        jerry_release_value(viewModel_);
+        viewModel_ = UNDEFINED;
+        return;
+    }
+#endif
+
     ReleaseRootObject();
 
     // release current page's viewModel js object
@@ -507,6 +532,27 @@ void StateMachine::SetHiddenFlag(bool flag)
 {
     isEntireHidden_ = flag;
 }
+
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+void StateMachine::ReleaseProcessWideBindings()
+{
+    // The digital crown monitor is a single global slot: the last page that registers becomes the
+    // only receiver. A page that is replaced while a transition runs stays alive until the
+    // transition ends, but it is no longer the owner of that slot, so give it up now - exactly like
+    // the plain replace path, where the old page is released before the new page's onInit runs.
+    DigitalCrownModule::ClearMonitorForCrownEvents(UNDEFINED, UNDEFINED, nullptr, 0);
+}
+
+void StateMachine::SetReleasedAfterTransition(bool released)
+{
+    releasedAfterTransition_ = released;
+}
+
+UIView *StateMachine::GetPageRootView() const
+{
+    return (scrollLayer_ != nullptr) ? scrollLayer_->GetPageRootView() : nullptr;
+}
+#endif
 
 #ifdef TDD_ASSERTIONS
 void StateMachine::SetViewModel(jerry_value_t viewModel)

@@ -118,6 +118,12 @@ lite_library("ace_lite") {
       public_deps +=
           [ "//foundation/multimedia/camera_lite/frameworks:camera_lite" ]
     }
+
+    if (ace_engine_lite_feature_page_transition_effect) {
+      # Feature ON: additionally compile the page-transition animation engine.
+      defines += [ "ENABLE_PAGE_TRANSITION_EFFECT=1" ]
+      sources += [ "$ACE_LITE_PATH/src/core/animation/page_transition.cpp" ]
+    }
   }
 
   defines += [
