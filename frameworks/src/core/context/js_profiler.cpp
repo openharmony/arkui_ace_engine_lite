@@ -23,7 +23,7 @@
 #include "key_parser.h"
 #if (FEATURE_ACELITE_MC_JS_PROFILER == 1)
 #include <fcntl.h>
-#include "los_tick.h"
+#include "cmsis_os2.h"
 #include "unistd.h"
 
 #elif (FEATURE_ACELITE_JS_PROFILER == 1)
@@ -395,7 +395,7 @@ uint64_t JSProfiler::GetCurrentClockTick() const
 {
 #if (FEATURE_ACELITE_MC_JS_PROFILER == 1)
     // real device
-    return LOS_TickCountGet(); // count in clock ticks, usually is ms
+    return osKernelGetTickCount(); // count in clock ticks, usually is ms
 #elif (FEATURE_ACELITE_JS_PROFILER == 1)
     const uint32_t unit = 1000;
     // ipcamera
