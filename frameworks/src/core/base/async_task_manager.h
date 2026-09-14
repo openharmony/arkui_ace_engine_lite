@@ -18,18 +18,12 @@
 
 #if (defined(__LINUX__) || defined(__LITEOS_A__))
 #include <pthread.h>
-#elif defined(__LITEOS_M__)
-#include "los_task.h"
 #endif
 
+#include "ace_lock.h"
 #include "common/task_manager.h"
 #include "memory_heap.h"
 #include "non_copyable.h"
-
-#if defined(__LITEOS_M__)
-extern void LOS_TaskLock(void);
-extern void LOS_TaskUnlock(void);
-#endif
 
 namespace OHOS {
 namespace ACELite {
@@ -40,7 +34,7 @@ public:
 #if (defined(__LINUX__) || defined(__LITEOS_A__))
         pthread_mutex_lock((pthread_mutex_t*)lock_);
 #elif defined(__LITEOS_M__)
-        LOS_TaskLock();
+        AceTaskLock();
 #endif
     }
     ~TaskLockGuard()
@@ -48,7 +42,7 @@ public:
 #if (defined(__LINUX__) || defined(__LITEOS_A__))
         pthread_mutex_unlock((pthread_mutex_t*)lock_);
 #elif defined(__LITEOS_M__)
-        LOS_TaskUnlock();
+        AceTaskUnlock();
 #endif
         lock_ = nullptr;
     }

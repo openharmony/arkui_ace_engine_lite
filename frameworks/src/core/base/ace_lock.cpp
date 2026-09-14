@@ -15,11 +15,39 @@
 #include "ace_lock.h"
 
 #if (defined(__LITEOS_M__) || (OHOS_ACELITE_PRODUCT_WATCH == 1))
-#include "los_task.h"
+#include "cmsis_os2.h"
 #endif
 
 namespace OHOS {
 namespace ACELite {
+#if (defined(__LITEOS_M__) || (OHOS_ACELITE_PRODUCT_WATCH == 1))
+static uint32_t g_taskLockCount = 0;
+static bool g_kernelLockedByAce = false;
+
+void AceTaskLock()
+{
+    if (g_taskLockCount == 0) {
+        int32_t lockState = osKernelLock();
+        if (lockState < 0) {
+            return;
+        }
+        g_kernelLockedByAce = (lockState == 0);
+    }
+    g_taskLockCount++;
+}
+
+void AceTaskUnlock()
+{
+    if (g_taskLockCount > 0) {
+        g_taskLockCount--;
+        if (g_taskLockCount == 0 && g_kernelLockedByAce) {
+            osKernelUnlock();
+            g_kernelLockedByAce = false;
+        }
+    }
+}
+#endif
+
 #if (defined(__LINUX__) || defined(__LITEOS_A__))
 LockType::LockType() : mutex_(PTHREAD_MUTEX_INITIALIZER), mutexInited_(0)
 {
@@ -63,7 +91,7 @@ AutoLockGuard::AutoLockGuard(LockType &lock) : lock_(lock)
 #if (defined(__LINUX__) || defined(__LITEOS_A__))
     lock_.Lock();
 #elif (defined(__LITEOS_M__) || (OHOS_ACELITE_PRODUCT_WATCH == 1))
-    LOS_TaskLock();
+    AceTaskLock();
     (void)lock_;
 #else
     (void)lock_;
@@ -75,7 +103,7 @@ AutoLockGuard::~AutoLockGuard()
 #if (defined(__LINUX__) || defined(__LITEOS_A__))
     lock_.Unlock();
 #elif (defined(__LITEOS_M__) || (OHOS_ACELITE_PRODUCT_WATCH == 1))
-    LOS_TaskUnlock();
+    AceTaskUnlock();
 #endif
 }
 } // namespace ACELite

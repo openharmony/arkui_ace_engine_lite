@@ -55,6 +55,11 @@ public:
 private:
     LockType &lock_;
 };
+
+#if (defined(__LITEOS_M__) || (OHOS_ACELITE_PRODUCT_WATCH == 1))
+void AceTaskLock();
+void AceTaskUnlock();
+#endif
 } // namespace ACELite
 } // namespace OHOS
 #endif // OHOS_ACELITE_ACE_AUTO_LOCK_H
