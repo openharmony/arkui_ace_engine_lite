@@ -93,6 +93,13 @@
 #endif
 
 /**
+ * support configuration API for JS
+ */
+#ifndef FEATURE_MODULE_CONFIGURATION
+#define FEATURE_MODULE_CONFIGURATION 1
+#endif
+
+/**
  * support device API for JS
  */
 #ifndef FEATURE_MODULE_DEVICE

@@ -39,17 +39,28 @@ lite_library("ace_module_manager") {
     "$ace_frameworks_root/native_engine/jsi",
     "$ace_interface_root/base",
     "$ace_interface_root/jsi",
+    "//base/global/i18n_lite/interfaces/kits/js/builtin/include",
+    "//base/global/resource_management_lite/interfaces/inner_api/include",
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits",
     "//third_party/jerryscript/jerry-core/include",
     "//third_party/bounds_checking_function/include",
   ]
   deps = [ "$ace_target_root" ]
 
-  sources = [ "$ace_frameworks_root/module_manager/module_manager.cpp" ]
+  sources = [
+    "$ace_frameworks_root/module_manager/module_manager.cpp",
+    # Temporary solution: compile the locale module source of i18n_lite into
+    # this target, because i18n_lite only provides a simulator-only non-PIC
+    # static library (nativeapi_locale_simulator) and no independent shared
+    # library can be linked into libace_module_manager.so. Replace this with
+    # a public_deps on the i18n_lite shared library once it provides one.
+    "//base/global/i18n_lite/interfaces/kits/js/builtin/src/locale_module.cpp",
+  ]
 
   public_deps = [
     "$ace_frameworks_root/common:ace_common_lite",
     "$ace_frameworks_root/native_engine:ace_native_engine_lite",
+    "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr",
     "//commonlibrary/utils_lite/js/builtin:ace_utils_kits",
   ]
 
