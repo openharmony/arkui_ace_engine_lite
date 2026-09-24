@@ -31,6 +31,9 @@ enum DimensionType : uint8_t {
     TYPE_UNKNOWN = 0,
     TYPE_PIXEL,
     TYPE_PERCENT,
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    TYPE_AUTO,
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 };
 
 union DimensionValue {
@@ -530,6 +533,9 @@ private:
      */
     void ApplyStyles(const jerry_value_t options, Component& currentComponent) const;
     bool IsLayoutRelatedAttrs(uint16_t attrKeyId) const;
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    bool IsFlexLayoutAttr(uint16_t attrKeyId) const;
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
     void ApplyAlignedPosition(UIView &uiView) const;
     void AdapteBoxRectArea(UIView &uiView) const;
     void SetVisible(UIView& view, const AppStyleItem *styleItem) const;
@@ -653,6 +659,10 @@ private:
     Dimension marginLeft_;
     Dimension marginRight_;
     Dimension marginBottom_;
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    Dimension right_;
+    Dimension bottom_;
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 };
 } // namespace ACELite
 } // namespace OHOS

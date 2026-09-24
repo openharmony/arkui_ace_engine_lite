@@ -17,7 +17,8 @@
     ],
     "features": [
       "ace_engine_lite_feature_product_config",
-      "ace_engine_lite_feature_page_transition_effect"
+      "ace_engine_lite_feature_page_transition_effect",
+      "ace_engine_lite_enable_flex_layout_config"
     ],
     "adapted_system_type": [ "mini","small" ],
     "rom": "521KB",

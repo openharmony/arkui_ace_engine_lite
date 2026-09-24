@@ -81,6 +81,12 @@ public:
     void ACELiteStyleManagerClassSelector002();
     void ACELiteStyleManagerClassSelector003();
     void ACELiteStyleManagerCSSPesudo001();
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    void ACELiteStyleManagerFlexItemSizingStyle001();
+    void ACELiteStyleManagerAlignContentStyle001();
+    void ACELiteStyleManagerSizeConstraintsStyle001();
+    void ACELiteStyleManagerSizeConstraintsPercentStyle001();
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
     void RunTests();
 
 private:

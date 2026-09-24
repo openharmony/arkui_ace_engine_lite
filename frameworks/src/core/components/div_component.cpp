@@ -17,6 +17,10 @@
 #include "ace_log.h"
 #include "key_parser.h"
 #include "keys.h"
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+#include "flex_layout_utils.h"
+#include "number_parser.h"
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 
 namespace OHOS {
 namespace ACELite {
@@ -47,6 +51,12 @@ bool DivComponent::ApplyPrivateStyle(const AppStyleItem* style)
         return false;
     }
     const char * const strValue = GetStyleStrValue(style);
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    if (ApplyEnhancedPrivateStyle(style, stylePropNameId, strValue)) {
+        return true;
+    }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+
     if (strValue == nullptr) {
         return false;
     }
@@ -55,6 +65,159 @@ bool DivComponent::ApplyPrivateStyle(const AppStyleItem* style)
     NativeViewSetDirection(style, stylePropNameId, strValue, applyResult);
     return applyResult;
 }
+
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+bool DivComponent::ApplyEnhancedPrivateStyle(const AppStyleItem* style, uint16_t stylePropNameId,
+                                             const char * const strValue)
+{
+    switch (stylePropNameId) {
+        case K_GAP:
+        case K_COLUMN_GAP:
+        case K_ROW_GAP:
+            return NativeViewSetGapStyle(style, stylePropNameId, strValue);
+        case K_ALIGN_ITEMS: {
+            if (strValue == nullptr) {
+                return false;
+            }
+            uint16_t valueId = KeyParser::ParseKeyId(strValue, GetStyleStrValueLen(style));
+            if (valueId != K_STRETCH) {
+                return false;
+            }
+            nativeView_.SetSecondaryAxisAlign(OHOS::ALIGN_STRETCH);
+            isSecondaryAxisAlignSet_ = true;
+            return true;
+        }
+        case K_ALIGN_CONTENT:
+        case K_OVERFLOW: {
+            if (strValue == nullptr) {
+                return false;
+            }
+            bool applyResult = true;
+            NativeViewSetEnhancedDirection(style, stylePropNameId, strValue, applyResult);
+            return applyResult;
+        }
+        default:
+            return false;
+    }
+}
+
+void DivComponent::NativeViewSetEnhancedDirection(const AppStyleItem* style, uint16_t stylePropNameId,
+                                                  const char * const strValue, bool& applyResult)
+{
+    uint16_t valueId = KeyParser::ParseKeyId(strValue, GetStyleStrValueLen(style));
+    switch (stylePropNameId) {
+        case K_ALIGN_CONTENT:
+            NativeViewSetAlignContent(valueId, applyResult);
+            break;
+        case K_OVERFLOW:
+            NativeViewSetOverflow(valueId);
+            break;
+        default:
+            applyResult = false;
+            break;
+    }
+}
+
+void DivComponent::ApplyGapToken(const char *token, uint16_t tokenLen, bool isColumn)
+{
+    if ((token == nullptr) || (tokenLen == 0)) {
+        return;
+    }
+    float percentValue = 0;
+    if (NumberParser::ParsePercentValue(token, tokenLen, percentValue)) {
+        // percent gaps are resolved by FlexLayout on the next layout pass
+        if (isColumn) {
+            nativeView_.SetColumnGapPercent(percentValue);
+        } else {
+            nativeView_.SetRowGapPercent(percentValue);
+        }
+        return;
+    }
+    int16_t pixelValue = FlexLayoutUtils::ParseGapPixelLength(token, tokenLen);
+    if (isColumn) {
+        nativeView_.SetColumnGap(pixelValue);
+    } else {
+        nativeView_.SetRowGap(pixelValue);
+    }
+}
+
+void DivComponent::ApplyGapShorthand(const char * const strValue)
+{
+    // gap: <row-gap> [<column-gap>]?; tokens are split on spaces first so each
+    // value is parsed independently and a percent first token keeps its '%'
+    const char *rowToken = strValue;
+    while (*rowToken == ' ') {
+        rowToken++;
+    }
+    const char *ptr = rowToken;
+    while ((*ptr != '\0') && (*ptr != ' ')) {
+        ptr++;
+    }
+    uint16_t rowTokenLen = ptr - rowToken;
+    ApplyGapToken(rowToken, rowTokenLen, false);
+    while (*ptr == ' ') {
+        ptr++;
+    }
+    if (*ptr == '\0') {
+        // a single value applies to both gaps with the same type
+        ApplyGapToken(rowToken, rowTokenLen, true);
+        return;
+    }
+    const char *columnToken = ptr;
+    while ((*ptr != '\0') && (*ptr != ' ')) {
+        ptr++;
+    }
+    ApplyGapToken(columnToken, ptr - columnToken, true);
+}
+
+void DivComponent::ApplyGapValue(const AppStyleItem* style, bool isColumn)
+{
+    if (style->GetValueType() == STYLE_PROP_VALUE_TYPE_PERCENT) {
+        if (isColumn) {
+            nativeView_.SetColumnGapPercent(style->GetPercentValue());
+        } else {
+            nativeView_.SetRowGapPercent(style->GetPercentValue());
+        }
+        return;
+    }
+    int32_t gapValue = GetStylePixelValue(style, 0);
+    int16_t clampedGap = FlexLayoutUtils::ClampGapValue(gapValue);
+    if (isColumn) {
+        nativeView_.SetColumnGap(clampedGap);
+    } else {
+        nativeView_.SetRowGap(clampedGap);
+    }
+}
+
+bool DivComponent::NativeViewSetGapStyle(const AppStyleItem* style, uint16_t stylePropNameId,
+                                         const char * const strValue)
+{
+    // gap styles support number value as well, so handle them before checking string value
+    switch (stylePropNameId) {
+        case K_GAP: {
+            if (style->GetValueType() == STYLE_PROP_VALUE_TYPE_NUMBER) {
+                int32_t gapValue = style->GetNumValue();
+                int16_t clampedGap = FlexLayoutUtils::ClampGapValue(gapValue);
+                nativeView_.SetRowGap(clampedGap);
+                nativeView_.SetColumnGap(clampedGap);
+                return true;
+            }
+            if (strValue != nullptr) {
+                ApplyGapShorthand(strValue);
+            }
+            return true;
+        }
+        case K_COLUMN_GAP:
+            ApplyGapValue(style, true);
+            return true;
+        case K_ROW_GAP:
+            ApplyGapValue(style, false);
+            return true;
+        default:
+            return false;
+    }
+}
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 
 void DivComponent::NativeViewSetDirection(const AppStyleItem* style, uint16_t stylePropNameId,
                                           const char * const strValue, bool& applyResult)
@@ -103,6 +266,41 @@ void DivComponent::NativeViewSetDirection(const AppStyleItem* style, uint16_t st
     }
 }
 
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+void DivComponent::NativeViewSetOverflow(uint16_t valueId)
+{
+    if (valueId == K_HIDDEN) {
+        nativeView_.SetOverflow(OHOS::OVERFLOW_HIDDEN);
+    } else {
+        nativeView_.SetOverflow(OHOS::OVERFLOW_VISIBLE);
+    }
+}
+
+void DivComponent::NativeViewSetAlignContent(uint16_t valueId, bool& applyResult)
+{
+    switch (valueId) {
+        case K_FLEX_START:
+            nativeView_.SetAlignContent(OHOS::ALIGN_CONTENT_START);
+            break;
+        case K_CENTER:
+            nativeView_.SetAlignContent(OHOS::ALIGN_CONTENT_CENTER);
+            break;
+        case K_FLEX_END:
+            nativeView_.SetAlignContent(OHOS::ALIGN_CONTENT_END);
+            break;
+        case K_SPACE_BETWEEN:
+            nativeView_.SetAlignContent(OHOS::ALIGN_CONTENT_BETWEEN);
+            break;
+        case K_STRETCH:
+            nativeView_.SetAlignContent(OHOS::ALIGN_CONTENT_STRETCH);
+            break;
+        default:
+            applyResult = false;
+            break;
+    }
+}
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+
 void DivComponent::NativeViewSetLayoutDirection(uint16_t valueId, bool& applyResult)
 {
     switch (valueId) {
@@ -112,6 +310,9 @@ void DivComponent::NativeViewSetLayoutDirection(uint16_t valueId, bool& applyRes
             break;
         case K_ROW:
             nativeView_.SetLayoutDirection(LAYOUT_HOR);
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            isVerticalLayout_ = false;
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         case K_ROW_REVERSE:
             nativeView_.SetLayoutDirection(LAYOUT_HOR_R);
@@ -170,6 +371,16 @@ void DivComponent::AttachView(const Component *child)
     if (child == nullptr) {
         return;
     }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    if (isSecondaryAxisAlignSet_) {
+        nativeView_.Add(child->GetComponentRootView());
+        return;
+    }
+    if (FlexLayoutUtils::HasAspectRatioMainSize(*child, isVerticalLayout_)) {
+        nativeView_.Add(child->GetComponentRootView());
+        return;
+    }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
     if (!isSecondaryAxisAlignSet_) {
         ConstrainedParameter param;
         child->GetConstrainedParam(param);
@@ -200,6 +411,13 @@ void DivComponent::AttachView(const Component *child)
 
 void DivComponent::LayoutChildren()
 {
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    // gap percents resolve against the container content-box; a dimension that is not
+    // set (auto, content-driven) makes the percent gap on that axis degrade to 0px
+    bool widthAuto = (GetDimension(K_WIDTH).type != DimensionType::TYPE_PIXEL);
+    bool heightAuto = (GetDimension(K_HEIGHT).type != DimensionType::TYPE_PIXEL);
+    nativeView_.SetGapBaseAuto(widthAuto, heightAuto);
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
     nativeView_.LayoutChildren();
 }
 } // namespace ACELite

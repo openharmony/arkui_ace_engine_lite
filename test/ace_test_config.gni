@@ -118,6 +118,13 @@ if (ability_lite_enable_ohos_appexecfwk_feature_ability == true) {
   all_defines += [ "ABILITY_WINDOW_SUPPORT" ]
   all_defines += [ "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER" ]
 }
+# the guarded test cases and the ace sources compiled with them must use
+# the same macro value as the ace_lite library
+if (ace_engine_lite_enable_flex_layout_config) {
+  all_defines += [ "GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT=1" ]
+} else {
+  all_defines += [ "GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT=0" ]
+}
 all_acelite_source_files = ace_lite_sources
 if (ace_engine_lite_feature_page_transition_effect) {
   # Whole-engine test builds mirror the product gate: compile the page-transition

@@ -187,6 +187,11 @@ public:
     static uint8_t EstimatePseudoClassType(const char * const styleKey, uint16_t *keyLength);
 
 private:
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    bool TrySetAspectRatioValue(uint16_t keyId, const jerry_value_t stylePropValue);
+    bool TrySetGapValue(const char *strValueBuffer, uint16_t keyId);
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+
     void SetNumValue(int32_t value)
     {
         valueType_ = STYLE_PROP_VALUE_TYPE_NUMBER;

@@ -26,6 +26,11 @@
 #include "key_parser.h"
 #include "keys.h"
 #include "lazy_load_manager.h"
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+#include <cstring>
+#include "flex_layout_utils.h"
+#include "layout/layout.h"
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #include "securec.h"
 #include "stylemgr/app_style.h"
 #include "stylemgr/app_style_manager.h"
@@ -454,6 +459,12 @@ const Dimension &Component::GetDimension(uint16_t keyNameId) const
             return top_;
         case K_LEFT:
             return left_;
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+        case K_RIGHT:
+            return right_;
+        case K_BOTTOM:
+            return bottom_;
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
         case K_MARGIN_TOP:
             return marginTop_;
         case K_MARGIN_BOTTOM:
@@ -508,11 +519,28 @@ void Component::ApplyAlignedMargin(UIView &uiView) const
     }
     if (marginLeft_.type == DimensionType::TYPE_PIXEL) {
         uiView.SetStyle(STYLE_MARGIN_LEFT, marginLeft_.value.pixel);
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+        uiView.SetMarginLeftAuto(false);
+    } else if (marginLeft_.type == DimensionType::TYPE_AUTO) {
+        // clear the stale pixel margin, otherwise SetX would add it again on top of the auto margin
+        uiView.SetStyle(STYLE_MARGIN_LEFT, 0);
+        uiView.SetMarginLeftAuto(true);
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
     }
     if (marginRight_.type == DimensionType::TYPE_PIXEL) {
         uiView.SetStyle(STYLE_MARGIN_RIGHT, marginRight_.value.pixel);
     }
 }
+
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+bool Component::IsFlexLayoutAttr(uint16_t attrKeyId) const
+{
+    return (attrKeyId == K_ALIGN_SELF || attrKeyId == K_FLEX_GROW || attrKeyId == K_FLEX_SHRINK ||
+            attrKeyId == K_FLEX_BASIS || attrKeyId == K_MIN_WIDTH || attrKeyId == K_MAX_WIDTH ||
+            attrKeyId == K_MIN_HEIGHT || attrKeyId == K_MAX_HEIGHT || attrKeyId == K_ASPECT_RATIO ||
+            attrKeyId == K_RIGHT || attrKeyId == K_BOTTOM || attrKeyId == K_POSITION);
+}
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 
 bool Component::IsLayoutRelatedAttrs(uint16_t attrKeyId) const
 {
@@ -522,7 +550,11 @@ bool Component::IsLayoutRelatedAttrs(uint16_t attrKeyId) const
             attrKeyId == K_PADDING_RIGHT || attrKeyId == K_PADDING_TOP || attrKeyId == K_BORDER_BOTTOM_WIDTH ||
             attrKeyId == K_BORDER_LEFT_WIDTH || attrKeyId == K_BORDER_RIGHT_WIDTH || attrKeyId == K_BORDER_TOP_WIDTH ||
             attrKeyId == K_BORDER_WIDTH || attrKeyId == K_BORDER_RADIUS || attrKeyId == K_LEFT || attrKeyId == K_TOP ||
-            attrKeyId == K_SHOW || attrKeyId == K_DISPLAY);
+            attrKeyId == K_SHOW || attrKeyId == K_DISPLAY
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            || IsFlexLayoutAttr(attrKeyId)
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+            );
 }
 
 void Component::ApplyAlignedPosition(UIView &uiView) const
@@ -539,6 +571,19 @@ void Component::AdapteBoxRectArea(UIView &uiView) const
 {
     // set view height and width
     uint8_t borderNum = 2;
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    // Record whether the cross-axis sizes are explicitly specified by JS styles, so that
+    // FlexLayout can honor align-items: stretch only for children with auto cross size.
+    // Percent dimensions are also explicit (AlignDimensions converts them to pixels).
+    // Invalid pixel values (negative) are treated as auto to avoid blocking stretch.
+    bool heightExplicit = ((height_.type == DimensionType::TYPE_PIXEL) && (height_.value.pixel >= 0)) ||
+                          (height_.type == DimensionType::TYPE_PERCENT);
+    bool widthExplicit = ((width_.type == DimensionType::TYPE_PIXEL) && (width_.value.pixel >= 0)) ||
+                         (width_.type == DimensionType::TYPE_PERCENT);
+    uiView.SetHasExplicitHeight(heightExplicit);
+    uiView.SetHasExplicitWidth(widthExplicit);
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+
     int16_t height = (height_.type == DimensionType::TYPE_PIXEL) ? height_.value.pixel : -1;
     int16_t width = (width_.type == DimensionType::TYPE_PIXEL) ? width_.value.pixel : -1;
     if (height >= 0) {
@@ -671,7 +716,16 @@ bool Component::ApplyCommonStyle(UIView &view, const AppStyleItem *style)
             break;
         }
         case K_MARGIN_LEFT: {
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            const char *strValue = GetStyleStrValue(style);
+            if (strValue != nullptr && strcmp(strValue, "auto") == 0) {
+                marginLeft_.type = DimensionType::TYPE_AUTO;
+            } else {
+                GetDimensionFromStyle(marginLeft_, *style);
+            }
+#else
             GetDimensionFromStyle(marginLeft_, *style);
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         }
         case K_MARGIN_RIGHT: {
@@ -724,12 +778,63 @@ bool Component::ApplyCommonStyle(UIView &view, const AppStyleItem *style)
         }
         case K_LEFT: {
             GetDimensionFromStyle(left_, *style);
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (left_.type == DimensionType::TYPE_PIXEL) {
+                view.SetFlexLeft(left_.value.pixel);
+            } else if (left_.type == DimensionType::TYPE_PERCENT) {
+                view.SetFlexLeftPercent(left_.value.percentage);
+            } else {
+                view.ClearFlexLeft();
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         }
         case K_TOP: {
             GetDimensionFromStyle(top_, *style);
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (top_.type == DimensionType::TYPE_PIXEL) {
+                view.SetFlexTop(top_.value.pixel);
+            } else if (top_.type == DimensionType::TYPE_PERCENT) {
+                view.SetFlexTopPercent(top_.value.percentage);
+            } else {
+                view.ClearFlexTop();
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+        case K_RIGHT: {
+            GetDimensionFromStyle(right_, *style);
+            if (right_.type == DimensionType::TYPE_PIXEL) {
+                view.SetFlexRight(right_.value.pixel);
+            } else if (right_.type == DimensionType::TYPE_PERCENT) {
+                view.SetFlexRightPercent(right_.value.percentage);
+            } else {
+                view.ClearFlexRight();
+            }
+            break;
+        }
+        case K_BOTTOM: {
+            GetDimensionFromStyle(bottom_, *style);
+            if (bottom_.type == DimensionType::TYPE_PIXEL) {
+                view.SetFlexBottom(bottom_.value.pixel);
+            } else if (bottom_.type == DimensionType::TYPE_PERCENT) {
+                view.SetFlexBottomPercent(bottom_.value.percentage);
+            } else {
+                view.ClearFlexBottom();
+            }
+            break;
+        }
+        case K_POSITION: {
+            const char *strValue = GetStyleStrValue(style);
+            if (strValue == nullptr) {
+                return false;
+            }
+            uint16_t valueId = KeyParser::ParseKeyId(strValue, GetStyleStrValueLen(style));
+            view.SetPositionType((valueId == K_ABSOLUTE) ? POSITION_ABSOLUTE : POSITION_STATIC);
+            break;
+        }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
         case K_ANIMATION_DURATION: {
             SetAnimationStyle(view, style, K_ANIMATION_DURATION);
             break;
@@ -754,6 +859,107 @@ bool Component::ApplyCommonStyle(UIView &view, const AppStyleItem *style)
             SetAnimationKeyFrames(view, style);
             break;
         }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+        case K_ALIGN_SELF: {
+            const char *strValue = GetStyleStrValue(style);
+            if (strValue == nullptr) {
+                return false;
+            }
+            uint16_t valueId = KeyParser::ParseKeyId(strValue, GetStyleStrValueLen(style));
+            switch (valueId) {
+                case K_FLEX_START:
+                    view.SetAlignSelf(OHOS::ALIGN_START);
+                    break;
+                case K_FLEX_END:
+                    view.SetAlignSelf(OHOS::ALIGN_END);
+                    break;
+                case K_CENTER:
+                    view.SetAlignSelf(OHOS::ALIGN_CENTER);
+                    break;
+                case K_STRETCH:
+                    // ALIGN_SELF_STRETCH is a UIView-specific marker (0xFE) for explicit align-self:stretch,
+                    // distinct from OHOS::ALIGN_STRETCH (6) used for container align-items:stretch.
+                    view.SetAlignSelf(UIView::ALIGN_SELF_STRETCH);
+                    break;
+                default:
+                    return false;
+            }
+            break;
+        }
+        case K_FLEX_GROW:
+        case K_FLEX_SHRINK: {
+            int32_t factor = (style->GetValueType() == STYLE_PROP_VALUE_TYPE_NUMBER) ? style->GetNumValue() : -1;
+            if (factor < 0 || factor > UINT16_MAX) {
+                return false;
+            }
+            if (styleNameId == K_FLEX_GROW) {
+                view.SetFlexGrow(static_cast<uint16_t>(factor));
+            } else {
+                view.SetFlexShrink(static_cast<uint16_t>(factor));
+            }
+            break;
+        }
+        case K_FLEX_BASIS: {
+            int32_t basis = GetStylePixelValue(style, -1);
+            if (basis < 0 || basis > INT16_MAX) {
+                return false;
+            }
+            view.SetFlexBasis(static_cast<int16_t>(basis));
+            break;
+        }
+        case K_MIN_WIDTH:
+        case K_MAX_WIDTH:
+        case K_MIN_HEIGHT:
+        case K_MAX_HEIGHT: {
+            int32_t constraint = GetStylePixelValue(style, -1);
+            if (constraint < 0 || constraint > INT16_MAX) {
+                return false;
+            }
+            if (styleNameId == K_MIN_WIDTH) {
+                view.SetMinWidth(static_cast<int16_t>(constraint));
+            } else if (styleNameId == K_MAX_WIDTH) {
+                view.SetMaxWidth(static_cast<int16_t>(constraint));
+            } else if (styleNameId == K_MIN_HEIGHT) {
+                view.SetMinHeight(static_cast<int16_t>(constraint));
+            } else {
+                view.SetMaxHeight(static_cast<int16_t>(constraint));
+            }
+            break;
+        }
+        case K_ASPECT_RATIO: {
+            uint16_t ratio = 0;
+            switch (style->GetValueType()) {
+                case STYLE_PROP_VALUE_TYPE_NUMBER:
+                    if (!FlexLayoutUtils::ConvertAspectRatioValue(style->GetNumValue(), ratio)) {
+                        return false;
+                    }
+                    break;
+                case STYLE_PROP_VALUE_TYPE_FLOATING:
+                    if (!FlexLayoutUtils::ConvertAspectRatioValue(style->GetFloatingValue(), ratio)) {
+                        return false;
+                    }
+                    break;
+                case STYLE_PROP_VALUE_TYPE_PERCENT:
+                    if (!FlexLayoutUtils::ConvertAspectRatioValue(style->GetPercentValue() /
+                        FlexLayoutUtils::ASPECT_RATIO_PERCENT_BASE, ratio)) {
+                        return false;
+                    }
+                    break;
+                case STYLE_PROP_VALUE_TYPE_STRING:
+                    if (!FlexLayoutUtils::ParseAspectRatioString(style->GetStrValue(), ratio)) {
+                        return false;
+                    }
+                    break;
+                default:
+                    return false;
+            }
+            if (ratio == 0) {
+                return false;
+            }
+            view.SetAspectRatio(ratio);
+            break;
+        }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
         case K_OPACITY: {
             SetOpacity(view, *style);
             break;
