@@ -18,6 +18,9 @@
 
 #include "jsi.h"
 #include "non_copyable.h"
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+#include "page_transition.h"
+#endif
 
 namespace OHOS {
 namespace ACELite {
@@ -30,6 +33,16 @@ public:
     RouterModule() {}
     ~RouterModule() {}
     static JSIValue Replace(const JSIValue thisVal, const JSIValue* args, uint8_t argsNum);
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    /**
+     * @brief Parse the optional "animation" property of a replace object into a transition config.
+     *        Missing/null animation, unknown type, or negative/zero duration all yield an invalid
+     *        config (no animation, warn only); duration defaults to 300 ms and is capped at 5000 ms.
+     *        Public so the unit tests can drive parsing directly.
+     *        Only compiled when the page-transition feature gate is enabled.
+     */
+    static PageTransitionConfig ParseAnimationConfig(JSIValue object);
+#endif
 };
 
 void InitRouterModule(JSIValue exports);

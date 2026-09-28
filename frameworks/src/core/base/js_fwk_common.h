@@ -139,6 +139,11 @@ constexpr char ROUTER_PAGE_URI[] = "uri";
 constexpr char ROUTER_PAGE_URL[] = "url";
 constexpr char ROUTER_PAGE_PARAMS[] = "params";
 constexpr char ROUTER_PAGE_PATH[] = "path";
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+constexpr char ROUTER_PAGE_ANIMATION[] = "animation";
+constexpr char ROUTER_PAGE_ANIMATION_TYPE[] = "type";
+constexpr char ROUTER_PAGE_ANIMATION_DURATION[] = "duration";
+#endif
 constexpr char ROUTER_PAGE[] = "$page";
 constexpr char ATTR_REFS[] = "$refs";
 constexpr char ATTR_SUCCESS[] = "success";

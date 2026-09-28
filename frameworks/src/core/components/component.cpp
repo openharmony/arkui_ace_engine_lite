@@ -62,6 +62,59 @@ void Component::ReleaseAnimations()
     g_isAnimatorStarted = false;
 }
 
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+namespace {
+/**
+ * @brief Take one animation out of the process-wide list and release it.
+ *
+ * The list is shared by every page, so the component that recorded an animation releases it when
+ * the component itself goes away. This matters for the page transition feature: a page replaced
+ * during a transition is released while the page that replaced it keeps using the list, and a
+ * leftover animation of the released page would be restarted by the next page's render, on views
+ * that are already freed. It also keeps the releasing component from holding a freed animation,
+ * which Component::Release() would keep stopping.
+ *
+ * @param node the node to release, nullptr is a no-op
+ */
+void ReleaseAnimationNode(Component::AnimationsNode *node)
+{
+    if (node == nullptr) {
+        return;
+    }
+    Component::AnimationsNode **link = &g_animationListHead;
+    while ((*link != nullptr) && (*link != node)) {
+        link = &((*link)->next);
+    }
+    if (*link == nullptr) {
+        // the list does not own this node any more: a full page teardown already released it through
+        // Component::ReleaseAnimations(), so there is nothing left to release here
+        return;
+    }
+    *link = node->next;
+    if (node->transitionImpl != nullptr) {
+        // stop before releasing: the animator is registered in AnimatorManager while it runs
+        node->transitionImpl->Stop();
+        delete (node->transitionImpl);
+        node->transitionImpl = nullptr;
+    }
+    delete (node);
+}
+} // namespace
+#endif // ENABLE_PAGE_TRANSITION_EFFECT
+
+#ifdef TDD_ASSERTIONS
+uint16_t Component::GetAnimationNodeCountForTest()
+{
+    uint16_t count = 0;
+    const AnimationsNode *node = g_animationListHead;
+    while (node != nullptr) {
+        count++;
+        node = node->next;
+    }
+    return count;
+}
+#endif // TDD_ASSERTIONS
+
 Component::Component(jerry_value_t options, jerry_value_t children, AppStyleManager *styleManager)
     : childHead_(nullptr),
       nextSibling_(nullptr),
@@ -81,6 +134,9 @@ Component::Component(jerry_value_t options, jerry_value_t children, AppStyleMana
       rendered_(false),
       isAnimationKeyFramesSet_(false),
       curTransitionImpl_(nullptr),
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+      animationNode_(nullptr),
+#endif
       trans_(nullptr),
       descriptors_(jerry_acquire_value(children)),
       watchersHead_(nullptr),
@@ -214,6 +270,15 @@ void Component::Release()
     if (curTransitionImpl_) {
         curTransitionImpl_->Stop();
     }
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    // Release the animation this component recorded. The process-wide list is shared with the pages
+    // that are still alive - a page replaced during a transition is released while the page that
+    // replaced it keeps animating - so the animation is taken out here, per component, instead of
+    // being left to Component::ReleaseAnimations(), which releases the animations of every page.
+    ReleaseAnimationNode(animationNode_);
+    animationNode_ = nullptr;
+    curTransitionImpl_ = nullptr;
+#endif
     ReleaseViewExtraMsg();
     jerry_delete_object_native_pointer(nativeElement_, nullptr);
     // release all native views
@@ -996,7 +1061,7 @@ void Component::SetAnimationStyle(const UIView &view, const AppStyleItem *styleI
     }
 }
 
-void Component::AddAnimationToList(const TransitionImpl *transitionImpl) const
+void Component::AddAnimationToList(const TransitionImpl *transitionImpl)
 {
     AnimationsNode *animation = new AnimationsNode();
     if (animation == nullptr) {
@@ -1006,6 +1071,13 @@ void Component::AddAnimationToList(const TransitionImpl *transitionImpl) const
     animation->transitionImpl = const_cast<TransitionImpl *>(transitionImpl);
     animation->next = g_animationListHead;
     g_animationListHead = animation;
+#ifdef ENABLE_PAGE_TRANSITION_EFFECT
+    // one component owns one animation at a time: the animation it recorded before this one is
+    // replaced here, and the node of this one is remembered so that Component::Release() can take
+    // it out of the shared list, see ReleaseAnimationNode()
+    ReleaseAnimationNode(animationNode_);
+    animationNode_ = animation;
+#endif
 }
 
 void Component::RecordAnimation()

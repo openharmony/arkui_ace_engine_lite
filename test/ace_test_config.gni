@@ -119,3 +119,14 @@ if (ability_lite_enable_ohos_appexecfwk_feature_ability == true) {
   all_defines += [ "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER" ]
 }
 all_acelite_source_files = ace_lite_sources
+if (ace_engine_lite_feature_page_transition_effect) {
+  # Whole-engine test builds mirror the product gate: compile the page-transition
+  # engine only when the feature is ON, so the transition TDD/XTS cases can link.
+  # The macro has to be added here as well: the test targets compile the engine
+  # sources with their own config (test_whole_archive_config) and explicitly drop
+  # the :ace_lite dependency, so they never inherit the define that ace_lite sets
+  # in its own target scope.
+  all_defines += [ "ENABLE_PAGE_TRANSITION_EFFECT=1" ]
+  all_acelite_source_files +=
+      [ "$ACE_LITE_PATH/src/core/animation/page_transition.cpp" ]
+}
