@@ -104,6 +104,13 @@ public:
      */
     void Release();
 
+    /**
+     * @brief Stop the current transition WITHOUT restoring view snapshots, clear its view
+     *        references and delete it. Used on the teardown path, where the target views
+     *        may already have been destroyed and must not be accessed.
+     */
+    void Abort();
+
 private:
     /**
      * @brief Dual-view transition (Fade / Slide / Scale).

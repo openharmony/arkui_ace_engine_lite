@@ -227,7 +227,10 @@ void Release(ElementTransitionState &state)
         delete state.style;
         state.style = nullptr;
     }
-    state.executor.Release();
+    // Teardown: child views may already have been destroyed by the time the owning
+    // component is released (children are released before their parent), so the running
+    // transition must be stopped WITHOUT restoring snapshots to avoid a use-after-free.
+    state.executor.Abort();
 }
 
 } // namespace ElementTransition

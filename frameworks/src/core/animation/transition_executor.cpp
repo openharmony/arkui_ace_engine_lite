@@ -48,6 +48,18 @@ void TransitionExecutor::Release()
     currentTrans_ = nullptr;
 }
 
+void TransitionExecutor::Abort()
+{
+    if (currentTrans_ == nullptr) {
+        return;
+    }
+    // Teardown path: the views may already have been destroyed, so only stop the animator
+    // and clear the references; do NOT restore snapshots (that would touch dead views).
+    currentTrans_->Abort();
+    delete currentTrans_;
+    currentTrans_ = nullptr;
+}
+
 ViewTransition* TransitionExecutor::ExecuteDualView(TransitionContext& ctx)
 {
     ViewTransition* trans = new ViewTransition();
