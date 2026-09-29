@@ -23,6 +23,9 @@
 #include "key_parser.h"
 #include "non_copyable.h"
 #include "securec.h"
+#if FEATURE_PATH_ANIMATOR
+#include "app_style_path_parser.h"
+#endif
 
 namespace OHOS {
 namespace ACELite {
@@ -36,6 +39,10 @@ enum {
     STYLE_PROP_VALUE_TYPE_BOOL = 0x03,
     STYLE_PROP_VALUE_TYPE_FLOATING = 0x04,
     STYLE_PROP_VALUE_TYPE_PERCENT = 0x05,
+#if FEATURE_PATH_ANIMATOR
+    STYLE_PROP_VALUE_TYPE_OFFSET_ROTATE = 0x06,
+    STYLE_PROP_VALUE_TYPE_PATH_POLYLINE = 0x07,
+#endif
 };
 
 union StyleValue {
@@ -44,6 +51,10 @@ union StyleValue {
     float percent;
     char *string;
     bool boolean;
+#if FEATURE_PATH_ANIMATOR
+    OffsetRotateValue offsetRotate;
+    OHOS::PathPolyline *pathPolyline;
+#endif
 };
 
 /**
@@ -92,6 +103,11 @@ public:
     {
         if (valueType_ == STYLE_PROP_VALUE_TYPE_STRING) {
             ACE_FREE(styleValue_.string);
+#if FEATURE_PATH_ANIMATOR
+        } else if (valueType_ == STYLE_PROP_VALUE_TYPE_PATH_POLYLINE) {
+            delete styleValue_.pathPolyline;
+            styleValue_.pathPolyline = nullptr;
+#endif
         }
     }
 
@@ -134,6 +150,23 @@ public:
     {
         return (valueType_ != STYLE_PROP_VALUE_TYPE_PERCENT) ? 0 : styleValue_.percent;
     }
+
+#if FEATURE_PATH_ANIMATOR
+    const OHOS::PathPolyline *GetPathPolyline() const
+    {
+        return (valueType_ != STYLE_PROP_VALUE_TYPE_PATH_POLYLINE) ? nullptr : styleValue_.pathPolyline;
+    }
+
+    bool GetOffsetRotate(OffsetRotateMode &mode, int16_t &degree) const
+    {
+        if (valueType_ != STYLE_PROP_VALUE_TYPE_OFFSET_ROTATE) {
+            return false;
+        }
+        mode = static_cast<OffsetRotateMode>(styleValue_.offsetRotate.mode);
+        degree = styleValue_.offsetRotate.degree;
+        return true;
+    }
+#endif
 
     const AppStyleItem *GetNext() const
     {
@@ -217,6 +250,24 @@ private:
     }
 
     void SetStringValue(const char * const value);
+
+#if FEATURE_PATH_ANIMATOR
+    void SetOffsetRotateValue(OffsetRotateMode mode, int16_t degree)
+    {
+        valueType_ = STYLE_PROP_VALUE_TYPE_OFFSET_ROTATE;
+        styleValue_.offsetRotate.mode = mode;
+        styleValue_.offsetRotate.degree = degree;
+    }
+
+    /**
+     * @brief Store a heap copy of the parsed offset-path polyline.
+     * @return false when the allocation failed (the item stays UNKNOWN then).
+     */
+    bool SetPathPolylineValue(const OHOS::PathPolyline &polyline);
+
+    void SetNumberOffsetRotateValue(const jerry_value_t stylePropValue);
+    void ParseStringPathValue(uint16_t keyId, const char *strValueBuffer);
+#endif
 
     AppStyleItem *pre_;
     AppStyleItem *next_;

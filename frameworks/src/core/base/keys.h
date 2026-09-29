@@ -53,6 +53,9 @@ enum {
 #endif // FEATURE_COMPONENT_VIDEO
     KEYWORD(BACKGROUND_COLOR, backgroundColor) // chart line color
     KEYWORD(BACKGROUND_IMAGE, backgroundImage) // common style, but only button, checkbox, radio support
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    KEYWORD(BACKGROUND, background)
+#endif // FEATURE_COMPONENT_GRADIENT
     KEYWORD(BLOCK_COLOR, blockColor)
     KEYWORD(BORDER_BOTTOM_COLOR, borderBottomColor) // common style border bottom color
     KEYWORD(BORDER_LEFT_COLOR, borderLeftColor) // common style border left color
@@ -193,6 +196,11 @@ enum {
     KEYWORD(NUMERIC, numeric)
 #endif
     KEYWORD(OBJECT_FIT, objectFit) // image component object-fit
+#if FEATURE_PATH_ANIMATOR
+    KEYWORD(OFFSET_DISTANCE, offsetDistance) // motion path progress 0%~100%
+    KEYWORD(OFFSET_PATH, offsetPath) // motion path: path("M ... L/Q/C ... Z")
+    KEYWORD(OFFSET_ROTATE, offsetRotate) // motion path rotate (angle only)
+#endif // FEATURE_PATH_ANIMATOR
     KEYWORD(OPACITY, opacity) // common style opacity
     KEYWORD(OPTIONS, options) // chart options
     KEYWORD(PADDING, padding)
@@ -235,6 +243,9 @@ enum {
     KEYWORD(ROTATE, rotate) // animation rotate
     KEYWORD(ROW, row) // layout style
     KEYWORD(ROW_REVERSE, row-reverse) // layout style
+#if FEATURE_TRANSITION_ANIMATOR
+    KEYWORD(SCALE, scale) // animation scale
+#endif // FEATURE_TRANSITION_ANIMATOR
     KEYWORD(SCALE_DOWN, scaleDown) // image component scale down
     KEYWORD(SCROLLAMOUNT, scrollamount) // marquee scroll speed
     KEYWORD(SCROLLBOTTOM, scrollbottom) // scroll bottom event listener
@@ -301,6 +312,12 @@ enum {
 #endif
     KEYWORD(TRANSLATE_X, translateX) // animation transform x
     KEYWORD(TRANSLATE_Y, translateY) // animation transform y
+#if FEATURE_ELEMENT_TRANSITION
+    KEYWORD(TRANSITION_DELAY, transitionDelay) // transition delay
+    KEYWORD(TRANSITION_DURATION, transitionDuration) // transition duration
+    KEYWORD(TRANSITION_TIMING_FUNCTION, transitionTimingFunction) // transition timing function
+    KEYWORD(TRANSITION_EFFECT, transitionEffect) // transition effect, arkui own property
+#endif
     KEYWORD(TRUE, true) // common attributes
 #if ((FEATURE_COMPONENT_ANALOG_CLOCK == 1) || (FEATURE_COMPONENT_EDITTEXT == 1))
     KEYWORD(TYPE, type) // clock-hand type

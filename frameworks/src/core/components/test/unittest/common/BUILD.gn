@@ -70,6 +70,17 @@ unittest("js_frameworks_test_event_bubble") {
   ]
   deps = ace_test_deps
 }
+
+unittest("js_frameworks_test_element_transition") {
+  output_extension = "bin"
+  output_dir = test_output_root
+  configs = [ "$ace_lite_root/test:test_common_config" ]
+  sources = [
+    "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
+    "element_transition_tdd_test.cpp",
+  ]
+  deps = ace_test_deps
+}
 unittest("js_frameworks_test_horizonprogress") {
   output_extension = "bin"
   output_dir = test_output_root
@@ -241,6 +252,17 @@ unittest("js_frameworks_test_text") {
     "$ace_lite_root/test/moduletest/common/base_test.cpp",
     "root_component_mock.cpp",
     "text_tdd_test.cpp",
+  ]
+  deps = ace_test_deps
+}
+
+unittest("js_frameworks_test_transition") {
+  output_extension = "bin"
+  output_dir = test_output_root
+  configs = [ "$ace_lite_root/test:test_common_config" ]
+  sources = [
+    "$ace_lite_root/test/moduletest/common/basic_tdd_test.cpp",
+    "transition_tdd_test.cpp",
   ]
   deps = ace_test_deps
 }

@@ -126,6 +126,8 @@ if (ace_engine_lite_enable_flex_layout_config) {
   all_defines += [ "GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT=0" ]
 }
 all_acelite_source_files = ace_lite_sources
+all_acelite_source_files += ace_lite_light_graphics_sources
+
 if (ace_engine_lite_feature_page_transition_effect) {
   # Whole-engine test builds mirror the product gate: compile the page-transition
   # engine only when the feature is ON, so the transition TDD/XTS cases can link.

@@ -20,6 +20,10 @@
 #include "easing_equation.h"
 #include "root_view.h"
 #include "securec.h"
+#if FEATURE_PATH_ANIMATOR
+#include <cmath>
+#include "path_animator_callback.h"
+#endif // FEATURE_PATH_ANIMATOR
 
 namespace OHOS {
 namespace ACELite {
@@ -135,6 +139,12 @@ void TransitionImpl::InitTransitionParamsTransform()
         transformType_ = TransformType::ROTATE;
         rotateSrc_ = params_.transform_from;
     }
+#if FEATURE_PATH_ANIMATOR
+    if ((params_.transformType != nullptr) && (transformType_ == TransformType::NONE) &&
+        !strcmp(params_.transformType, TRANSITION_OFFSET_PATH)) {
+        transformType_ = TransformType::TRANSLATE_OFFSET_PATH;
+    }
+#endif // FEATURE_PATH_ANIMATOR
 }
 
 void TransitionImpl::InitTransitionParamsEasing()
@@ -230,6 +240,10 @@ void TransitionImpl::Perform(int32_t elapsedTime)
     } else if (transformType_ == TransformType::ROTATE) {
         PerformTransition(params_.transform_from, params_.transform_to, TransitionType::TROTATE, rotateSrc_,
                           elapsedTime);
+#if FEATURE_PATH_ANIMATOR
+    } else if (transformType_ == TransformType::TRANSLATE_OFFSET_PATH) {
+        PerformOffsetPathTransition(elapsedTime);
+#endif // FEATURE_PATH_ANIMATOR
     }
 
     if (isTransitionSet_[GeneralType::IS_HEIGHT_TRANSITION_SET]) {
@@ -328,6 +342,88 @@ void TransitionImpl::PerformTransition(int16_t from,
     invalidatedArea.Join(invalidatedArea, view_->GetRect());
     view_->InvalidateRect(invalidatedArea);
 }
+
+#if FEATURE_PATH_ANIMATOR
+namespace {
+constexpr int16_t PERCENT_TO_PERMILLE = 10;     // percent -> permille multiplier (100% == 1000‰)
+constexpr int16_t PROGRESS_PERMILLE_MAX = 1000; // permille progress upper limit (100.0%)
+} // namespace
+
+void TransitionImpl::PerformOffsetPathTransition(int32_t elapsedTime)
+{
+    if (!SyncOffsetPathBase()) {
+        return;
+    }
+    ConfigurePathCallbackIfNeeded();
+    if (pathCallback_ == nullptr) {
+        return; // allocation failed: skip the path frame, other effects unaffected
+    }
+    /* delegate the view-effect application (locate/SetPosition/rotate/invalidate) to
+       PathAnimatorCallback — TransitionImpl only keeps the CSS progress semantics */
+    pathCallback_->ApplyFrame(view_, static_cast<uint16_t>(EvaluateOffsetDist(elapsedTime)));
+}
+
+bool TransitionImpl::SyncOffsetPathBase()
+{
+    if (params_.pathPoly.count < POINTS_MIN) {
+        return false;
+    }
+    /* for "if" mounting, Start runs before layout finished and viewStatus_ recorded in
+       Start() is (0,0,0,0): skip the 1st frame to wait for layout, then sync the real
+       layout position & size at the 2nd frame as the path base */
+    if (offsetPathBaseSyncState_ == OffsetPathSyncState::WAIT_FIRST_FRAME) {
+        offsetPathBaseSyncState_ = OffsetPathSyncState::WAIT_LAYOUT;
+        return false;
+    }
+    if (offsetPathBaseSyncState_ == OffsetPathSyncState::WAIT_LAYOUT) {
+        offsetPathBaseSyncState_ = OffsetPathSyncState::SYNCED;
+        viewStatus_.x = view_->GetX();
+        viewStatus_.y = view_->GetY();
+        viewStatus_.height = view_->GetHeight();
+        viewStatus_.width = view_->GetWidth();
+    }
+    return true;
+}
+
+int16_t TransitionImpl::EvaluateOffsetDist(int32_t elapsedTime) const
+{
+    int16_t dist;
+    if (timeArrivaled_) {
+        dist = params_.offsetDistanceTo * PERCENT_TO_PERMILLE; // percent -> permille
+    } else {
+        /* interpolate in permille (0~1000) instead of percent: the int16 easing output
+           then yields ~10x finer position steps (0.1% instead of 1% per step) */
+        dist = GetNextFrameValue(params_.offsetDistanceFrom * PERCENT_TO_PERMILLE,
+                                 params_.offsetDistanceTo * PERCENT_TO_PERMILLE, elapsedTime);
+    }
+    const int16_t distMin = 0;
+    return (dist < distMin) ? distMin : ((dist > PROGRESS_PERMILLE_MAX) ? PROGRESS_PERMILLE_MAX : dist);
+}
+
+void TransitionImpl::ConfigurePathCallbackIfNeeded()
+{
+    if (pathCallbackConfigured_) {
+        return;
+    }
+    pathCallbackConfigured_ = true;
+    if (pathCallback_ == nullptr) {
+        pathCallback_ = new OHOS::PathAnimatorCallback();
+        if (pathCallback_ == nullptr) {
+            HILOG_ERROR(HILOG_MODULE_ACE, "create PathAnimatorCallback object error");
+            return;
+        }
+    }
+    /* path data: the sampled polyline parsed from the CSS offset-path value */
+    pathCallback_->SetPath(params_.pathPoly);
+    /* rotation: map the CSS offset-rotate result (fixed angle / auto + offset) */
+    if (params_.offsetRotateMode == OFFSET_ROTATE_AUTO) {
+        pathCallback_->SetAutoRotate(params_.offsetRotate); // auto=0, reverse=180, "auto Xdeg"=X
+    } else if (params_.offsetRotate != 0) {
+        pathCallback_->SetFixedRotate(params_.offsetRotate);
+    }
+}
+#endif // FEATURE_PATH_ANIMATOR
+
 int8_t TransitionImpl::GetNumIterations(const char *iterations)
 {
     int8_t min = 1;
@@ -338,12 +434,23 @@ int8_t TransitionImpl::GetNumIterations(const char *iterations)
     if (!strcmp(iterations, "infinite")) {
         return TransitionImpl::ITERATIONS_INFINITY;
     }
+#if FEATURE_TRANSITION_ANIMATOR
+    char *end = nullptr;
+    long value = strtol(iterations, &end, DEC);
+    // Support the transition animation scenario where iterations is set to 0.
+    if ((end == iterations) || (end == nullptr) || (*end != '\0') || (value < 0) || (value > max)) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "animation iterations should set between 0 and 127");
+        return min;
+    }
+    return static_cast<int8_t>(value);
+#else
     long value = strtol(iterations, nullptr, DEC);
     if ((value < min) || (value > max)) {
         HILOG_ERROR(HILOG_MODULE_ACE, "animation iterations should set between 1 and 127");
         return min;
     }
     return (int8_t)value;
+#endif // FEATURE_TRANSITION_ANIMATOR
 }
 
 bool TransitionImpl::IsEndWith(const char *src, const char *end)
@@ -409,8 +516,24 @@ void TransitionImpl::RecoveryViewStatus(Rect invalidatedAreaBefore) const
 {
     view_->SetX(viewStatus_.x);
     view_->SetY(viewStatus_.y);
+#if FEATURE_PATH_ANIMATOR
+    /* defense: skip size restore when width/height recorded as 0 (layout was not finished
+     * at record time), avoiding restoring the view to 0x0 and making it invisible
+     * (once triggered in the "if" mounting + fill none scenario).
+     * Only applied for offset-path transitions to avoid affecting other transform types. */
+    if (transformType_ == TransformType::TRANSLATE_OFFSET_PATH) {
+        if ((viewStatus_.width > 0) && (viewStatus_.height > 0)) {
+            view_->SetHeight(viewStatus_.height);
+            view_->SetWidth(viewStatus_.width);
+        }
+    } else {
+        view_->SetHeight(viewStatus_.height);
+        view_->SetWidth(viewStatus_.width);
+    }
+#else
     view_->SetHeight(viewStatus_.height);
     view_->SetWidth(viewStatus_.width);
+#endif // FEATURE_PATH_ANIMATOR
     TransformMap &transMap = view_->GetTransformMap();
     Polygon polygon(Rect(0, 0, 0, 0));
     transMap.SetPolygon(polygon);

@@ -306,7 +306,32 @@ void ListAdapter::BuildItemViewTree(const JSValue element) const
     }
     Component::BuildViewTree(component, nullptr, parentParam);
     component->OnViewAttached();
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    SyncGradientRecursive(component);
+#endif
 }
+
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+void ListAdapter::SyncGradientRecursive(Component *component) const
+{
+    if (component == nullptr || !component->HasGradientInSubtree()) {
+        return;
+    }
+
+    Component *child = const_cast<Component *>(component->GetChildHead());
+    while (child != nullptr) {
+        SyncGradientRecursive(child);
+        child = const_cast<Component *>(child->GetNextSibling());
+    }
+
+    if (component->HasGradientInfo()) {
+        UIView *componentView = component->GetComponentRootView();
+        if (componentView != nullptr) {
+            component->SyncGradientToView(*componentView);
+        }
+    }
+}
+#endif
 
 void ListAdapter::InsertItem(JSValue nativeElement, UIView *uiView)
 {

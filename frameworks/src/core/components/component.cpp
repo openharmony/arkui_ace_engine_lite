@@ -17,6 +17,9 @@
 #include "ace_mem_base.h"
 #include "directive/descriptor_utils.h"
 #include "fatal_handler.h"
+#if FEATURE_TRANSITION_ANIMATOR
+#include "keyframes_transition_impl.h"
+#endif // FEATURE_TRANSITION_ANIMATOR
 #include "handler.h"
 #include "js_ability_impl.h"
 #include "js_app_context.h"
@@ -44,8 +47,15 @@ static bool g_isAnimatorStarted = false;
 void Component::HandlerAnimations()
 {
     Component::AnimationsNode *point = g_animationListHead;
-    while (point != nullptr && point->transitionImpl != nullptr) {
-        point->transitionImpl->Start();
+    while (point != nullptr) {
+        if (point->transitionImpl != nullptr) {
+            point->transitionImpl->Start();
+        }
+#if FEATURE_TRANSITION_ANIMATOR
+        if (point->keyframesTransitionImpl != nullptr) {
+            point->keyframesTransitionImpl->Start();
+        }
+#endif
         point = point->next;
     }
     g_isAnimatorStarted = true;
@@ -60,6 +70,12 @@ void Component::ReleaseAnimations()
             delete (point->transitionImpl);
             point->transitionImpl = nullptr;
         }
+#if FEATURE_TRANSITION_ANIMATOR
+        if (point->keyframesTransitionImpl) {
+            delete (point->keyframesTransitionImpl);
+            point->keyframesTransitionImpl = nullptr;
+        }
+#endif
         delete (point);
         point = temp;
     }
@@ -143,6 +159,9 @@ Component::Component(jerry_value_t options, jerry_value_t children, AppStyleMana
       animationNode_(nullptr),
 #endif
       trans_(nullptr),
+#if FEATURE_ELEMENT_TRANSITION
+      elementTransState_(),
+#endif
       descriptors_(jerry_acquire_value(children)),
       watchersHead_(nullptr),
       height_(-1, DimensionType::TYPE_UNKNOWN),
@@ -273,7 +292,14 @@ void Component::Release()
 
     // stop view animation
     if (curTransitionImpl_) {
+#if FEATURE_TRANSITION_ANIMATOR
         curTransitionImpl_->Stop();
+        RemoveAnimationFromList(curTransitionImpl_);
+        delete curTransitionImpl_;
+        curTransitionImpl_ = nullptr;
+#else
+        curTransitionImpl_->Stop();
+#endif // FEATURE_TRANSITION_ANIMATOR
     }
 #ifdef ENABLE_PAGE_TRANSITION_EFFECT
     // Release the animation this component recorded. The process-wide list is shared with the pages
@@ -283,6 +309,11 @@ void Component::Release()
     ReleaseAnimationNode(animationNode_);
     animationNode_ = nullptr;
     curTransitionImpl_ = nullptr;
+#endif
+#if FEATURE_ELEMENT_TRANSITION
+    // Release transition-animation-specific resources (transStyle_/running transition) before
+    // native views are destroyed, so RestoreSnapshot() can safely access child views.
+    ElementTransition::Release(elementTransState_);
 #endif
     ReleaseViewExtraMsg();
     jerry_delete_object_native_pointer(nativeElement_, nullptr);
@@ -649,6 +680,14 @@ bool Component::ApplyStyle(const AppStyleItem *style)
         return false;
     }
 
+#if FEATURE_ELEMENT_TRANSITION
+    // K_TRANSITION_EFFECT is our custom property, no other handler needs it
+    uint16_t styleNameId = GetStylePropNameId(style);
+    if (styleNameId == K_TRANSITION_EFFECT) {
+        ElementTransition::ApplyTransitionConfig(*this, style);
+        return true;
+    }
+#endif
     // Try private styles first
     bool applyResult = ApplyPrivateStyle(style);
     if (applyResult) {
@@ -776,6 +815,12 @@ bool Component::ApplyCommonStyle(UIView &view, const AppStyleItem *style)
             SetBackgroundColor(view, *style);
             break;
         }
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+        case K_BACKGROUND: {
+            HandleBackground(*style);
+            break;
+        }
+#endif //FEATURE_COMPONENT_GRADIENT
         case K_LEFT: {
             GetDimensionFromStyle(left_, *style);
 #if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
@@ -960,10 +1005,25 @@ bool Component::ApplyCommonStyle(UIView &view, const AppStyleItem *style)
             break;
         }
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+#if FEATURE_PATH_ANIMATOR
+        case K_OFFSET_PATH:
+        case K_OFFSET_ROTATE: {
+            SetAnimationStyle(style, static_cast<int16_t>(styleNameId));
+            break;
+        }
+#endif // FEATURE_PATH_ANIMATOR
         case K_OPACITY: {
             SetOpacity(view, *style);
             break;
         }
+#if FEATURE_ELEMENT_TRANSITION
+        case K_TRANSITION_DURATION:
+        case K_TRANSITION_TIMING_FUNCTION:
+        case K_TRANSITION_DELAY: {
+            ElementTransition::ApplyTransitionConfig(*this, style);
+            break;
+        }
+#endif
         default: {
             return false;
         }
@@ -1035,6 +1095,12 @@ void Component::SetAnimationKeyFrames(const UIView &view, const AppStyleItem *st
         }
         SetAnimationKeyFrames(item);
     }
+
+#if FEATURE_TRANSITION_ANIMATOR
+    /* stage the animation-name into trans_: the plan is built later at record/start
+       time, when all animation-* styles have been applied */
+    StageKeyframesName(value);
+#endif // FEATURE_TRANSITION_ANIMATOR
 }
 
 void Component::SetAnimationKeyFrames(const AppStyleItem *item)
@@ -1128,6 +1194,11 @@ void Component::SetAnimationKeyFrames(int16_t keyId, int32_t valueFrom, int32_t 
             trans_->opacity_to = valueTo;
             isAnimationKeyFramesSet_ = true;
             break;
+#if FEATURE_PATH_ANIMATOR
+        case K_OFFSET_DISTANCE:
+            SetOffsetDistanceKeyFrames(valueFrom, valueTo);
+            break;
+#endif // FEATURE_PATH_ANIMATOR
         default:
             break;
     }
@@ -1178,7 +1249,6 @@ void Component::SetAnimationFillMode(const char *strValue, size_t strLen)
         HILOG_ERROR(HILOG_MODULE_ACE, "SetAnimationFillMode fail");
         return;
     }
-
     uint16_t animationFillKeyId = KeyParser::ParseKeyId(strValue, strLen);
     switch (animationFillKeyId) {
         case K_FORWARDS:
@@ -1265,7 +1335,69 @@ void Component::SetAnimationStyle(const UIView &view, const AppStyleItem *styleI
         default:
             break;
     }
+#if FEATURE_TRANSITION_ANIMATOR
+    /* animation config changed: drop the built keyframes executor; it is rebuilt
+       from the staged name at record/start time with the fresh trans_ values */
+    DropKeyframesTransitionImpl();
+#endif // FEATURE_TRANSITION_ANIMATOR
 }
+
+#if FEATURE_PATH_ANIMATOR
+void Component::SetAnimationStyle(const AppStyleItem *styleItem, const int16_t keyId)
+{
+    if (styleItem == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "SetAnimationStyle fail: style item is null");
+        return;
+    }
+
+    switch (keyId) {
+        case K_OFFSET_PATH: {
+            /* the polyline was parsed once when the style item was created */
+            const OHOS::PathPolyline *polyline = styleItem->GetPathPolyline();
+            if (polyline == nullptr) {
+                return;
+            }
+            if (trans_ == nullptr) {
+                trans_ = new TransitionParams();
+                if (trans_ == nullptr) {
+                    HILOG_ERROR(HILOG_MODULE_ACE, "create TransitionParams object error");
+                    return;
+                }
+            }
+            trans_->pathPoly = *polyline;
+            trans_->transformType = const_cast<char *>(TRANSITION_OFFSET_PATH);
+            break;
+        }
+        case K_OFFSET_ROTATE: {
+            /* the (mode, degree) value was parsed once when the style item was created */
+            OffsetRotateMode mode;
+            int16_t degree;
+            if (!styleItem->GetOffsetRotate(mode, degree)) {
+                return;
+            }
+            if (trans_ == nullptr) {
+                trans_ = new TransitionParams();
+                if (trans_ == nullptr) {
+                    HILOG_ERROR(HILOG_MODULE_ACE, "create TransitionParams object error");
+                    return;
+                }
+            }
+            trans_->offsetRotateMode = mode;
+            trans_->offsetRotate = degree;
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+void Component::SetOffsetDistanceKeyFrames(int32_t valueFrom, int32_t valueTo)
+{
+    trans_->offsetDistanceFrom = static_cast<int16_t>(valueFrom);
+    trans_->offsetDistanceTo = static_cast<int16_t>(valueTo);
+    isAnimationKeyFramesSet_ = true;
+}
+#endif // FEATURE_PATH_ANIMATOR
 
 void Component::AddAnimationToList(const TransitionImpl *transitionImpl)
 {
@@ -1286,8 +1418,142 @@ void Component::AddAnimationToList(const TransitionImpl *transitionImpl)
 #endif
 }
 
+#if FEATURE_TRANSITION_ANIMATOR
+void Component::RemoveAnimationFromList(const TransitionImpl *transitionImpl) const
+{
+    AnimationsNode *prev = nullptr;
+    AnimationsNode *node = g_animationListHead;
+    while (node != nullptr) {
+        if (node->transitionImpl == transitionImpl) {
+            if (prev == nullptr) {
+                g_animationListHead = node->next;
+            } else {
+                prev->next = node->next;
+            }
+            delete node;
+            return;
+        }
+        prev = node;
+        node = node->next;
+    }
+}
+
+void Component::StopAndReleaseCurrentTransition()
+{
+    if (curTransitionImpl_ == nullptr) {
+        return;
+    }
+    curTransitionImpl_->Stop();
+    RemoveAnimationFromList(curTransitionImpl_);
+    delete curTransitionImpl_;
+    curTransitionImpl_ = nullptr;
+}
+
+void Component::AddKeyframesTransitionToList(KeyframesTransitionImpl *transition) const
+{
+    AnimationsNode *animation = new AnimationsNode();
+    if (animation == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "create animation node error for keyframes transition");
+        return;
+    }
+    animation->keyframesTransitionImpl = transition;
+    animation->next = g_animationListHead;
+    g_animationListHead = animation;
+}
+
+void Component::RemoveKeyframesTransitionFromList(const KeyframesTransitionImpl *transition) const
+{
+    AnimationsNode *prev = nullptr;
+    AnimationsNode *node = g_animationListHead;
+    while (node != nullptr) {
+        if (node->keyframesTransitionImpl == transition) {
+            if (prev == nullptr) {
+                g_animationListHead = node->next;
+            } else {
+                prev->next = node->next;
+            }
+            delete node;
+            return;
+        }
+        prev = node;
+        node = node->next;
+    }
+}
+
+void Component::DropKeyframesTransitionImpl()
+{
+    if (keyframesTransitionImpl_ == nullptr) {
+        return;
+    }
+    keyframesTransitionImpl_->Stop();
+    RemoveKeyframesTransitionFromList(keyframesTransitionImpl_);
+    delete keyframesTransitionImpl_;
+    keyframesTransitionImpl_ = nullptr;
+}
+
+void Component::ReleaseKeyframesTransitionImpl()
+{
+    DropKeyframesTransitionImpl();
+    if (trans_ != nullptr) {
+        ACE_FREE(trans_->keyframesName);
+    }
+}
+
+void Component::StageKeyframesName(const char *name)
+{
+    if ((name == nullptr) || (trans_ == nullptr)) {
+        return;
+    }
+    if ((trans_->keyframesName != nullptr) && (strcmp(trans_->keyframesName, name) == 0)) {
+        return; // unchanged
+    }
+    ACE_FREE(trans_->keyframesName);
+    size_t nameLen = strlen(name);
+    trans_->keyframesName = reinterpret_cast<char *>(ace_malloc(sizeof(char) * (nameLen + 1)));
+    if (trans_->keyframesName != nullptr) {
+        if (strcpy_s(trans_->keyframesName, nameLen + 1, name) != 0) {
+            ACE_FREE(trans_->keyframesName);
+        }
+    }
+    /* name changed: drop the stale executor */
+    DropKeyframesTransitionImpl();
+}
+
+void Component::BuildKeyframesTransition(UIView &uiView)
+{
+    const AppStyleSheet *styleSheet = GetStyleManager()->GetStyleSheet();
+    if ((styleSheet == nullptr) || (trans_ == nullptr) || (trans_->keyframesName == nullptr)) {
+        return;
+    }
+    /* the factory assembles the plan and creates+initializes the executor in one go;
+       nullptr means "no valid feature plan" and the classic path takes over */
+    keyframesTransitionImpl_ =
+        KeyframesTransitionImpl::Build(*styleSheet, trans_->keyframesName, *trans_, &uiView);
+    if (keyframesTransitionImpl_ == nullptr) {
+        return;
+    }
+    AddKeyframesTransitionToList(keyframesTransitionImpl_);
+    /* same timing as the classic path: start immediately only when the page has started */
+    if (g_isAnimatorStarted) {
+        keyframesTransitionImpl_->Start();
+    }
+}
+#endif // FEATURE_TRANSITION_ANIMATOR
+
 void Component::RecordAnimation()
 {
+#if FEATURE_TRANSITION_ANIMATOR
+    /* the keyframes path takes over when a plan can be built from the staged name */
+    UIView *rootView = GetComponentRootView();
+    if ((rootView != nullptr) && (trans_ != nullptr) && (trans_->keyframesName != nullptr)) {
+        DropKeyframesTransitionImpl();
+        BuildKeyframesTransition(*rootView);
+        if (keyframesTransitionImpl_ != nullptr) {
+            isAnimationKeyFramesSet_ = false; // the feature executor takes over
+            return;
+        }
+    }
+#endif // FEATURE_TRANSITION_ANIMATOR
     if (trans_ == nullptr) {
         return;
     }
@@ -1315,9 +1581,29 @@ void Component::RecordAnimation()
 
 void Component::StartAnimation()
 {
+#if FEATURE_TRANSITION_ANIMATOR
+    /* staged name (re)builds the executor, covering the dynamic on/off switching */
+    UIView *rootView = GetComponentRootView();
+    if ((rootView != nullptr) && (trans_ != nullptr) && (trans_->keyframesName != nullptr)) {
+        DropKeyframesTransitionImpl();
+        BuildKeyframesTransition(*rootView);
+        if (keyframesTransitionImpl_ != nullptr) {
+            isAnimationKeyFramesSet_ = false; // the feature executor takes over
+            return;
+        }
+    }
+#endif // FEATURE_TRANSITION_ANIMATOR
     if (trans_ == nullptr) {
         return;
     }
+
+#if FEATURE_TRANSITION_ANIMATOR
+    if (trans_->iterations == 0) {
+        StopAndReleaseCurrentTransition();
+        isAnimationKeyFramesSet_ = false;
+        return;
+    }
+#endif // FEATURE_TRANSITION_ANIMATOR
 
     if (trans_->during > 0 && isAnimationKeyFramesSet_) {
         UIView *uiView = GetComponentRootView();
@@ -1341,6 +1627,9 @@ void Component::StartAnimation()
 
 void Component::ReleaseTransitionParam()
 {
+#if FEATURE_TRANSITION_ANIMATOR
+    ReleaseKeyframesTransitionImpl();
+#endif // FEATURE_TRANSITION_ANIMATOR
     if (trans_) {
         delete trans_;
         trans_ = nullptr;
@@ -2030,6 +2319,9 @@ void Component::AddChild(Component *childNode)
         childNode->SetParent(this);
         childNode->SetNextSibling(nullptr);
         childHead_ = childNode;
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+        RecomputeGradientSubtreeFlag();
+#endif
         return;
     }
 
@@ -2045,6 +2337,9 @@ void Component::AddChild(Component *childNode)
     childNode->SetParent(this);
     temp->SetNextSibling(childNode);
     childNode->SetNextSibling(nullptr);
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    RecomputeGradientSubtreeFlag();
+#endif
 }
 
 void Component::RemoveChild(Component *childNode)
@@ -2066,6 +2361,9 @@ void Component::RemoveChild(Component *childNode)
         childNode->SetParent(nullptr);
         childHead_ = next;
         parentView->Remove(childNativeView);
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+        RecomputeGradientSubtreeFlag();
+#endif
         return;
     }
 
@@ -2087,6 +2385,9 @@ void Component::RemoveChild(Component *childNode)
     childNode->SetNextSibling(nullptr);
     childNode->SetParent(nullptr);
     parentView->Remove(childNativeView);
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    RecomputeGradientSubtreeFlag();
+#endif
 }
 
 void Component::RemoveAllChildren()

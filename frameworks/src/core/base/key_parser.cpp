@@ -137,6 +137,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "ackgroundImage")) {
                 return K_BACKGROUND_IMAGE;
             }
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+            if (!strcmp(s, "ackground")) {
+                return K_BACKGROUND;
+            }
+#endif //FEATURE_COMPONENT_GRADIENT
             if (!strcmp(s, "lockColor")) {
                 return K_BLOCK_COLOR;
             }
@@ -569,6 +574,17 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "bjectFit")) {
                 return K_OBJECT_FIT;
             }
+#if FEATURE_PATH_ANIMATOR
+            if (!strcmp(s, "ffsetDistance")) {
+                return K_OFFSET_DISTANCE;
+            }
+            if (!strcmp(s, "ffsetPath")) {
+                return K_OFFSET_PATH;
+            }
+            if (!strcmp(s, "ffsetRotate")) {
+                return K_OFFSET_ROTATE;
+            }
+#endif // FEATURE_PATH_ANIMATOR
             if (!strcmp(s, "pacity")) {
                 return K_OPACITY;
             }
@@ -696,6 +712,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         case 's':
+#if FEATURE_TRANSITION_ANIMATOR
+            if (!strcmp(s, "cale")) {
+                return K_SCALE;
+            }
+#endif // FEATURE_TRANSITION_ANIMATOR
             if (!strcmp(s, "cale-down")) {
                 return K_SCALE_DOWN;
             }
@@ -865,6 +886,20 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "ranslateY")) {
                 return K_TRANSLATE_Y;
             }
+#if FEATURE_ELEMENT_TRANSITION
+            if (!strcmp(s, "ransitionEffect")) {
+                return K_TRANSITION_EFFECT;
+            }
+            if (!strcmp(s, "ransitionDuration")) {
+                return K_TRANSITION_DURATION;
+            }
+            if (!strcmp(s, "ransitionTimingFunction")) {
+                return K_TRANSITION_TIMING_FUNCTION;
+            }
+            if (!strcmp(s, "ransitionDelay")) {
+                return K_TRANSITION_DELAY;
+            }
+#endif
             if (!strcmp(s, "rue")) {
                 return K_TRUE;
             }

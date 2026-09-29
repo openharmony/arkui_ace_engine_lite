@@ -79,6 +79,9 @@ private:
     void InsertItem(JSValue nativeElement, UIView *uiView);
     void DeleteItem(const UIView *uiView);
     void BuildItemViewTree(const JSValue element) const;
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    void SyncGradientRecursive(Component *component) const;
+#endif
     ListItemValue *listItems_;
     ViewNativePair *headNode_;
     ViewNativePair *tailNode_;
