@@ -312,6 +312,7 @@ if (ace_engine_lite_enable_element_transition_capability) {
 if (ace_engine_lite_enable_animation_capability) {
   ace_lite_light_graphics_sources += [
     "$ACE_LITE_PATH/src/core/animation/keyframes_transition_impl.cpp",
+    "$ACE_LITE_PATH/src/core/components/component_animation.cpp",
     "$ACE_LITE_PATH/src/core/stylemgr/app_style_path_parser.cpp",
   ]
 }

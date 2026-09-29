@@ -623,8 +623,13 @@ private:
     void ReleaseTransitionParam();
 
 #if FEATURE_TRANSITION_ANIMATOR
+    /* attempt to build and start a keyframes executor; returns true when the
+       keyframes path takes over and the caller should skip the classic path */
+    bool TryStartKeyframesTransition();
     void RemoveAnimationFromList(const TransitionImpl *transitionImpl) const;
     void StopAndReleaseCurrentTransition();
+    /* true once HandlerAnimations() has started the page animators */
+    static bool IsAnimatorStarted();
     /* animation-list registry for the keyframes executor (kept private: list
        management stays with the component, mirroring the TransitionImpl path) */
     void AddKeyframesTransitionToList(KeyframesTransitionImpl *transition) const;

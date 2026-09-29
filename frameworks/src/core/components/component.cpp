@@ -303,10 +303,7 @@ void Component::Release()
     // stop view animation
     if (curTransitionImpl_) {
 #if FEATURE_TRANSITION_ANIMATOR
-        curTransitionImpl_->Stop();
-        RemoveAnimationFromList(curTransitionImpl_);
-        delete curTransitionImpl_;
-        curTransitionImpl_ = nullptr;
+        StopAndReleaseCurrentTransition();
 #else
         curTransitionImpl_->Stop();
 #endif // FEATURE_TRANSITION_ANIMATOR
@@ -1352,62 +1349,6 @@ void Component::SetAnimationStyle(const UIView &view, const AppStyleItem *styleI
 #endif // FEATURE_TRANSITION_ANIMATOR
 }
 
-#if FEATURE_PATH_ANIMATOR
-void Component::SetAnimationStyle(const AppStyleItem *styleItem, const int16_t keyId)
-{
-    if (styleItem == nullptr) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "SetAnimationStyle fail: style item is null");
-        return;
-    }
-
-    switch (keyId) {
-        case K_OFFSET_PATH: {
-            /* the polyline was parsed once when the style item was created */
-            const OHOS::PathPolyline *polyline = styleItem->GetPathPolyline();
-            if (polyline == nullptr) {
-                return;
-            }
-            if (trans_ == nullptr) {
-                trans_ = new TransitionParams();
-                if (trans_ == nullptr) {
-                    HILOG_ERROR(HILOG_MODULE_ACE, "create TransitionParams object error");
-                    return;
-                }
-            }
-            trans_->pathPoly = *polyline;
-            trans_->transformType = const_cast<char *>(TRANSITION_OFFSET_PATH);
-            break;
-        }
-        case K_OFFSET_ROTATE: {
-            /* the (mode, degree) value was parsed once when the style item was created */
-            OffsetRotateMode mode;
-            int16_t degree;
-            if (!styleItem->GetOffsetRotate(mode, degree)) {
-                return;
-            }
-            if (trans_ == nullptr) {
-                trans_ = new TransitionParams();
-                if (trans_ == nullptr) {
-                    HILOG_ERROR(HILOG_MODULE_ACE, "create TransitionParams object error");
-                    return;
-                }
-            }
-            trans_->offsetRotateMode = mode;
-            trans_->offsetRotate = degree;
-            break;
-        }
-        default:
-            break;
-    }
-}
-
-void Component::SetOffsetDistanceKeyFrames(int32_t valueFrom, int32_t valueTo)
-{
-    trans_->offsetDistanceFrom = static_cast<int16_t>(valueFrom);
-    trans_->offsetDistanceTo = static_cast<int16_t>(valueTo);
-    isAnimationKeyFramesSet_ = true;
-}
-#endif // FEATURE_PATH_ANIMATOR
 
 void Component::AddAnimationToList(const TransitionImpl *transitionImpl)
 {
@@ -1448,17 +1389,6 @@ void Component::RemoveAnimationFromList(const TransitionImpl *transitionImpl) co
     }
 }
 
-void Component::StopAndReleaseCurrentTransition()
-{
-    if (curTransitionImpl_ == nullptr) {
-        return;
-    }
-    curTransitionImpl_->Stop();
-    RemoveAnimationFromList(curTransitionImpl_);
-    delete curTransitionImpl_;
-    curTransitionImpl_ = nullptr;
-}
-
 void Component::AddKeyframesTransitionToList(KeyframesTransitionImpl *transition) const
 {
     AnimationsNode *animation = new AnimationsNode();
@@ -1490,78 +1420,17 @@ void Component::RemoveKeyframesTransitionFromList(const KeyframesTransitionImpl 
     }
 }
 
-void Component::DropKeyframesTransitionImpl()
+bool Component::IsAnimatorStarted()
 {
-    if (keyframesTransitionImpl_ == nullptr) {
-        return;
-    }
-    keyframesTransitionImpl_->Stop();
-    RemoveKeyframesTransitionFromList(keyframesTransitionImpl_);
-    delete keyframesTransitionImpl_;
-    keyframesTransitionImpl_ = nullptr;
-}
-
-void Component::ReleaseKeyframesTransitionImpl()
-{
-    DropKeyframesTransitionImpl();
-    if (trans_ != nullptr) {
-        ACE_FREE(trans_->keyframesName);
-    }
-}
-
-void Component::StageKeyframesName(const char *name)
-{
-    if ((name == nullptr) || (trans_ == nullptr)) {
-        return;
-    }
-    if ((trans_->keyframesName != nullptr) && (strcmp(trans_->keyframesName, name) == 0)) {
-        return; // unchanged
-    }
-    ACE_FREE(trans_->keyframesName);
-    size_t nameLen = strlen(name);
-    trans_->keyframesName = reinterpret_cast<char *>(ace_malloc(sizeof(char) * (nameLen + 1)));
-    if (trans_->keyframesName != nullptr) {
-        if (strcpy_s(trans_->keyframesName, nameLen + 1, name) != 0) {
-            ACE_FREE(trans_->keyframesName);
-        }
-    }
-    /* name changed: drop the stale executor */
-    DropKeyframesTransitionImpl();
-}
-
-void Component::BuildKeyframesTransition(UIView &uiView)
-{
-    const AppStyleSheet *styleSheet = GetStyleManager()->GetStyleSheet();
-    if ((styleSheet == nullptr) || (trans_ == nullptr) || (trans_->keyframesName == nullptr)) {
-        return;
-    }
-    /* the factory assembles the plan and creates+initializes the executor in one go;
-       nullptr means "no valid feature plan" and the classic path takes over */
-    keyframesTransitionImpl_ =
-        KeyframesTransitionImpl::Build(*styleSheet, trans_->keyframesName, *trans_, &uiView);
-    if (keyframesTransitionImpl_ == nullptr) {
-        return;
-    }
-    AddKeyframesTransitionToList(keyframesTransitionImpl_);
-    /* same timing as the classic path: start immediately only when the page has started */
-    if (g_isAnimatorStarted) {
-        keyframesTransitionImpl_->Start();
-    }
+    return g_isAnimatorStarted;
 }
 #endif // FEATURE_TRANSITION_ANIMATOR
 
 void Component::RecordAnimation()
 {
 #if FEATURE_TRANSITION_ANIMATOR
-    /* the keyframes path takes over when a plan can be built from the staged name */
-    UIView *rootView = GetComponentRootView();
-    if ((rootView != nullptr) && (trans_ != nullptr) && (trans_->keyframesName != nullptr)) {
-        DropKeyframesTransitionImpl();
-        BuildKeyframesTransition(*rootView);
-        if (keyframesTransitionImpl_ != nullptr) {
-            isAnimationKeyFramesSet_ = false; // the feature executor takes over
-            return;
-        }
+    if (TryStartKeyframesTransition()) {
+        return;
     }
 #endif // FEATURE_TRANSITION_ANIMATOR
     if (trans_ == nullptr) {
@@ -1592,15 +1461,8 @@ void Component::RecordAnimation()
 void Component::StartAnimation()
 {
 #if FEATURE_TRANSITION_ANIMATOR
-    /* staged name (re)builds the executor, covering the dynamic on/off switching */
-    UIView *rootView = GetComponentRootView();
-    if ((rootView != nullptr) && (trans_ != nullptr) && (trans_->keyframesName != nullptr)) {
-        DropKeyframesTransitionImpl();
-        BuildKeyframesTransition(*rootView);
-        if (keyframesTransitionImpl_ != nullptr) {
-            isAnimationKeyFramesSet_ = false; // the feature executor takes over
-            return;
-        }
+    if (TryStartKeyframesTransition()) {
+        return;
     }
 #endif // FEATURE_TRANSITION_ANIMATOR
     if (trans_ == nullptr) {
