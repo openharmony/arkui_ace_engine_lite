@@ -413,16 +413,16 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         case 'g':
-#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
-            if (!strcmp(s, "ap")) {
-                return K_GAP;
-            }
-#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #if (FEATURE_COMPONENT_SVG == 1)
             if (!strcmp(s, "")) {
                 return K_SVG_G;
             }
 #endif // FEATURE_COMPONENT_SVG
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "ap")) {
+                return K_GAP;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         case 'h':
             if (!strcmp(s, "eight")) {

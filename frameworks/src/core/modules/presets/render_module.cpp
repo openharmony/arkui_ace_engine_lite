@@ -54,7 +54,8 @@ void RenderModule::Init()
 static Component *TryCreateSvgComponent(const char *componentName,
                                         uint16_t tagNameLength,
                                         jerry_value_t options,
-                                        jerry_value_t children)
+                                        jerry_value_t children,
+                                        uint16_t &outTagId)
 {
     const char *canonical = SvgComponentUtils::CanonicalSvgTagName(componentName);
     const char *nameToParse = canonical ? canonical : componentName;
@@ -62,12 +63,13 @@ static Component *TryCreateSvgComponent(const char *componentName,
     if (canonical != nullptr) {
         size_t canonicalLen = strlen(canonical);
         if (canonicalLen > UINT16_MAX) {
+            outTagId = K_UNKNOWN;
             return nullptr;
         }
         lenToParse = static_cast<uint16_t>(canonicalLen);
     }
-    uint16_t tagId = KeyParser::ParseKeyId(nameToParse, lenToParse);
-    return SvgComponentFactory::CreateComponent(tagId, options, children);
+    outTagId = KeyParser::ParseKeyId(nameToParse, lenToParse);
+    return SvgComponentFactory::CreateComponent(outTagId, options, children);
 }
 #endif
 
@@ -85,11 +87,14 @@ jerry_value_t RenderModule::CreateElement(jerry_value_t tagName, jerry_value_t o
     }
 
     Component *component = nullptr;
+    uint16_t componentNameId = K_UNKNOWN;
 #if (FEATURE_COMPONENT_SVG == 1)
-    component = TryCreateSvgComponent(componentName, tagNameLength, options, children);
+    component = TryCreateSvgComponent(componentName, tagNameLength, options, children, componentNameId);
 #endif
     if (component == nullptr) {
-        uint16_t componentNameId = KeyParser::ParseKeyId(componentName, tagNameLength);
+        if (componentNameId == K_UNKNOWN) {
+            componentNameId = KeyParser::ParseKeyId(componentName, tagNameLength);
+        }
         // create component by tag name using factory
         component = ComponentFactory::CreateComponent(componentNameId, options, children);
     }

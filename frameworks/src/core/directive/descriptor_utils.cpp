@@ -200,15 +200,6 @@ void DescriptorUtils::ReleaseElement(JSValue element)
         }
     }
 
-#if (FEATURE_COMPONENT_SVG == 1)
-    // SVG components have no native UIView root; the JS element reference is held
-    // by the component itself and must be released here to balance the ref acquired
-    // during creation. Normal components rely on the framework view tree to manage
-    // the JS object lifecycle, so they must not release it in this path.
-    if (component->IsSvgComponent()) {
-        JSRelease(element);
-    }
-#endif
     component->Release();
     delete component;
     component = nullptr;

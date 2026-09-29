@@ -156,15 +156,20 @@ void SvgComponent::ApplyRootAttribute(const char *keyStr, jerry_value_t val)
         return;
     }
     SvgEngine::SetAttribute(root_, canon, valStr);
-    if (strchr(valStr, '%') != nullptr) {
+    UpdateHostDimension(canon, valStr);
+}
+
+void SvgComponent::UpdateHostDimension(const char *name, const char *valStr)
+{
+    if (valStr == nullptr || strchr(valStr, '%') != nullptr) {
         return;
     }
-    if (strcmp(canon, "width") == 0) {
+    if (strcmp(name, "width") == 0) {
         int16_t w = ParseSvgLength(valStr);
         if (w > 0) {
             hostView_.SetWidth(w);
         }
-    } else if (strcmp(canon, "height") == 0) {
+    } else if (strcmp(name, "height") == 0) {
         int16_t h = ParseSvgLength(valStr);
         if (h > 0) {
             hostView_.SetHeight(h);
@@ -189,6 +194,7 @@ bool SvgComponent::SetPrivateAttribute(uint16_t attrKeyId, jerry_value_t attrVal
     char *val = SvgComponentUtils::ValueFromJerry(attrValue, SvgComponentUtils::IsColorAttr(name));
     if (val != nullptr) {
         SvgEngine::SetAttribute(root_, name, val);
+        UpdateHostDimension(name, val);
         ACE_FREE(val);
     }
     return true;

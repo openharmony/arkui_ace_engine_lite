@@ -56,6 +56,7 @@ protected:
 
 private:
     void ApplyRootAttribute(const char *keyStr, jerry_value_t val);
+    void UpdateHostDimension(const char *name, const char *valStr);
     static jerry_value_t JsStartAnimation(const jerry_value_t func,
                                           const jerry_value_t dom,
                                           const jerry_value_t args[],
