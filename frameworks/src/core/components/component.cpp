@@ -1370,54 +1370,9 @@ void Component::AddAnimationToList(const TransitionImpl *transitionImpl)
 }
 
 #if FEATURE_TRANSITION_ANIMATOR
-void Component::RemoveAnimationFromList(const TransitionImpl *transitionImpl) const
+Component::AnimationsNode *&Component::AnimationListHeadRef()
 {
-    AnimationsNode *prev = nullptr;
-    AnimationsNode *node = g_animationListHead;
-    while (node != nullptr) {
-        if (node->transitionImpl == transitionImpl) {
-            if (prev == nullptr) {
-                g_animationListHead = node->next;
-            } else {
-                prev->next = node->next;
-            }
-            delete node;
-            return;
-        }
-        prev = node;
-        node = node->next;
-    }
-}
-
-void Component::AddKeyframesTransitionToList(KeyframesTransitionImpl *transition) const
-{
-    AnimationsNode *animation = new AnimationsNode();
-    if (animation == nullptr) {
-        HILOG_ERROR(HILOG_MODULE_ACE, "create animation node error for keyframes transition");
-        return;
-    }
-    animation->keyframesTransitionImpl = transition;
-    animation->next = g_animationListHead;
-    g_animationListHead = animation;
-}
-
-void Component::RemoveKeyframesTransitionFromList(const KeyframesTransitionImpl *transition) const
-{
-    AnimationsNode *prev = nullptr;
-    AnimationsNode *node = g_animationListHead;
-    while (node != nullptr) {
-        if (node->keyframesTransitionImpl == transition) {
-            if (prev == nullptr) {
-                g_animationListHead = node->next;
-            } else {
-                prev->next = node->next;
-            }
-            delete node;
-            return;
-        }
-        prev = node;
-        node = node->next;
-    }
+    return g_animationListHead;
 }
 
 bool Component::IsAnimatorStarted()
@@ -2269,43 +2224,6 @@ void Component::RemoveChild(Component *childNode)
 #endif
 }
 
-#if (FEATURE_COMPONENT_SVG == 1)
-void Component::RemoveSvgChild(Component *childNode)
-{
-    // SVG element components own no native UIView (GetComponentRootView()
-    // returns nullptr). We must not return early on null view, otherwise
-    // RemoveAllChildren() would hang (it loops until childHead_ becomes
-    // nullptr) and Release() would leave a dangling child pointer.
-    UIView *childNativeView = childNode->GetComponentRootView();
-    UIViewGroup *parentView = reinterpret_cast<UIViewGroup *>(GetComponentRootView());
-    if ((childNativeView != nullptr) && (parentView != nullptr)) {
-        parentView->Remove(childNativeView);
-    }
-
-    if (childNode == childHead_) {
-        Component *next = childHead_->GetNextSibling();
-        childNode->SetNextSibling(nullptr);
-        childNode->SetParent(nullptr);
-        childHead_ = next;
-        return;
-    }
-
-    Component *temp = childHead_;
-    while (temp != nullptr) {
-        if (temp->GetNextSibling() == childNode) {
-            break;
-        }
-        temp = temp->GetNextSibling();
-    }
-    if (temp == nullptr) {
-        return;
-    }
-
-    temp->SetNextSibling(childNode->GetNextSibling());
-    childNode->SetNextSibling(nullptr);
-    childNode->SetParent(nullptr);
-}
-#endif
 
 void Component::RemoveAllChildren()
 {

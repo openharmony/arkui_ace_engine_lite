@@ -634,6 +634,8 @@ private:
        management stays with the component, mirroring the TransitionImpl path) */
     void AddKeyframesTransitionToList(KeyframesTransitionImpl *transition) const;
     void RemoveKeyframesTransitionFromList(const KeyframesTransitionImpl *transition) const;
+    /* expose the process-wide animation list head to the transition animator helper file */
+    static AnimationsNode *&AnimationListHeadRef();
     /* stage the animation-name into trans_->keyframesName; rebuild happens lazily */
     void StageKeyframesName(const char *name);
     /* build the plan from the staged name and create the executor from it */

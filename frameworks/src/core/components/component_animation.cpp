@@ -69,6 +69,56 @@ void Component::ReleaseKeyframesTransitionImpl()
     }
 }
 
+void Component::RemoveAnimationFromList(const TransitionImpl *transitionImpl) const
+{
+    AnimationsNode *prev = nullptr;
+    AnimationsNode *node = Component::AnimationListHeadRef();
+    while (node != nullptr) {
+        if (node->transitionImpl == transitionImpl) {
+            if (prev == nullptr) {
+                Component::AnimationListHeadRef() = node->next;
+            } else {
+                prev->next = node->next;
+            }
+            delete node;
+            return;
+        }
+        prev = node;
+        node = node->next;
+    }
+}
+
+void Component::AddKeyframesTransitionToList(KeyframesTransitionImpl *transition) const
+{
+    AnimationsNode *animation = new AnimationsNode();
+    if (animation == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "create animation node error for keyframes transition");
+        return;
+    }
+    animation->keyframesTransitionImpl = transition;
+    animation->next = Component::AnimationListHeadRef();
+    Component::AnimationListHeadRef() = animation;
+}
+
+void Component::RemoveKeyframesTransitionFromList(const KeyframesTransitionImpl *transition) const
+{
+    AnimationsNode *prev = nullptr;
+    AnimationsNode *node = Component::AnimationListHeadRef();
+    while (node != nullptr) {
+        if (node->keyframesTransitionImpl == transition) {
+            if (prev == nullptr) {
+                Component::AnimationListHeadRef() = node->next;
+            } else {
+                prev->next = node->next;
+            }
+            delete node;
+            return;
+        }
+        prev = node;
+        node = node->next;
+    }
+}
+
 void Component::StageKeyframesName(const char *name)
 {
     if ((name == nullptr) || (trans_ == nullptr)) {

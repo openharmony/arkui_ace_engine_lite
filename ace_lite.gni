@@ -328,6 +328,7 @@ if (ace_engine_lite_enable_svg_component_config) {
     "$GRAPHIC_LITE_PATH/interfaces/kits/svg",
   ]
   ace_lite_sources += [
+    "$ACE_LITE_PATH/src/core/components/component_svg.cpp",
     "$ACE_LITE_PATH/src/core/components/svg_component.cpp",
     "$ACE_LITE_PATH/src/core/components/svg_component_factory.cpp",
     "$ACE_LITE_PATH/src/core/components/svg_component_utils.cpp",
