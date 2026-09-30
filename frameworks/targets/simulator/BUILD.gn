@@ -21,36 +21,11 @@ if (os_level == "standard") {
     include_dirs += ace_lite_include_dirs
     include_dirs +=
         [ "//foundation/arkui/ace_engine_lite/frameworks/targets/simulator" ]
-
-    if (ace_engine_lite_enable_element_transition_capability) {
-      defines += [ "FEATURE_ELEMENT_TRANSITION=1" ]
-    } else {
-      defines += [ "FEATURE_ELEMENT_TRANSITION=0" ]
-    }
-
-    if (ace_engine_lite_enable_animation_capability) {
-      defines += [
-        "FEATURE_PATH_ANIMATOR=1",
-        "FEATURE_TRANSITION_ANIMATOR=1",
-      ]
-    } else {
-      defines += [
-        "FEATURE_PATH_ANIMATOR=0",
-        "FEATURE_TRANSITION_ANIMATOR=0",
-      ]
-    }
-
-    if (ace_engine_lite_enable_gradient_capability) {
-      defines += [ "FEATURE_COMPONENT_GRADIENT=1" ]
-    } else {
-      defines += [ "FEATURE_COMPONENT_GRADIENT=0" ]
-    }
   }
 
   ohos_static_library("ace_lite") {
     public_configs = [ ":ace_lite_config" ]
     sources = ace_lite_sources
-    sources += ace_lite_light_graphics_sources
     sources += [
       "$ACE_LITE_COMMON_PATH/log/ace_log.cpp",
       "$ACE_LITE_COMMON_PATH/memory/ace_mem_base.cpp",
@@ -62,7 +37,6 @@ if (os_level == "standard") {
       "//foundation/arkui/ace_engine_lite/frameworks/src/core/modules/presets/feature_ability_module.cpp",
     ]
     sources -= [ "//foundation/arkui/ace_engine_lite/frameworks/src/core/context/ace_ability.cpp" ]
-
     cflags_cc = [
       "-D_INC_STRING_S",
       "-D_INC_WCHAR_S",
