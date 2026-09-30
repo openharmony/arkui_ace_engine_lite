@@ -17,6 +17,9 @@
 #include <cstdio>
 #include "component.h"
 #include "div_component.h"
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+#include "flex_layout.h"
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #include "js_ability.h"
 #include "js_debugger_config.h"
 #include "stylemgr/app_style_manager.h"
@@ -24,6 +27,23 @@
 
 namespace OHOS {
 namespace ACELite {
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+namespace {
+constexpr uint16_t FLEX_GROW_VALUE = 2;
+constexpr int16_t FLEX_SHRINK_VALUE = 0;
+constexpr int16_t FLEX_BASIS_VALUE = 100;
+constexpr int32_t SIZE_CONSTRAINT_WIDTH_VALUE = 160;
+constexpr int32_t SIZE_CONSTRAINT_HEIGHT_VALUE = 90;
+constexpr int32_t SIZE_CONSTRAINT_MIN_WIDTH_VALUE = 80;
+constexpr int32_t SIZE_CONSTRAINT_MAX_WIDTH_VALUE = 240;
+constexpr int32_t SIZE_CONSTRAINT_MIN_HEIGHT_VALUE = 60;
+constexpr int32_t SIZE_CONSTRAINT_MAX_HEIGHT_VALUE = 180;
+constexpr double SIZE_CONSTRAINT_ASPECT_RATIO_STYLE_VALUE = 1.5;
+constexpr int32_t SIZE_CONSTRAINT_ASPECT_RATIO_VALUE = 150;
+constexpr const char SIZE_CONSTRAINT_ASPECT_RATIO_PERCENT[] = "150%";
+} // namespace
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+
 StyleMgrTddTest::StyleMgrTddTest()
 {}
 
@@ -274,6 +294,47 @@ void StyleMgrTddTest::AddStrValueToOption(jerry_value_t option, const char* prop
     jerry_release_value(jerry_set_property(option, propKey, propValueObj));
     jerry_release_value(propKey);
 }
+
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+namespace {
+JSValue CreateStyleOption()
+{
+    JSValue option = jerry_create_object();
+    JSValue styleKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("staticStyle"));
+    JSValue style = jerry_create_object();
+    jerry_release_value(jerry_set_property(option, styleKey, style));
+    jerry_release_value(styleKey);
+    jerry_release_value(style);
+    return option;
+}
+
+JSValue GetStaticStyle(JSValue option)
+{
+    JSValue styleKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("staticStyle"));
+    JSValue style = jerry_get_property(option, styleKey);
+    jerry_release_value(styleKey);
+    return style;
+}
+
+void SetStyleNumber(JSValue style, const char *name, double value)
+{
+    JSValue key = jerry_create_string(reinterpret_cast<const jerry_char_t *>(name));
+    JSValue val = jerry_create_number(value);
+    jerry_release_value(jerry_set_property(style, key, val));
+    jerry_release_value(key);
+    jerry_release_value(val);
+}
+
+void SetStyleString(JSValue style, const char *name, const char *value)
+{
+    JSValue key = jerry_create_string(reinterpret_cast<const jerry_char_t *>(name));
+    JSValue val = jerry_create_string(reinterpret_cast<const jerry_char_t *>(value));
+    jerry_release_value(jerry_set_property(style, key, val));
+    jerry_release_value(key);
+    jerry_release_value(val);
+}
+} // namespace
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 
 void StyleMgrTddTest::ACELiteStyleManagerInlineStyle001()
 {
@@ -915,6 +976,124 @@ void StyleMgrTddTest::ACELiteStyleManagerCSSPesudo001()
     TDD_CASE_END();
 }
 
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+void StyleMgrTddTest::ACELiteStyleManagerFlexItemSizingStyle001()
+{
+    TDD_CASE_BEGIN();
+
+    JSValue option = CreateStyleOption();
+    JSValue style = GetStaticStyle(option);
+    SetStyleNumber(style, "flexGrow", FLEX_GROW_VALUE);
+    SetStyleNumber(style, "flexShrink", FLEX_SHRINK_VALUE);
+    SetStyleNumber(style, "flexBasis", FLEX_BASIS_VALUE);
+    SetStyleString(style, "alignSelf", "stretch");
+
+    DivComponent* divComponent = new DivComponent(option, UNDEFINED, g_testStyleMgr);
+    rootComponentMock_.RenderComponent(*divComponent);
+    Component* component = static_cast<Component *>(divComponent);
+    UIView* view = component->GetComponentRootView();
+
+    EXPECT_NE(view, nullptr);
+    if (view != nullptr) {
+        EXPECT_EQ(view->GetFlexGrow(), FLEX_GROW_VALUE);
+        EXPECT_EQ(view->GetFlexShrink(), FLEX_SHRINK_VALUE);
+        EXPECT_EQ(view->GetFlexBasis(), FLEX_BASIS_VALUE);
+        EXPECT_EQ(view->GetAlignSelf(), UIView::ALIGN_SELF_STRETCH);
+    }
+
+    jerry_release_value(style);
+    Component* components[1] = {divComponent};
+    const jerry_value_t values[1] = {option};
+    ReleaseTestResources(values, 1, components, 1);
+    TDD_CASE_END();
+}
+
+void StyleMgrTddTest::ACELiteStyleManagerAlignContentStyle001()
+{
+    TDD_CASE_BEGIN();
+
+    JSValue option = CreateStyleOption();
+    JSValue style = GetStaticStyle(option);
+    SetStyleString(style, "alignContent", "space-between");
+
+    DivComponent* divComponent = new DivComponent(option, UNDEFINED, g_testStyleMgr);
+    rootComponentMock_.RenderComponent(*divComponent);
+    Component* component = static_cast<Component *>(divComponent);
+    FlexLayout* view = static_cast<FlexLayout *>(component->GetComponentRootView());
+
+    EXPECT_NE(view, nullptr);
+    if (view != nullptr) {
+        EXPECT_EQ(view->GetAlignContent(), ALIGN_CONTENT_BETWEEN);
+    }
+
+    jerry_release_value(style);
+    Component* components[1] = {divComponent};
+    const jerry_value_t values[1] = {option};
+    ReleaseTestResources(values, 1, components, 1);
+    TDD_CASE_END();
+}
+
+void StyleMgrTddTest::ACELiteStyleManagerSizeConstraintsStyle001()
+{
+    TDD_CASE_BEGIN();
+
+    JSValue option = CreateStyleOption();
+    JSValue style = GetStaticStyle(option);
+    SetStyleNumber(style, "width", SIZE_CONSTRAINT_WIDTH_VALUE);
+    SetStyleNumber(style, "height", SIZE_CONSTRAINT_HEIGHT_VALUE);
+    SetStyleNumber(style, "minWidth", SIZE_CONSTRAINT_MIN_WIDTH_VALUE);
+    SetStyleNumber(style, "maxWidth", SIZE_CONSTRAINT_MAX_WIDTH_VALUE);
+    SetStyleNumber(style, "minHeight", SIZE_CONSTRAINT_MIN_HEIGHT_VALUE);
+    SetStyleNumber(style, "maxHeight", SIZE_CONSTRAINT_MAX_HEIGHT_VALUE);
+    SetStyleNumber(style, "aspectRatio", SIZE_CONSTRAINT_ASPECT_RATIO_STYLE_VALUE);
+
+    DivComponent* divComponent = new DivComponent(option, UNDEFINED, g_testStyleMgr);
+    rootComponentMock_.RenderComponent(*divComponent);
+    Component* component = static_cast<Component*>(divComponent);
+    UIView* view = component->GetComponentRootView();
+
+    EXPECT_NE(view, nullptr);
+    if (view != nullptr) {
+        EXPECT_EQ(view->GetWidth(), SIZE_CONSTRAINT_WIDTH_VALUE);
+        EXPECT_EQ(view->GetHeight(), SIZE_CONSTRAINT_HEIGHT_VALUE);
+        EXPECT_EQ(view->GetMinWidth(), SIZE_CONSTRAINT_MIN_WIDTH_VALUE);
+        EXPECT_EQ(view->GetMaxWidth(), SIZE_CONSTRAINT_MAX_WIDTH_VALUE);
+        EXPECT_EQ(view->GetMinHeight(), SIZE_CONSTRAINT_MIN_HEIGHT_VALUE);
+        EXPECT_EQ(view->GetMaxHeight(), SIZE_CONSTRAINT_MAX_HEIGHT_VALUE);
+        EXPECT_EQ(view->GetAspectRatio(), SIZE_CONSTRAINT_ASPECT_RATIO_VALUE);
+    }
+
+    jerry_release_value(style);
+    Component* components[1] = {divComponent};
+    const jerry_value_t values[1] = {option};
+    ReleaseTestResources(values, 1, components, 1);
+    TDD_CASE_END();
+}
+
+void StyleMgrTddTest::ACELiteStyleManagerSizeConstraintsPercentStyle001()
+{
+    TDD_CASE_BEGIN();
+
+    JSValue percentOption = CreateStyleOption();
+    JSValue percentStyle = GetStaticStyle(percentOption);
+    SetStyleString(percentStyle, "aspectRatio", SIZE_CONSTRAINT_ASPECT_RATIO_PERCENT);
+    DivComponent* percentComponent = new DivComponent(percentOption, UNDEFINED, g_testStyleMgr);
+    rootComponentMock_.RenderComponent(*percentComponent);
+    Component* percentBaseComponent = static_cast<Component*>(percentComponent);
+    UIView* percentView = percentBaseComponent->GetComponentRootView();
+    EXPECT_NE(percentView, nullptr);
+    if (percentView != nullptr) {
+        EXPECT_EQ(percentView->GetAspectRatio(), SIZE_CONSTRAINT_ASPECT_RATIO_VALUE);
+    }
+
+    jerry_release_value(percentStyle);
+    Component* components[1] = {percentComponent};
+    const jerry_value_t values[1] = {percentOption};
+    ReleaseTestResources(values, 1, components, 1);
+    TDD_CASE_END();
+}
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+
 void StyleMgrTddTest::RunTests()
 {
     ACELiteStyleManagerInlineStyle001();
@@ -931,6 +1110,12 @@ void StyleMgrTddTest::RunTests()
     ACELiteStyleManagerClassSelector002();
     ACELiteStyleManagerClassSelector003();
     ACELiteStyleManagerCSSPesudo001();
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    ACELiteStyleManagerFlexItemSizingStyle001();
+    ACELiteStyleManagerAlignContentStyle001();
+    ACELiteStyleManagerSizeConstraintsStyle001();
+    ACELiteStyleManagerSizeConstraintsPercentStyle001();
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 }
 
 #ifdef TDD_ASSERTIONS
@@ -1059,6 +1244,44 @@ HWTEST_F(StyleMgrTddTest, CSSPesudo001, TestSize.Level0)
 {
     StyleMgrTddTest::ACELiteStyleManagerCSSPesudo001();
 }
+
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+/**
+ * @tc.name: ACELiteStyleManagerFlexItemSizingStyle001
+ * @tc.desc: Verify flex item sizing styles are applied.
+ */
+HWTEST_F(StyleMgrTddTest, FlexItemSizingStyle001, TestSize.Level1)
+{
+    StyleMgrTddTest::ACELiteStyleManagerFlexItemSizingStyle001();
+}
+
+/**
+ * @tc.name: ACELiteStyleManagerAlignContentStyle001
+ * @tc.desc: Verify alignContent style is applied to flex layout.
+ */
+HWTEST_F(StyleMgrTddTest, AlignContentStyle001, TestSize.Level1)
+{
+    StyleMgrTddTest::ACELiteStyleManagerAlignContentStyle001();
+}
+
+/**
+ * @tc.name: ACELiteStyleManagerSizeConstraintsStyle001
+ * @tc.desc: Verify fixed sizes, min/max constraints, and aspect ratio styles are applied.
+ */
+HWTEST_F(StyleMgrTddTest, SizeConstraintsStyle001, TestSize.Level1)
+{
+    StyleMgrTddTest::ACELiteStyleManagerSizeConstraintsStyle001();
+}
+
+/**
+ * @tc.name: ACELiteStyleManagerSizeConstraintsPercentStyle001
+ * @tc.desc: Verify percent aspect ratio style is applied.
+ */
+HWTEST_F(StyleMgrTddTest, SizeConstraintsPercentStyle001, TestSize.Level1)
+{
+    StyleMgrTddTest::ACELiteStyleManagerSizeConstraintsPercentStyle001();
+}
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #endif
 } // ACELite
 } // OHOS

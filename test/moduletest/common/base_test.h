@@ -64,6 +64,12 @@ protected:
                                          const char *newCharValue,
                                          bool isToSetAttribute) const;
     uint16_t SetCompnentNameId(const char *componentName);
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    RootComponentMock &GetRootComponentMock()
+    {
+        return rootComponentMock_;
+    }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 
 private:
     RootComponentMock rootComponentMock_;

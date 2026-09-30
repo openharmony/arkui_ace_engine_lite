@@ -51,6 +51,13 @@ unittest("js_frameworks_tdd_door") {
     "$ace_lite_src_core/modules/test/unittest/common/dfx_tdd_test.cpp",
     "$ace_lite_src_core/stylemgr/test/unittest/common/stylemgr_tdd_test.cpp",
   ]
+  if (ace_engine_lite_enable_flex_layout_config) {
+    sources += [
+      "$ace_lite_root/frameworks/src/core/base/test/unittest/common/key_parser_tdd_test.cpp",
+      "$ace_lite_src_core/components/test/unittest/common/component_tdd_test.cpp",
+      "$ace_lite_src_core/components/test/unittest/common/div_flex_layout_tdd_test.cpp",
+    ]
+  }
   deps = all_external_deps
 }
 

@@ -20,6 +20,26 @@
 
 namespace OHOS {
 namespace ACELite {
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+bool AppStyleItem::TrySetAspectRatioValue(uint16_t keyId, const jerry_value_t stylePropValue)
+{
+    if (keyId != K_ASPECT_RATIO) {
+        return false;
+    }
+    SetFloatingValue(jerry_get_number_value(stylePropValue));
+    return true;
+}
+
+bool AppStyleItem::TrySetGapValue(const char *strValueBuffer, uint16_t keyId)
+{
+    if (keyId != K_GAP) {
+        return false;
+    }
+    SetStringValue(strValueBuffer);
+    return true;
+}
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+
 uint8_t AppStyleItem::EstimatePseudoClassType(const char * const styleKey, uint16_t *keyLength)
 {
     char *p = strchr(const_cast<char *>(styleKey), ':');
@@ -121,6 +141,11 @@ AppStyleItem *AppStyleItem::CreateStyleItem(uint16_t keyId, const jerry_value_t 
     newStyleItem->pseudoClassType_ = pseudoClassType;
 
     if (jerry_value_is_number(stylePropValue)) {
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+        if (newStyleItem->TrySetAspectRatioValue(keyId, stylePropValue)) {
+            return newStyleItem;
+        }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #if FEATURE_COMPONENT_TEXT_SPANNABLE
         if (keyId == K_OPACITY || keyId == K_RELATIVESIZESPANSIZE) {
 #else
@@ -141,6 +166,13 @@ AppStyleItem *AppStyleItem::CreateStyleItem(uint16_t keyId, const jerry_value_t 
             newStyleItem = nullptr;
             return nullptr;
         }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+        if (newStyleItem->TrySetGapValue(strValueBuffer, keyId)) {
+            ace_free(strValueBuffer);
+            strValueBuffer = nullptr;
+            return newStyleItem;
+        }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
         float percentValue = 0;
         if (NumberParser::ParsePercentValue(strValueBuffer, strLength, percentValue)) {
             newStyleItem->SetPercentValue(percentValue);

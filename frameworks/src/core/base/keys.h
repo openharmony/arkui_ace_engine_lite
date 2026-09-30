@@ -342,6 +342,29 @@ enum {
     KEYWORD(SPANNABLESTART, spannablestart)
     KEYWORD(SPANNABLEEND, spannableend)
 #endif // FEATURE_COMPONENT_TEXT_SPANNABLE
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+    KEYWORD(ABSOLUTE, absolute) // position: absolute
+    KEYWORD(ALIGN_CONTENT, alignContent) // flex multi-line cross-axis distribution
+    KEYWORD(ALIGN_SELF, alignSelf) // layout style, child cross-axis alignment override
+    KEYWORD(ASPECT_RATIO, aspectRatio) // flex item preferred width/height ratio
+    KEYWORD(AUTO, auto) // margin auto / align-self auto
+    KEYWORD(BOTTOM, bottom) // bottom offset
+    KEYWORD(COLUMN_GAP, columnGap) // flex layout column gap
+    KEYWORD(FLEX_BASIS, flexBasis) // flex item main-axis base size
+    KEYWORD(FLEX_GROW, flexGrow) // flex item grow factor
+    KEYWORD(FLEX_SHRINK, flexShrink) // flex item shrink factor
+    KEYWORD(GAP, gap) // flex layout gap
+    KEYWORD(HIDDEN, hidden) // overflow hidden
+    KEYWORD(MAX_HEIGHT, maxHeight) // flex item max height constraint
+    KEYWORD(MAX_WIDTH, maxWidth) // flex item max width constraint
+    KEYWORD(MIN_HEIGHT, minHeight) // flex item min height constraint
+    KEYWORD(MIN_WIDTH, minWidth) // flex item min width constraint
+    KEYWORD(OVERFLOW, overflow) // overflow control
+    KEYWORD(POSITION, position) // position type
+    KEYWORD(ROW_GAP, rowGap) // flex layout row gap
+    KEYWORD(STRETCH, stretch) // layout style
+    KEYWORD(VISIBLE, visible) // overflow visible
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
     // Reused by the struct end
 // clang-format on
 #ifdef KEYWORDS_ENUM_DEFINE

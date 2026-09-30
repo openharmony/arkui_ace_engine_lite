@@ -101,6 +101,23 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
                 return K_AUTOPLAY;
             }
 #endif // FEATURE_COMPONENT_VIDEO
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "bsolute")) {
+                return K_ABSOLUTE;
+            }
+            if (!strcmp(s, "lignContent")) {
+                return K_ALIGN_CONTENT;
+            }
+            if (!strcmp(s, "lignSelf")) {
+                return K_ALIGN_SELF;
+            }
+            if (!strcmp(s, "spectRatio")) {
+                return K_ASPECT_RATIO;
+            }
+            if (!strcmp(s, "uto")) {
+                return K_AUTO;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         case 'b':
             if (!strcmp(s, "ackgroundColor")) {
@@ -156,6 +173,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "orderWidth")) {
                 return K_BORDER_WIDTH;
             }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "ottom")) {
+                return K_BOTTOM;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             if (!strcmp(s, "reak")) {
                 return K_BREAK;
             }
@@ -189,6 +211,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "olumn-reverse")) {
                 return K_COLUMN_REVERSE;
             }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "olumnGap")) {
+                return K_COLUMN_GAP;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #if (FEATURE_COMPONENT_VIDEO == 1)
             if (!strcmp(s, "ontrols")) {
                 return K_CONTROLS;
@@ -334,11 +361,34 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "orwards")) {
                 return K_FORWARDS;
             }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "lexBasis")) {
+                return K_FLEX_BASIS;
+            }
+            if (!strcmp(s, "lexGrow")) {
+                return K_FLEX_GROW;
+            }
+            if (!strcmp(s, "lexShrink")) {
+                return K_FLEX_SHRINK;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+        case 'g':
+            if (!strcmp(s, "ap")) {
+                return K_GAP;
+            }
+            break;
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
         case 'h':
             if (!strcmp(s, "eight")) {
                 return K_HEIGHT;
             }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "idden")) {
+                return K_HIDDEN;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #if ((FEATURE_COMPONENT_ANALOG_CLOCK == 1) || (FEATURE_DATE_FORMAT == 1))
             if (!strcmp(s, "our")) {
                 return K_HOUR;
@@ -487,6 +537,20 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
                 return K_MONTH;
             }
 #endif
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "axHeight")) {
+                return K_MAX_HEIGHT;
+            }
+            if (!strcmp(s, "axWidth")) {
+                return K_MAX_WIDTH;
+            }
+            if (!strcmp(s, "inHeight")) {
+                return K_MIN_HEIGHT;
+            }
+            if (!strcmp(s, "inWidth")) {
+                return K_MIN_WIDTH;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         case 'n':
             if (!strcmp(s, "ame")) {
@@ -511,6 +575,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "ptions")) {
                 return K_OPTIONS;
             }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "verflow")) {
+                return K_OVERFLOW;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         case 'p':
             if (!strcmp(s, "adding")) {
@@ -544,6 +613,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "icker-view")) {
                 return K_PICKER_VIEW;
             }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "osition")) {
+                return K_POSITION;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #if (FEATURE_COMPONENT_ANALOG_CLOCK == 1)
             if (!strcmp(s, "ivotX")) {
                 return K_PIVOT_X;
@@ -615,6 +689,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "ow-reverse")) {
                 return K_ROW_REVERSE;
             }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "owGap")) {
+                return K_ROW_GAP;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             break;
         case 's':
             if (!strcmp(s, "cale-down")) {
@@ -714,6 +793,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "tandard")) {
                 return K_STANDARD;
             }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "tretch")) {
+                return K_STRETCH;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
             if (!strcmp(s, "trokeWidth")) {
                 return K_STROKE_WIDTH;
             }
@@ -810,6 +894,11 @@ uint16_t KeyParser::ParseKeyId(const char *s, const size_t len)
             if (!strcmp(s, "ertical")) {
                 return K_VERTICAL;
             }
+#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
+            if (!strcmp(s, "isible")) {
+                return K_VISIBLE;
+            }
+#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #if (FEATURE_COMPONENT_VIDEO == 1)
             if (!strcmp(s, "ideo")) {
                 return K_VIDEO;

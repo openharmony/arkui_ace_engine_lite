@@ -21,6 +21,7 @@ declare_args() {
   # When ON the engine defines ENABLE_PAGE_TRANSITION_EFFECT and compiles
   # page_transition.cpp; when OFF the new logic is compiled out entirely.
   ace_engine_lite_feature_page_transition_effect = false
+  ace_engine_lite_enable_flex_layout_config = false
 }
 
 ACE_LITE_PATH = "//foundation/arkui/ace_engine_lite/frameworks"
@@ -270,3 +271,9 @@ ace_lite_sources = [
   "$ACE_LITE_PATH/src/core/wrapper/js.cpp",
   "$ACE_LITE_PATH/targets/platform_adapter.cpp",
 ]
+
+if (ace_engine_lite_enable_flex_layout_config) {
+  ace_lite_sources += [
+    "$ACE_LITE_PATH/src/core/components/flex_layout_utils.cpp",
+  ]
+}
