@@ -664,6 +664,14 @@ private:
     bool IsLayoutRelatedAttrs(uint16_t attrKeyId) const;
 #if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
     bool IsFlexLayoutAttr(uint16_t attrKeyId) const;
+    /* flex style setters live in component_flex.cpp; each returns false when the
+       style value is invalid, so the caller (ApplyCommonStyle) can return false. */
+    bool ApplyFlexPositionStyle(UIView &view, const AppStyleItem *style, uint16_t styleNameId);
+    bool SetAlignSelfStyle(UIView &view, const AppStyleItem *style) const;
+    bool SetFlexFactorStyle(UIView &view, const AppStyleItem *style, uint16_t styleNameId) const;
+    bool SetFlexBasisStyle(UIView &view, const AppStyleItem *style) const;
+    bool SetMinMaxDimensionStyle(UIView &view, const AppStyleItem *style, uint16_t styleNameId) const;
+    bool SetAspectRatioStyle(UIView &view, const AppStyleItem *style) const;
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
     void ApplyAlignedPosition(UIView &uiView) const;
     void AdapteBoxRectArea(UIView &uiView) const;
