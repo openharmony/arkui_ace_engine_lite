@@ -17,6 +17,9 @@
 #include "ace_mem_base.h"
 #include "directive/descriptor_utils.h"
 #include "fatal_handler.h"
+#if FEATURE_TRANSITION_ANIMATOR
+#include "keyframes_transition_impl.h"
+#endif // FEATURE_TRANSITION_ANIMATOR
 #include "handler.h"
 #include "js_ability_impl.h"
 #include "js_app_context.h"
@@ -28,8 +31,6 @@
 #include "lazy_load_manager.h"
 #if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
 #include <cstring>
-#include "flex_layout_utils.h"
-#include "layout/layout.h"
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
 #include "securec.h"
 #include "stylemgr/app_style.h"
@@ -44,8 +45,15 @@ static bool g_isAnimatorStarted = false;
 void Component::HandlerAnimations()
 {
     Component::AnimationsNode *point = g_animationListHead;
-    while (point != nullptr && point->transitionImpl != nullptr) {
-        point->transitionImpl->Start();
+    while (point != nullptr) {
+        if (point->transitionImpl != nullptr) {
+            point->transitionImpl->Start();
+        }
+#if FEATURE_TRANSITION_ANIMATOR
+        if (point->keyframesTransitionImpl != nullptr) {
+            point->keyframesTransitionImpl->Start();
+        }
+#endif
         point = point->next;
     }
     g_isAnimatorStarted = true;
@@ -60,6 +68,12 @@ void Component::ReleaseAnimations()
             delete (point->transitionImpl);
             point->transitionImpl = nullptr;
         }
+#if FEATURE_TRANSITION_ANIMATOR
+        if (point->keyframesTransitionImpl) {
+            delete (point->keyframesTransitionImpl);
+            point->keyframesTransitionImpl = nullptr;
+        }
+#endif
         delete (point);
         point = temp;
     }
@@ -143,6 +157,9 @@ Component::Component(jerry_value_t options, jerry_value_t children, AppStyleMana
       animationNode_(nullptr),
 #endif
       trans_(nullptr),
+#if FEATURE_ELEMENT_TRANSITION
+      elementTransState_(),
+#endif
       descriptors_(jerry_acquire_value(children)),
       watchersHead_(nullptr),
       height_(-1, DimensionType::TYPE_UNKNOWN),
@@ -154,13 +171,23 @@ Component::Component(jerry_value_t options, jerry_value_t children, AppStyleMana
       marginRight_(-1, DimensionType::TYPE_UNKNOWN),
       marginBottom_(-1, DimensionType::TYPE_UNKNOWN)
 {
-    JSValue attrs = JSObject::Get(options, ATTR_ATTRS);
-    if (JSUndefined::Is(attrs)) {
+#if (FEATURE_COMPONENT_SVG == 1)
+    // SVG elements without attributes (e.g. dynamic <g>) may be compiled as _c('g', children),
+    // leaving options as undefined. Reading attrs.freeze from undefined triggers a JerryScript assert.
+    if (JSUndefined::Is(options)) {
         freeze_ = false;
     } else {
-        freeze_ = JSObject::GetBoolean(attrs, ATTR_FREEZE);
+#endif
+        JSValue attrs = JSObject::Get(options, ATTR_ATTRS);
+        if (JSUndefined::Is(attrs)) {
+            freeze_ = false;
+        } else {
+            freeze_ = JSObject::GetBoolean(attrs, ATTR_FREEZE);
+        }
+        JSRelease(attrs);
+#if (FEATURE_COMPONENT_SVG == 1)
     }
-    JSRelease(attrs);
+#endif
     // create native element object before combining styles, as style data binding need it
     nativeElement_ = jerry_create_object();
     jerry_value_t global = jerry_get_global_object();
@@ -273,7 +300,11 @@ void Component::Release()
 
     // stop view animation
     if (curTransitionImpl_) {
+#if FEATURE_TRANSITION_ANIMATOR
+        StopAndReleaseCurrentTransition();
+#else
         curTransitionImpl_->Stop();
+#endif // FEATURE_TRANSITION_ANIMATOR
     }
 #ifdef ENABLE_PAGE_TRANSITION_EFFECT
     // Release the animation this component recorded. The process-wide list is shared with the pages
@@ -283,6 +314,11 @@ void Component::Release()
     ReleaseAnimationNode(animationNode_);
     animationNode_ = nullptr;
     curTransitionImpl_ = nullptr;
+#endif
+#if FEATURE_ELEMENT_TRANSITION
+    // Release transition-animation-specific resources (transStyle_/running transition) before
+    // native views are destroyed, so RestoreSnapshot() can safely access child views.
+    ElementTransition::Release(elementTransState_);
 #endif
     ReleaseViewExtraMsg();
     jerry_delete_object_native_pointer(nativeElement_, nullptr);
@@ -532,16 +568,6 @@ void Component::ApplyAlignedMargin(UIView &uiView) const
     }
 }
 
-#if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
-bool Component::IsFlexLayoutAttr(uint16_t attrKeyId) const
-{
-    return (attrKeyId == K_ALIGN_SELF || attrKeyId == K_FLEX_GROW || attrKeyId == K_FLEX_SHRINK ||
-            attrKeyId == K_FLEX_BASIS || attrKeyId == K_MIN_WIDTH || attrKeyId == K_MAX_WIDTH ||
-            attrKeyId == K_MIN_HEIGHT || attrKeyId == K_MAX_HEIGHT || attrKeyId == K_ASPECT_RATIO ||
-            attrKeyId == K_RIGHT || attrKeyId == K_BOTTOM || attrKeyId == K_POSITION);
-}
-#endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
-
 bool Component::IsLayoutRelatedAttrs(uint16_t attrKeyId) const
 {
     return (attrKeyId == K_HEIGHT || attrKeyId == K_WIDTH || attrKeyId == K_MARGIN || attrKeyId == K_MARGIN_BOTTOM ||
@@ -649,6 +675,14 @@ bool Component::ApplyStyle(const AppStyleItem *style)
         return false;
     }
 
+#if FEATURE_ELEMENT_TRANSITION
+    // K_TRANSITION_EFFECT is our custom property, no other handler needs it
+    uint16_t styleNameId = GetStylePropNameId(style);
+    if (styleNameId == K_TRANSITION_EFFECT) {
+        ElementTransition::ApplyTransitionConfig(*this, style);
+        return true;
+    }
+#endif
     // Try private styles first
     bool applyResult = ApplyPrivateStyle(style);
     if (applyResult) {
@@ -776,6 +810,12 @@ bool Component::ApplyCommonStyle(UIView &view, const AppStyleItem *style)
             SetBackgroundColor(view, *style);
             break;
         }
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+        case K_BACKGROUND: {
+            HandleBackground(*style);
+            break;
+        }
+#endif //FEATURE_COMPONENT_GRADIENT
         case K_LEFT: {
             GetDimensionFromStyle(left_, *style);
 #if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
@@ -803,35 +843,12 @@ bool Component::ApplyCommonStyle(UIView &view, const AppStyleItem *style)
             break;
         }
 #if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
-        case K_RIGHT: {
-            GetDimensionFromStyle(right_, *style);
-            if (right_.type == DimensionType::TYPE_PIXEL) {
-                view.SetFlexRight(right_.value.pixel);
-            } else if (right_.type == DimensionType::TYPE_PERCENT) {
-                view.SetFlexRightPercent(right_.value.percentage);
-            } else {
-                view.ClearFlexRight();
-            }
-            break;
-        }
-        case K_BOTTOM: {
-            GetDimensionFromStyle(bottom_, *style);
-            if (bottom_.type == DimensionType::TYPE_PIXEL) {
-                view.SetFlexBottom(bottom_.value.pixel);
-            } else if (bottom_.type == DimensionType::TYPE_PERCENT) {
-                view.SetFlexBottomPercent(bottom_.value.percentage);
-            } else {
-                view.ClearFlexBottom();
-            }
-            break;
-        }
+        case K_RIGHT:
+        case K_BOTTOM:
         case K_POSITION: {
-            const char *strValue = GetStyleStrValue(style);
-            if (strValue == nullptr) {
+            if (!ApplyFlexPositionStyle(view, style, styleNameId)) {
                 return false;
             }
-            uint16_t valueId = KeyParser::ParseKeyId(strValue, GetStyleStrValueLen(style));
-            view.SetPositionType((valueId == K_ABSOLUTE) ? POSITION_ABSOLUTE : POSITION_STATIC);
             break;
         }
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
@@ -861,109 +878,59 @@ bool Component::ApplyCommonStyle(UIView &view, const AppStyleItem *style)
         }
 #if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
         case K_ALIGN_SELF: {
-            const char *strValue = GetStyleStrValue(style);
-            if (strValue == nullptr) {
+            if (!SetAlignSelfStyle(view, style)) {
                 return false;
-            }
-            uint16_t valueId = KeyParser::ParseKeyId(strValue, GetStyleStrValueLen(style));
-            switch (valueId) {
-                case K_FLEX_START:
-                    view.SetAlignSelf(OHOS::ALIGN_START);
-                    break;
-                case K_FLEX_END:
-                    view.SetAlignSelf(OHOS::ALIGN_END);
-                    break;
-                case K_CENTER:
-                    view.SetAlignSelf(OHOS::ALIGN_CENTER);
-                    break;
-                case K_STRETCH:
-                    // ALIGN_SELF_STRETCH is a UIView-specific marker (0xFE) for explicit align-self:stretch,
-                    // distinct from OHOS::ALIGN_STRETCH (6) used for container align-items:stretch.
-                    view.SetAlignSelf(UIView::ALIGN_SELF_STRETCH);
-                    break;
-                default:
-                    return false;
             }
             break;
         }
         case K_FLEX_GROW:
         case K_FLEX_SHRINK: {
-            int32_t factor = (style->GetValueType() == STYLE_PROP_VALUE_TYPE_NUMBER) ? style->GetNumValue() : -1;
-            if (factor < 0 || factor > UINT16_MAX) {
+            if (!SetFlexFactorStyle(view, style, styleNameId)) {
                 return false;
-            }
-            if (styleNameId == K_FLEX_GROW) {
-                view.SetFlexGrow(static_cast<uint16_t>(factor));
-            } else {
-                view.SetFlexShrink(static_cast<uint16_t>(factor));
             }
             break;
         }
         case K_FLEX_BASIS: {
-            int32_t basis = GetStylePixelValue(style, -1);
-            if (basis < 0 || basis > INT16_MAX) {
+            if (!SetFlexBasisStyle(view, style)) {
                 return false;
             }
-            view.SetFlexBasis(static_cast<int16_t>(basis));
             break;
         }
         case K_MIN_WIDTH:
         case K_MAX_WIDTH:
         case K_MIN_HEIGHT:
         case K_MAX_HEIGHT: {
-            int32_t constraint = GetStylePixelValue(style, -1);
-            if (constraint < 0 || constraint > INT16_MAX) {
+            if (!SetMinMaxDimensionStyle(view, style, styleNameId)) {
                 return false;
-            }
-            if (styleNameId == K_MIN_WIDTH) {
-                view.SetMinWidth(static_cast<int16_t>(constraint));
-            } else if (styleNameId == K_MAX_WIDTH) {
-                view.SetMaxWidth(static_cast<int16_t>(constraint));
-            } else if (styleNameId == K_MIN_HEIGHT) {
-                view.SetMinHeight(static_cast<int16_t>(constraint));
-            } else {
-                view.SetMaxHeight(static_cast<int16_t>(constraint));
             }
             break;
         }
         case K_ASPECT_RATIO: {
-            uint16_t ratio = 0;
-            switch (style->GetValueType()) {
-                case STYLE_PROP_VALUE_TYPE_NUMBER:
-                    if (!FlexLayoutUtils::ConvertAspectRatioValue(style->GetNumValue(), ratio)) {
-                        return false;
-                    }
-                    break;
-                case STYLE_PROP_VALUE_TYPE_FLOATING:
-                    if (!FlexLayoutUtils::ConvertAspectRatioValue(style->GetFloatingValue(), ratio)) {
-                        return false;
-                    }
-                    break;
-                case STYLE_PROP_VALUE_TYPE_PERCENT:
-                    if (!FlexLayoutUtils::ConvertAspectRatioValue(style->GetPercentValue() /
-                        FlexLayoutUtils::ASPECT_RATIO_PERCENT_BASE, ratio)) {
-                        return false;
-                    }
-                    break;
-                case STYLE_PROP_VALUE_TYPE_STRING:
-                    if (!FlexLayoutUtils::ParseAspectRatioString(style->GetStrValue(), ratio)) {
-                        return false;
-                    }
-                    break;
-                default:
-                    return false;
-            }
-            if (ratio == 0) {
+            if (!SetAspectRatioStyle(view, style)) {
                 return false;
             }
-            view.SetAspectRatio(ratio);
             break;
         }
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+#if FEATURE_PATH_ANIMATOR
+        case K_OFFSET_PATH:
+        case K_OFFSET_ROTATE: {
+            SetAnimationStyle(style, static_cast<int16_t>(styleNameId));
+            break;
+        }
+#endif // FEATURE_PATH_ANIMATOR
         case K_OPACITY: {
             SetOpacity(view, *style);
             break;
         }
+#if FEATURE_ELEMENT_TRANSITION
+        case K_TRANSITION_DURATION:
+        case K_TRANSITION_TIMING_FUNCTION:
+        case K_TRANSITION_DELAY: {
+            ElementTransition::ApplyTransitionConfig(*this, style);
+            break;
+        }
+#endif
         default: {
             return false;
         }
@@ -1035,6 +1002,12 @@ void Component::SetAnimationKeyFrames(const UIView &view, const AppStyleItem *st
         }
         SetAnimationKeyFrames(item);
     }
+
+#if FEATURE_TRANSITION_ANIMATOR
+    /* stage the animation-name into trans_: the plan is built later at record/start
+       time, when all animation-* styles have been applied */
+    StageKeyframesName(value);
+#endif // FEATURE_TRANSITION_ANIMATOR
 }
 
 void Component::SetAnimationKeyFrames(const AppStyleItem *item)
@@ -1128,6 +1101,11 @@ void Component::SetAnimationKeyFrames(int16_t keyId, int32_t valueFrom, int32_t 
             trans_->opacity_to = valueTo;
             isAnimationKeyFramesSet_ = true;
             break;
+#if FEATURE_PATH_ANIMATOR
+        case K_OFFSET_DISTANCE:
+            SetOffsetDistanceKeyFrames(valueFrom, valueTo);
+            break;
+#endif // FEATURE_PATH_ANIMATOR
         default:
             break;
     }
@@ -1178,7 +1156,6 @@ void Component::SetAnimationFillMode(const char *strValue, size_t strLen)
         HILOG_ERROR(HILOG_MODULE_ACE, "SetAnimationFillMode fail");
         return;
     }
-
     uint16_t animationFillKeyId = KeyParser::ParseKeyId(strValue, strLen);
     switch (animationFillKeyId) {
         case K_FORWARDS:
@@ -1265,7 +1242,13 @@ void Component::SetAnimationStyle(const UIView &view, const AppStyleItem *styleI
         default:
             break;
     }
+#if FEATURE_TRANSITION_ANIMATOR
+    /* animation config changed: drop the built keyframes executor; it is rebuilt
+       from the staged name at record/start time with the fresh trans_ values */
+    DropKeyframesTransitionImpl();
+#endif // FEATURE_TRANSITION_ANIMATOR
 }
+
 
 void Component::AddAnimationToList(const TransitionImpl *transitionImpl)
 {
@@ -1286,8 +1269,25 @@ void Component::AddAnimationToList(const TransitionImpl *transitionImpl)
 #endif
 }
 
+#if FEATURE_TRANSITION_ANIMATOR
+Component::AnimationsNode *&Component::AnimationListHeadRef()
+{
+    return g_animationListHead;
+}
+
+bool Component::IsAnimatorStarted()
+{
+    return g_isAnimatorStarted;
+}
+#endif // FEATURE_TRANSITION_ANIMATOR
+
 void Component::RecordAnimation()
 {
+#if FEATURE_TRANSITION_ANIMATOR
+    if (TryStartKeyframesTransition()) {
+        return;
+    }
+#endif // FEATURE_TRANSITION_ANIMATOR
     if (trans_ == nullptr) {
         return;
     }
@@ -1315,9 +1315,22 @@ void Component::RecordAnimation()
 
 void Component::StartAnimation()
 {
+#if FEATURE_TRANSITION_ANIMATOR
+    if (TryStartKeyframesTransition()) {
+        return;
+    }
+#endif // FEATURE_TRANSITION_ANIMATOR
     if (trans_ == nullptr) {
         return;
     }
+
+#if FEATURE_TRANSITION_ANIMATOR
+    if (trans_->iterations == 0) {
+        StopAndReleaseCurrentTransition();
+        isAnimationKeyFramesSet_ = false;
+        return;
+    }
+#endif // FEATURE_TRANSITION_ANIMATOR
 
     if (trans_->during > 0 && isAnimationKeyFramesSet_) {
         UIView *uiView = GetComponentRootView();
@@ -1341,6 +1354,9 @@ void Component::StartAnimation()
 
 void Component::ReleaseTransitionParam()
 {
+#if FEATURE_TRANSITION_ANIMATOR
+    ReleaseKeyframesTransitionImpl();
+#endif // FEATURE_TRANSITION_ANIMATOR
     if (trans_) {
         delete trans_;
         trans_ = nullptr;
@@ -2030,6 +2046,9 @@ void Component::AddChild(Component *childNode)
         childNode->SetParent(this);
         childNode->SetNextSibling(nullptr);
         childHead_ = childNode;
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+        RecomputeGradientSubtreeFlag();
+#endif
         return;
     }
 
@@ -2045,6 +2064,9 @@ void Component::AddChild(Component *childNode)
     childNode->SetParent(this);
     temp->SetNextSibling(childNode);
     childNode->SetNextSibling(nullptr);
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    RecomputeGradientSubtreeFlag();
+#endif
 }
 
 void Component::RemoveChild(Component *childNode)
@@ -2052,6 +2074,13 @@ void Component::RemoveChild(Component *childNode)
     if ((childNode == nullptr) || (childHead_ == nullptr)) {
         return;
     }
+
+#if (FEATURE_COMPONENT_SVG == 1)
+    if (childNode->IsSvgComponent() || IsSvgComponent()) {
+        RemoveSvgChild(childNode);
+        return;
+    }
+#endif
 
     UIView *childNativeView = childNode->GetComponentRootView();
     UIViewGroup *parentView = reinterpret_cast<UIViewGroup *>(GetComponentRootView());
@@ -2066,6 +2095,9 @@ void Component::RemoveChild(Component *childNode)
         childNode->SetParent(nullptr);
         childHead_ = next;
         parentView->Remove(childNativeView);
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+        RecomputeGradientSubtreeFlag();
+#endif
         return;
     }
 
@@ -2087,7 +2119,11 @@ void Component::RemoveChild(Component *childNode)
     childNode->SetNextSibling(nullptr);
     childNode->SetParent(nullptr);
     parentView->Remove(childNativeView);
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    RecomputeGradientSubtreeFlag();
+#endif
 }
+
 
 void Component::RemoveAllChildren()
 {

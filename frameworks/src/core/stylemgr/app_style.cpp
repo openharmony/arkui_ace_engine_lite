@@ -47,6 +47,17 @@ void AppStyle::Reset()
         firstStyleItem_ = next;
     }
     lastStyleItem_ = nullptr;
+#if FEATURE_TRANSITION_ANIMATOR
+    AppStyle *nextSegment = nullptr;
+    while (firstKeyFrameSegment_ != nullptr) {
+        nextSegment = firstKeyFrameSegment_->nextKeyFrameSegment_;
+        firstKeyFrameSegment_->nextKeyFrameSegment_ = nullptr;
+        delete firstKeyFrameSegment_;
+        firstKeyFrameSegment_ = nextSegment;
+    }
+    lastKeyFrameSegment_ = nullptr;
+    keyFrameSegmentCount_ = 0;
+#endif // FEATURE_TRANSITION_ANIMATOR
     if (styleName_ != nullptr) {
         ace_free(styleName_);
         styleName_ = nullptr;
@@ -68,6 +79,29 @@ void AppStyle::AddStyleItem(AppStyleItem *newStyleItem)
         lastStyleItem_ = newStyleItem;
     }
 }
+
+#if FEATURE_TRANSITION_ANIMATOR
+void AppStyle::AddKeyFrameSegment(AppStyle* segment)
+{
+    if (segment == nullptr) {
+        return;
+    }
+    if (firstKeyFrameSegment_ == nullptr) {
+        firstKeyFrameSegment_ = segment;
+        lastKeyFrameSegment_ = segment;
+    } else {
+        lastKeyFrameSegment_->nextKeyFrameSegment_ = segment;
+        lastKeyFrameSegment_ = segment;
+    }
+    keyFrameSegmentCount_++;
+}
+
+void AppStyle::SetKeyFrameTime(uint8_t from, uint8_t to)
+{
+    keyFrameTimeFrom_ = from;
+    keyFrameTimeTo_ = to;
+}
+#endif // FEATURE_TRANSITION_ANIMATOR
 
 const AppStyleItem *AppStyle::GetStyleItemByName(const char * const stylePropName) const
 {
@@ -96,6 +130,127 @@ const AppStyleItem *AppStyle::GetStyleItemByNameId(uint16_t stylePropNameId) con
     return nullptr;
 }
 
+#if FEATURE_TRANSITION_ANIMATOR
+static uint8_t GetKeyFrameTime(jerry_value_t frame, uint8_t defaultTime)
+{
+    jerry_value_t timeKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("time"));
+    jerry_value_t timeValue = jerry_get_property(frame, timeKey);
+    uint8_t time = defaultTime;
+    if (jerry_value_is_number(timeValue)) {
+        int16_t value = IntegerOf(timeValue);
+        if ((value >= ANIMATION_KEY_FRAME_START_TIME) && (value <= ANIMATION_KEY_FRAME_END_TIME)) {
+            time = static_cast<uint8_t>(value);
+        }
+    }
+    ReleaseJerryValue(timeKey, timeValue, VA_ARG_END_FLAG);
+    return time;
+}
+
+static void SplitTranslateValue(const char *value, char *x, uint8_t xSize, char *y, uint8_t ySize)
+{
+    if ((value == nullptr) || (x == nullptr) || (y == nullptr) || (xSize == 0) || (ySize == 0)) {
+        return;
+    }
+    x[0] = '\0';
+    y[0] = '\0';
+    while (*value == ' ') {
+        value++;
+    }
+    const char *split = strchr(value, ' ');
+    if (split == nullptr) {
+        if (strncpy_s(x, xSize, value, xSize - 1) != EOK) {
+            x[0] = '\0';
+        }
+        if (strncpy_s(y, ySize, "0px", strlen("0px")) != EOK) {
+            y[0] = '\0';
+        }
+        return;
+    }
+    size_t xLen = static_cast<size_t>(split - value);
+    if (xLen >= xSize) {
+        xLen = xSize - 1;
+    }
+    if (memcpy_s(x, xSize, value, xLen) != EOK) {
+        x[0] = '\0';
+    } else {
+        x[xLen] = '\0';
+    }
+    while (*split == ' ') {
+        split++;
+    }
+    if (strncpy_s(y, ySize, split, ySize - 1) != EOK) {
+        y[0] = '\0';
+    }
+}
+
+void AppStyle::AddKeyFrameStyleItem(AppStyle &newStyle, const char *propName, const char *from, const char *to)
+{
+    if ((propName == nullptr) || (from == nullptr) || (to == nullptr)) {
+        return;
+    }
+    jerry_value_t propKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>(propName));
+    jerry_value_t fromValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>(from));
+    jerry_value_t toValue = jerry_create_string(reinterpret_cast<const jerry_char_t *>(to));
+    jerry_value_t propValue = ConcatJerryString(fromValue, toValue);
+    AppStyleItem *newStyleItem = AppStyleItem::GenerateFromJSValue(propKey, propValue);
+    newStyle.AddStyleItem(newStyleItem);
+    ReleaseJerryValue(propKey, fromValue, toValue, propValue, VA_ARG_END_FLAG);
+}
+
+bool AppStyle::AddTranslateKeyFrameItems(jerry_value_t propValueFrom, jerry_value_t propValueTo, AppStyle &newStyle)
+{
+    jerry_value_t translateKey = jerry_create_string(reinterpret_cast<const jerry_char_t *>("translate"));
+    bool isTransformSet = false;
+    if (JerryHasProperty(propValueFrom, translateKey) && JerryHasProperty(propValueTo, translateKey)) {
+        jerry_value_t translateFromValue = jerry_get_property(propValueFrom, translateKey);
+        jerry_value_t translateToValue = jerry_get_property(propValueTo, translateKey);
+        char *translateFrom = MallocStringOf(translateFromValue);
+        char *translateTo = MallocStringOf(translateToValue);
+        if ((translateFrom != nullptr) && (translateTo != nullptr)) {
+            constexpr uint8_t translateValueSize = 32;
+            char fromX[translateValueSize] = { 0 };
+            char fromY[translateValueSize] = { 0 };
+            char toX[translateValueSize] = { 0 };
+            char toY[translateValueSize] = { 0 };
+            SplitTranslateValue(translateFrom, fromX, translateValueSize, fromY, translateValueSize);
+            SplitTranslateValue(translateTo, toX, translateValueSize, toY, translateValueSize);
+            AddKeyFrameStyleItem(newStyle, "translateX", fromX, toX);
+            AddKeyFrameStyleItem(newStyle, "translateY", fromY, toY);
+            isTransformSet = true;
+        }
+        ACE_FREE(translateFrom);
+        ACE_FREE(translateTo);
+        ReleaseJerryValue(translateFromValue, translateToValue, VA_ARG_END_FLAG);
+    }
+
+    jerry_value_t transformKeys = jerry_get_object_keys(propValueFrom);
+    uint16_t transformKeyCount = jerry_get_array_length(transformKeys);
+    for (uint16_t index = 0; index < transformKeyCount; index++) {
+        jerry_value_t transformKey = jerry_get_property_by_index(transformKeys, index);
+        char *transformName = MallocStringOf(transformKey);
+        if ((transformName != nullptr) && strcmp(transformName, "translate") != 0 &&
+            JerryHasProperty(propValueTo, transformKey)) {
+            jerry_value_t fromValue = jerry_get_property(propValueFrom, transformKey);
+            jerry_value_t toValue = jerry_get_property(propValueTo, transformKey);
+            char *from = MallocStringOf(fromValue);
+            char *to = MallocStringOf(toValue);
+            if ((from != nullptr) && (to != nullptr)) {
+                AddKeyFrameStyleItem(newStyle, transformName, from, to);
+                isTransformSet = true;
+            }
+            ACE_FREE(from);
+            ACE_FREE(to);
+            ReleaseJerryValue(fromValue, toValue, VA_ARG_END_FLAG);
+        }
+        ACE_FREE(transformName);
+        jerry_release_value(transformKey);
+    }
+    jerry_release_value(transformKeys);
+    jerry_release_value(translateKey);
+    return isTransformSet;
+}
+#endif // FEATURE_TRANSITION_ANIMATOR
+
 void AppStyle::AddItemsInLoop(jerry_value_t object, AppStyle &newStyle)
 {
     jerry_value_t propKeys = jerry_get_object_keys(object);
@@ -110,6 +265,69 @@ void AppStyle::AddItemsInLoop(jerry_value_t object, AppStyle &newStyle)
     }
     jerry_release_value(propKeys);
 }
+
+#if FEATURE_TRANSITION_ANIMATOR
+void AppStyle::AddKeyFrameItem(jerry_value_t objFrom,
+                               jerry_value_t objTo,
+                               jerry_value_t propKeyFrom,
+                               AppStyle& newStyle)
+{
+    jerry_value_t propValueFrom = jerry_get_property(objFrom, propKeyFrom);
+    jerry_value_t propValueTo = jerry_get_property(objTo, propKeyFrom);
+    jerry_value_t propValue = UNDEFINED;
+    bool isItemNeedToAdd = false;
+    if (JerryHasProperty(objTo, propKeyFrom)) { // key exist in to object
+        char *keyFrom = MallocStringOf(propKeyFrom);
+        const char * const transitionTransform = "transform";
+        // transform type, include "translateX, translateY, rotate"
+        if ((keyFrom != nullptr) &&
+            !strcmp(keyFrom, transitionTransform)) {
+            propValue = AddKeyFramesTransformValue(propValueFrom, propValueTo, isItemNeedToAdd, propKeyFrom);
+            if (AddTranslateKeyFrameItems(propValueFrom, propValueTo, newStyle)) {
+                isItemNeedToAdd = false;
+                jerry_release_value(propValue);
+                propValue = UNDEFINED;
+            }
+        } else {
+            isItemNeedToAdd = true;
+            propValue = ConcatJerryString(propValueFrom, propValueTo);
+        }
+        if (keyFrom != nullptr) {
+            ace_free(keyFrom);
+            keyFrom = nullptr;
+        }
+    }
+
+    if (isItemNeedToAdd) {
+        AppStyleItem *newStyleItem = AppStyleItem::GenerateFromJSValue(propKeyFrom, propValue);
+        newStyle.AddStyleItem(newStyleItem);
+        jerry_release_value(propValue);
+    }
+    ReleaseJerryValue(propKeyFrom, propValueFrom, propValueTo, VA_ARG_END_FLAG);
+}
+
+void AppStyle::AddKeyFrameItemsInLoopInternal(jerry_value_t objFrom,
+                                              jerry_value_t objTo,
+                                              jerry_value_t propKeysFrom,
+                                              AppStyle& newStyle)
+{
+    uint16_t propKeySizeFrom = jerry_get_array_length(propKeysFrom);
+    for (uint16_t i = 0; i < propKeySizeFrom; i++) {
+        jerry_value_t propKeyFrom = jerry_get_property_by_index(propKeysFrom, i);
+        AddKeyFrameItem(objFrom, objTo, propKeyFrom, newStyle);
+    }
+}
+
+void AppStyle::AddTransitionKeyFramesItemsInLoop(jerry_value_t objFrom, jerry_value_t objTo, AppStyle &newStyle)
+{
+    if (jerry_value_is_null(objFrom) || jerry_value_is_null(objTo)) {
+        return;
+    }
+    jerry_value_t propKeysFrom = jerry_get_object_keys(objFrom);
+    AddKeyFrameItemsInLoopInternal(objFrom, objTo, propKeysFrom, newStyle);
+    jerry_release_value(propKeysFrom);
+}
+#endif // FEATURE_TRANSITION_ANIMATOR
 
 void AppStyle::AddKeyFramesItemsInLoop(jerry_value_t objFrom, jerry_value_t objTo, AppStyle &newStyle)
 {
@@ -287,6 +505,35 @@ jerry_value_t AppStyle::ConcatJerryString(jerry_value_t strA, jerry_value_t strB
     return propValue;
 }
 
+#if FEATURE_TRANSITION_ANIMATOR
+void AppStyle::GenerateKeyFrameSegments(jerry_value_t styleValue, AppStyle &newStyle)
+{
+    uint16_t frameCount = jerry_get_array_length(styleValue);
+    if (frameCount >= ANIMATION_MIN_KEY_FRAME_COUNT) {
+        jerry_value_t fromObj = jerry_get_property_by_index(styleValue, 0);
+        jerry_value_t toObj = jerry_get_property_by_index(styleValue, frameCount - 1);
+        AddTransitionKeyFramesItemsInLoop(fromObj, toObj, newStyle);
+        ReleaseJerryValue(toObj, fromObj, VA_ARG_END_FLAG);
+    }
+    for (uint16_t index = 0; index + 1 < frameCount; index++) {
+        jerry_value_t segmentFrom = jerry_get_property_by_index(styleValue, index);
+        jerry_value_t segmentTo = jerry_get_property_by_index(styleValue, index + 1);
+        AppStyle *segment = new AppStyle();
+        if (segment != nullptr) {
+            segment->SetKeyFrameTime(GetKeyFrameTime(segmentFrom, ANIMATION_KEY_FRAME_START_TIME),
+                                     GetKeyFrameTime(segmentTo, ANIMATION_KEY_FRAME_END_TIME));
+            AddTransitionKeyFramesItemsInLoop(segmentFrom, segmentTo, *segment);
+            if (segment->GetFirst() != nullptr) {
+                newStyle.AddKeyFrameSegment(segment);
+            } else {
+                delete segment;
+            }
+        }
+        ReleaseJerryValue(segmentFrom, segmentTo, VA_ARG_END_FLAG);
+    }
+}
+#endif // FEATURE_TRANSITION_ANIMATOR
+
 AppStyle *AppStyle::GenerateFromJS(jerry_value_t styleKey, jerry_value_t styleValue, bool isKeyFrames)
 {
     char *styleNameBuffer = MallocStringOf(styleKey);
@@ -316,10 +563,14 @@ AppStyle *AppStyle::GenerateFromJS(jerry_value_t styleKey, jerry_value_t styleVa
     styleNameBuffer = nullptr;
 
     if (isKeyFrames) {
+#if FEATURE_TRANSITION_ANIMATOR
+        GenerateKeyFrameSegments(styleValue, *newStyle);
+#else
         jerry_value_t fromObj = jerry_get_property_by_index(styleValue, 0);
         jerry_value_t toObj = jerry_get_property_by_index(styleValue, 1);
         AddKeyFramesItemsInLoop(fromObj, toObj, *newStyle);
         ReleaseJerryValue(toObj, fromObj, VA_ARG_END_FLAG);
+#endif // FEATURE_TRANSITION_ANIMATOR
     } else {
         AddItemsInLoop(styleValue, *newStyle);
     }

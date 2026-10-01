@@ -23,10 +23,24 @@
 #include "memory_heap.h"
 #include "non_copyable.h"
 #include "stylemgr/app_style_manager.h"
+#if FEATURE_ELEMENT_TRANSITION
+#include "element_transition.h"
+#endif
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+#include "component_gradient.h"
+#endif
 #include "transition_impl.h"
 
 namespace OHOS {
+
+#if (FEATURE_COMPONENT_SVG == 1)
+using SvgDocumentHandle = void*;
+#endif
+
 namespace ACELite {
+#if FEATURE_TRANSITION_ANIMATOR
+class KeyframesTransitionImpl;
+#endif
 enum DimensionType : uint8_t {
     TYPE_UNKNOWN = 0,
     TYPE_PIXEL,
@@ -95,6 +109,19 @@ public:
      * @return true if any attribute/style matches and update successfully, otherwise false
      */
     bool UpdateView(uint16_t attrKeyId, jerry_value_t attrValue);
+
+#if FEATURE_ELEMENT_TRANSITION
+    /**
+     * @brief Access the element-transition state owned by this component.
+     *        All operations on it live in the ElementTransition free functions
+     *        (animation/element_transition.h).
+     */
+    ElementTransitionState &GetElementTransitionState()
+    {
+        return elementTransState_;
+    }
+#endif
+
     /**
      * @brief Child class must implement this method to return its own native view, if it only creates one
      * native view, just return it simaply, if it creates multiple views out, it should return the root of
@@ -131,7 +158,43 @@ public:
     {
         return componentName_;
     }
+#if (FEATURE_COMPONENT_SVG == 1)
+    /**
+     * @brief Returns true if this component is part of the SVG subsystem.
+     *
+     * The default implementation returns false. SvgComponent and SvgElementComponent
+     * override this to return true so that callers can distinguish SVG nodes from
+     * normal UI components without relying on dynamic_cast.
+     */
+    virtual bool IsSvgComponent() const
+    {
+        return false;
+    }
 
+    /**
+     * @brief Returns true only for SVG leaf elements (SvgElementComponent).
+     *
+     * Used by SVG container AttachView to safely identify children that can be
+     * appended to the SVG document tree, without relying on root-view heuristics
+     * or dynamic_cast.
+     */
+    virtual bool IsSvgElementComponent() const
+    {
+        return false;
+    }
+
+    /**
+     * @brief Returns the SVG document handle owned by an SVG root component.
+     *
+     * The default implementation returns nullptr. SvgComponent overrides this to
+     * provide its document handle, allowing SvgElementComponent to walk the parent
+     * chain without dynamic_cast.
+     */
+    virtual SvgDocumentHandle GetSvgDocument() const
+    {
+        return nullptr;
+    }
+#endif
     bool IsFreeze() const
     {
         return freeze_;
@@ -197,9 +260,16 @@ public:
     }
     struct AnimationsNode : public MemoryHeap {
         TransitionImpl *transitionImpl;
+#if FEATURE_TRANSITION_ANIMATOR
+        KeyframesTransitionImpl *keyframesTransitionImpl;
+#endif
         AnimationsNode *next;
 
-        AnimationsNode() : transitionImpl(nullptr), next(nullptr) {}
+        AnimationsNode() : transitionImpl(nullptr),
+#if FEATURE_TRANSITION_ANIMATOR
+                           keyframesTransitionImpl(nullptr),
+#endif
+                           next(nullptr) {}
     };
 
     static void HandlerAnimations();
@@ -236,6 +306,28 @@ public:
     bool AdaptBoxSizing(uint16_t attrKeyId = K_UNKNOWN) const;
     void AlignDimensions(const ConstrainedParameter &param);
     void EnableTransmitSwipe();
+
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    /* gradient business lives in ComponentGradient; these stay as thin forwards
+       for external callers (e.g. list_adapter's recursive sync) */
+    void SyncGradientToView(UIView& view) const
+    {
+        gradient_.SyncToView(view);
+    }
+
+    /**
+     * @brief Whether this component itself owns a parsed gradient.
+     */
+    bool HasGradientInfo() const
+    {
+        return gradient_.HasInfo();
+    }
+
+    /**
+     * @brief Whether this component or any descendant owns a parsed gradient.
+     */
+    bool HasGradientInSubtree() const { return hasGradientInSubtree_; }
+#endif //FEATURE_COMPONENT_GRADIENT
 
 protected:
     void SetComponentName(uint16_t name)
@@ -477,6 +569,10 @@ protected:
      */
     bool HandleBackgroundImg(const AppStyleItem &styleItem, char *&pressedImage, char *&normalImage) const;
 
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    // Split out of HandleBackgroundImg to keep each function within the 50-line limit.
+    bool HandleBackground(const AppStyleItem &styleItem);
+#endif // FEATURE_COMPONENT_GRADIENT
 #if (FEATURE_ROTATION_API == 1)
     /**
      * @brief the rotation API handling function, the child component can register it for rotation API supporting
@@ -506,6 +602,15 @@ private:
      * it is set as style, now it not support binding to data, so it can not be changed dynamiclly.
      */
     void SetAnimationStyle(const UIView& view, const AppStyleItem *styleItem, const int16_t keyId);
+#if FEATURE_PATH_ANIMATOR
+    /**
+     * @brief Overload dedicated to the offset-path / offset-rotate motion-path animation styles.
+     * Their values were already parsed into the style item at creation time, so this overload
+     * only copies the parsed result into the transition params and needs no view context.
+     */
+    void SetAnimationStyle(const AppStyleItem *styleItem, const int16_t keyId);
+    void SetOffsetDistanceKeyFrames(int32_t valueFrom, int32_t valueTo);
+#endif // FEATURE_PATH_ANIMATOR
     /**
      * @brief Record current component`s animation. All animations of components will be called when the whole page
      * render complete.
@@ -516,6 +621,30 @@ private:
      */
     void StartAnimation();
     void ReleaseTransitionParam();
+
+#if FEATURE_TRANSITION_ANIMATOR
+    /* attempt to build and start a keyframes executor; returns true when the
+       keyframes path takes over and the caller should skip the classic path */
+    bool TryStartKeyframesTransition();
+    void RemoveAnimationFromList(const TransitionImpl *transitionImpl) const;
+    void StopAndReleaseCurrentTransition();
+    /* true once HandlerAnimations() has started the page animators */
+    static bool IsAnimatorStarted();
+    /* animation-list registry for the keyframes executor (kept private: list
+       management stays with the component, mirroring the TransitionImpl path) */
+    void AddKeyframesTransitionToList(KeyframesTransitionImpl *transition) const;
+    void RemoveKeyframesTransitionFromList(const KeyframesTransitionImpl *transition) const;
+    /* expose the process-wide animation list head to the transition animator helper file */
+    static AnimationsNode *&AnimationListHeadRef();
+    /* stage the animation-name into trans_->keyframesName; rebuild happens lazily */
+    void StageKeyframesName(const char *name);
+    /* build the plan from the staged name and create the executor from it */
+    void BuildKeyframesTransition(UIView &uiView);
+    /* stop + unregister + delete the keyframes executor (mirrors StopAndReleaseCurrentTransition) */
+    void DropKeyframesTransitionImpl();
+    /* drop the executor and free the staged name (component release point) */
+    void ReleaseKeyframesTransitionImpl();
+#endif // FEATURE_TRANSITION_ANIMATOR
     /**
      * @brief Used to get animation item value.
      * for example: tranformX from 100px to 200px, index = 1 to get from value, index = 2 to get to value.
@@ -535,6 +664,14 @@ private:
     bool IsLayoutRelatedAttrs(uint16_t attrKeyId) const;
 #if (GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT == 1)
     bool IsFlexLayoutAttr(uint16_t attrKeyId) const;
+    /* flex style setters live in component_flex.cpp; each returns false when the
+       style value is invalid, so the caller (ApplyCommonStyle) can return false. */
+    bool ApplyFlexPositionStyle(UIView &view, const AppStyleItem *style, uint16_t styleNameId);
+    bool SetAlignSelfStyle(UIView &view, const AppStyleItem *style) const;
+    bool SetFlexFactorStyle(UIView &view, const AppStyleItem *style, uint16_t styleNameId) const;
+    bool SetFlexBasisStyle(UIView &view, const AppStyleItem *style) const;
+    bool SetMinMaxDimensionStyle(UIView &view, const AppStyleItem *style, uint16_t styleNameId) const;
+    bool SetAspectRatioStyle(UIView &view, const AppStyleItem *style) const;
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
     void ApplyAlignedPosition(UIView &uiView) const;
     void AdapteBoxRectArea(UIView &uiView) const;
@@ -595,6 +732,17 @@ private:
      * @param childNode the child component
      */
     void RemoveChild(Component *childNode);
+#if (FEATURE_COMPONENT_SVG == 1)
+    /**
+     * @brief RemoveSvgChild handles detaching an SVG element component.
+     *
+     * SVG element components own no native UIView (GetComponentRootView()
+     * returns nullptr), so the baseline early-return-on-null-view logic must
+     * be bypassed. Otherwise RemoveAllChildren() would hang and Release()
+     * would leave a dangling child pointer.
+     */
+    void RemoveSvgChild(Component *childNode);
+#endif
     /**
      * @brief RemoveAllChildren clean all children
      */
@@ -649,12 +797,36 @@ private:
     AnimationsNode *animationNode_;
 #endif
     TransitionParams *trans_;
+#if FEATURE_ELEMENT_TRANSITION
+    ElementTransitionState elementTransState_;
+#endif
+#if FEATURE_TRANSITION_ANIMATOR
+    /* engine-driven keyframes executor, mirroring curTransitionImpl_ above;
+       the staged animation-name lives in trans_->keyframesName */
+    KeyframesTransitionImpl *keyframesTransitionImpl_ = nullptr;
+#endif // FEATURE_TRANSITION_ANIMATOR
     jerry_value_t descriptors_;
     Watcher *watchersHead_;
     Dimension height_;
     Dimension width_;
     Dimension top_;
     Dimension left_;
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    /* Parsed background linear gradient: parsing, ownership and view sync are
+       delegated to ComponentGradient; only the tree flag stays here. */
+    ComponentGradient gradient_;
+
+    /**
+     * @brief Recompute hasGradientInSubtree_ from self and all children.
+     *
+     * Called whenever the owned gradient changes or the child set changes.
+     * If the flag changes, the update is propagated up to the parent.
+     */
+    void RecomputeGradientSubtreeFlag();
+
+    /* True if this component or any descendant has a parsed gradient. */
+    bool hasGradientInSubtree_ = false;
+#endif
     Dimension marginTop_;
     Dimension marginLeft_;
     Dimension marginRight_;

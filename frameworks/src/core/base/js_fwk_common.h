@@ -164,8 +164,19 @@ constexpr char DESCRIPTOR_ATTR_NODES[] = "nodes";
 constexpr char DESCRIPTOR_ATTR_RENDER[] = "render";
 constexpr char DESCRIPTOR_ATTR_GETTER[] = "getter";
 constexpr char TRANSITION_ROTATE[] = "rotate";
+#if FEATURE_TRANSITION_ANIMATOR
+constexpr char TRANSITION_SCALE[] = "scale";
+constexpr char TRANSITION_TRANSFORM_XY[] = "translate";
+constexpr uint8_t ANIMATION_KEY_FRAME_START_TIME = 0;
+constexpr uint8_t ANIMATION_KEY_FRAME_END_TIME = 100;
+constexpr uint8_t ANIMATION_MIN_KEY_FRAME_COUNT = 2;
+constexpr int16_t ANIMATION_SCALE_BASE = 256;
+#endif // FEATURE_TRANSITION_ANIMATOR
 constexpr char TRANSITION_TRANSFORM_X[] = "translateX";
 constexpr char TRANSITION_TRANSFORM_Y[] = "translateY";
+#if FEATURE_PATH_ANIMATOR
+constexpr char TRANSITION_OFFSET_PATH[] = "offset-path";
+#endif // FEATURE_PATH_ANIMATOR
 constexpr char CONSTRUCTOR_VIEW_MODEL[] = "ViewModel";
 constexpr char CONSTRUCTOR_ABILITY_SLICE[] = "AbilitySlice";
 

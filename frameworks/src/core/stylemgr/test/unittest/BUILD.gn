@@ -58,6 +58,17 @@ unittest("js_frameworks_test_link_stack") {
   deps = ace_test_deps
 }
 
+unittest("js_frameworks_test_gradient") {
+  output_extension = "bin"
+  output_dir = test_output_root
+  configs = [ "$ace_lite_root/test:test_common_config" ]
+  sources = [
+    "common/gradient_info_tdd_test.cpp",
+    "common/gradient_parser_tdd_test.cpp",
+  ]
+  deps = ace_test_deps
+}
+
 group("stylemgr_unittest") {
   deps = [
     ":js_frameworks_test_condition_arbitrator",
@@ -66,4 +77,8 @@ group("stylemgr_unittest") {
     ":js_frameworks_test_stylemgr",
     ":js_frameworks_test_stylemgr_media_query",
   ]
+
+  if (ace_engine_lite_enable_gradient_capability) {
+    deps += [ ":js_frameworks_test_gradient" ]
+  }
 }

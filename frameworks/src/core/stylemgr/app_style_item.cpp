@@ -87,6 +87,45 @@ void AppStyleItem::SetStringValue(const char * const value)
     *(styleValue_.string + len) = '\0';
 }
 
+#if FEATURE_PATH_ANIMATOR
+bool AppStyleItem::SetPathPolylineValue(const OHOS::PathPolyline &polyline)
+{
+    OHOS::PathPolyline *copy = new OHOS::PathPolyline(polyline);
+    if (copy == nullptr) {
+        HILOG_ERROR(HILOG_MODULE_ACE, "create path polyline value failed.");
+        return false;
+    }
+    valueType_ = STYLE_PROP_VALUE_TYPE_PATH_POLYLINE;
+    styleValue_.pathPolyline = copy;
+    return true;
+}
+
+void AppStyleItem::SetNumberOffsetRotateValue(const jerry_value_t stylePropValue)
+{
+    /* number input means a fixed angle in degrees (W3C CSS Motion Path) */
+    SetOffsetRotateValue(OFFSET_ROTATE_FIXED,
+                         static_cast<int16_t>(jerry_get_number_value(stylePropValue)));
+}
+
+void AppStyleItem::ParseStringPathValue(uint16_t keyId, const char *strValueBuffer)
+{
+    if (keyId == K_OFFSET_ROTATE) {
+        /* parse once at creation time: the item stores the structured value instead of the raw string */
+        OffsetRotateMode mode;
+        int16_t degree;
+        if (AppStylePathParser::ParseOffsetRotate(strValueBuffer, mode, degree)) {
+            SetOffsetRotateValue(mode, degree);
+        }
+    } else if (keyId == K_OFFSET_PATH) {
+        /* parse once at creation time: on failure the item stays UNKNOWN and no path animation starts */
+        OHOS::PathPolyline polyline;
+        if (AppStylePathParser::ParseOffsetPath(strValueBuffer, polyline)) {
+            SetPathPolylineValue(polyline);
+        }
+    }
+}
+#endif
+
 bool AppStyleItem::UpdateNumValToStr()
 {
     if (GetValueType() == STYLE_PROP_VALUE_TYPE_NUMBER) {
@@ -152,6 +191,10 @@ AppStyleItem *AppStyleItem::CreateStyleItem(uint16_t keyId, const jerry_value_t 
         if (keyId == K_OPACITY) {
 #endif
             newStyleItem->SetFloatingValue(jerry_get_number_value(stylePropValue));
+#if FEATURE_PATH_ANIMATOR
+        } else if (keyId == K_OFFSET_ROTATE) {
+            newStyleItem->SetNumberOffsetRotateValue(stylePropValue);
+#endif
         } else {
             newStyleItem->SetNumValue((int32_t)(jerry_get_number_value(stylePropValue)));
         }
@@ -176,6 +219,10 @@ AppStyleItem *AppStyleItem::CreateStyleItem(uint16_t keyId, const jerry_value_t 
         float percentValue = 0;
         if (NumberParser::ParsePercentValue(strValueBuffer, strLength, percentValue)) {
             newStyleItem->SetPercentValue(percentValue);
+#if FEATURE_PATH_ANIMATOR
+        } else if (keyId == K_OFFSET_ROTATE || keyId == K_OFFSET_PATH) {
+            newStyleItem->ParseStringPathValue(keyId, strValueBuffer);
+#endif
         } else {
             newStyleItem->SetStringValue(static_cast<const char *>(strValueBuffer));
         }
@@ -208,6 +255,12 @@ void AppStyleItem::UpdateValueFrom(const AppStyleItem &from)
     if (valueType_ == STYLE_PROP_VALUE_TYPE_STRING) {
         ACE_FREE(styleValue_.string);
     }
+#if FEATURE_PATH_ANIMATOR
+    else if (valueType_ == STYLE_PROP_VALUE_TYPE_PATH_POLYLINE) {
+        delete styleValue_.pathPolyline;
+        styleValue_.pathPolyline = nullptr;
+    }
+#endif
     propNameId_ = from.propNameId_;
     pseudoClassType_ = from.pseudoClassType_;
     switch (from.GetValueType()) {
@@ -230,6 +283,19 @@ void AppStyleItem::UpdateValueFrom(const AppStyleItem &from)
         case STYLE_PROP_VALUE_TYPE_PERCENT:
             SetPercentValue(from.GetPercentValue());
             break;
+#if FEATURE_PATH_ANIMATOR
+        case STYLE_PROP_VALUE_TYPE_OFFSET_ROTATE:
+            SetOffsetRotateValue(static_cast<OffsetRotateMode>(from.styleValue_.offsetRotate.mode),
+                                 from.styleValue_.offsetRotate.degree);
+            break;
+        case STYLE_PROP_VALUE_TYPE_PATH_POLYLINE: {
+            const OHOS::PathPolyline *polyline = from.GetPathPolyline();
+            if (polyline != nullptr) {
+                SetPathPolylineValue(*polyline);
+            }
+            break;
+        }
+#endif
         default:
             break;
     }

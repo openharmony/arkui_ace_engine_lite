@@ -20,6 +20,10 @@
 #include "animator.h"
 #include "js_fwk_common.h"
 #include "non_copyable.h"
+#if FEATURE_PATH_ANIMATOR
+#include "app_style_path_parser.h"
+#include "path_animator_callback.h"
+#endif // FEATURE_PATH_ANIMATOR
 
 namespace OHOS {
 namespace ACELite {
@@ -52,6 +56,25 @@ struct TransitionParams {
     int16_t width_to;
     int16_t opacity_from;
     int16_t opacity_to;
+#if FEATURE_PATH_ANIMATOR
+    /* offset-distance progress range (0~100), default is 0 -> 100 */
+    int16_t offsetDistanceFrom;
+    int16_t offsetDistanceTo;
+    /* offset-rotate: FIXED = constant angle (deg), 0 means no rotation;
+       AUTO = additive offset on the path tangent angle (deg), e.g. auto=0, reverse=180 */
+    int16_t offsetRotate;
+    /* offset-rotate mode: OFFSET_ROTATE_FIXED (default) / OFFSET_ROTATE_AUTO */
+    uint8_t offsetRotateMode;
+    /* sampled polyline of offset-path (defined in ui_lite offset_path_parser.h, namespace OHOS;
+        fully qualified to avoid silent shadowing if a same-name type appears in ACELite) */
+    OHOS::PathPolyline pathPoly;
+#endif // FEATURE_PATH_ANIMATOR
+#if FEATURE_TRANSITION_ANIMATOR
+    /* staged animation-name for the keyframes path; the plan is built at record/start
+       time when all animation-* styles have been applied. Owned by this struct's holder
+       (freed before the struct is deleted). */
+    char *keyframesName;
+#endif // FEATURE_TRANSITION_ANIMATOR
     uint32_t background_color_from;
     uint32_t background_color_to;
 
@@ -70,6 +93,16 @@ struct TransitionParams {
           width_to(-1),
           opacity_from(-1),
           opacity_to(-1),
+#if FEATURE_PATH_ANIMATOR
+          offsetDistanceFrom(0),
+          offsetDistanceTo(100), // default is full progress 0% -> 100%
+          offsetRotate(0),
+          offsetRotateMode(OFFSET_ROTATE_FIXED),
+          pathPoly(),
+#endif // FEATURE_PATH_ANIMATOR
+#if FEATURE_TRANSITION_ANIMATOR
+          keyframesName(nullptr),
+#endif // FEATURE_TRANSITION_ANIMATOR
           background_color_from(RGB_COLOR_VALUE_MAX),
           background_color_to(RGB_COLOR_VALUE_MAX) {}
 };
@@ -95,6 +128,9 @@ enum TransformType : uint8_t {
     TRANSLATE_X,
     TRANSLATE_Y,
     ROTATE, // rotate only support image
+#if FEATURE_PATH_ANIMATOR
+    TRANSLATE_OFFSET_PATH, // CSS Motion Path
+#endif // FEATURE_PATH_ANIMATOR
     NONE
 };
 
@@ -144,6 +180,12 @@ public:
             delete (animator_);
             animator_ = nullptr;
         }
+#if FEATURE_PATH_ANIMATOR
+        if (pathCallback_ != nullptr) {
+            delete pathCallback_;
+            pathCallback_ = nullptr;
+        }
+#endif // FEATURE_PATH_ANIMATOR
     }
 
     /**
@@ -179,6 +221,17 @@ private:
                            TransitionType transitionType,
                            int16_t& updateAttrValue,
                            int32_t elapsedTime);
+#if FEATURE_PATH_ANIMATOR
+    void PerformOffsetPathTransition(int32_t elapsedTime);
+    /* path validity check + path-base sync for "if" mounting (skip 1st frame, sync layout
+       position at the 2nd frame); returns false when the current frame should be skipped */
+    bool SyncOffsetPathBase();
+    /* eased offset-distance in permille (0~1000), clamped; full progress at time arrival */
+    int16_t EvaluateOffsetDist(int32_t elapsedTime) const;
+    /* one-time configuration of pathCallback_ from CSS params (path polyline + rotate mode);
+       the view-effect application is then delegated to PathAnimatorCallback::ApplyFrame */
+    void ConfigurePathCallbackIfNeeded();
+#endif // FEATURE_PATH_ANIMATOR
 
     UIView* view_;
     TransitionParams& params_;
@@ -198,6 +251,19 @@ private:
     bool isTransitionSet_[GeneralType::END] = {0};
     OptionsFill fill_ = OptionsFill::FNONE;
     TransformType transformType_ = TransformType::NONE;
+#if FEATURE_PATH_ANIMATOR
+    enum class OffsetPathSyncState : uint8_t {
+        WAIT_FIRST_FRAME = 0,
+        WAIT_LAYOUT = 1,
+        SYNCED = 2,
+    };
+    OffsetPathSyncState offsetPathBaseSyncState_ = OffsetPathSyncState::WAIT_FIRST_FRAME;
+    /* view-effect executor for offset-path: lazily created on first use so that
+       transitions without offset-path pay only the pointer size */
+    OHOS::PathAnimatorCallback *pathCallback_ = nullptr;
+    bool pathCallbackConfigured_ = false;
+    const static uint16_t POINTS_MIN = 2;
+#endif // FEATURE_PATH_ANIMATOR
 
     /* used for background-color */
     uint8_t rSrc_ = 0; // used to record the last time red value

@@ -24,7 +24,21 @@ namespace ACELite {
 class AppStyle final : public MemoryHeap {
 public:
     ACE_DISALLOW_COPY_AND_MOVE(AppStyle);
-    AppStyle() : firstStyleItem_(nullptr), lastStyleItem_(nullptr), pre_(nullptr), next_(nullptr), styleName_(nullptr)
+
+    AppStyle()
+        : firstStyleItem_(nullptr),
+          lastStyleItem_(nullptr),
+          pre_(nullptr),
+          next_(nullptr),
+#if FEATURE_TRANSITION_ANIMATOR
+          firstKeyFrameSegment_(nullptr),
+          lastKeyFrameSegment_(nullptr),
+          nextKeyFrameSegment_(nullptr),
+          keyFrameTimeFrom_(ANIMATION_KEY_FRAME_START_TIME),
+          keyFrameTimeTo_(ANIMATION_KEY_FRAME_END_TIME),
+          keyFrameSegmentCount_(0),
+#endif // FEATURE_TRANSITION_ANIMATOR
+          styleName_(nullptr)
     {
     }
 
@@ -42,6 +56,33 @@ public:
     {
         return firstStyleItem_;
     }
+
+#if FEATURE_TRANSITION_ANIMATOR
+    const AppStyle* GetFirstKeyFrameSegment() const
+    {
+        return firstKeyFrameSegment_;
+    }
+
+    const AppStyle* GetNextKeyFrameSegment() const
+    {
+        return nextKeyFrameSegment_;
+    }
+
+    uint8_t GetKeyFrameTimeFrom() const
+    {
+        return keyFrameTimeFrom_;
+    }
+
+    uint8_t GetKeyFrameTimeTo() const
+    {
+        return keyFrameTimeTo_;
+    }
+
+    uint8_t GetKeyFrameSegmentCount() const
+    {
+        return keyFrameSegmentCount_;
+    }
+#endif // FEATURE_TRANSITION_ANIMATOR
 
     void SetPre(AppStyle* preStyle)
     {
@@ -72,6 +113,10 @@ public:
 
     void Reset();
     void AddStyleItem(AppStyleItem* newStyleItem);
+#if FEATURE_TRANSITION_ANIMATOR
+    void AddKeyFrameSegment(AppStyle* segment);
+    void SetKeyFrameTime(uint8_t from, uint8_t to);
+#endif // FEATURE_TRANSITION_ANIMATOR
     const AppStyleItem* GetStyleItemByName(const char * const stylePropName) const;
     const AppStyleItem* GetStyleItemByNameId(uint16_t stylePropNameId) const;
     static AppStyle* GenerateFromJS(jerry_value_t styleKey, jerry_value_t styleValue, bool isKeyFrames);
@@ -80,6 +125,20 @@ public:
 private:
     void SetStyleName(const char * const name, size_t nameLen);
     static void AddItemsInLoop(jerry_value_t object, AppStyle& newStyle);
+#if FEATURE_TRANSITION_ANIMATOR
+    static void AddKeyFrameStyleItem(AppStyle &newStyle, const char *propName, const char *from, const char *to);
+    static bool AddTranslateKeyFrameItems(jerry_value_t propValueFrom, jerry_value_t propValueTo, AppStyle &newStyle);
+    static void AddKeyFrameItem(jerry_value_t objFrom,
+                                jerry_value_t objTo,
+                                jerry_value_t propKeyFrom,
+                                AppStyle& newStyle);
+    static void AddKeyFrameItemsInLoopInternal(jerry_value_t objFrom,
+                                               jerry_value_t objTo,
+                                               jerry_value_t propKeysFrom,
+                                               AppStyle& newStyle);
+    static void AddTransitionKeyFramesItemsInLoop(jerry_value_t objFrom, jerry_value_t objTo, AppStyle& newStyle);
+    static void GenerateKeyFrameSegments(jerry_value_t styleValue, AppStyle &newStyle);
+#endif // FEATURE_TRANSITION_ANIMATOR
     static void AddKeyFramesItemsInLoop(jerry_value_t objFrom, jerry_value_t objTo, AppStyle& newStyle);
     static jerry_value_t AddKeyFramesTransformValue(jerry_value_t propValueFrom,
                                                     jerry_value_t propValueTo,
@@ -91,6 +150,14 @@ private:
     AppStyleItem* lastStyleItem_;
     AppStyle* pre_;
     AppStyle* next_;
+#if FEATURE_TRANSITION_ANIMATOR
+    AppStyle* firstKeyFrameSegment_;
+    AppStyle* lastKeyFrameSegment_;
+    AppStyle* nextKeyFrameSegment_;
+    uint8_t keyFrameTimeFrom_;
+    uint8_t keyFrameTimeTo_;
+    uint8_t keyFrameSegmentCount_;
+#endif // FEATURE_TRANSITION_ANIMATOR
     char *styleName_;
 };
 } // namespace ACELite

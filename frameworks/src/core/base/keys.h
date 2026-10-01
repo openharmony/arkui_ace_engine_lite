@@ -53,6 +53,9 @@ enum {
 #endif // FEATURE_COMPONENT_VIDEO
     KEYWORD(BACKGROUND_COLOR, backgroundColor) // chart line color
     KEYWORD(BACKGROUND_IMAGE, backgroundImage) // common style, but only button, checkbox, radio support
+#if (FEATURE_COMPONENT_GRADIENT == 1)
+    KEYWORD(BACKGROUND, background)
+#endif // FEATURE_COMPONENT_GRADIENT
     KEYWORD(BLOCK_COLOR, blockColor)
     KEYWORD(BORDER_BOTTOM_COLOR, borderBottomColor) // common style border bottom color
     KEYWORD(BORDER_LEFT_COLOR, borderLeftColor) // common style border left color
@@ -193,6 +196,11 @@ enum {
     KEYWORD(NUMERIC, numeric)
 #endif
     KEYWORD(OBJECT_FIT, objectFit) // image component object-fit
+#if FEATURE_PATH_ANIMATOR
+    KEYWORD(OFFSET_DISTANCE, offsetDistance) // motion path progress 0%~100%
+    KEYWORD(OFFSET_PATH, offsetPath) // motion path: path("M ... L/Q/C ... Z")
+    KEYWORD(OFFSET_ROTATE, offsetRotate) // motion path rotate (angle only)
+#endif // FEATURE_PATH_ANIMATOR
     KEYWORD(OPACITY, opacity) // common style opacity
     KEYWORD(OPTIONS, options) // chart options
     KEYWORD(PADDING, padding)
@@ -235,6 +243,9 @@ enum {
     KEYWORD(ROTATE, rotate) // animation rotate
     KEYWORD(ROW, row) // layout style
     KEYWORD(ROW_REVERSE, row-reverse) // layout style
+#if FEATURE_TRANSITION_ANIMATOR
+    KEYWORD(SCALE, scale) // animation scale
+#endif // FEATURE_TRANSITION_ANIMATOR
     KEYWORD(SCALE_DOWN, scaleDown) // image component scale down
     KEYWORD(SCROLLAMOUNT, scrollamount) // marquee scroll speed
     KEYWORD(SCROLLBOTTOM, scrollbottom) // scroll bottom event listener
@@ -275,6 +286,9 @@ enum {
 #endif // ((FEATURE_COMPONENT_DATE_PICKER == 1) || (FEATURE_COMPONENT_VIDEO == 1))
     KEYWORD(START_ANGLE, startAngle) // circle progress start angle
     KEYWORD(STEP, step)
+#if (FEATURE_COMPONENT_SVG == 1)
+    KEYWORD(STROKE, stroke) // svg/css stroke color
+#endif
     KEYWORD(STROKE_WIDTH, strokeWidth) // horizon/arc progress style
     KEYWORD(SWIPE, swipe) // swipe event listener
     KEYWORD(SWIPER, swiper) // tag name
@@ -301,6 +315,12 @@ enum {
 #endif
     KEYWORD(TRANSLATE_X, translateX) // animation transform x
     KEYWORD(TRANSLATE_Y, translateY) // animation transform y
+#if FEATURE_ELEMENT_TRANSITION
+    KEYWORD(TRANSITION_DELAY, transitionDelay) // transition delay
+    KEYWORD(TRANSITION_DURATION, transitionDuration) // transition duration
+    KEYWORD(TRANSITION_TIMING_FUNCTION, transitionTimingFunction) // transition timing function
+    KEYWORD(TRANSITION_EFFECT, transitionEffect) // transition effect, arkui own property
+#endif
     KEYWORD(TRUE, true) // common attributes
 #if ((FEATURE_COMPONENT_ANALOG_CLOCK == 1) || (FEATURE_COMPONENT_EDITTEXT == 1))
     KEYWORD(TYPE, type) // clock-hand type
@@ -365,6 +385,40 @@ enum {
     KEYWORD(STRETCH, stretch) // layout style
     KEYWORD(VISIBLE, visible) // overflow visible
 #endif // GRAPHIC_ENABLE_FLEX_LAYOUT_ENHANCEMENT
+#if (FEATURE_COMPONENT_SVG == 1)
+    KEYWORD(SVG, svg) // tag name
+    KEYWORD(RECT, rect) // svg shape tag name
+    KEYWORD(CIRCLE, circle) // svg shape tag name
+    KEYWORD(ELLIPSE, ellipse) // svg shape tag name
+    KEYWORD(LINE, line) // svg shape tag name
+    KEYWORD(POLYLINE, polyline) // svg shape tag name
+    KEYWORD(POLYGON, polygon) // svg shape tag name
+    KEYWORD(PATH, path) // svg shape tag name
+    KEYWORD(SVG_G, g) // svg container tag name
+    KEYWORD(DEFS, defs) // svg container tag name
+    KEYWORD(LINEAR_GRADIENT, linearGradient) // svg gradient tag name
+    KEYWORD(RADIAL_GRADIENT, radialGradient) // svg gradient tag name
+    // note: svg gradient <stop> reuses the existing K_STOP keyword (image-animator stop)
+    KEYWORD(SOLID_COLOR, solidColor) // svg solid color tag name
+    KEYWORD(ANIMATE, animate) // svg animation tag name
+    KEYWORD(ANIMATE_COLOR, animateColor) // svg animation tag name
+    KEYWORD(ANIMATE_TRANSFORM, animateTransform) // svg animation tag name
+    KEYWORD(ANIMATE_MOTION, animateMotion) // svg animation tag name
+    KEYWORD(SET, set) // svg animation tag name
+    KEYWORD(MPATH, mpath) // svg animation tag name
+    KEYWORD(USE, use) // svg use tag name
+    KEYWORD(TEXT_AREA, textArea) // svg text area tag name
+    KEYWORD(TSPAN, tspan) // svg tspan tag name
+    KEYWORD(STROKE_LINECAP, strokeLinecap) // svg stroke linecap style
+    KEYWORD(STROKE_LINEJOIN, strokeLinejoin) // svg stroke linejoin style
+    KEYWORD(STROKE_MITERLIMIT, strokeMiterlimit) // svg stroke miterlimit style
+    KEYWORD(STROKE_DASHARRAY, strokeDasharray) // svg stroke dasharray style
+    KEYWORD(STROKE_DASHOFFSET, strokeDashoffset) // svg stroke dashoffset style
+    KEYWORD(FILL_OPACITY, fillOpacity) // svg fill opacity style
+    KEYWORD(STROKE_OPACITY, strokeOpacity) // svg stroke opacity style
+    KEYWORD(VISIBILITY, visibility) // svg visibility style
+    KEYWORD(TEXT_ANCHOR, textAnchor) // svg text anchor style
+#endif // FEATURE_COMPONENT_SVG
     // Reused by the struct end
 // clang-format on
 #ifdef KEYWORDS_ENUM_DEFINE

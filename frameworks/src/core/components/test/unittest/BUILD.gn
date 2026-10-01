@@ -10,6 +10,7 @@
 #WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #See the License for the specific language governing permissions and
 #limitations under the License.
+import("//foundation/arkui/ace_engine_lite/ace_lite.gni")
 
 group("components_unittest") {
   deps = [
@@ -39,5 +40,14 @@ group("components_unittest") {
     "common:js_frameworks_test_swiper",
     "common:js_frameworks_test_switch",
     "common:js_frameworks_test_text",
+    "common:js_frameworks_test_svg",
   ]
+
+  if (ace_engine_lite_enable_element_transition_capability) {
+    deps += ["common:js_frameworks_test_element_transition", ]
+  }
+
+  if (ace_engine_lite_enable_animation_capability) {
+    deps += [ "common:js_frameworks_test_transition" ]
+  }
 }
